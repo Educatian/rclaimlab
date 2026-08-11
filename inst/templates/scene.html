@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>{{TITLE}}</title>
+<style>
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-canvas: #f1f4f8;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f7f9fc;
+  --color-surface-active: #eaf2ff;
+  --color-text: #172033;
+  --color-text-muted: #526078;
+  --color-border: #d8e0eb;
+  --color-border-strong: #b6c2d2;
+  --color-primary: #1f5fd1;
+  --color-primary-hover: #194fad;
+  --color-primary-soft: #e7f0ff;
+  --color-focus: #f59e0b;
+  --color-teal: #087f8c;
+  --color-success: #137a4a;
+  --color-warning: #b94a0a;
+  --color-danger: #b42318;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --radius-control: 8px;
+  --radius-panel: 12px;
+  --radius-shell: 16px;
+  --shadow-shell: 0 16px 40px rgba(23, 32, 51, .10);
+  --shadow-panel: 0 6px 18px rgba(23, 32, 51, .06);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: var(--color-canvas); color: var(--color-text); }
+button, textarea { font: inherit; }
+button { min-height: 44px; cursor: pointer; }
+button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.skip-link { position: fixed; left: 12px; top: -60px; z-index: 20; padding: 10px 14px; border-radius: var(--radius-control); background: var(--color-text); color: #fff; }
+.skip-link:focus { top: 12px; }
+.app {
+  width: calc(100% - 32px);
+  max-width: 1440px;
+  min-height: 860px;
+  margin: 16px auto;
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) minmax(270px, 300px);
+  grid-template-rows: 72px 1fr;
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-shell);
+  overflow: hidden;
+  box-shadow: var(--shadow-shell);
+}
+.topbar { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-7); background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+.brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 12px; font-weight: 900; }
+.brand-copy { display: grid; gap: 2px; }
+.brand-title { font-size: 18px; line-height: 22px; font-weight: 800; letter-spacing: -.02em; }
+.brand-subtitle { font-size: 11px; color: var(--color-text-muted); }
+.topbar-spacer { flex: 1; }
+.lesson-label { font-size: 12px; color: var(--color-text-muted); font-weight: 700; }
+.restart-button { min-height: 36px; padding: 7px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text-muted); font-size: 11px; font-weight: 750; }
+.restart-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
+.status-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary); font-size: 11px; font-weight: 800; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
+.rail { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; padding: var(--space-7) var(--space-5) var(--space-6); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+.eyebrow { color: var(--color-text-muted); font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.rail-title { margin: 8px 0 24px; font-size: 15px; font-weight: 750; }
+.step-list { display: grid; gap: var(--space-1); }
+.step-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 48px; padding: 0 10px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--color-text-muted); text-align: left; }
+.step-row:hover { background: #f0f4fa; }
+.step-row[aria-current="step"] { background: var(--color-primary-soft); color: var(--color-primary); }
+.step-index { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 28px; border-radius: 50%; background: #53627a; color: #fff; font-size: 10px; font-weight: 800; }
+.step-row[data-state="done"] .step-index { background: var(--color-success); }
+.step-row[aria-current="step"] .step-index { background: var(--color-primary); }
+.step-name { font-size: 13px; font-weight: 750; }
+.step-current { margin-left: auto; font-size: 9px; font-weight: 800; }
+.goal-card { margin-top: auto; padding: var(--space-4); border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.goal-card h2 { margin: 0 0 10px; color: var(--color-primary); font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
+.goal-card p { margin: 0; color: var(--color-text); font-size: 13px; line-height: 1.32; font-weight: 750; }
+.goal-card small { display: block; margin-top: 12px; color: var(--color-text-muted); font-size: 10px; }
+.main { grid-column: 2; grid-row: 2; min-width: 0; padding: 34px 28px 24px; }
+.title-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+.title-row h1 { flex: 1; margin: 0; font-size: clamp(25px, 2.4vw, 32px); line-height: 1.12; letter-spacing: -.04em; }
+.title-row p { margin: 8px 0 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.45; }
+.step-count { padding-top: 8px; color: var(--color-primary); font-size: 10px; font-weight: 800; white-space: nowrap; }
+.scene-card { overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-panel); background: var(--color-surface); box-shadow: var(--shadow-panel); }
+.scene-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 22px 24px 14px; }
+.scene-header strong { display: block; color: var(--color-primary); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+.scene-header span { display: block; margin-top: 8px; color: var(--color-text-muted); font-size: 11px; }
+.keyboard-hint { max-width: 220px; color: var(--color-text-muted); font-size: 10px; line-height: 1.4; text-align: right; }
+.plot-shell { position: relative; margin: 0 24px 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
+canvas { display: block; width: 100%; height: min(43vh, 390px); cursor: grab; }
+canvas:active { cursor: grabbing; }
+.legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 10px; color: var(--color-text-muted); pointer-events: none; }
+.controls { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 18px; padding: 12px 4px; border-bottom: 1px solid var(--color-border); }
+.control-item { display: flex; align-items: center; gap: 8px; min-height: 32px; font-size: 12px; font-weight: 750; }
+.control-number { color: var(--color-primary); font-weight: 850; }
+.reset-button, .secondary-button { padding: 9px 14px; border: 1px solid #c3d5f4; border-radius: var(--radius-control); background: var(--color-primary-soft); color: var(--color-primary); font-size: 11px; font-weight: 850; }
+.reset-button:hover, .secondary-button:hover { background: #d9e8ff; }
+.reset-button { margin-left: auto; }
+.data-alternative { margin-top: 14px; border-bottom: 1px solid var(--color-border); background: transparent; }
+.data-alternative summary { min-height: 44px; padding: 14px 4px; color: var(--color-primary); font-size: 12px; font-weight: 800; cursor: pointer; }
+.table-scroll { overflow-x: auto; padding: 0 18px 18px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--color-border); text-align: left; white-space: nowrap; }
+th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase; }
+.inspect-button { min-height: 36px; padding: 7px 12px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: #fff; color: var(--color-primary); font-size: 11px; font-weight: 800; }
+.companion { grid-column: 3; grid-row: 2; padding: 28px 20px 20px; background: var(--color-surface); border-left: 1px solid var(--color-border); }
+.companion h2 { margin: 7px 0 16px; font-size: 21px; line-height: 1.15; letter-spacing: -.03em; }
+.companion-card { margin: 0; padding: 16px 0; border-bottom: 1px solid var(--color-border); background: transparent; }
+.prediction-card { padding: 14px; border: 1px solid #c7d8f4; border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.prediction-card + .companion-card { margin-top: 4px; }
+.card-label { color: var(--color-primary); font-size: 10px; font-weight: 850; letter-spacing: .03em; }
+.observation-card .card-label { color: var(--color-teal); }
+.explanation-card .card-label { color: var(--color-warning); }
+.transfer-card .card-label { color: var(--color-success); }
+.companion-card h3 { margin: 10px 0 8px; font-size: 14px; line-height: 1.24; }
+.companion-card p { margin: 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.48; }
+.field-label { display: block; margin-top: 12px; color: var(--color-text); font-size: 11px; font-weight: 750; }
+.field { width: 100%; min-height: 60px; margin-top: 7px; padding: 10px 11px; resize: vertical; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: rgba(255, 255, 255, .96); color: var(--color-text); font-size: 12px; line-height: 1.4; }
+.field::placeholder { color: #6c788a; opacity: 1; }
+.selected-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.selected-tag { padding: 6px 11px; border-radius: 999px; background: #fff0dd; color: var(--color-warning); font-size: 10px; font-weight: 850; }
+.coords { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; color: var(--color-text); font-size: 13px; font-weight: 850; }
+.button-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.check-button, .complete-button { padding: 9px 14px; border: 0; border-radius: var(--radius-control); background: var(--color-primary); color: #fff; font-size: 11px; font-weight: 850; }
+.check-button:hover { background: var(--color-primary-hover); }
+.complete-button { background: var(--color-success); }
+.complete-button:disabled { cursor: not-allowed; opacity: .48; }
+.field-status, .feedback { min-height: 18px; margin-top: 9px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
+.feedback[data-state="error"] { color: var(--color-danger); }
+.feedback[data-state="success"] { color: var(--color-success); font-weight: 750; }
+.transfer-card[hidden] { display: none; }
+.tip { margin-top: 14px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 1120px) {
+  .app { grid-template-columns: minmax(0, 1fr) minmax(280px, 320px); grid-template-rows: 72px auto 1fr; }
+  .rail { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px 20px; padding: 16px 24px; border-right: 0; border-bottom: 1px solid var(--color-border); }
+  .rail-title { margin: 5px 0 0; }
+  .step-list { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: repeat(5, minmax(118px, 1fr)); overflow-x: auto; }
+  .goal-card { grid-column: 1 / -1; margin-top: 0; }
+  .main { grid-column: 1; grid-row: 3; }
+  .companion { grid-column: 2; grid-row: 3; }
+}
+@media (max-width: 760px) {
+  html { scroll-behavior: auto; }
+  .app { width: 100%; margin: 0; display: block; border: 0; border-radius: 0; box-shadow: none; }
+  .topbar { min-height: 72px; padding: 10px 16px; }
+  .brand-subtitle { max-width: 120px; }
+  .lesson-label { display: none; }
+  .restart-button { display: none; }
+  .status-chip { padding: 8px 10px; }
+  .rail { display: block; padding: 16px; border-bottom: 1px solid var(--color-border); }
+  .rail-title { margin: 5px 0 12px; }
+  .step-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+  .step-row { flex: 0 0 auto; width: auto; padding: 0 12px; }
+  .step-current { display: none; }
+  .goal-card { margin-top: 12px; }
+  .main { padding: 24px 16px 18px; }
+  .title-row { margin-bottom: 18px; }
+  .title-row h1 { font-size: 25px; }
+  .scene-header { display: block; padding: 18px 16px 12px; }
+  .keyboard-hint { max-width: none; margin-top: 8px; text-align: left; }
+  .plot-shell { margin: 0 12px 12px; }
+  canvas { height: 330px; }
+  .legend { right: 10px; left: 10px; }
+  .controls { padding: 14px; gap: 8px 14px; }
+  .reset-button { margin-left: 0; }
+  .companion { padding: 18px 16px 32px; border-top: 1px solid var(--color-border); border-left: 0; }
+  .companion h2 { margin-bottom: 16px; }
+  .field { min-height: 76px; }
+  .coords { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#lesson-main">Skip to interactive lesson</a>
+<main class="app" aria-label="R-LearnXR interactive lesson">
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">R</div>
+    <div class="brand-copy"><div class="brand-title">R-LearnXR</div><div class="brand-subtitle">Reference lesson / Data space</div></div>
+    <div class="topbar-spacer"></div>
+    <div class="lesson-label">Lesson 01</div>
+    <button class="restart-button" id="restart-lesson" type="button">Restart lesson</button>
+    <div class="status-chip" id="lesson-status"><span class="status-dot" aria-hidden="true"></span><span id="lesson-status-text">Reproducibility ready</span></div>
+  </header>
+
+  <nav class="rail" aria-label="Learning path">
+    <div><div class="eyebrow">Learning path</div><div class="rail-title">Data exploration workflow</div></div>
+    <div class="step-list">
+      <button class="step-row" type="button" data-step="1" data-target="learning-goal" data-state="done"><span class="step-index">1</span><span class="step-name">Orient</span><span class="step-current">DONE</span></button>
+      <button class="step-row" type="button" data-step="2" data-target="prediction-input" aria-current="step"><span class="step-index">2</span><span class="step-name">Predict</span><span class="step-current">CURRENT</span></button>
+      <button class="step-row" type="button" data-step="3" data-target="scene"><span class="step-index">3</span><span class="step-name">Explore</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="4" data-target="explanation-input"><span class="step-index">4</span><span class="step-name">Explain</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="5" data-target="transfer-card"><span class="step-index">5</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
+    </div>
+    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p>Explain how a data point's position changes your interpretation of the analysis.</p><small>Estimated time: 8 minutes</small></section>
+  </nav>
+
+  <section class="main" id="lesson-main">
+    <div class="title-row"><div><h1>Explore the data space</h1><p>Predict a pattern, inspect evidence in three dimensions, then explain your claim.</p></div><div class="step-count" id="step-count">STEP 2 OF 5</div></div>
+    <div class="scene-card">
+      <div class="scene-header"><div><strong>Interactive view</strong><span>Drag to rotate; scroll to zoom; click a point to select it.</span></div><div class="keyboard-hint">Keyboard: arrow keys rotate, + and - zoom, Home resets.</div></div>
+      <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend">x / y / z axes - browser-only demo - no headset required</div></div>
+      <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
+    </div>
+    <div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
+    <details class="data-alternative" id="data-alternative"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
+  </section>
+
+  <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2>Notice, then explain</h2>
+    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>Before you rotate the scene, what pattern do you expect to see?</h3><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div><div class="field-status" id="prediction-status" aria-live="polite">Your response is saved only in this browser.</div></section>
+    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 OBSERVE</div><div class="selected-row"><h3>Selected point</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
+    <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN</div><h3>Why might this point matter for the analysis?</h3><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Connect at least one coordinate to your claim."></textarea><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" aria-live="polite">Use the selected point and at least one axis as evidence.</div></section>
+    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the same reasoning to another point.</h3><p id="transfer-prompt">Select a different point and compare one coordinate with your current evidence.</p><div class="button-row"><button class="complete-button" id="complete-lesson" type="button">Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite"></div></section>
+    <div class="tip">Tip: A strong explanation names a point, an axis, and what the coordinate means.</div>
+  </aside>
+</main>
+<script>
+const points = {{POINTS_JSON}};
+const canvas = document.getElementById("scene");
+const ctx = canvas.getContext("2d");
+const pointName = document.getElementById("point-name");
+const pointCoords = document.getElementById("point-coords");
+const pointObservation = document.getElementById("point-observation");
+const predictionInput = document.getElementById("prediction-input");
+const predictionStatus = document.getElementById("prediction-status");
+const explanationInput = document.getElementById("explanation-input");
+const explanationFeedback = document.getElementById("explanation-feedback");
+const transferCard = document.getElementById("transfer-card");
+const completeLesson = document.getElementById("complete-lesson");
+const completionFeedback = document.getElementById("completion-feedback");
+const statusText = document.getElementById("lesson-status-text");
+const stepCount = document.getElementById("step-count");
+const colors = ["#2563eb", "#078999", "#7c3aed", "#c0266d", "#c64e08", "#128553"];
+const storageKey = "rlearnxr:" + document.title;
+let yaw = 0.72;
+let pitch = 0.46;
+let zoom = 1.0;
+let dragging = false;
+let moved = false;
+let last = null;
+let hoverIndex = null;
+let selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
+let currentStep = 2;
+let explanationPassed = false;
+
+function relation(value) {
+  if (Math.abs(value) < 0.15) return "near the zero reference plane";
+  return value > 0 ? "on the positive side" : "on the negative side";
+}
+
+function observationFor(point) {
+  const label = String(point.label || "This point");
+  return label + " is " + relation(point.x) + " on x, " + relation(point.y) + " on y, and " + relation(point.z) + " on z.";
+}
+
+function activePointIndex() {
+  return hoverIndex === null ? selectedIndex : hoverIndex;
+}
+
+function updatePointPanel(index, announce) {
+  const point = points[index];
+  if (!point) return;
+  pointName.textContent = String(point.label || ("point " + (index + 1)));
+  pointCoords.replaceChildren();
+  ["x", "y", "z"].forEach(axis => {
+    const item = document.createElement("span");
+    item.textContent = axis + " " + Number(point[axis]).toFixed(2);
+    pointCoords.appendChild(item);
+  });
+  pointObservation.textContent = observationFor(point);
+  if (announce) document.getElementById("observation-card").focus({preventScroll: true});
+}
+
+function setSelectedPoint(index, options = {}) {
+  if (!points[index]) return;
+  selectedIndex = index;
+  hoverIndex = null;
+  updatePointPanel(index, Boolean(options.announce));
+  draw();
+  if (currentStep < 3) setStep(3);
+}
+
+function resize() {
+  const ratio = window.devicePixelRatio || 1;
+  const box = canvas.getBoundingClientRect();
+  canvas.width = Math.max(1, Math.floor(box.width * ratio));
+  canvas.height = Math.max(1, Math.floor(box.height * ratio));
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  draw();
+}
+
+function rotate(point) {
+  const cy = Math.cos(yaw), sy = Math.sin(yaw);
+  const cp = Math.cos(pitch), sp = Math.sin(pitch);
+  const x1 = point.x * cy - point.z * sy;
+  const z1 = point.x * sy + point.z * cy;
+  return {x: x1, y: point.y * cp - z1 * sp, z: point.y * sp + z1 * cp};
+}
+
+function project(point, width, height) {
+  const rotated = rotate(point);
+  const camera = 3.4;
+  const scaleFactor = width < 480 ? 1.0 : 1.45;
+  const scale = Math.min(width, height) * scaleFactor * zoom;
+  const depth = camera + rotated.z;
+  return {x: width / 2 + rotated.x * scale / depth, y: height / 2 - rotated.y * scale / depth, z: rotated.z};
+}
+
+function line(from, to, color, width = 1) {
+  ctx.beginPath();
+  ctx.moveTo(from.x, from.y);
+  ctx.lineTo(to.x, to.y);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.stroke();
+}
+
+function draw() {
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  ctx.clearRect(0, 0, width, height);
+  const axes = [
+    [{x: -1.35, y: 0, z: 0}, {x: 1.35, y: 0, z: 0}, "#dc2626"],
+    [{x: 0, y: -1.35, z: 0}, {x: 0, y: 1.35, z: 0}, "#128553"],
+    [{x: 0, y: 0, z: -1.35}, {x: 0, y: 0, z: 1.35}, "#2563eb"]
+  ];
+  axes.forEach(axis => line(project(axis[0], width, height), project(axis[1], width, height), axis[2], 1.6));
+  ctx.font = "12px system-ui";
+  ctx.fillStyle = "#526078";
+  ["x", "y", "z"].forEach((axis, index) => {
+    const endpoints = [{x: 1.45, y: 0, z: 0}, {x: 0, y: 1.45, z: 0}, {x: 0, y: 0, z: 1.45}];
+    const labelPoint = project(endpoints[index], width, height);
+    ctx.fillText(axis, labelPoint.x, labelPoint.y);
+  });
+  const active = activePointIndex();
+  const projected = points.map((point, index) => ({point, index, projected: project(point, width, height)})).sort((a, b) => a.projected.z - b.projected.z);
+  projected.forEach(item => {
+    const isActive = item.index === active;
+    ctx.beginPath();
+    ctx.arc(item.projected.x, item.projected.y, isActive ? 8 : 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = colors[item.index % colors.length];
+    ctx.globalAlpha = isActive ? 1 : .82;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (isActive) {
+      ctx.strokeStyle = "#172033";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  });
+  if (active !== null && points[active]) {
+    const point = points[active];
+    const projectedPoint = project(point, width, height);
+    const text = String(point.label || ("point " + (active + 1))) + " (" + point.x.toFixed(2) + ", " + point.y.toFixed(2) + ", " + point.z.toFixed(2) + ")";
+    ctx.font = "12px system-ui";
+    const textWidth = ctx.measureText(text).width + 18;
+    const labelX = Math.min(width - textWidth - 8, projectedPoint.x + 10);
+    const labelY = Math.max(28, projectedPoint.y - 27);
+    ctx.fillStyle = "rgba(255, 255, 255, .96)";
+    ctx.fillRect(labelX, labelY, textWidth, 24);
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.strokeRect(labelX, labelY, textWidth, 24);
+    ctx.fillStyle = "#172033";
+    ctx.fillText(text, labelX + 9, labelY + 16);
+  }
+}
+
+function pointAt(x, y) {
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  let best = null;
+  let distance = 20;
+  points.forEach((point, index) => {
+    const projectedPoint = project(point, width, height);
+    const candidate = Math.hypot(projectedPoint.x - x, projectedPoint.y - y);
+    if (candidate < distance) {
+      distance = candidate;
+      best = index;
+    }
+  });
+  return best;
+}
+
+function setStep(step) {
+  currentStep = Math.max(1, Math.min(5, step));
+  document.querySelectorAll(".step-row").forEach(button => {
+    const buttonStep = Number(button.dataset.step);
+    button.removeAttribute("aria-current");
+    button.dataset.state = buttonStep < currentStep ? "done" : "pending";
+    const currentLabel = button.querySelector(".step-current");
+    if (buttonStep === currentStep) {
+      button.setAttribute("aria-current", "step");
+      button.dataset.state = "current";
+      if (currentLabel) currentLabel.textContent = "CURRENT";
+    } else if (currentLabel) {
+      currentLabel.textContent = buttonStep < currentStep ? "DONE" : "";
+    }
+  });
+  stepCount.textContent = "STEP " + currentStep + " OF 5";
+}
+
+function buildTable() {
+  const body = document.getElementById("points-table");
+  points.forEach((point, index) => {
+    const row = document.createElement("tr");
+    const values = [String(point.label || ("point " + (index + 1))), point.x.toFixed(2), point.y.toFixed(2), point.z.toFixed(2)];
+    values.forEach((value, valueIndex) => {
+      const cell = document.createElement(valueIndex === 0 ? "th" : "td");
+      if (valueIndex === 0) cell.scope = "row";
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    const actionCell = document.createElement("td");
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "inspect-button";
+    action.textContent = "Inspect " + values[0];
+    action.addEventListener("click", () => setSelectedPoint(index));
+    actionCell.appendChild(action);
+    row.appendChild(actionCell);
+    body.appendChild(row);
+  });
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify({prediction: predictionInput.value, explanation: explanationInput.value, completed: statusText.textContent === "Lesson complete"}));
+  } catch (error) {
+    predictionStatus.textContent = "Browser storage is unavailable; your response remains on this page.";
+  }
+}
+
+function restoreState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+    if (!saved) return;
+    predictionInput.value = saved.prediction || "";
+    explanationInput.value = saved.explanation || "";
+    if (predictionInput.value) predictionStatus.textContent = "Saved response restored.";
+    if (saved.completed) {
+      transferCard.hidden = false;
+      explanationPassed = true;
+      statusText.textContent = "Lesson complete";
+      completionFeedback.textContent = "Completed response restored from this browser.";
+      setStep(5);
+    }
+  } catch (error) {
+    predictionStatus.textContent = "Saved responses could not be restored.";
+  }
+}
+
+canvas.addEventListener("pointerdown", event => {
+  dragging = true;
+  moved = false;
+  last = {x: event.clientX, y: event.clientY};
+  canvas.setPointerCapture(event.pointerId);
+});
+canvas.addEventListener("pointermove", event => {
+  const rectangle = canvas.getBoundingClientRect();
+  hoverIndex = pointAt(event.clientX - rectangle.left, event.clientY - rectangle.top);
+  if (dragging && last) {
+    const dx = event.clientX - last.x;
+    const dy = event.clientY - last.y;
+    moved = moved || Math.abs(dx) + Math.abs(dy) > 2;
+    yaw += dx * .008;
+    pitch = Math.max(-1.35, Math.min(1.35, pitch + dy * .008));
+    last = {x: event.clientX, y: event.clientY};
+  }
+  updatePointPanel(activePointIndex(), false);
+  draw();
+});
+canvas.addEventListener("pointerup", () => {
+  if (!moved && hoverIndex !== null) setSelectedPoint(hoverIndex);
+  dragging = false;
+  last = null;
+});
+canvas.addEventListener("pointerleave", () => {
+  dragging = false;
+  last = null;
+  hoverIndex = null;
+  updatePointPanel(selectedIndex, false);
+  draw();
+});
+canvas.addEventListener("wheel", event => {
+  event.preventDefault();
+  zoom *= event.deltaY < 0 ? 1.08 : .92;
+  zoom = Math.max(.55, Math.min(2.5, zoom));
+  draw();
+}, {passive: false});
+canvas.addEventListener("keydown", event => {
+  const keyActions = {
+    ArrowLeft: () => { yaw -= .12; },
+    ArrowRight: () => { yaw += .12; },
+    ArrowUp: () => { pitch = Math.max(-1.35, pitch - .12); },
+    ArrowDown: () => { pitch = Math.min(1.35, pitch + .12); },
+    "+": () => { zoom = Math.min(2.5, zoom * 1.08); },
+    "=": () => { zoom = Math.min(2.5, zoom * 1.08); },
+    "-": () => { zoom = Math.max(.55, zoom * .92); },
+    Home: () => { yaw = .72; pitch = .46; zoom = 1; }
+  };
+  if (!keyActions[event.key]) return;
+  event.preventDefault();
+  keyActions[event.key]();
+  setStep(3);
+  draw();
+});
+
+document.getElementById("reset-view").addEventListener("click", () => {
+  yaw = .72;
+  pitch = .46;
+  zoom = 1;
+  hoverIndex = null;
+  updatePointPanel(selectedIndex, false);
+  draw();
+});
+
+document.getElementById("restart-lesson").addEventListener("click", () => {
+  try { localStorage.removeItem(storageKey); } catch (error) { /* Page state can still be reset. */ }
+  predictionInput.value = "";
+  explanationInput.value = "";
+  predictionStatus.textContent = "Your response is saved only in this browser.";
+  explanationFeedback.dataset.state = "";
+  explanationFeedback.textContent = "Use the selected point and at least one axis as evidence.";
+  transferCard.hidden = true;
+  completionFeedback.textContent = "";
+  statusText.textContent = "Reproducibility ready";
+  explanationPassed = false;
+  selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
+  yaw = .72;
+  pitch = .46;
+  zoom = 1;
+  updatePointPanel(selectedIndex, false);
+  setStep(2);
+  draw();
+  predictionInput.focus();
+});
+
+document.querySelectorAll(".step-row").forEach(button => {
+  button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.target);
+    if (!target) return;
+    target.scrollIntoView({block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+    target.focus({preventScroll: true});
+    setStep(Number(button.dataset.step));
+  });
+});
+
+document.getElementById("save-prediction").addEventListener("click", () => {
+  const prediction = predictionInput.value.trim();
+  if (prediction.length < 12) {
+    predictionStatus.textContent = "Add one complete idea before exploring.";
+    predictionInput.focus();
+    return;
+  }
+  saveState();
+  predictionStatus.textContent = "Prediction saved. Now inspect the data space.";
+  setStep(3);
+  canvas.focus();
+});
+
+document.getElementById("check-explanation").addEventListener("click", () => {
+  const explanation = explanationInput.value.trim();
+  const selected = points[selectedIndex];
+  const hasAxis = /(^|\W)[xyz](\W|$)/i.test(explanation);
+  const hasDirection = /(positive|negative|above|below|higher|lower|increase|decrease|near|zero)/i.test(explanation);
+  if (explanation.length < 28) {
+    explanationPassed = false;
+    explanationFeedback.dataset.state = "error";
+    explanationFeedback.textContent = "Add a fuller claim and cite one coordinate as evidence.";
+    explanationInput.focus();
+    return;
+  }
+  if (!hasAxis || !hasDirection) {
+    explanationPassed = false;
+    explanationFeedback.dataset.state = "error";
+    explanationFeedback.textContent = "Name x, y, or z and explain whether the value is positive, negative, or near zero.";
+    explanationInput.focus();
+    return;
+  }
+  explanationPassed = true;
+  explanationFeedback.dataset.state = "success";
+  explanationFeedback.textContent = "Evidence found. Your claim uses a coordinate direction for " + String(selected.label || "the selected point") + ".";
+  transferCard.hidden = false;
+  document.getElementById("transfer-prompt").textContent = "Select another point and compare its x, y, or z coordinate with " + String(selected.label || "your current point") + ".";
+  saveState();
+  setStep(5);
+  transferCard.focus();
+});
+
+completeLesson.addEventListener("click", () => {
+  if (!explanationPassed) return;
+  statusText.textContent = "Lesson complete";
+  completionFeedback.dataset.state = "success";
+  completionFeedback.textContent = "Complete. Your prediction and explanation remain saved in this browser.";
+  setStep(5);
+  document.querySelectorAll(".step-row").forEach(button => { button.dataset.state = "done"; });
+  saveState();
+});
+
+predictionInput.addEventListener("input", saveState);
+explanationInput.addEventListener("input", saveState);
+window.addEventListener("resize", resize);
+buildTable();
+restoreState();
+updatePointPanel(selectedIndex, false);
+setStep(currentStep);
+resize();
+</script>
+</body>
+</html>

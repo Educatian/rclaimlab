@@ -1,0 +1,10 @@
+.playwright-cli/
+_site/
+_freeze/
+renv/library/
+.Rhistory
+.tools/
+rlearnxr.Rcheck/
+*.tar.gz
+output/demo/.video-parts/
+output/demo/verify-*.png

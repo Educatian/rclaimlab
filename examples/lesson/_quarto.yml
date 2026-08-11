@@ -1,0 +1,9 @@
+project:
+  type: website
+  output-dir: _site
+execute:
+  freeze: auto
+  execute-dir: project
+format:
+  html:
+    toc: true

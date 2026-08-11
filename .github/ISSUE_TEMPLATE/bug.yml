@@ -1,0 +1,23 @@
+name: Bug report
+description: Report a reproducible package, lesson, or browser problem.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: R, Quarto, browser, and operating system
+    validations:
+      required: true

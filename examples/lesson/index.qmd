@@ -1,0 +1,32 @@
+---
+title: "R-LearnXR Reference Lesson"
+format: html
+---
+
+# Explore a reproducible data space
+
+This reference lesson demonstrates the R-LearnXR MVP. The analysis remains ordinary R code, while the 3D scene provides an optional spatial view of the same points.
+
+```{r}
+#| echo: true
+source("../../R/utils.R")
+source("../../R/zzz.R")
+source("../../R/render_scene.R")
+
+demo <- read.csv("data/learning_points.csv", stringsAsFactors = FALSE)
+set.seed(2026)
+render_scene(
+  demo,
+  x = "x",
+  y = "y",
+  z = "z",
+  labels = demo$label,
+  output_dir = "scene",
+  title = "R-LearnXR reference data space"
+)
+summary(demo[, c("x", "y", "z")])
+```
+
+[Open the interactive 3D scene](scene/index.html)
+
+The scene is browser-based and does not require a headset. A future version may expose WebXR when a compatible device is available.

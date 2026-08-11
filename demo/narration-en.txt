@@ -1,0 +1,12 @@
+R-LearnXR is an open-source framework for building reproducible virtual data laboratories with R and Quarto. It turns an R data frame into a portable, browser-based three-dimensional lesson, without requiring a headset or an application server.
+
+Every lesson follows a clear learning cycle. The learner first predicts a pattern, then rotates the data space, zooms, and selects evidence. The same data are available in a semantic table, so keyboard users can inspect an exact point without relying on the canvas.
+
+The learning companion keeps reasoning visible. A selected point generates a coordinate-based observation. The learner must connect an axis and its direction to a claim before moving to the transfer task. Responses remain in the browser, and the lesson can be restarted at any time.
+
+Authors work in R and Quarto. They can scaffold a lesson, render a scene, and run automated checks for deterministic seeds, locked environments, data licenses, accessible alternatives, and complete learning-loop controls.
+
+The repository includes a reference lesson and a real PCA example built with the palmerpenguins data. Both lessons are tested, rendered in continuous integration, and designed for reuse by R educators and contributors.
+
+This MVP demonstrates the core grant value: focused technical infrastructure, open educational practice, and a low-risk path from working prototype to a community-ready R package.
+

@@ -1,0 +1,4 @@
+root <- normalizePath(".", winslash = "/", mustWork = TRUE)
+source(file.path(root, "scripts", "build_demo.R"), chdir = FALSE)
+source(file.path(root, "scripts", "build_penguin_pca_lesson.R"), chdir = FALSE)
+cat("Built all R-LearnXR lessons.\n")

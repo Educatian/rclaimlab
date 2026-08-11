@@ -1,0 +1,64 @@
+RLEARNXR_SOURCE_ROOT <- local({
+  source_file <- tryCatch(sys.frame(1)$ofile, error = function(error) NULL)
+  if (is.null(source_file) || !nzchar(source_file)) return("")
+  dirname(dirname(normalizePath(source_file, winslash = "/", mustWork = FALSE)))
+})
+
+ensure_dir <- function(path) {
+  if (!dir.exists(path)) dir.create(path, recursive = TRUE, showWarnings = FALSE)
+  invisible(path)
+}
+
+html_escape <- function(x) {
+  x <- as.character(x)
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub('"', "&quot;", x, fixed = TRUE)
+  x
+}
+
+json_escape <- function(x) {
+  x <- as.character(x)
+  x <- gsub("\\\\", "\\\\\\\\", x)
+  x <- gsub('"', '\\"', x, fixed = TRUE)
+  x <- gsub("<", "\\\\u003c", x, fixed = TRUE)
+  x <- gsub("\n", "\\\\n", x, fixed = TRUE)
+  x <- gsub("\r", "\\\\r", x, fixed = TRUE)
+  x
+}
+
+json_number <- function(x) {
+  if (length(x) != 1L || !is.finite(x)) return("null")
+  formatC(x, format = "fg", digits = 8, flag = "#")
+}
+
+scene_template_path <- function() {
+  installed <- system.file("templates", "scene.html", package = "rlearnxr")
+  if (nzchar(installed) && file.exists(installed)) return(installed)
+
+  working_root <- normalizePath(".", winslash = "/", mustWork = TRUE)
+  search_roots <- unique(c(
+    RLEARNXR_SOURCE_ROOT,
+    working_root,
+    dirname(working_root),
+    dirname(dirname(working_root)),
+    dirname(dirname(dirname(working_root)))
+  ))
+  source_candidates <- c(
+    file.path(search_roots, "inst", "templates", "scene.html")
+  )
+  source_path <- source_candidates[file.exists(source_candidates)][1]
+  if (length(source_path) && !is.na(source_path)) return(source_path)
+
+  stop("R-LearnXR scene template was not found", call. = FALSE)
+}
+
+scene_html <- function(title, points_json) {
+  template <- paste(
+    readLines(scene_template_path(), warn = FALSE, encoding = "UTF-8"),
+    collapse = "\n"
+  )
+  template <- sub("{{TITLE}}", html_escape(title), template, fixed = TRUE)
+  sub("{{POINTS_JSON}}", points_json, template, fixed = TRUE)
+}

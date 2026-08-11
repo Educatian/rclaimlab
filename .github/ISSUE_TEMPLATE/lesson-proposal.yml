@@ -1,0 +1,29 @@
+name: Lesson proposal
+description: Propose a reusable R-LearnXR lesson.
+title: "[Lesson] "
+labels: [lesson]
+body:
+  - type: textarea
+    id: learner
+    attributes:
+      label: Learner audience and observable outcome
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Dataset source and license
+    validations:
+      required: true
+  - type: textarea
+    id: spatial
+    attributes:
+      label: Why three-dimensional exploration helps
+    validations:
+      required: true
+  - type: textarea
+    id: fallback
+    attributes:
+      label: Keyboard, table, and non-visual fallback
+    validations:
+      required: true
