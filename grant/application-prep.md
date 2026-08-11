@@ -86,7 +86,8 @@ Separate deliverable completion from adoption evidence:
 - Reusable Quarto lesson structure
 - Two runnable lessons, including a `palmerpenguins` PCA example
 - Keyboard-operable 3D scene and semantic data-table alternative
-- Predict–Explore–Explain–Transfer learner workflow
+- Predict–Run R–Explore–Explain–Reproduce learner workflow
+- Pinned WebR runtime with learner-edited code, automatic checks, synchronized 3D output, and `.R`/`.qmd` export
 - Automated reproducibility and lesson checks
 - `renv.lock`, CI workflow, contribution guide, code of conduct, authoring guide, and pilot protocol
 - Desktop and mobile QA screenshots
@@ -114,4 +115,3 @@ Separate deliverable completion from adoption evidence:
 | Sep 25–28 | Final PDF, links, accessibility, and attachment checks |
 | Sep 29 | Target submission date; keep two days of buffer |
 | Oct 1, 8:59 PM PDT | Absolute deadline |
-

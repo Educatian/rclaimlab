@@ -33,6 +33,10 @@ Step rows have three states: pending, current, and done. The current step uses t
 
 The scene is the only elevated work panel. It contains concise instructions, the keyboard-enabled canvas, a point callout, and a compact legend. Controls below are a toolbar separated by a divider rather than another card.
 
+### R code lab
+
+The center work panel switches between the 3D result and an R code lab through rectangular tabs. The lab keeps the dark editor and light execution report inside one bounded workspace. A successful run shows four explicit checks, the WebR version, deterministic seed, artifact hash, and row count before the learner returns to the updated scene.
+
 ### Learning companion
 
 The companion is one persistent task panel with internal sections. Prediction is highlighted as the current task; Observe, Explain, and Transfer use dividers. This avoids nested-card visual noise while preserving the learning sequence.
@@ -50,8 +54,10 @@ Every 3D view exposes a semantic table with row headers and explicit Inspect act
 - Pointer: drag to rotate, wheel to zoom, click a point.
 - Keyboard: arrows rotate, plus/minus zoom, Home resets.
 - Prediction is stored locally in the browser.
+- Learner R code is executed by a pinned WebR runtime and must return a valid `scene` data frame.
+- Successful R execution synchronizes the canvas, accessible table, observation text, and reproducibility record.
 - Explanation feedback checks for an evidence-bearing axis or coordinate reference.
-- Transfer and completion appear only after explanation criteria are met.
+- Transfer appears only after explanation criteria are met; completion stays locked until a different comparison point is selected.
 
 ## Anti-patterns
 
@@ -72,4 +78,3 @@ Every 3D view exposes a semantic table with row headers and explicit Inspect act
 5. Run the full learner flow and keyboard checks.
 6. Capture desktop and mobile screenshots.
 7. Record side-by-side findings and intentional deviations in `design-qa.md`.
-

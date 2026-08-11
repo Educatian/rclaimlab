@@ -2,9 +2,9 @@
 
 ## Executive summary
 
-R-LearnXR will provide open educational infrastructure for creating reproducible, browser-based virtual data laboratories with R and Quarto. Many data-science lessons ask learners to interpret multivariate results, yet existing interactive examples are often tied to a single course, depend on opaque hosted services, or omit reproducibility and accessible alternatives. R-LearnXR addresses this gap with an R package, reusable Quarto templates, browser-based 3D exploration modules, automated reproducibility checks, and contributor training for R educators.
+R-LearnXR will provide open educational infrastructure for creating reproducible, browser-based virtual data laboratories with R and Quarto. Many data-science lessons ask learners to interpret multivariate results, yet existing interactive examples are often tied to a single course, depend on opaque hosted services, or omit reproducibility and accessible alternatives. R-LearnXR addresses this gap with an R package, reusable Quarto templates, real in-browser R exercises powered by a pinned WebR runtime, 3D exploration modules synchronized with R output, automated reproducibility checks, and contributor training for R educators.
 
-An implemented prototype already demonstrates the core learning loop and reduces delivery risk: learners predict a pattern, inspect data in a keyboard-operable 3D view or semantic table, explain their evidence, and transfer their reasoning to another point. The grant will harden this prototype into community-ready infrastructure, add reusable lesson-authoring primitives and examples, conduct an educator/learner pilot, and publish contributor onboarding materials. We request $10,000 for a six-month project beginning in January 2027.
+An implemented prototype already demonstrates the core learning loop and reduces delivery risk: learners predict a pattern, edit and execute real R code in the browser, inspect the returned data in a keyboard-operable 3D view or semantic table, explain their evidence, select a transfer case, and export reproducible R or Quarto source. The grant will harden this prototype into community-ready infrastructure, add reusable lesson-authoring primitives and examples, conduct an educator/learner pilot, and publish contributor onboarding materials. We request $10,000 for a six-month project beginning in January 2027.
 
 ## Signatories
 
@@ -42,7 +42,7 @@ R-LearnXR will become a small, well-scoped R package and Quarto lesson framework
 The community-ready release will include:
 
 1. An R package with stable functions to scaffold lessons, render browser-based 3D scenes, and run lesson checks.
-2. A Quarto lesson template implementing Orient–Predict–Explore–Explain–Transfer.
+2. A Quarto lesson template implementing Orient–Predict–Run R–Explore–Explain–Reproduce.
 3. At least three openly licensed example lessons using public R datasets.
 4. Automated checks for data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and artifact hashes.
 5. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
@@ -50,21 +50,21 @@ The community-ready release will include:
 
 ### Architecture
 
-R prepares and validates analysis data. The package writes a small JSON artifact and a dependency-free HTML/JavaScript scene generated from a maintained template. Quarto embeds or links that scene in a lesson document. The scene provides the learner interaction and semantic table. A checker reads the lesson project and writes a machine-readable or human-readable report. CI repeats those checks and renders the example lessons.
+R prepares and validates author-supplied analysis data. The package writes a small JSON artifact and a maintained HTML/JavaScript laboratory. A pinned WebR runtime executes learner-edited R locally in the browser, validates a returned `scene` data frame, and synchronizes its points with the canvas, semantic table, observation text, and reproducibility record. Quarto embeds or links the laboratory in a lesson document. A checker reads the lesson project and writes a machine-readable or human-readable report. CI repeats those checks and renders the example lessons.
 
-This separation keeps the statistical workflow in R, the lesson structure in Quarto, and the interaction in a portable browser artifact. It avoids a required application server and makes hosting possible through ordinary static-site infrastructure.
+This separation keeps the statistical workflow in R, the lesson structure in Quarto, and the interaction in a portable browser artifact. WebR preserves authentic R execution without a required application server, making hosting possible through ordinary static-site infrastructure.
 
 ### Assumptions and recovery
 
 - **Assumption: educators value 3D exploration for selected multivariate tasks.** The pilot will test task fit rather than assume novelty equals learning value. If a task does not benefit from 3D, the template will support a table-first or 2D alternative.
-- **Assumption: dependency-free browser output is maintainable.** The package will keep the renderer narrow and test key interactions. If advanced WebGL becomes necessary, it will be evaluated as an optional adapter rather than a required dependency.
+- **Assumption: a pinned WebR browser runtime is maintainable.** The package will pin the tested WebR release, expose a clear loading/error state, and evaluate self-hosting the release assets during hardening. If advanced WebGL becomes necessary, it will be evaluated as an optional adapter rather than a required dependency.
 - **Assumption: instructors can author concise evidence prompts.** Contributor training will include examples, a rubric, and editable prompt patterns.
 - **Risk: scope expands into a general XR platform.** The grant scope excludes headset-native applications, multiplayer environments, user accounts, and cloud analytics.
 - **Risk: limited community adoption during the grant.** Success will emphasize validated reuse intent, pilot completion, documentation quality, and contributor-ready infrastructure rather than inflated usage claims.
 
 ### External dependencies
 
-Core dependencies are R, Quarto, standard browser APIs, and openly licensed example datasets. Package development uses `testthat`; the reference PCA lesson uses `palmerpenguins`. The project will pin the R package environment with `renv` and document data and content licenses. No proprietary hosted service or headset is required for learners.
+Core dependencies are R, Quarto, WebR, standard browser APIs, and openly licensed example datasets. Package development uses `testthat`; the reference PCA lesson uses `palmerpenguins`. The project pins WebR 0.6.0 in the prototype, will pin the R package environment with `renv`, and documents data and content licenses. No proprietary hosted service, application server, or headset is required for learners.
 
 ## Project plan and budget
 
@@ -100,4 +100,3 @@ Funding is allocated to direct labor tied to milestone deliverables. The project
 ### Future work
 
 Future contributors could add domain-specific lesson packs, localization, optional WebXR adapters, more visualization types, and integrations with existing R visualization packages. These extensions remain outside the grant MVP so the funded work can deliver a stable, reusable foundation.
-

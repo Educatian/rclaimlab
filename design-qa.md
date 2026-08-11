@@ -1,55 +1,43 @@
 # Design QA
 
-Final result: **passed**
+final result: passed
 
 ## Test setup
 
-- Source: `output/figma/rlearnxr-explore-screen.png`
-- Implementation: `output/demo/02-explore.png`
-- Combined comparison: `output/design-qa/comparison-pass-2.png`
-- Target state: Explore, step 3 of 5
-- Source viewport: 1440 × 920
-- Browser viewport: 1440 × 920 override; rendered content area 1425 × 910 because of browser scrollbars
-- Pixel density: 1
+- Figma reference: `output/figma/rlearnxr-explore-screen.png`
+- Desktop R success: `output/ui-improved/03-desktop-r-success.jpg`
+- Desktop 3D success: `output/ui-improved/04-desktop-scene-success.jpg`
+- Mobile entry, R, and 3D states: `output/ui-improved/05-mobile-top.jpg`, `06-mobile-r.jpg`, `07-mobile-scene.jpg`
+- Side-by-side comparison: `output/ui-improved/08-design-qa-contact-sheet.png`
+- Tested flow: Predict → Run real R → verify checks → inspect synchronized 3D result
+- Tested viewports: desktop 1440 × 810 and mobile 390 × 844
 
-## Pass history
+## Audit findings and fixes
 
-### Pass 1
-
-The first implementation matched the overall three-column structure but had three actionable differences:
-
-- The plot points were too tightly clustered compared with the Figma reference.
-- The learning companion was vertically crowded and clipped the explanation area.
-- Repeated rounded cards, pill buttons, and shadows made the layout feel more like a generated dashboard than a working instructional tool.
-
-Fixes:
-
-- Increased the scene projection scale and reduced camera distance.
-- Compacted fields and section spacing.
-- Replaced the companion card stack with one task panel and internal dividers.
-- Introduced semantic color, spacing, radius, and elevation tokens.
-- Reserved full pills for status and tags; changed actions to 8 px controls.
-- Flattened the controls and accessible-table containers.
-
-### Pass 2
-
-No actionable P0, P1, or P2 visual defects remain.
+| Severity | Finding | Implemented fix | Evidence |
+|---|---|---|---|
+| P1 | The post-R camera fit clipped some returned points. | Projection bounds now fit the current R result and clamp labels inside the canvas. | Five returned points are visible in desktop and mobile 3D captures. |
+| P1 | Scene controls remained visible in the R tab. | Scene controls and the accessible selector now live inside the scene tab panel. | The R success capture contains only code and execution controls. |
+| P2 | The desktop shell behaved like a long page and retained stale scroll positions. | Desktop uses a viewport-height app shell with internal regions; view changes reset the main workspace. | The final desktop capture shows the full title and workspace without body scrolling. |
+| P2 | The R editor exposed a black gap and mobile horizontal scrolling. | Starter code uses readable short lines; the editor wraps softly and scrolls vertically only. | Mobile R capture shows no horizontal scrollbar. |
+| P2 | Completed prediction work competed with the active R task. | Saved predictions collapse into a compact summary with an Edit action. | Desktop R and 3D captures preserve context without a large inactive form. |
+| P2 | Mobile progression was hard to scan. | The six steps use a 3 × 2 grid and view changes return to the top of the page. | Both mobile captures show all six steps and the current state. |
 
 ## Final surface review
 
 | Surface | Result | Notes |
 |---|---|---|
-| Typography | Pass | Dense product typography, clear labels, and stable hierarchy match the design intent. |
-| Spacing and layout | Pass | Header, rail, scene, and companion align; mobile sections remain available. |
-| Colors and tokens | Pass | Semantic tokens replace repeated visual values and preserve Figma's blue/teal/orange hierarchy. |
-| Assets and data | Pass | The canvas uses real lesson data; no placeholder assets are visible. |
-| Copy and content | Pass | Copy reflects the working Predict–Explore–Explain–Transfer workflow. |
-| Interaction states | Pass | Current/done steps, focus, validation, transfer, completion, and restart states work. |
-| Accessibility | Pass | Keyboard canvas, semantic table, labels, focus styles, live regions, and reduced motion are present. |
+| Typography | Pass | Compact technical typography, hierarchy, and code treatment match a working analysis product. |
+| Spacing and layout | Pass | Desktop shell, learning rail, workspace, and companion align; mobile has no page-level horizontal overflow. |
+| Colors and tokens | Pass | Blue, teal, orange, and semantic state colors preserve the Figma intent with accessible contrast. |
+| R learning surface | Pass | Editable R, WebR runtime state, console, four checks, exports, and 3D synchronization are connected. |
+| Copy and content | Pass | Copy clearly follows Predict → Run R → Explore → Explain → Reproduce. |
+| Interaction states | Pass | Ready, running, success, error, edit, restart, download, selection, and completion states are implemented. |
+| Responsiveness | Pass | Desktop and mobile flows remain readable, usable, and free of clipped controls. |
+| Accessibility | Pass | Semantic tabs, labelled inputs, focus indicators, keyboard canvas, live regions, reduced motion, and an accessible data selector are present. |
 
 ## Intentional deviations from Figma
 
-- The implementation includes a visible Restart lesson action, real multiline fields, feedback text, and an accessible data table because the Figma source was a static visual reference.
-- The companion uses internal dividers instead of three floating cards to improve product density and reduce visual noise.
-- The canvas is a live projection generated from R data, so exact point positions differ from the static reference while preserving the same visual grammar.
-
+- The implementation adds a real WebR editor, console, checks, reproducibility record, downloads, and a six-step learning path because the Figma source is a static visual reference.
+- The companion uses internal dividers and a compact saved state to support sustained work at desktop density.
+- Point positions are produced by learner-executed R, so the canvas preserves the Figma visual grammar while adapting to live data.

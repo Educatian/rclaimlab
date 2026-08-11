@@ -1,6 +1,6 @@
 # R-LearnXR MVP
 
-R-LearnXR is an open-source prototype for reproducible, browser-based 3D lessons built around R and Quarto. The MVP treats 3D/XR as an optional presentation layer. The core deliverable is a reusable R package that scaffolds lessons, creates a self-contained scene from a data frame, and checks basic reproducibility conditions.
+R-LearnXR is an open-source prototype for reproducible, browser-based R laboratories built with Quarto, WebR, and interactive 3D scenes. The MVP treats 3D/XR as an optional evidence layer. Learners edit and execute real R code in the browser, send the resulting data frame into the 3D view, explain coordinate evidence, and export the work as reproducible R or Quarto source.
 
 ## Grant demo
 
@@ -20,7 +20,9 @@ Grant preparation materials:
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
 - `render_scene()` creates `scene/index.html` and `scene/points.json` from three numeric columns.
-- The complete learner loop supports prediction, 3D exploration, evidence-based explanation, feedback, transfer, and completion.
+- A pinned WebR 0.6.0 runtime executes learner-edited R without an application server.
+- Successful R output updates the scene, accessible table, selected-point evidence, artifact hash, and reproducibility record.
+- The complete learner loop supports prediction, real R execution, 3D exploration, evidence-based explanation, transfer, export, and completion.
 - Pointer, keyboard, mobile, and accessible data-table paths expose the same analytical evidence.
 - `check_lesson()` writes a Markdown report, session information, and generated-artifact hashes.
 - `examples/lesson/` is the contributor-training lesson; `examples/penguin-pca/` is the authentic analysis lesson.
@@ -49,7 +51,7 @@ source("R/check_lesson.R")
 check_lesson("examples/lesson")
 ```
 
-Open `examples/lesson/scene/index.html` in a browser. In a Quarto-enabled environment, run `quarto render examples/lesson` to render the lesson page.
+Open `examples/lesson/scene/index.html` in a browser. The first R execution downloads the pinned WebR runtime; subsequent executions stay in the tab. In a Quarto-enabled environment, run `quarto render examples/lesson` to render the lesson page.
 
 Build and check every lesson from the repository root:
 
@@ -64,7 +66,7 @@ Contributor onboarding starts in [CONTRIBUTING.md](CONTRIBUTING.md). The authori
 
 ## Scope boundary
 
-This MVP intentionally does not include a native headset application, multiplayer networking, an LMS, or a general-purpose 3D grammar for every R plot. Those are future extensions, not release criteria for the first grant-sized milestone.
+This MVP intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, or a general-purpose 3D grammar for every R plot. Those are future extensions, not release criteria for the first grant-sized milestone.
 
 ## License
 

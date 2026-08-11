@@ -61,9 +61,13 @@ check_lesson <- function(path = ".", write_report = TRUE) {
     add("accessible_alternatives", "FAIL", "scene is missing a required keyboard, feedback, input, or table marker")
   }
 
-  learning_markers <- c('id="prediction-input"', 'id="check-explanation"', 'id="transfer-card"', 'id="complete-lesson"')
+  learning_markers <- c(
+    'id="prediction-input"', 'id="r-code-editor"', 'id="run-r-code"',
+    'webr.r-wasm.org', 'id="check-sync"', 'id="check-explanation"',
+    'id="transfer-card"', 'id="complete-lesson"'
+  )
   if (all(vapply(learning_markers, grepl, logical(1), x = scene_text, fixed = TRUE))) {
-    add("learning_loop", "PASS", "predict, explore, explain, transfer, and completion controls are present")
+    add("learning_loop", "PASS", "predict, run R, explore, explain, reproduce, and completion controls are present")
   } else {
     add("learning_loop", "FAIL", "scene does not contain the complete learner loop")
   }

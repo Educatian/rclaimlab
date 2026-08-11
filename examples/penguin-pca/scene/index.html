@@ -41,7 +41,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-height: 100vh; background: var(--color-canvas); color: var(--color-text); }
+body { margin: 0; min-height: 100vh; overflow: hidden; background: var(--color-canvas); color: var(--color-text); }
 button, textarea { font: inherit; }
 button { min-height: 44px; cursor: pointer; }
 button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focus-visible {
@@ -53,11 +53,12 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .app {
   width: calc(100% - 32px);
   max-width: 1440px;
-  min-height: 860px;
+  height: calc(100vh - 32px);
+  min-height: 680px;
   margin: 16px auto;
   display: grid;
   grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) minmax(270px, 300px);
-  grid-template-rows: 72px 1fr;
+  grid-template-rows: 72px minmax(0, 1fr);
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-shell);
@@ -75,7 +76,10 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .restart-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
 .status-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary); font-size: 11px; font-weight: 800; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
-.rail { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; padding: var(--space-7) var(--space-5) var(--space-6); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+.rail { grid-column: 1; grid-row: 2; min-height: 0; display: flex; flex-direction: column; padding: var(--space-7) var(--space-5) var(--space-6); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; background: var(--color-surface); border-right: 1px solid var(--color-border); }
+.rail, .main, .companion { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+.rail::-webkit-scrollbar, .main::-webkit-scrollbar, .companion::-webkit-scrollbar { width: 7px; }
+.rail::-webkit-scrollbar-thumb, .main::-webkit-scrollbar-thumb, .companion::-webkit-scrollbar-thumb { border-radius: 999px; background: #cbd5e1; }
 .eyebrow { color: var(--color-text-muted); font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .rail-title { margin: 8px 0 24px; font-size: 15px; font-weight: 750; }
 .step-list { display: grid; gap: var(--space-1); }
@@ -87,11 +91,11 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .step-row[aria-current="step"] .step-index { background: var(--color-primary); }
 .step-name { font-size: 13px; font-weight: 750; }
 .step-current { margin-left: auto; font-size: 9px; font-weight: 800; }
-.goal-card { margin-top: auto; padding: var(--space-4); border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.goal-card { margin-top: 24px; padding: var(--space-4); border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
 .goal-card h2 { margin: 0 0 10px; color: var(--color-primary); font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
 .goal-card p { margin: 0; color: var(--color-text); font-size: 13px; line-height: 1.32; font-weight: 750; }
 .goal-card small { display: block; margin-top: 12px; color: var(--color-text-muted); font-size: 10px; }
-.main { grid-column: 2; grid-row: 2; min-width: 0; padding: 34px 28px 24px; }
+.main { grid-column: 2; grid-row: 2; min-width: 0; min-height: 0; padding: 28px 28px 24px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .title-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
 .title-row h1 { flex: 1; margin: 0; font-size: clamp(25px, 2.4vw, 32px); line-height: 1.12; letter-spacing: -.04em; }
 .title-row p { margin: 8px 0 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.45; }
@@ -101,27 +105,75 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .scene-header strong { display: block; color: var(--color-primary); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
 .scene-header span { display: block; margin-top: 8px; color: var(--color-text-muted); font-size: 11px; }
 .keyboard-hint { max-width: 220px; color: var(--color-text-muted); font-size: 10px; line-height: 1.4; text-align: right; }
-.plot-shell { position: relative; margin: 0 24px 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
+.view-tabs { display: flex; gap: 0; padding: 0 24px; border-bottom: 1px solid var(--color-border); }
+.view-tab { min-height: 42px; padding: 0 15px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--color-text-muted); font-size: 11px; font-weight: 850; letter-spacing: .02em; }
+.view-tab:hover { color: var(--color-text); background: var(--color-surface-subtle); }
+.view-tab[aria-selected="true"] { border-bottom-color: var(--color-primary); color: var(--color-primary); }
+.tab-state { margin-left: 7px; color: var(--color-success); font-size: 9px; }
+.view-panel[hidden] { display: none; }
+.plot-shell { position: relative; margin: 0 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
 canvas { display: block; width: 100%; height: min(43vh, 390px); cursor: grab; }
 canvas:active { cursor: grabbing; }
 .legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 10px; color: var(--color-text-muted); pointer-events: none; }
-.controls { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 18px; padding: 12px 4px; border-bottom: 1px solid var(--color-border); }
+.scene-tools { padding: 14px 24px 20px; }
+.controls { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
 .control-item { display: flex; align-items: center; gap: 8px; min-height: 32px; font-size: 12px; font-weight: 750; }
 .control-number { color: var(--color-primary); font-weight: 850; }
 .reset-button, .secondary-button { padding: 9px 14px; border: 1px solid #c3d5f4; border-radius: var(--radius-control); background: var(--color-primary-soft); color: var(--color-primary); font-size: 11px; font-weight: 850; }
 .reset-button:hover, .secondary-button:hover { background: #d9e8ff; }
 .reset-button { margin-left: auto; }
-.data-alternative { margin-top: 14px; border-bottom: 1px solid var(--color-border); background: transparent; }
+.data-alternative { margin-top: 8px; border-bottom: 1px solid var(--color-border); background: transparent; }
 .data-alternative summary { min-height: 44px; padding: 14px 4px; color: var(--color-primary); font-size: 12px; font-weight: 800; cursor: pointer; }
 .table-scroll { overflow-x: auto; padding: 0 18px 18px; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th, td { padding: 10px 12px; border-bottom: 1px solid var(--color-border); text-align: left; white-space: nowrap; }
 th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase; }
 .inspect-button { min-height: 36px; padding: 7px 12px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: #fff; color: var(--color-primary); font-size: 11px; font-weight: 800; }
-.companion { grid-column: 3; grid-row: 2; padding: 28px 20px 20px; background: var(--color-surface); border-left: 1px solid var(--color-border); }
+.r-lab { padding: 20px 24px 24px; }
+.lab-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.lab-heading h2 { margin: 0; font-size: 19px; letter-spacing: -.02em; }
+.lab-heading p { margin: 6px 0 0; color: var(--color-text-muted); font-size: 12px; line-height: 1.45; }
+.engine-status { min-width: 150px; padding: 9px 11px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface-subtle); color: var(--color-text-muted); font-size: 10px; font-weight: 800; text-align: center; }
+.engine-status[data-state="ready"] { border-color: #a9d6bd; background: #edf8f2; color: var(--color-success); }
+.engine-status[data-state="running"] { border-color: #c3d5f4; background: var(--color-primary-soft); color: var(--color-primary); }
+.engine-status[data-state="error"] { border-color: #efb8b3; background: #fff1f0; color: var(--color-danger); }
+.lab-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); align-items: start; border: 1px solid var(--color-border); border-radius: var(--radius-control); overflow: hidden; background: var(--color-surface-subtle); }
+.code-workspace { min-width: 0; align-self: start; background: #111827; }
+.code-toolbar { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border-bottom: 1px solid #2b3649; color: #c7d2e3; font-size: 10px; font-weight: 800; }
+.code-toolbar span:first-child { flex: 1; }
+.code-editor { display: block; width: 100%; min-height: 245px; padding: 16px; resize: vertical; overflow-x: hidden; overflow-y: auto; border: 0; outline: 0; background: #111827; color: #edf3ff; font: 12px/1.55 "Cascadia Code", "SFMono-Regular", Consolas, monospace; tab-size: 2; white-space: pre-wrap; }
+.code-editor:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px; }
+.lab-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-top: 1px solid #2b3649; background: #172033; }
+.run-button { min-height: 40px; padding: 8px 14px; border: 0; border-radius: var(--radius-control); background: #4f8df7; color: #fff; font-size: 11px; font-weight: 850; }
+.run-button:hover { background: #6ca1fb; }
+.run-button:disabled { cursor: wait; opacity: .65; }
+.code-action { min-height: 40px; padding: 8px 12px; border: 1px solid #42516a; border-radius: var(--radius-control); background: transparent; color: #dbe6f7; font-size: 10px; font-weight: 800; }
+.code-action:hover { border-color: #6f83a2; background: #202c40; }
+.lab-results { align-self: stretch; padding: 16px; background: var(--color-surface-subtle); }
+.result-label { color: var(--color-text-muted); font-size: 9px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.r-console { min-height: 62px; margin: 8px 0 14px; padding: 10px; overflow: auto; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #fff; color: var(--color-text); font: 10px/1.45 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+.check-list { display: grid; gap: 7px; margin: 8px 0 16px; padding: 0; list-style: none; }
+.check-list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--color-text-muted); font-size: 10px; }
+.check-state { min-width: 54px; padding: 3px 6px; border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text-muted); font-size: 8px; font-weight: 900; text-align: center; }
+.check-state[data-state="pass"] { border-color: #a9d6bd; color: var(--color-success); background: #edf8f2; }
+.check-state[data-state="fail"] { border-color: #efb8b3; color: var(--color-danger); background: #fff1f0; }
+.repro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.repro-item { padding: 9px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #fff; }
+.repro-item span { display: block; color: var(--color-text-muted); font-size: 8px; font-weight: 800; text-transform: uppercase; }
+.repro-item strong { display: block; margin-top: 5px; overflow: hidden; color: var(--color-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.view-result { width: 100%; margin-top: 12px; padding: 9px 12px; border: 1px solid #a9d6bd; border-radius: var(--radius-control); background: #edf8f2; color: var(--color-success); font-size: 10px; font-weight: 850; }
+.view-result[hidden] { display: none; }
+.companion { grid-column: 3; grid-row: 2; min-height: 0; padding: 28px 20px 20px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; background: var(--color-surface); border-left: 1px solid var(--color-border); }
 .companion h2 { margin: 7px 0 16px; font-size: 21px; line-height: 1.15; letter-spacing: -.03em; }
 .companion-card { margin: 0; padding: 16px 0; border-bottom: 1px solid var(--color-border); background: transparent; }
 .prediction-card { padding: 14px; border: 1px solid #c7d8f4; border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.prediction-card[data-state="saved"] { padding: 12px 14px; border-color: var(--color-border); border-left-color: var(--color-success); background: var(--color-surface-subtle); }
+.prediction-card[data-state="saved"] h3 { margin: 7px 0 4px; font-size: 13px; }
+.prediction-summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.prediction-summary p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; }
+.link-button { min-height: 30px; padding: 4px 8px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); color: var(--color-primary); font-size: 10px; font-weight: 800; }
+.companion-card[data-current="true"] { box-shadow: inset 3px 0 0 var(--color-primary); }
+.prediction-edit[hidden], .prediction-summary[hidden] { display: none; }
 .prediction-card + .companion-card { margin-top: 4px; }
 .card-label { color: var(--color-primary); font-size: 10px; font-weight: 850; letter-spacing: .03em; }
 .observation-card .card-label { color: var(--color-teal); }
@@ -131,6 +183,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .companion-card p { margin: 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.48; }
 .field-label { display: block; margin-top: 12px; color: var(--color-text); font-size: 11px; font-weight: 750; }
 .field { width: 100%; min-height: 60px; margin-top: 7px; padding: 10px 11px; resize: vertical; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: rgba(255, 255, 255, .96); color: var(--color-text); font-size: 12px; line-height: 1.4; }
+.field:focus-visible { outline: 2px solid #60a5fa; outline-offset: 1px; }
 .field::placeholder { color: #6c788a; opacity: 1; }
 .selected-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .selected-tag { padding: 6px 11px; border-radius: 999px; background: #fff0dd; color: var(--color-warning); font-size: 10px; font-weight: 850; }
@@ -150,39 +203,51 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .app { grid-template-columns: minmax(0, 1fr) minmax(280px, 320px); grid-template-rows: 72px auto 1fr; }
   .rail { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px 20px; padding: 16px 24px; border-right: 0; border-bottom: 1px solid var(--color-border); }
   .rail-title { margin: 5px 0 0; }
-  .step-list { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: repeat(5, minmax(118px, 1fr)); overflow-x: auto; }
+  .step-list { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: repeat(6, minmax(110px, 1fr)); overflow-x: auto; }
   .goal-card { grid-column: 1 / -1; margin-top: 0; }
   .main { grid-column: 1; grid-row: 3; }
   .companion { grid-column: 2; grid-row: 3; }
 }
 @media (max-width: 760px) {
   html { scroll-behavior: auto; }
-  .app { width: 100%; margin: 0; display: block; border: 0; border-radius: 0; box-shadow: none; }
-  .topbar { min-height: 72px; padding: 10px 16px; }
+  body { overflow: auto; }
+  .app { width: 100%; height: auto; min-height: 100vh; margin: 0; display: block; overflow: visible; border: 0; border-radius: 0; box-shadow: none; }
+  .topbar { position: sticky; top: 0; z-index: 10; min-height: 68px; padding: 10px 16px; }
   .brand-subtitle { max-width: 120px; }
   .lesson-label { display: none; }
   .restart-button { display: none; }
   .status-chip { padding: 8px 10px; }
-  .rail { display: block; padding: 16px; border-bottom: 1px solid var(--color-border); }
+  .rail { display: block; padding: 14px 16px; overflow: visible; border-bottom: 1px solid var(--color-border); }
   .rail-title { margin: 5px 0 12px; }
-  .step-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
-  .step-row { flex: 0 0 auto; width: auto; padding: 0 12px; }
+  .step-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; overflow: visible; padding: 0; }
+  .step-row { width: 100%; min-height: 38px; padding: 0 7px; gap: 7px; }
+  .step-index { width: 22px; height: 22px; flex-basis: 22px; }
+  .step-name { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
   .step-current { display: none; }
-  .goal-card { margin-top: 12px; }
-  .main { padding: 24px 16px 18px; }
+  .goal-card { display: none; }
+  .main { padding: 20px 14px 18px; overflow: visible; }
   .title-row { margin-bottom: 18px; }
   .title-row h1 { font-size: 25px; }
   .scene-header { display: block; padding: 18px 16px 12px; }
   .keyboard-hint { max-width: none; margin-top: 8px; text-align: left; }
-  .plot-shell { margin: 0 12px 12px; }
-  canvas { height: 330px; }
+  .view-tabs { padding: 0 12px; }
+  .plot-shell { margin: 0 12px; }
+  canvas { height: 300px; }
   .legend { right: 10px; left: 10px; }
-  .controls { padding: 14px; gap: 8px 14px; }
+  .scene-tools { padding: 10px 12px 14px; }
+  .controls { padding: 10px 0; gap: 8px 14px; }
   .reset-button { margin-left: 0; }
-  .companion { padding: 18px 16px 32px; border-top: 1px solid var(--color-border); border-left: 0; }
+  .companion { padding: 18px 16px 32px; overflow: visible; border-top: 1px solid var(--color-border); border-left: 0; }
   .companion h2 { margin-bottom: 16px; }
   .field { min-height: 76px; }
   .coords { flex-wrap: wrap; }
+  .r-lab { padding: 16px 12px; }
+  .lab-heading { display: block; }
+  .engine-status { margin-top: 12px; text-align: left; }
+  .lab-grid { display: block; }
+  .code-editor { min-height: 240px; }
+  .lab-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .run-button { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
@@ -204,34 +269,46 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <div class="step-list">
       <button class="step-row" type="button" data-step="1" data-target="learning-goal" data-state="done"><span class="step-index">1</span><span class="step-name">Orient</span><span class="step-current">DONE</span></button>
       <button class="step-row" type="button" data-step="2" data-target="prediction-input" aria-current="step"><span class="step-index">2</span><span class="step-name">Predict</span><span class="step-current">CURRENT</span></button>
-      <button class="step-row" type="button" data-step="3" data-target="scene"><span class="step-index">3</span><span class="step-name">Explore</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="4" data-target="explanation-input"><span class="step-index">4</span><span class="step-name">Explain</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="5" data-target="transfer-card"><span class="step-index">5</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="3" data-target="r-code-editor" data-view="r"><span class="step-index">3</span><span class="step-name">Run R</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="4" data-target="scene" data-view="scene"><span class="step-index">4</span><span class="step-name">Explore</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="5" data-target="explanation-input"><span class="step-index">5</span><span class="step-name">Explain</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="6" data-target="transfer-card"><span class="step-index">6</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
     </div>
-    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p>Explain how a data point's position changes your interpretation of the analysis.</p><small>Estimated time: 8 minutes</small></section>
+    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p>Run an R transformation, inspect the updated 3D result, and explain one coordinate as evidence.</p><small>Estimated time: 10 minutes</small></section>
   </nav>
 
   <section class="main" id="lesson-main">
-    <div class="title-row"><div><h1>Explore the data space</h1><p>Predict a pattern, inspect evidence in three dimensions, then explain your claim.</p></div><div class="step-count" id="step-count">STEP 2 OF 5</div></div>
+    <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 2 OF 6</div></div>
     <div class="scene-card">
-      <div class="scene-header"><div><strong>Interactive view</strong><span>Drag to rotate; scroll to zoom; click a point to select it.</span></div><div class="keyboard-hint">Keyboard: arrow keys rotate, + and - zoom, Home resets.</div></div>
-      <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend">x / y / z axes - browser-only demo - no headset required</div></div>
-      <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
+      <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required.</div></div>
+      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button></div>
+      <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab">
+        <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
+        <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
+        <div class="scene-tools"><div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
+        <details class="data-alternative" id="data-alternative"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details></div>
+      </section>
+      <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" hidden>
+        <div class="lab-heading"><div><h2>Transform the scene with R</h2><p>Run the starter pipeline, then change the filter threshold and compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
+        <div class="lab-grid">
+          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download .R</button><button class="code-action" id="download-qmd" type="button">Download .qmd</button></div></div>
+          <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Automatic checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Reproducibility record</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Artifact hash</span><strong id="artifact-hash">Not generated</strong></div><div class="repro-item"><span>Scene rows</span><strong id="scene-rows">Baseline data</strong></div></div><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
+        </div>
+      </section>
     </div>
-    <div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
-    <details class="data-alternative" id="data-alternative"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
   </section>
 
   <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2>Notice, then explain</h2>
-    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>Before you rotate the scene, what pattern do you expect to see?</h3><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div><div class="field-status" id="prediction-status" aria-live="polite">Your response is saved only in this browser.</div></section>
+    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>What pattern should the R filter retain?</h3><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Your response is saved only in this browser.</div></section>
     <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 OBSERVE</div><div class="selected-row"><h3>Selected point</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
     <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN</div><h3>Why might this point matter for the analysis?</h3><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Connect at least one coordinate to your claim."></textarea><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" aria-live="polite">Use the selected point and at least one axis as evidence.</div></section>
-    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the same reasoning to another point.</h3><p id="transfer-prompt">Select a different point and compare one coordinate with your current evidence.</p><div class="button-row"><button class="complete-button" id="complete-lesson" type="button">Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite"></div></section>
+    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the same reasoning to another point.</h3><p id="transfer-prompt">Select a different point and compare one coordinate with your current evidence.</p><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite"></div></section>
     <div class="tip">Tip: A strong explanation names a point, an axis, and what the coordinate means.</div>
   </aside>
 </main>
 <script>
-const points = [{"x":-0.64229203,"y":-0.071487591,"z":-0.17183515,"label":"Adelie 1"},{"x":-0.63218212,"y":-0.14593012,"z":-0.37979844,"label":"Adelie 2"},{"x":-0.65482179,"y":-0.40322932,"z":0.070678042,"label":"Adelie 3"},{"x":-0.31787977,"y":-0.055388274,"z":-0.11543305,"label":"Adelie 4"},{"x":-0.62178250,"y":-0.18331999,"z":-0.22154919,"label":"Adelie 5"},{"x":-0.65873068,"y":-0.34038895,"z":0.079669980,"label":"Adelie 6"},{"x":-0.54795449,"y":-0.20697941,"z":-0.065654565,"label":"Adelie 7"},{"x":-0.21087052,"y":0.0036369579,"z":-0.21883614,"label":"Adelie 8"},{"x":-0.27158865,"y":0.13908619,"z":0.16760367,"label":"Chinstrap 9"},{"x":-0.18623659,"y":0.13275368,"z":0.10832347,"label":"Chinstrap 10"},{"x":0.0035312724,"y":0.30153901,"z":0.018723468,"label":"Chinstrap 11"},{"x":0.14751887,"y":0.68964592,"z":-0.10195768,"label":"Chinstrap 12"},{"x":-0.32572911,"y":-0.019403285,"z":0.48189929,"label":"Chinstrap 13"},{"x":-0.32467554,"y":0.45764128,"z":0.34930179,"label":"Chinstrap 14"},{"x":-0.068026085,"y":0.52187579,"z":-0.094350831,"label":"Chinstrap 15"},{"x":-0.086843852,"y":0.40357890,"z":0.13388275,"label":"Chinstrap 16"},{"x":0.55292530,"y":-0.48447137,"z":0.27538060,"label":"Gentoo 17"},{"x":1.0000000,"y":-0.077796803,"z":-0.25203763,"label":"Gentoo 18"},{"x":0.70213022,"y":0.023108752,"z":-0.17538798,"label":"Gentoo 19"},{"x":0.40290212,"y":-0.37234001,"z":0.15603869,"label":"Gentoo 20"},{"x":0.58842819,"y":-0.18062579,"z":0.085246635,"label":"Gentoo 21"},{"x":0.88296500,"y":-0.12503100,"z":0.15337612,"label":"Gentoo 22"},{"x":0.61893101,"y":-0.069883149,"z":-0.21220029,"label":"Gentoo 23"},{"x":0.65028174,"y":0.063408591,"z":-0.071083564,"label":"Gentoo 24"}];
+const initialPoints = [{"x":-0.64229203,"y":-0.071487591,"z":-0.17183515,"label":"Adelie 1"},{"x":-0.63218212,"y":-0.14593012,"z":-0.37979844,"label":"Adelie 2"},{"x":-0.65482179,"y":-0.40322932,"z":0.070678042,"label":"Adelie 3"},{"x":-0.31787977,"y":-0.055388274,"z":-0.11543305,"label":"Adelie 4"},{"x":-0.62178250,"y":-0.18331999,"z":-0.22154919,"label":"Adelie 5"},{"x":-0.65873068,"y":-0.34038895,"z":0.079669980,"label":"Adelie 6"},{"x":-0.54795449,"y":-0.20697941,"z":-0.065654565,"label":"Adelie 7"},{"x":-0.21087052,"y":0.0036369579,"z":-0.21883614,"label":"Adelie 8"},{"x":-0.27158865,"y":0.13908619,"z":0.16760367,"label":"Chinstrap 9"},{"x":-0.18623659,"y":0.13275368,"z":0.10832347,"label":"Chinstrap 10"},{"x":0.0035312724,"y":0.30153901,"z":0.018723468,"label":"Chinstrap 11"},{"x":0.14751887,"y":0.68964592,"z":-0.10195768,"label":"Chinstrap 12"},{"x":-0.32572911,"y":-0.019403285,"z":0.48189929,"label":"Chinstrap 13"},{"x":-0.32467554,"y":0.45764128,"z":0.34930179,"label":"Chinstrap 14"},{"x":-0.068026085,"y":0.52187579,"z":-0.094350831,"label":"Chinstrap 15"},{"x":-0.086843852,"y":0.40357890,"z":0.13388275,"label":"Chinstrap 16"},{"x":0.55292530,"y":-0.48447137,"z":0.27538060,"label":"Gentoo 17"},{"x":1.0000000,"y":-0.077796803,"z":-0.25203763,"label":"Gentoo 18"},{"x":0.70213022,"y":0.023108752,"z":-0.17538798,"label":"Gentoo 19"},{"x":0.40290212,"y":-0.37234001,"z":0.15603869,"label":"Gentoo 20"},{"x":0.58842819,"y":-0.18062579,"z":0.085246635,"label":"Gentoo 21"},{"x":0.88296500,"y":-0.12503100,"z":0.15337612,"label":"Gentoo 22"},{"x":0.61893101,"y":-0.069883149,"z":-0.21220029,"label":"Gentoo 23"},{"x":0.65028174,"y":0.063408591,"z":-0.071083564,"label":"Gentoo 24"}];
+let points = initialPoints.map(point => ({...point}));
 const canvas = document.getElementById("scene");
 const ctx = canvas.getContext("2d");
 const pointName = document.getElementById("point-name");
@@ -239,6 +316,10 @@ const pointCoords = document.getElementById("point-coords");
 const pointObservation = document.getElementById("point-observation");
 const predictionInput = document.getElementById("prediction-input");
 const predictionStatus = document.getElementById("prediction-status");
+const predictionCard = document.getElementById("prediction-card");
+const predictionEdit = document.getElementById("prediction-edit");
+const predictionSummary = document.getElementById("prediction-summary");
+const predictionSummaryText = document.getElementById("prediction-summary-text");
 const explanationInput = document.getElementById("explanation-input");
 const explanationFeedback = document.getElementById("explanation-feedback");
 const transferCard = document.getElementById("transfer-card");
@@ -246,6 +327,15 @@ const completeLesson = document.getElementById("complete-lesson");
 const completionFeedback = document.getElementById("completion-feedback");
 const statusText = document.getElementById("lesson-status-text");
 const stepCount = document.getElementById("step-count");
+const sceneTab = document.getElementById("scene-tab");
+const rTab = document.getElementById("r-tab");
+const scenePanel = document.getElementById("scene-panel");
+const rPanel = document.getElementById("r-panel");
+const rCodeEditor = document.getElementById("r-code-editor");
+const runRCode = document.getElementById("run-r-code");
+const rConsole = document.getElementById("r-console");
+const rEngineStatus = document.getElementById("r-engine-status");
+const viewRResult = document.getElementById("view-r-result");
 const colors = ["#2563eb", "#078999", "#7c3aed", "#c0266d", "#c64e08", "#128553"];
 const storageKey = "rlearnxr:" + document.title;
 let yaw = 0.72;
@@ -258,6 +348,46 @@ let hoverIndex = null;
 let selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
 let currentStep = 2;
 let explanationPassed = false;
+let explanationPointLabel = null;
+let transferReady = false;
+let webRInstance = null;
+let webRVersion = null;
+let rRunPassed = false;
+
+function rString(value) {
+  return '"' + String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+}
+
+function defaultRCode() {
+  const vectorLines = values => {
+    const rows = [];
+    for (let index = 0; index < values.length; index += 3) rows.push("    " + values.slice(index, index + 3).join(", "));
+    return rows.join(",\n");
+  };
+  const labels = vectorLines(initialPoints.map(point => rString(point.label || "point")));
+  const axis = name => vectorLines(initialPoints.map(point => Number(point[name]).toFixed(3)));
+  return [
+    "set.seed(2026)",
+    "",
+    "data <- data.frame(",
+    "  label = c(\n" + labels + "\n  ),",
+    "  x = c(\n" + axis("x") + "\n  ),",
+    "  y = c(\n" + axis("y") + "\n  ),",
+    "  z = c(\n" + axis("z") + "\n  )",
+    ")",
+    "",
+    "scene <- transform(",
+    "  data,",
+    "  x = as.numeric(scale(x)),",
+    "  y = as.numeric(scale(y)),",
+    "  z = as.numeric(scale(z))",
+    ")",
+    "",
+    "# Try changing 0.25 to 0.45, then run again.",
+    "scene <- subset(scene, abs(x) >= 0.25)",
+    "scene"
+  ].join("\n");
+}
 
 function relation(value) {
   if (Math.abs(value) < 0.15) return "near the zero reference plane";
@@ -267,6 +397,14 @@ function relation(value) {
 function observationFor(point) {
   const label = String(point.label || "This point");
   return label + " is " + relation(point.x) + " on x, " + relation(point.y) + " on y, and " + relation(point.z) + " on z.";
+}
+
+function setPredictionMode(saved) {
+  predictionCard.dataset.state = saved ? "saved" : "editing";
+  predictionEdit.hidden = saved;
+  predictionSummary.hidden = !saved;
+  predictionSummaryText.textContent = saved ? predictionInput.value.trim() : "";
+  if (!saved) predictionInput.focus({preventScroll: true});
 }
 
 function activePointIndex() {
@@ -293,7 +431,13 @@ function setSelectedPoint(index, options = {}) {
   hoverIndex = null;
   updatePointPanel(index, Boolean(options.announce));
   draw();
-  if (currentStep < 3) setStep(3);
+  if (currentStep >= 6 && explanationPointLabel && String(points[index].label) !== explanationPointLabel) {
+    transferReady = true;
+    completeLesson.disabled = false;
+    completionFeedback.dataset.state = "success";
+    completionFeedback.textContent = String(points[index].label) + " selected for comparison. You can now complete the reproducible workflow.";
+  }
+  if (currentStep < 4) setStep(4);
 }
 
 function resize() {
@@ -313,13 +457,33 @@ function rotate(point) {
   return {x: x1, y: point.y * cp - z1 * sp, z: point.y * sp + z1 * cp};
 }
 
-function project(point, width, height) {
+function projectionMetrics(width, height) {
+  const camera = 4.2;
+  const maximum = Math.max(1.15, ...points.flatMap(point => [Math.abs(point.x), Math.abs(point.y), Math.abs(point.z)]));
+  const axisExtent = maximum * 1.08;
+  const candidates = points.concat([
+    {x: -axisExtent, y: 0, z: 0}, {x: axisExtent, y: 0, z: 0},
+    {x: 0, y: -axisExtent, z: 0}, {x: 0, y: axisExtent, z: 0},
+    {x: 0, y: 0, z: -axisExtent}, {x: 0, y: 0, z: axisExtent}
+  ]);
+  let maxX = .01;
+  let maxY = .01;
+  candidates.forEach(point => {
+    const rotated = rotate(point);
+    const depth = Math.max(.5, camera + rotated.z);
+    maxX = Math.max(maxX, Math.abs(rotated.x / depth));
+    maxY = Math.max(maxY, Math.abs(rotated.y / depth));
+  });
+  const horizontalPadding = width < 480 ? 54 : 76;
+  const verticalPadding = width < 480 ? 70 : 82;
+  const scale = Math.min((width - horizontalPadding) / (2 * maxX), (height - verticalPadding) / (2 * maxY)) * zoom;
+  return {camera, scale, axisExtent};
+}
+
+function project(point, width, height, metrics = projectionMetrics(width, height)) {
   const rotated = rotate(point);
-  const camera = 3.4;
-  const scaleFactor = width < 480 ? 1.0 : 1.45;
-  const scale = Math.min(width, height) * scaleFactor * zoom;
-  const depth = camera + rotated.z;
-  return {x: width / 2 + rotated.x * scale / depth, y: height / 2 - rotated.y * scale / depth, z: rotated.z};
+  const depth = metrics.camera + rotated.z;
+  return {x: width / 2 + rotated.x * metrics.scale / depth, y: height / 2 - rotated.y * metrics.scale / depth, z: rotated.z};
 }
 
 function line(from, to, color, width = 1) {
@@ -334,22 +498,23 @@ function line(from, to, color, width = 1) {
 function draw() {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
+  const metrics = projectionMetrics(width, height);
   ctx.clearRect(0, 0, width, height);
   const axes = [
-    [{x: -1.35, y: 0, z: 0}, {x: 1.35, y: 0, z: 0}, "#dc2626"],
-    [{x: 0, y: -1.35, z: 0}, {x: 0, y: 1.35, z: 0}, "#128553"],
-    [{x: 0, y: 0, z: -1.35}, {x: 0, y: 0, z: 1.35}, "#2563eb"]
+    [{x: -metrics.axisExtent, y: 0, z: 0}, {x: metrics.axisExtent, y: 0, z: 0}, "#d75d5d"],
+    [{x: 0, y: -metrics.axisExtent, z: 0}, {x: 0, y: metrics.axisExtent, z: 0}, "#2a9168"],
+    [{x: 0, y: 0, z: -metrics.axisExtent}, {x: 0, y: 0, z: metrics.axisExtent}, "#3977df"]
   ];
-  axes.forEach(axis => line(project(axis[0], width, height), project(axis[1], width, height), axis[2], 1.6));
+  axes.forEach(axis => line(project(axis[0], width, height, metrics), project(axis[1], width, height, metrics), axis[2], 1.35));
   ctx.font = "12px system-ui";
   ctx.fillStyle = "#526078";
   ["x", "y", "z"].forEach((axis, index) => {
-    const endpoints = [{x: 1.45, y: 0, z: 0}, {x: 0, y: 1.45, z: 0}, {x: 0, y: 0, z: 1.45}];
-    const labelPoint = project(endpoints[index], width, height);
-    ctx.fillText(axis, labelPoint.x, labelPoint.y);
+    const endpoints = [{x: metrics.axisExtent, y: 0, z: 0}, {x: 0, y: metrics.axisExtent, z: 0}, {x: 0, y: 0, z: metrics.axisExtent}];
+    const labelPoint = project(endpoints[index], width, height, metrics);
+    ctx.fillText(axis, Math.max(8, Math.min(width - 16, labelPoint.x)), Math.max(16, Math.min(height - 10, labelPoint.y)));
   });
   const active = activePointIndex();
-  const projected = points.map((point, index) => ({point, index, projected: project(point, width, height)})).sort((a, b) => a.projected.z - b.projected.z);
+  const projected = points.map((point, index) => ({point, index, projected: project(point, width, height, metrics)})).sort((a, b) => a.projected.z - b.projected.z);
   projected.forEach(item => {
     const isActive = item.index === active;
     ctx.beginPath();
@@ -366,12 +531,13 @@ function draw() {
   });
   if (active !== null && points[active]) {
     const point = points[active];
-    const projectedPoint = project(point, width, height);
+    const projectedPoint = project(point, width, height, metrics);
     const text = String(point.label || ("point " + (active + 1))) + " (" + point.x.toFixed(2) + ", " + point.y.toFixed(2) + ", " + point.z.toFixed(2) + ")";
     ctx.font = "12px system-ui";
     const textWidth = ctx.measureText(text).width + 18;
-    const labelX = Math.min(width - textWidth - 8, projectedPoint.x + 10);
-    const labelY = Math.max(28, projectedPoint.y - 27);
+    const labelX = Math.max(8, Math.min(width - textWidth - 8, projectedPoint.x + 10));
+    const preferredY = projectedPoint.y > height - 70 ? projectedPoint.y - 36 : projectedPoint.y - 27;
+    const labelY = Math.max(8, Math.min(height - 34, preferredY));
     ctx.fillStyle = "rgba(255, 255, 255, .96)";
     ctx.fillRect(labelX, labelY, textWidth, 24);
     ctx.strokeStyle = "#cbd5e1";
@@ -384,10 +550,11 @@ function draw() {
 function pointAt(x, y) {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
+  const metrics = projectionMetrics(width, height);
   let best = null;
   let distance = 20;
   points.forEach((point, index) => {
-    const projectedPoint = project(point, width, height);
+    const projectedPoint = project(point, width, height, metrics);
     const candidate = Math.hypot(projectedPoint.x - x, projectedPoint.y - y);
     if (candidate < distance) {
       distance = candidate;
@@ -398,7 +565,7 @@ function pointAt(x, y) {
 }
 
 function setStep(step) {
-  currentStep = Math.max(1, Math.min(5, step));
+  currentStep = Math.max(1, Math.min(6, step));
   document.querySelectorAll(".step-row").forEach(button => {
     const buttonStep = Number(button.dataset.step);
     button.removeAttribute("aria-current");
@@ -412,11 +579,16 @@ function setStep(step) {
       currentLabel.textContent = buttonStep < currentStep ? "DONE" : "";
     }
   });
-  stepCount.textContent = "STEP " + currentStep + " OF 5";
+  document.getElementById("observation-card").dataset.current = String(currentStep === 4);
+  document.getElementById("explanation-card").dataset.current = String(currentStep === 5);
+  transferCard.dataset.current = String(currentStep === 6);
+  predictionCard.dataset.current = String(currentStep <= 3 && predictionCard.dataset.state !== "saved");
+  stepCount.textContent = "STEP " + currentStep + " OF 6";
 }
 
 function buildTable() {
   const body = document.getElementById("points-table");
+  body.replaceChildren();
   points.forEach((point, index) => {
     const row = document.createElement("tr");
     const values = [String(point.label || ("point " + (index + 1))), point.x.toFixed(2), point.y.toFixed(2), point.z.toFixed(2)];
@@ -438,9 +610,180 @@ function buildTable() {
   });
 }
 
+function showView(view, focusTarget = false) {
+  const showR = view === "r";
+  const mainPanel = document.getElementById("lesson-main");
+  scenePanel.hidden = showR;
+  rPanel.hidden = !showR;
+  sceneTab.setAttribute("aria-selected", String(!showR));
+  rTab.setAttribute("aria-selected", String(showR));
+  sceneTab.tabIndex = showR ? -1 : 0;
+  rTab.tabIndex = showR ? 0 : -1;
+  if (mainPanel) mainPanel.scrollTop = 0;
+  if (window.matchMedia("(max-width: 900px)").matches) window.scrollTo({top: 0, behavior: "auto"});
+  if (showR) {
+    if (focusTarget) {
+      rCodeEditor.focus();
+      if (currentStep <= 3) {
+        rCodeEditor.setSelectionRange(0, 0);
+        rCodeEditor.scrollTop = 0;
+      }
+    }
+  } else {
+    resize();
+    if (focusTarget) canvas.focus();
+  }
+}
+
+function updateCheck(id, state) {
+  const item = document.getElementById(id);
+  item.dataset.state = state;
+  item.textContent = state === "pass" ? "PASS" : state === "fail" ? "FIX" : "PENDING";
+}
+
+function resetRResults() {
+  ["check-seed", "check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pending"));
+  document.getElementById("r-version").textContent = webRVersion || "Not loaded";
+  document.getElementById("r-seed").textContent = "Not checked";
+  document.getElementById("artifact-hash").textContent = "Not generated";
+  document.getElementById("scene-rows").textContent = initialPoints.length + " baseline";
+  document.getElementById("scene-legend").textContent = "x / y / z axes · generated from R";
+  rEngineStatus.dataset.state = webRInstance ? "ready" : "idle";
+  rEngineStatus.textContent = webRInstance ? "R engine · ready in browser" : "R engine · load on first run";
+  rConsole.textContent = "Ready. Run the starter code to initialize WebR.";
+  viewRResult.hidden = true;
+  rRunPassed = false;
+}
+
+async function artifactHash(data) {
+  if (!window.crypto || !window.crypto.subtle) return "Unavailable";
+  const bytes = new TextEncoder().encode(JSON.stringify(data));
+  const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map(value => value.toString(16).padStart(2, "0")).join("").slice(0, 12);
+}
+
+async function ensureWebR() {
+  if (webRInstance) {
+    if (webRVersion) document.getElementById("r-version").textContent = webRVersion;
+    rEngineStatus.dataset.state = "ready";
+    rEngineStatus.textContent = "R engine · ready in browser";
+    return webRInstance;
+  }
+  rEngineStatus.dataset.state = "running";
+  rEngineStatus.textContent = "Loading real R runtime…";
+  rConsole.textContent = "Downloading and starting WebR in this browser tab…";
+  const module = await import("https://webr.r-wasm.org/v0.6.0/webr.mjs");
+  webRInstance = new module.WebR();
+  await webRInstance.init();
+  const version = await webRInstance.evalRString("R.version.string");
+  webRVersion = version.replace(/^R version\s+/i, "R ").split(" (")[0];
+  document.getElementById("r-version").textContent = webRVersion;
+  rEngineStatus.dataset.state = "ready";
+  rEngineStatus.textContent = "R engine · ready in browser";
+  return webRInstance;
+}
+
+async function executeRCode() {
+  const code = rCodeEditor.value.trim();
+  if (!code) {
+    rConsole.textContent = "Add R code that creates a data frame named scene.";
+    updateCheck("check-frame", "fail");
+    rCodeEditor.focus();
+    return;
+  }
+  runRCode.disabled = true;
+  viewRResult.hidden = true;
+  updateCheck("check-seed", /set\.seed\s*\(/.test(code) ? "pass" : "fail");
+  ["check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pending"));
+  document.getElementById("r-seed").textContent = /set\.seed\s*\(\s*2026\s*\)/.test(code) ? "2026" : "Missing";
+  rEngineStatus.dataset.state = "running";
+  rEngineStatus.textContent = webRInstance ? "R engine · running code" : "Loading real R runtime…";
+  try {
+    const engine = await ensureWebR();
+    const validatedCode = [
+      "local({",
+      code,
+      "if (!exists('scene')) stop('Create a data frame named scene.')",
+      "if (!is.data.frame(scene)) stop('scene must be a data.frame.')",
+      "required <- c('label', 'x', 'y', 'z')",
+      "if (!all(required %in% names(scene))) stop('scene needs label, x, y, and z columns.')",
+      "scene <- scene[, required]",
+      "scene$label <- as.character(scene$label)",
+      "scene$x <- as.numeric(scene$x)",
+      "scene$y <- as.numeric(scene$y)",
+      "scene$z <- as.numeric(scene$z)",
+      "if (nrow(scene) < 3) stop('Keep at least three rows for the 3D comparison.')",
+      "if (any(!is.finite(as.matrix(scene[c('x','y','z')])))) stop('Axes must be finite numeric values.')",
+      "scene",
+      "})"
+    ].join("\n");
+    const result = await engine.evalR(validatedCode);
+    const rows = await result.toD3();
+    await engine.destroy(result);
+    points = rows.map(row => ({label: String(row.label), x: Number(row.x), y: Number(row.y), z: Number(row.z)}));
+    selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
+    hoverIndex = null;
+    buildTable();
+    updatePointPanel(selectedIndex, false);
+    draw();
+    updateCheck("check-frame", "pass");
+    updateCheck("check-axes", "pass");
+    updateCheck("check-sync", "pass");
+    document.getElementById("artifact-hash").textContent = await artifactHash(points);
+    document.getElementById("scene-rows").textContent = points.length + " from R";
+    document.getElementById("scene-legend").textContent = "x / y / z axes · " + points.length + " points returned by WebR";
+    rConsole.textContent = "> R pipeline completed\n" + points.length + " rows returned\n3D scene synchronized successfully";
+    rEngineStatus.dataset.state = "ready";
+    rEngineStatus.textContent = "R engine · execution passed";
+    statusText.textContent = "R execution verified";
+    rRunPassed = true;
+    viewRResult.hidden = false;
+    setStep(4);
+    saveState();
+  } catch (error) {
+    rEngineStatus.dataset.state = "error";
+    rEngineStatus.textContent = "R engine · fix code";
+    rConsole.textContent = "R error\n" + String(error && error.message ? error.message : error).replace(/^Error:\s*/i, "");
+    updateCheck("check-frame", "fail");
+    rRunPassed = false;
+  } finally {
+    runRCode.disabled = false;
+  }
+}
+
+function downloadText(filename, content, type) {
+  const url = URL.createObjectURL(new Blob([content], {type}));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function qmdDocument() {
+  return [
+    "---",
+    'title: "My reproducible R-LearnXR analysis"',
+    "format: html",
+    "---",
+    "",
+    "```{r}",
+    rCodeEditor.value.trim(),
+    "```",
+    "",
+    "## Interpretation",
+    "",
+    predictionInput.value.trim() || "Add your prediction here.",
+    "",
+    explanationInput.value.trim() || "Add your coordinate-based explanation here."
+  ].join("\n");
+}
+
 function saveState() {
   try {
-    localStorage.setItem(storageKey, JSON.stringify({prediction: predictionInput.value, explanation: explanationInput.value, completed: statusText.textContent === "Lesson complete"}));
+    localStorage.setItem(storageKey, JSON.stringify({prediction: predictionInput.value, explanation: explanationInput.value, rCode: rCodeEditor.value, completed: statusText.textContent === "Lesson complete"}));
   } catch (error) {
     predictionStatus.textContent = "Browser storage is unavailable; your response remains on this page.";
   }
@@ -452,13 +795,19 @@ function restoreState() {
     if (!saved) return;
     predictionInput.value = saved.prediction || "";
     explanationInput.value = saved.explanation || "";
-    if (predictionInput.value) predictionStatus.textContent = "Saved response restored.";
+    rCodeEditor.value = saved.rCode || defaultRCode();
+    if (predictionInput.value) {
+      predictionStatus.textContent = "Saved response restored.";
+      setPredictionMode(true);
+    }
     if (saved.completed) {
       transferCard.hidden = false;
       explanationPassed = true;
+      transferReady = true;
+      completeLesson.disabled = false;
       statusText.textContent = "Lesson complete";
       completionFeedback.textContent = "Completed response restored from this browser.";
-      setStep(5);
+      setStep(6);
     }
   } catch (error) {
     predictionStatus.textContent = "Saved responses could not be restored.";
@@ -517,7 +866,7 @@ canvas.addEventListener("keydown", event => {
   if (!keyActions[event.key]) return;
   event.preventDefault();
   keyActions[event.key]();
-  setStep(3);
+  setStep(4);
   draw();
 });
 
@@ -534,6 +883,7 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   try { localStorage.removeItem(storageKey); } catch (error) { /* Page state can still be reset. */ }
   predictionInput.value = "";
   explanationInput.value = "";
+  setPredictionMode(false);
   predictionStatus.textContent = "Your response is saved only in this browser.";
   explanationFeedback.dataset.state = "";
   explanationFeedback.textContent = "Use the selected point and at least one axis as evidence.";
@@ -541,18 +891,27 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   completionFeedback.textContent = "";
   statusText.textContent = "Reproducibility ready";
   explanationPassed = false;
+  explanationPointLabel = null;
+  transferReady = false;
+  completeLesson.disabled = true;
+  points = initialPoints.map(point => ({...point}));
+  rCodeEditor.value = defaultRCode();
+  resetRResults();
   selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
   yaw = .72;
   pitch = .46;
   zoom = 1;
   updatePointPanel(selectedIndex, false);
+  buildTable();
   setStep(2);
+  showView("scene");
   draw();
   predictionInput.focus();
 });
 
 document.querySelectorAll(".step-row").forEach(button => {
   button.addEventListener("click", () => {
+    if (button.dataset.view) showView(button.dataset.view);
     const target = document.getElementById(button.dataset.target);
     if (!target) return;
     target.scrollIntoView({block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
@@ -569,12 +928,25 @@ document.getElementById("save-prediction").addEventListener("click", () => {
     return;
   }
   saveState();
-  predictionStatus.textContent = "Prediction saved. Now inspect the data space.";
+  predictionStatus.textContent = "Prediction saved. Now run the R pipeline and inspect its result.";
+  setPredictionMode(true);
   setStep(3);
-  canvas.focus();
+  showView("r");
+});
+
+document.getElementById("edit-prediction").addEventListener("click", () => {
+  setPredictionMode(false);
+  predictionStatus.textContent = "Update the prediction, then save it again.";
 });
 
 document.getElementById("check-explanation").addEventListener("click", () => {
+  if (!rRunPassed) {
+    explanationFeedback.dataset.state = "error";
+    explanationFeedback.textContent = "Run the R pipeline successfully before checking your explanation.";
+    showView("r");
+    setStep(3);
+    return;
+  }
   const explanation = explanationInput.value.trim();
   const selected = points[selectedIndex];
   const hasAxis = /(^|\W)[xyz](\W|$)/i.test(explanation);
@@ -594,28 +966,56 @@ document.getElementById("check-explanation").addEventListener("click", () => {
     return;
   }
   explanationPassed = true;
+  explanationPointLabel = String(selected.label || "the selected point");
+  transferReady = false;
+  completeLesson.disabled = true;
   explanationFeedback.dataset.state = "success";
   explanationFeedback.textContent = "Evidence found. Your claim uses a coordinate direction for " + String(selected.label || "the selected point") + ".";
   transferCard.hidden = false;
   document.getElementById("transfer-prompt").textContent = "Select another point and compare its x, y, or z coordinate with " + String(selected.label || "your current point") + ".";
+  completionFeedback.dataset.state = "";
+  completionFeedback.textContent = "Select a different point in the 3D view or accessible table to unlock completion.";
   saveState();
-  setStep(5);
+  setStep(6);
   transferCard.focus();
 });
 
 completeLesson.addEventListener("click", () => {
-  if (!explanationPassed) return;
+  if (!explanationPassed || !rRunPassed || !transferReady) return;
   statusText.textContent = "Lesson complete";
   completionFeedback.dataset.state = "success";
   completionFeedback.textContent = "Complete. Your prediction and explanation remain saved in this browser.";
-  setStep(5);
-  document.querySelectorAll(".step-row").forEach(button => { button.dataset.state = "done"; });
+  setStep(6);
+  document.querySelectorAll(".step-row").forEach(button => {
+    button.dataset.state = "done";
+    button.removeAttribute("aria-current");
+    const label = button.querySelector(".step-current");
+    if (label) label.textContent = "DONE";
+  });
+  stepCount.textContent = "COMPLETE · 6 OF 6";
   saveState();
 });
 
 predictionInput.addEventListener("input", saveState);
 explanationInput.addEventListener("input", saveState);
+rCodeEditor.addEventListener("input", saveState);
+sceneTab.addEventListener("click", () => showView("scene"));
+rTab.addEventListener("click", () => showView("r"));
+runRCode.addEventListener("click", executeRCode);
+document.getElementById("reset-r-code").addEventListener("click", () => {
+  rCodeEditor.value = defaultRCode();
+  resetRResults();
+  showView("r");
+  saveState();
+  runRCode.focus();
+});
+document.getElementById("download-r").addEventListener("click", () => downloadText("rlearnxr-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
+document.getElementById("download-qmd").addEventListener("click", () => downloadText("rlearnxr-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
+viewRResult.addEventListener("click", () => { showView("scene", true); setStep(4); });
 window.addEventListener("resize", resize);
+rCodeEditor.value = defaultRCode();
+resetRResults();
+predictionCard.dataset.state = "editing";
 buildTable();
 restoreState();
 updatePointPanel(selectedIndex, false);

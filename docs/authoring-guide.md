@@ -33,9 +33,12 @@ Every reference lesson should include:
 
 1. Orient: state the goal and relevant context.
 2. Predict: ask for a falsifiable expectation.
-3. Explore: let the learner inspect points through pointer, keyboard, or table controls.
-4. Explain: require a claim linked to coordinate evidence.
-5. Transfer: ask the learner to apply the same reasoning to another point or dataset.
+3. Run R: provide a small editable pipeline that returns `scene` with `label`, `x`, `y`, and `z` columns.
+4. Explore: let the learner inspect the R result through pointer, keyboard, or table controls.
+5. Explain: require a claim linked to coordinate evidence.
+6. Reproduce: select a comparison point and export the work as `.R` or `.qmd` source.
+
+The generated browser lab pins WebR 0.6.0 and validates the returned data frame before changing the visual scene. Keep starter code short, use a deterministic seed, and ensure at least three finite observations remain after learner filtering.
 
 ## 5. Check and render
 
