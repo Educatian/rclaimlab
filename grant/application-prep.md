@@ -97,8 +97,8 @@ Separate deliverable completion from adoption evidence:
 - Name and confirmation of the co-lead or core team member
 - Two or more R educators/maintainers who have reviewed the proposal
 - At least one short pilot or structured usability session
-- Public repository URL and release tag
-- Short English demo video with English captions
+- Public repository URL is available; a public pre-release or release tag is still needed
+- English narrated and captioned demo is available, including a direct-interaction browser recording
 - Concise budget justification tied to future—not already completed—work
 - Final application-form field check on or after September 1
 
@@ -106,7 +106,7 @@ Separate deliverable completion from adoption evidence:
 
 | Date | Action |
 |---|---|
-| Aug 11–16 | Publish repository, produce demo video, finish technical QA |
+| Aug 11–16 | Publish repository, replace the screenshot montage with a direct-interaction demo, and finish technical QA |
 | Aug 17–23 | Recruit co-lead and two community reviewers; run a small pilot |
 | Aug 24–31 | Incorporate feedback; compress proposal to 2–5 pages |
 | Sep 1 | Inspect the live 2026-2 form and map every field to the prepared material |

@@ -1,0 +1,5 @@
+project:
+  title: "R-LearnXR ISC Proposal"
+  output-dir: "_output"
+  render:
+    - "isc-proposal.qmd"

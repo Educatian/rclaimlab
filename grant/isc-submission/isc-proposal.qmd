@@ -1,0 +1,31 @@
+---
+title: "R-LearnXR: Reproducible R-Based Virtual Laboratories for Data Science Education"
+author:
+  - name: Jewoong Moon
+date: 2026-08-11
+date-format: iso
+format:
+  hikmah-pdf:
+    geometry:
+      - left=1.25in
+      - right=1.25in
+      - top=0.8in
+      - bottom=0.8in
+    keep-tex: true
+  html:
+    embed-resources: true
+---
+
+_Working submission draft. This document follows the R Consortium ISC proposal template revised 2026-03-24. Named community validation and final signatories must be added before submission._
+
+{{< include proposal/00-exec-summary.qmd >}}
+
+{{< include proposal/01-signatories.qmd >}}
+
+{{< include proposal/02-problemdefinition.qmd >}}
+
+{{< include proposal/03-proposal.qmd >}}
+
+{{< include proposal/04-timeline.qmd >}}
+
+{{< include proposal/05-success.qmd >}}

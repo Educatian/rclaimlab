@@ -1,0 +1,21 @@
+# Success
+
+## Definition of done
+
+- Package functions and lesson checks pass in continuous integration.
+- Three complete lessons render from documented, locked environments.
+- Every example supports keyboard operation and a semantic data alternative.
+- Authoring, accessibility, contribution, validation, and maintenance documentation is public.
+- A tagged release and final project report are archived and linked from the repository.
+
+## Measuring success
+
+- At least two instructors or maintainers document a concrete review or reuse outcome.
+- At least one structured pilot is completed and summarized without exposing private learner data.
+- At least 80% of novice pilot participants complete the Predict, Run R, Explore, and Explain loop without facilitator intervention. This small-sample target will be reported with counts and limitations.
+- All critical accessibility defects found during the pilot are fixed or explicitly documented before release.
+- At least one contributor outside the core team completes an issue, lesson adaptation, or documentation improvement.
+
+## Future work
+
+Future contributors could add domain-specific lesson packs, localization, optional WebXR adapters, additional visualization types, and integrations with established R visualization packages. These extensions remain outside the funded minimum viable product so that the project can deliver a stable and reusable foundation within six months.

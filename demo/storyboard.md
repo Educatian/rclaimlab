@@ -1,21 +1,22 @@
-# R-LearnXR demo storyboard
+# R-LearnXR direct-interaction demo storyboard
 
-Target length: approximately 80–95 seconds. Language: English narration and English captions.
+Target length: 103 seconds. Language: English narration and English captions.
 
-| Scene | Visual | Message |
+| Time | Verified browser interaction | Message |
 |---|---|---|
-| 1 | `output/demo/01-predict.png` | Open-source R and Quarto framework; browser-only 3D laboratory |
-| 2 | `output/demo/02-explore.png` | Predict, rotate, zoom, and inspect evidence |
-| 3 | `output/demo/03-evidence.png` | Semantic table provides an equivalent keyboard path |
-| 4 | `output/demo/04-explain.png` | Coordinate-based explanation and transfer feedback |
-| 5 | `output/demo/05-complete.png` | Completion state, persistent responses, restart control |
-| 6 | `output/demo/06-penguin-pca.png` | Real `palmerpenguins` PCA lesson and reusable infrastructure |
+| 00:00-00:17 | Reference lesson 3D view; prediction is entered and saved | Open-source R and Quarto framework; browser-only virtual laboratory |
+| 00:17-00:35 | Updated 3D scene rotates and the semantic table opens | Predict, rotate, zoom, and inspect exact evidence with pointer or keyboard |
+| 00:35-00:44 | A table row selects a point and updates its coordinates | Accessible evidence and coordinate-based observation |
+| 00:44-01:04 | Explanation is entered, checked, transferred to another point, and completed | Reasoning stays visible and must use analytical evidence |
+| 01:04-01:12 | WebR execution result shows four PASS checks, R version, seed, hash, and five returned rows | Real R execution and reproducibility evidence |
+| 01:12-01:30 | `palmerpenguins` PCA scene rotates, opens its table, selects Gentoo, and shows editable R | Authentic R analysis example and reusable authoring workflow |
+| 01:30-01:43 | Completed reference lesson remains visible | Low-risk path from working prototype to community-ready infrastructure |
 
-Production notes:
+Production requirements:
 
-- 1920 × 1080, 30 fps, H.264 video, AAC audio
-- Gentle pan-and-zoom only; no decorative transitions
+- 1920 x 1080, 30 fps, H.264 video, AAC audio
+- Real browser interactions; no screenshot-only montage
 - Burned-in English captions plus a separate `.srt` file
-- ElevenLabs voice: Alice — Clear, Engaging Educator
-- Include AI-generated voice disclosure in the repository and video description
-
+- ElevenLabs voice: Alice, Clear, Engaging Educator
+- Repository and video description disclose AI-generated narration
+- Final verification includes duration, codec, contact sheet, R execution state, PCA example, and completion state

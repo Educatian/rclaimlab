@@ -21,3 +21,18 @@ This file distinguishes implemented evidence from external evidence that cannot 
 
 No partner, learner, adoption, or community-impact claim should be marked complete until supporting evidence is linked here.
 
+## Evidence register
+
+Add one row only after the linked evidence exists. Public summaries should be aggregated and must not include learner names or raw private feedback.
+
+| Evidence | Target | Status | Public link or repository path |
+|---|---:|---|---|
+| R/Quarto educator review | 2 reviewers | Recruiting | Pending |
+| Novice learner pilot | 5 learners | Recruiting | Pending |
+| Instructor authoring task | 2 instructors | Recruiting | Pending |
+| Concrete reuse statement | 2 statements | Recruiting | Pending |
+| External contribution | 1 issue, lesson, or documentation change | Open | Pending |
+
+## Claim gate
+
+Before submission, the proposal may state that external validation is planned. It may state that validation is completed only when this file links an aggregated pilot report and attributable reviewer or partner evidence.

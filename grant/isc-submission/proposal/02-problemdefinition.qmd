@@ -1,0 +1,9 @@
+# The Problem
+
+R instructors who want learners to reason about multivariate results must assemble several systems: R data preparation, interactive rendering, explanatory prompts, accessible alternatives, reproducible environments, and publishing. These pieces are usually built ad hoc. The result is duplicated effort, fragile course examples, and activities that other instructors cannot readily inspect or reuse.
+
+The problem affects instructors, package authors, workshop organizers, contributors, and learners. Instructors need a maintainable route from an R analysis to an interactive lesson. Learners need guided evidence-based reasoning instead of a visualization that is merely viewed, plus a non-pointer path when a 3D canvas is inaccessible. Maintainers need examples that can be checked automatically when data, packages, browsers, or publishing tools change.
+
+R already offers strong analysis, visualization, Shiny, WebGL, WebAssembly, and publishing capabilities. R-LearnXR does not replace these projects. It supplies a focused educational layer connecting R-generated data, an explicit learning workflow, accessible evidence inspection, reproducibility checks, and contribution practices. The browser-first design makes headsets optional and avoids proprietary application servers.
+
+Solving this problem will let the R community share virtual laboratories as open educational resources. An instructor will be able to scaffold a documented template, map three variables from an R data frame into an inspectable scene, add prediction and explanation prompts, verify the build, and publish through an ordinary Quarto workflow. Contributors can improve the package, adapt examples to new domains, translate lessons, and reuse the checks in other educational projects.

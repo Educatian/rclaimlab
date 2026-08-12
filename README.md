@@ -6,7 +6,7 @@ R-LearnXR is an open-source prototype for reproducible, browser-based R laborato
 
 [![R-LearnXR English narrated demo verification frames](output/demo/video-verification-contact-sheet.png)](output/demo/rlearnxr-demo-en.mp4)
 
-[Watch the 103-second English narrated and captioned demo](output/demo/rlearnxr-demo-en.mp4) or download the [English captions](output/demo/rlearnxr-demo-en.srt). The narration is AI-generated with ElevenLabs using the voice `Alice — Clear, Engaging Educator`.
+[Watch the 103-second direct-interaction, English narrated and captioned demo](output/demo/rlearnxr-demo-en.mp4) or download the [English captions](output/demo/rlearnxr-demo-en.srt). The narration is AI-generated with ElevenLabs using the voice `Alice — Clear, Engaging Educator`.
 
 Grant preparation materials:
 
@@ -70,7 +70,7 @@ This MVP intentionally does not include a native headset application, multiplaye
 
 ## License
 
-MIT. Educational content and future lesson datasets should carry their own explicit open licenses.
+Software is MIT licensed. Original educational content and templates are CC BY 4.0; datasets retain the licenses documented in each lesson. See [CONTENT_LICENSE.md](CONTENT_LICENSE.md).
 
 ## Development QA rule
 

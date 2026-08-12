@@ -8,3 +8,5 @@ rlearnxr.Rcheck/
 *.tar.gz
 output/demo/.video-parts/
 output/demo/verify-*.png
+grant/isc-submission/_output/
+tmp/
