@@ -25,6 +25,10 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'white-space: pre-wrap', fixed = TRUE)
   expect_match(html, 'function projectionMetrics(width, height)', fixed = TRUE)
   expect_match(html, 'id="scene-panel"[\\s\\S]*class="scene-tools"', perl = TRUE)
+  expect_match(html, '@media (max-width: 1024px)', fixed = TRUE)
+  expect_match(html, '@media (max-width: 560px)', fixed = TRUE)
+  expect_match(html, '@media (max-width: 360px)', fixed = TRUE)
+  expect_match(html, 'cell.dataset.label = labels[valueIndex]', fixed = TRUE)
   expect_false(grepl("below the average on y", html, fixed = TRUE))
 })
 

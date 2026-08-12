@@ -1,6 +1,6 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-11 15:14:13 PDT
+Generated: 2026-08-11 20:37:00 PDT
 
 | Check | Status | Message |
 |---|---|---|
@@ -14,7 +14,7 @@ Generated: 2026-08-11 15:14:13 PDT
 | environment_lock | PASS | renv.lock found at C:/Users/jewoo/Documents/ChatGPT/Grant Proposal Dev/rlearnxr-mvp/renv.lock |
 | accessible_alternatives | PASS | keyboard canvas, live feedback, text inputs, and a data table are present |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | 0a396e0182fba1746257f6bc870be27d, c7e1d1476f53cba818062698c19e285d |
+| artifact_hash | PASS | 2d042bb551b44eb242b19683dd41d7a9, c7e1d1476f53cba818062698c19e285d |
 | quarto_available | WARN | Quarto CLI was not found; CI must render the lesson before release |
 
 This report checks project hygiene. PASS does not guarantee identical results on every operating system.
