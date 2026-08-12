@@ -27,10 +27,10 @@ Add one row only after the linked evidence exists. Public summaries should be ag
 
 | Evidence | Target | Status | Public link or repository path |
 |---|---:|---|---|
-| R/Quarto educator review | 2 reviewers | Recruiting | Pending |
-| Novice learner pilot | 5 learners | Recruiting | Pending |
-| Instructor authoring task | 2 instructors | Recruiting | Pending |
-| Concrete reuse statement | 2 statements | Recruiting | Pending |
+| R/Quarto educator review | 2 reviewers | Recruiting | [Issue #2](https://github.com/Educatian/rlearnxr/issues/2) |
+| Novice learner pilot | 5 learners | Recruiting | [Issue #3](https://github.com/Educatian/rlearnxr/issues/3) |
+| Instructor authoring task | 2 instructors | Recruiting | [Issue #3](https://github.com/Educatian/rlearnxr/issues/3) |
+| Concrete reuse statement | 2 statements | Recruiting | [Issue #2](https://github.com/Educatian/rlearnxr/issues/2) |
 | External contribution | 1 issue, lesson, or documentation change | Open | Pending |
 
 ## Claim gate

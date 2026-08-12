@@ -102,6 +102,13 @@ Separate deliverable completion from adoption evidence:
 - Concise budget justification tied to future—not already completed—work
 - Final application-form field check on or after September 1
 
+Public tracking:
+
+- [Co-lead and community reviewers](https://github.com/Educatian/rlearnxr/issues/2)
+- [Learner and instructor pilot](https://github.com/Educatian/rlearnxr/issues/3)
+- [Prototype release and stable demo URL](https://github.com/Educatian/rlearnxr/issues/4)
+- [September 1 live-form audit](https://github.com/Educatian/rlearnxr/issues/5)
+
 ## Recommended preparation schedule
 
 | Date | Action |
