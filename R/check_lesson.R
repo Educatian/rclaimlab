@@ -1,4 +1,5 @@
-check_lesson <- function(path = ".", write_report = TRUE) {
+check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
+                         write_json = TRUE) {
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   results <- data.frame(check = character(), status = character(), message = character(), stringsAsFactors = FALSE)
   add <- function(check, status, message) {
@@ -12,10 +13,20 @@ check_lesson <- function(path = ".", write_report = TRUE) {
   require_file("_quarto.yml", "project_config")
   require_file("index.qmd", "lesson_entrypoint")
   require_file("scene/index.html", "browser_scene")
+  require_file("lesson-manifest.json", "lesson_manifest")
 
   license_candidates <- c("DATA_LICENSE.md", "DATA_LICENSE", "LICENSE.md", "LICENSE")
-  if (any(file.exists(file.path(path, license_candidates)))) {
-    add("data_license", "PASS", "lesson data licensing is documented")
+  license_path <- file.path(path, license_candidates)[file.exists(file.path(path, license_candidates))][1]
+  license_text <- if (length(license_path) && !is.na(license_path)) {
+    paste(readLines(license_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  } else ""
+  license_is_substantive <- nchar(trimws(license_text)) >= 100 &&
+    grepl("source|provenance|dataset|data", license_text, ignore.case = TRUE) &&
+    grepl("license|CC0|CC BY|MIT|public domain|permission", license_text, ignore.case = TRUE)
+  if (license_is_substantive) {
+    add("data_license", "PASS", "lesson data source, provenance, and reuse terms are documented")
+  } else if (length(license_path) && !is.na(license_path)) {
+    add("data_license", "WARN", "a license file exists but still appears to be a starter or incomplete note")
   } else {
     add("data_license", "FAIL", "add DATA_LICENSE.md with source and reuse terms")
   }
@@ -47,18 +58,24 @@ check_lesson <- function(path = ".", write_report = TRUE) {
   ))
   lock_path <- lock_candidates[file.exists(lock_candidates)][1]
   if (length(lock_path) && !is.na(lock_path)) {
-    add("environment_lock", "PASS", paste0("renv.lock found at ", normalizePath(lock_path, winslash = "/")))
+    lock_text <- paste(readLines(lock_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+    lock_is_shaped <- grepl('"R"', lock_text, fixed = TRUE) && grepl('"Packages"', lock_text, fixed = TRUE)
+    if (lock_is_shaped) {
+      add("environment_lock", "PASS", paste0("renv.lock found at ", normalizePath(lock_path, winslash = "/")))
+    } else {
+      add("environment_lock", "WARN", "renv.lock exists but does not contain the expected R and Packages sections")
+    }
   } else {
-    add("environment_lock", "FAIL", "renv.lock is absent from the lesson or repository root")
+    add("environment_lock", "WARN", "renv.lock is absent from the lesson or repository root")
   }
 
   scene_path <- file.path(path, "scene", "index.html")
   scene_text <- if (file.exists(scene_path)) paste(readLines(scene_path, warn = FALSE), collapse = "\n") else ""
   accessible_markers <- c('tabindex="0"', 'id="points-table"', 'aria-live="polite"', '<textarea')
   if (all(vapply(accessible_markers, grepl, logical(1), x = scene_text, fixed = TRUE))) {
-    add("accessible_alternatives", "PASS", "keyboard canvas, live feedback, text inputs, and a data table are present")
+    add("accessible_structure", "PASS", "keyboard canvas, live feedback, text inputs, and a data table markers are present")
   } else {
-    add("accessible_alternatives", "FAIL", "scene is missing a required keyboard, feedback, input, or table marker")
+    add("accessible_structure", "FAIL", "scene is missing a required keyboard, feedback, input, or table marker")
   }
 
   learning_markers <- c(
@@ -86,21 +103,44 @@ check_lesson <- function(path = ".", write_report = TRUE) {
   if (nzchar(quarto)) add("quarto_available", "PASS", paste0("Quarto found at ", normalizePath(quarto, winslash = "/")))
   else add("quarto_available", "WARN", "Quarto CLI was not found; CI must render the lesson before release")
 
+  if (isTRUE(strict) && any(results$status == "WARN")) {
+    results$status[results$status == "WARN"] <- "FAIL"
+  }
+
   if (write_report) {
     ensure_dir(file.path(path, "checks"))
+    markdown_message <- function(value) gsub("|", "\\\\|", value, fixed = TRUE)
     lines <- c(
       "# R-LearnXR reproducibility report", "",
-      paste0("Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")), "",
+      paste0("Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")),
+      paste0("Mode: ", if (isTRUE(strict)) "strict (warnings fail)" else "advisory"), "",
       "| Check | Status | Message |", "|---|---|---|",
-      apply(results, 1, function(row) paste0("| ", row[["check"]], " | ", row[["status"]], " | ", row[["message"]], " |")), "",
-      "This report checks project hygiene. PASS does not guarantee identical results on every operating system."
+      apply(results, 1, function(row) paste0("| ", row[["check"]], " | ", row[["status"]], " | ", markdown_message(row[["message"]]), " |")), "",
+      "This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit."
     )
     writeLines(lines, file.path(path, "checks", "reproducibility-report.md"), useBytes = TRUE)
     session <- c(
       paste0("Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")),
       utils::capture.output(utils::sessionInfo())
     )
-    writeLines(session, file.path(path, "checks", "session-info.txt"), useBytes = TRUE)
+    writeLines(sub("[ \\t]+$", "", session, perl = TRUE), file.path(path, "checks", "session-info.txt"), useBytes = TRUE)
+    if (isTRUE(write_json)) {
+      quote_json <- function(value) paste0('"', json_escape(value), '"')
+      check_json <- apply(results, 1, function(row) paste0(
+        "{\"check\":", quote_json(row[["check"]]),
+        ",\"status\":", quote_json(row[["status"]]),
+        ",\"message\":", quote_json(row[["message"]]), "}"
+      ))
+      report_json <- c(
+        "{",
+        paste0("  \"report_version\": \"1\",\n"),
+        paste0("  \"path\": ", quote_json(path), ",\n"),
+        paste0("  \"strict\": ", if (isTRUE(strict)) "true" else "false", ",\n"),
+        paste0("  \"checks\": [", paste(check_json, collapse = ","), "]\n"),
+        "}"
+      )
+      writeLines(report_json, file.path(path, "checks", "reproducibility-report.json"), useBytes = TRUE)
+    }
   }
   class(results) <- c("rlearnxr_checks", class(results))
   results

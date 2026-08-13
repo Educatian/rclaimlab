@@ -14,7 +14,7 @@ render_scene(
   \item{labels}{Optional character labels, one per row.}
   \item{output_dir}{Directory in which to write the scene files.}
   \item{title}{Scene title.}
-  \item{overwrite}{Reserved for future output protection controls.}
+\item{overwrite}{Logical; replace existing scene files when \code{TRUE}.}
 }
 \value{Invisibly, a list containing paths to the generated HTML and JSON files.}
 \examples{

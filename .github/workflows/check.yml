@@ -27,6 +27,33 @@ jobs:
         run: |
           quarto render examples/lesson
           quarto render examples/penguin-pca
+      - name: Install Chromium for browser smoke test
+        run: npx --yes --package @playwright/cli playwright-cli install-browser chromium
+      - name: Start static lesson server
+        run: python3 -m http.server 8770 --bind 127.0.0.1 > /tmp/rlearnxr-http.log 2>&1 &
+      - name: Run browser keyboard and responsive smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          cli=(npx --yes --package @playwright/cli playwright-cli -s=ci-smoke)
+          "${cli[@]}" open http://127.0.0.1:8770/examples/lesson/scene/index.html
+          "${cli[@]}" snapshot
+          "${cli[@]}" resize 390 844
+          "${cli[@]}" eval "() => { document.querySelector('#ai-tab').click(); return 'ai-tab-open'; }"
+          "${cli[@]}" eval "() => { const root = document.documentElement; if (root.scrollWidth > root.clientWidth + 1) throw new Error('mobile horizontal overflow'); return 'mobile-width-ok'; }"
+          "${cli[@]}" fill "#ai-prompt" "Show the three-dimensional relationship between x, y, and z."
+          "${cli[@]}" click "#generate-ai-brief"
+          "${cli[@]}" run-code "async page => { await page.waitForFunction(() => { const card = document.querySelector('#ai-result-card'); return card && !card.hidden; }, null, { timeout: 15000 }); }"
+          "${cli[@]}" eval "() => { const code = document.querySelector('#ai-generated-code').textContent; if (!code.includes('set.seed(2026)')) throw new Error('AI brief missing deterministic code'); return 'ai-brief-ok'; }"
+          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-mobile.png
+          "${cli[@]}" eval "() => { document.querySelector('#scene-tab').click(); document.querySelector('#scene').focus(); return 'scene-focused'; }"
+          "${cli[@]}" press ArrowRight
+          "${cli[@]}" press ArrowUp
+          "${cli[@]}" press Home
+          "${cli[@]}" eval "() => { const canvas = document.querySelector('#scene'); if (document.activeElement !== canvas) throw new Error('canvas lost keyboard focus'); if (!document.querySelector('#points-table')) throw new Error('semantic table missing'); return 'keyboard-and-table-ok'; }"
+          "${cli[@]}" resize 1440 920
+          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-desktop.png
+          "${cli[@]}" close
       - name: Upload rendered lessons and reproducibility reports
         uses: actions/upload-artifact@v4
         with:
@@ -34,3 +61,4 @@ jobs:
           path: |
             examples/*/_site
             examples/*/checks
+            output/playwright/rlearnxr-browser-smoke-*.png

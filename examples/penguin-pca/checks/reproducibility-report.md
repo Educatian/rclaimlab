@@ -1,20 +1,22 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-11 20:37:00 PDT
+Generated: 2026-08-13 15:38:36 PDT
+Mode: strict (warnings fail)
 
 | Check | Status | Message |
 |---|---|---|
 | project_config | PASS | _quarto.yml exists |
 | lesson_entrypoint | PASS | index.qmd exists |
 | browser_scene | PASS | scene/index.html exists |
-| data_license | PASS | lesson data licensing is documented |
+| lesson_manifest | PASS | lesson-manifest.json exists |
+| data_license | PASS | lesson data source, provenance, and reuse terms are documented |
 | data_presence | PASS | data directory contains at least one file |
 | portable_paths | PASS | no common absolute local paths detected |
 | deterministic_seed | PASS | a deterministic seed is declared |
 | environment_lock | PASS | renv.lock found at C:/Users/jewoo/Documents/ChatGPT/Grant Proposal Dev/rlearnxr-mvp/renv.lock |
-| accessible_alternatives | PASS | keyboard canvas, live feedback, text inputs, and a data table are present |
+| accessible_structure | PASS | keyboard canvas, live feedback, text inputs, and a data table markers are present |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | 2d042bb551b44eb242b19683dd41d7a9, c7e1d1476f53cba818062698c19e285d |
-| quarto_available | WARN | Quarto CLI was not found; CI must render the lesson before release |
+| artifact_hash | PASS | 5d83bfd6b753a7ceb693f8b39fdbfba1, c7e1d1476f53cba818062698c19e285d |
+| quarto_available | PASS | Quarto found at C:/Users/jewoo/Documents/ChatGPT/Grant Proposal Dev/rlearnxr-mvp/.tools/quarto-1.10.18/bin/quarto.exe |
 
-This report checks project hygiene. PASS does not guarantee identical results on every operating system.
+This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit.

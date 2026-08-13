@@ -1,19 +1,23 @@
 Package: rlearnxr
 Type: Package
 Title: Reproducible Quarto Lessons with Browser-Based 3D Scenes
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]
 Maintainer: Jewoong Moon <Educatian@users.noreply.github.com>
 Description: Scaffolds Quarto lessons, generates self-contained browser-based
     3D scenes from R data frames, and checks lesson projects for basic
     reproducibility conditions.
+Depends: R (>= 4.1.0)
 License: MIT + file LICENSE
+URL: https://github.com/Educatian/rlearnxr
+BugReports: https://github.com/Educatian/rlearnxr/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 Suggests:
     knitr,
     palmerpenguins,
+    jsonlite,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

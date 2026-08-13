@@ -12,21 +12,28 @@ Grant preparation materials:
 
 - [Application preparation checklist](grant/application-prep.md)
 - [ISC proposal draft](grant/isc-proposal-draft.md)
+- [Rendered working-draft PDF](output/pdf/rlearnxr-isc-proposal-working-draft.pdf)
 - [Team and budget decisions](grant/team-budget-checklist.md)
 - [Grant-readiness scorecard](GRANT_READINESS.md)
 - [Community validation status](community/validation-status.md)
+- [DataSandbox continuation bridge](docs/datasandbox-bridge.md)
+- [Optional LLM visualization adapter](docs/llm-adapter.md)
 
 ## What works now
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
+- `write_lesson_manifest()` and `write_learning_receipt()` preserve course/session provenance, attempt number, consent, and reproducibility metadata.
+- `import_datasandbox_bundle()` and `export_lesson_bundle()` provide a portable handoff between DataSandbox activities and an R-LearnXR lesson folder or ZIP.
 - `render_scene()` creates `scene/index.html` and `scene/points.json` from three numeric columns.
 - A pinned WebR 0.6.0 runtime executes learner-edited R without an application server.
+- The R lab shows the `scene` contract, explains the starter pipeline, reports transformation evidence, and gives beginner-friendly error recovery while retaining the technical R console.
 - Successful R output updates the scene, accessible table, selected-point evidence, artifact hash, and reproducibility record.
 - The complete learner loop supports prediction, real R execution, 3D exploration, evidence-based explanation, transfer, export, and completion.
+- The optional AI Visual Brief tab turns a natural-language visualization request into reviewable R code and a WebR-backed 3D result; the core remains usable without an LLM provider.
 - Pointer, keyboard, mobile, and accessible data-table paths expose the same analytical evidence.
-- `check_lesson()` writes a Markdown report, session information, and generated-artifact hashes.
+- `check_lesson()` writes advisory or strict Markdown, JSON, session, and generated-artifact reports; strict mode is the release gate.
 - `examples/lesson/` is the contributor-training lesson; `examples/penguin-pca/` is the authentic analysis lesson.
-- GitHub Actions checks the R package, rebuilds both lessons, renders Quarto, and uploads the reports.
+- GitHub Actions checks the R package, rebuilds both lessons, runs strict lesson checks, renders Quarto, and runs a real-browser keyboard/responsive smoke test.
 
 ## Visual preview
 
@@ -49,9 +56,14 @@ source("R/render_scene.R")
 source("R/scaffold_lesson.R")
 source("R/check_lesson.R")
 check_lesson("examples/lesson")
+
+# Import a local DataSandbox handoff, then release it as a lesson bundle
+import_datasandbox_bundle("datasandbox-demo.rlearnxr.bundle.json", "imported-lesson")
+check_lesson("imported-lesson", strict = TRUE)
+export_lesson_bundle("imported-lesson", zip = TRUE)
 ```
 
-Open `examples/lesson/scene/index.html` in a browser. The first R execution downloads the pinned WebR runtime; subsequent executions stay in the tab. In a Quarto-enabled environment, run `quarto render examples/lesson` to render the lesson page.
+Open `examples/lesson/scene/index.html` in a browser. The first R execution loads the pinned WebR runtime from its documented public URL; subsequent executions stay in the tab. The static scene, R source, JSON artifact, and semantic table remain the authoritative fallback when WebR is unavailable. In a Quarto-enabled environment, run `quarto render examples/lesson` to render the lesson page.
 
 Build and check every lesson from the repository root:
 
@@ -66,7 +78,7 @@ Contributor onboarding starts in [CONTRIBUTING.md](CONTRIBUTING.md). The authori
 
 ## Scope boundary
 
-This MVP intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, or a general-purpose 3D grammar for every R plot. Those are future extensions, not release criteria for the first grant-sized milestone.
+This MVP intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, LLM training, or a general-purpose 3D grammar for every R plot. AI Visual Brief is optional, reviewable, and not a grant deliverable. These are future extensions, not release criteria for the first grant-sized milestone.
 
 ## License
 

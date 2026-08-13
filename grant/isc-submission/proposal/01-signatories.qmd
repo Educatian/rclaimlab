@@ -3,7 +3,7 @@
 ## Project team
 
 - **Jewoong Moon, Project Lead and primary contractor.** Responsible for learning-experience design, R and Quarto integration, reproducibility workflow, documentation, community coordination, and project reporting. Track record and current implementation are available in the [public R-LearnXR repository](https://github.com/Educatian/rlearnxr).
-- **Co-lead or core project team member: to be confirmed before submission.** The selected person will bring R package maintenance, statistics education, accessibility, or empirical learning-evaluation experience; independently review delivery; oversee the pilot; and own at least one milestone outcome.
+- **Additional core team members: optional and to be added if confirmed.** The proposal is intentionally scoped so the Project Lead can deliver the six-month MVP as the primary contractor. Any confirmed collaborator will receive a named responsibility and be added with their consent.
 
 ## Contributors
 
@@ -11,4 +11,4 @@ People who contribute lesson examples, accessibility review, code, or proposal f
 
 ## Consulted
 
-At least two R or Quarto educators or maintainers will review the need, scope, API, and reuse plan before submission. Attributable feedback or public evidence will be linked here. No external endorsement is claimed in this working draft.
+The grant-period plan will invite at least two R or Quarto educators or maintainers to review the need, scope, API, and reuse plan. Attributable feedback or public evidence will be linked here when permission is granted. No external endorsement is claimed in this draft.

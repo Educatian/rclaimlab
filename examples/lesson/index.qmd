@@ -22,7 +22,8 @@ render_scene(
   z = "z",
   labels = demo$label,
   output_dir = "scene",
-  title = "R-LearnXR reference data space"
+  title = "R-LearnXR reference data space",
+  overwrite = TRUE
 )
 summary(demo[, c("x", "y", "z")])
 ```

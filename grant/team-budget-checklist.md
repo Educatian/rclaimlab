@@ -3,11 +3,11 @@
 ## Team structure
 
 - Project Lead / primary contractor: Jewoong Moon
-- Co-lead / core project team: **TBD**
-- Community reviewers: **TBD, minimum two**
-- Pilot participants: **TBD**
+- Additional co-lead or core project member: optional; add only if confirmed
+- Community reviewers: recruited during the grant-period validation activity
+- Pilot participants: recruited under the documented feasibility protocol
 
-Recommended co-lead selection criteria:
+If an additional core team member is added, use these selection criteria:
 
 - Recognized R package, R education, accessibility, or learning-evaluation experience
 - Public artifacts demonstrating delivery
@@ -19,10 +19,8 @@ Recommended co-lead selection criteria:
 
 - Total: $10,000 USD
 - Direct labor only
-- Five budgeted deliverable packages mapped to objective milestones
-- Standard R Consortium disbursement assumption: 50% at contract signing and 50% after accepted completion
+- Four budgeted deliverable packages mapped to objective milestones
+- The four rows describe work packages, not four separate payments; contract terms govern disbursement
 - No indirect costs or excluded expense categories
 
-Before submission, confirm whether the R Consortium will contract and pay only the primary contractor or can issue separate agreements. Send the proposed team and payment structure to `proposal@r-consortium.org` if separate payment is required.
-
-The five proposal budget rows describe scope and partial-funding priorities. They do not imply five separate payments. All requested funds support work performed during the grant period: package hardening, a third example lesson, expanded checks, external validation, contributor onboarding, and release documentation. Existing prototype work is in-kind evidence of feasibility and is not charged retroactively.
+The four proposal deliverable packages describe scope and partial-funding priorities. All requested funds support work performed during the grant period: package hardening, one third example lesson, strict/browser checks, external validation, contributor onboarding, release, and maintenance documentation. Existing prototype work is in-kind evidence of feasibility and is not charged retroactively.

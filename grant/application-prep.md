@@ -1,6 +1,6 @@
 # R Consortium ISC 2026-2 application preparation
 
-Status checked: 2026-08-11.
+Status checked: 2026-08-12.
 
 ## Submission window
 
@@ -19,6 +19,7 @@ Official sources:
 
 - [ISC Grant Program and submission form](https://r-consortium.org/all-projects/callforproposals.html)
 - [Required proposal template](https://github.com/RConsortium/isc-proposal)
+- [Current rendered final PDF](../output/pdf/rlearnxr-isc-proposal-final.pdf)
 - [Standard individual consultant agreement](https://r-consortium.org/rc-docs/Individual-Consultant-Agreement-for-R-Consortium-ISC-Projects-20170622.pdf)
 
 ## Files to prepare
@@ -28,7 +29,7 @@ The official process requires one self-contained PDF, 2–5 pages. The template 
 - [ ] Final 2–5 page PDF
 - [ ] Public proposal or project repository URL
 - [ ] Project lead contact information
-- [ ] Core project team and co-lead roles
+- [ ] Project lead contact and any confirmed core team roles; a co-lead is optional
 - [ ] Public evidence of prior work and delivery capacity
 - [ ] Total request in USD, no more than $10,000
 - [ ] Milestone-level budget and delivery dates
@@ -45,7 +46,7 @@ Fit the entire argument on one page: problem, proposed approach, beneficiaries, 
 
 ### Signatories
 
-List the core project team, contributors to the proposal, and people consulted. The template explicitly allows multiple project team members. Use one `Project Lead / primary contractor` and list a second person as `Co-lead / core project team`; the standard contract appears to use one contractor, so confirm split-payment arrangements with `proposal@r-consortium.org` if needed.
+List the core project team, contributors to the proposal, and people consulted. The template permits a single project lead; add additional core team members only when confirmed and consented. The standard contract governs the primary contractor and any payment arrangements.
 
 ### The problem
 
@@ -87,24 +88,25 @@ Separate deliverable completion from adoption evidence:
 - Two runnable lessons, including a `palmerpenguins` PCA example
 - Keyboard-operable 3D scene and semantic data-table alternative
 - Predict–Run R–Explore–Explain–Reproduce learner workflow
-- Pinned WebR runtime with learner-edited code, automatic checks, synchronized 3D output, and `.R`/`.qmd` export
-- Automated reproducibility and lesson checks
-- `renv.lock`, CI workflow, contribution guide, code of conduct, authoring guide, and pilot protocol
+- Pinned WebR runtime with learner-edited code, synchronized 3D output, semantic table, and `.R`/`.qmd` export; first-run network dependency is documented and offline execution is not claimed
+- Advisory and strict reproducibility/lesson checks with Markdown and JSON output
+- Real-browser keyboard/responsive smoke test with saved desktop and mobile screenshots
+- `renv.lock`, CI workflow, contribution guide, code of conduct, authoring guide, runtime-dependency note, and pilot protocol
 - Desktop and mobile QA screenshots
 
-## Evidence still needed before submission
+## Submission gates still open
 
-- Name and confirmation of the co-lead or core team member
+- Confirmation of the project lead and any additional core team member, if applicable
 - Two or more R educators/maintainers who have reviewed the proposal
 - At least one short pilot or structured usability session
-- Public repository URL is available; a public pre-release or release tag is still needed
+- Public repository URL is available; a public pre-release/release tag and clean-clone install check are still needed
 - English narrated and captioned demo is available, including a direct-interaction browser recording
 - Concise budget justification tied to future—not already completed—work
 - Final application-form field check on or after September 1
 
 Public tracking:
 
-- [Co-lead and community reviewers](https://github.com/Educatian/rlearnxr/issues/2)
+- [Community reviewers](https://github.com/Educatian/rlearnxr/issues/2)
 - [Learner and instructor pilot](https://github.com/Educatian/rlearnxr/issues/3)
 - [Prototype release and stable demo URL](https://github.com/Educatian/rlearnxr/issues/4)
 - [September 1 live-form audit](https://github.com/Educatian/rlearnxr/issues/5)
@@ -114,7 +116,7 @@ Public tracking:
 | Date | Action |
 |---|---|
 | Aug 11–16 | Publish repository, replace the screenshot montage with a direct-interaction demo, and finish technical QA |
-| Aug 17–23 | Recruit co-lead and two community reviewers; run a small pilot |
+| Aug 17–23 | Invite two community reviewers and run a small pilot |
 | Aug 24–31 | Incorporate feedback; compress proposal to 2–5 pages |
 | Sep 1 | Inspect the live 2026-2 form and map every field to the prepared material |
 | Sep 2–15 | Obtain named support and finalize milestone budget |

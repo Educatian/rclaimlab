@@ -4,9 +4,8 @@ Every lesson follows a clear learning cycle. The learner first predicts a patter
 
 The learning companion keeps reasoning visible. A selected point generates a coordinate-based observation. The learner must connect an axis and its direction to a claim before moving to the transfer task. Responses remain in the browser, and the lesson can be restarted at any time.
 
-Authors work in R and Quarto. They can scaffold a lesson, render a scene, and run automated checks for deterministic seeds, locked environments, data licenses, accessible alternatives, and complete learning-loop controls.
+Authors work in R and Quarto. They can scaffold a lesson, render a scene, and run strict release checks for deterministic seeds, locked environments, data licenses, structural accessibility markers, and complete learning-loop controls.
 
 The repository includes a reference lesson and a real PCA example built with the palmerpenguins data. Both lessons are tested, rendered in continuous integration, and designed for reuse by R educators and contributors.
 
 This MVP demonstrates the core grant value: focused technical infrastructure, open educational practice, and a low-risk path from working prototype to a community-ready R package.
-

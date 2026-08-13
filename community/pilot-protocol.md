@@ -25,8 +25,8 @@ Record completion, time, errors, assistance, comprehension, and confidence. Do n
 
 ## Success thresholds
 
-- At least 80% of learners complete the loop without facilitator intervention.
-- At least 80% produce an explanation containing a valid coordinate claim.
+- Target: at least four of five learners complete the loop without facilitator intervention; report raw counts and mark the target not estimable if recruitment is smaller.
+- Record the number of learners who produce an explanation containing a valid coordinate claim; do not convert this feasibility sample into a learning-effectiveness claim.
 - Both instructors successfully scaffold and check a lesson.
 - No unresolved blocker prevents keyboard or mobile completion.
 

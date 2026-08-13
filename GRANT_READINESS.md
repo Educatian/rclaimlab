@@ -5,12 +5,12 @@ Status: **implementation-ready; external validation in progress**
 | Criterion | Score | Evidence |
 |---|---:|---|
 | R technical/social infrastructure fit | 5/5 | R package, Quarto templates, reproducibility checks, contributor pathway |
-| Focused scope and clear deliverables | 5/5 | Narrow browser-first MVP, explicit exclusions, five funded milestones |
-| Low-to-medium delivery risk | 5/5 | Working prototype, two lessons, tests, CI, locked environment, static hosting |
+| Focused scope and clear deliverables | 5/5 | R-package-first browser MVP, explicit exclusions, four funded deliverable packages |
+| Low-to-medium delivery risk | 5/5 | Working prototype, two lessons, tests, strict CI, locked environment, browser smoke test, static hosting |
 | Demonstrable educational value | 5/5 | Functional Predict–Run R–Explore–Explain–Reproduce flow, real browser R execution, and accessible evidence path |
-| Open-source reuse and reproducibility | 5/5 | MIT code, data licenses, `renv.lock`, authoring and accessibility guides |
+| Open-source reuse and reproducibility | 5/5 | MIT code, substantive data licenses, `renv.lock`, JSON reports, authoring and accessibility guides |
 | Broad R community impact evidence | 4/5 | Reusable architecture is present; named external reuse commitments remain pending |
-| Team and community validation | 3/5 | Co-lead, community reviewers, and pilot participants are not yet named |
+| Team and community validation | 3/5 | External reviewers and pilot participants are not yet named; a co-lead is optional |
 | **Total** | **32/35** | **91%** |
 
 ## What is already grant-ready
@@ -19,14 +19,15 @@ Status: **implementation-ready; external validation in progress**
 - Real, testable prototype rather than a speculative concept
 - Two reusable examples and a reproducible build
 - Defined future milestones and $10,000 budget
-- Contributor, accessibility, pilot, and community documentation
+- Contributor, accessibility, pilot, runtime-dependency, and community documentation
+- Browser smoke test with saved mobile and desktop screenshots
 - English narrated and captioned interaction screencast
 
 ## What prevents an honest 5/5 across all criteria
 
 Two criteria depend on external evidence rather than additional code:
 
-1. A named co-lead or core team member must confirm responsibility for a milestone.
-2. R educators, maintainers, or learners must review or pilot the project and leave attributable evidence.
+1. R educators or maintainers should review the need, API, scope, and reuse plan.
+2. Learners and instructors should complete the documented feasibility protocol and leave attributable evidence where permission is granted.
 
-These cannot be replaced by synthetic personas or internal testing. The repository includes the outreach template, pilot protocol, and validation-status file needed to collect them before submission.
+These cannot be replaced by synthetic personas, internal testing, or screenshots. The repository includes the outreach template, pilot protocol, and validation-status file needed to collect them before submission. A co-lead is not a prerequisite, but external validation remains important evidence for community impact.

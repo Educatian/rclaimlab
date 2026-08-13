@@ -12,6 +12,7 @@ render_scene(
   z = "z",
   labels = data$label,
   output_dir = file.path(root, "examples", "lesson", "scene"),
-  title = "R-LearnXR reference data space"
+  title = "R-LearnXR reference data space",
+  overwrite = TRUE
 )
 cat("Built reference scene.\n")

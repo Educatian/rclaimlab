@@ -5,7 +5,7 @@ source(file.path(root, "R", "check_lesson.R"))
 
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
 reports <- lapply(lessons, function(lesson) {
-  result <- check_lesson(lesson)
+  result <- check_lesson(lesson, strict = TRUE)
   result$lesson <- basename(lesson)
   result
 })

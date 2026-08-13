@@ -8,7 +8,7 @@ R-LearnXR welcomes contributions from R educators, package developers, accessibi
 2. Run `Rscript scripts/smoke_test.R`.
 3. Build both reference lessons with `Rscript scripts/build_all_lessons.R`.
 4. Run `Rscript scripts/check_all_lessons.R`.
-5. Open each generated scene and test pointer, keyboard, mobile, and data-table paths.
+5. Run `powershell -ExecutionPolicy Bypass -File scripts/browser_smoke_test.ps1 -StartServer` for the automated browser pass, then open each generated scene and test pointer, keyboard, mobile, and data-table paths.
 
 ## Pull request expectations
 

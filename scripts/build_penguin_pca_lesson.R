@@ -40,6 +40,7 @@ render_scene(
   z = "z",
   labels = scene_data$label,
   output_dir = file.path(lesson_dir, "scene"),
-  title = "Penguin morphology PCA data space"
+  title = "Penguin morphology PCA data space",
+  overwrite = TRUE
 )
 cat("Built penguin PCA reference lesson.\n")

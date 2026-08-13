@@ -1,10 +1,10 @@
 test_that("render_scene creates an accessible complete learning loop", {
   output <- tempfile("rlearnxr-scene-")
   data <- data.frame(
-    x = c(-0.5, 0.5),
-    y = c(0.25, -0.25),
-    z = c(0.1, -0.1),
-    label = c("alpha", "beta")
+    x = c(-0.5, 0, 0.5),
+    y = c(0.25, -0.25, 0.1),
+    z = c(0.1, -0.1, 0.3),
+    label = c("alpha", "beta", "gamma")
   )
 
   result <- render_scene(data, "x", "y", "z", labels = data$label, output_dir = output)
@@ -21,6 +21,27 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="points-table"', fixed = TRUE)
   expect_match(html, 'tabindex="0"', fixed = TRUE)
   expect_match(html, 'id="complete-lesson"', fixed = TRUE)
+  expect_match(html, 'id="scene-contract-title"', fixed = TRUE)
+  expect_match(html, 'id="r-transform-summary"', fixed = TRUE)
+  expect_match(html, 'id="r-error-guidance"', fixed = TRUE)
+  expect_match(html, 'id="educator-mode-link"', fixed = TRUE)
+  expect_match(html, 'id="authoring-checklist"', fixed = TRUE)
+  expect_match(html, 'strict = TRUE', fixed = TRUE)
+  expect_match(html, 'Browser evidence is not the project release gate', fixed = TRUE)
+  expect_match(html, 'id="r-error-fix-example"', fixed = TRUE)
+  expect_match(html, 'Download learner .qmd', fixed = TRUE)
+  expect_match(html, 'id="ai-provider-status"', fixed = TRUE)
+  expect_match(html, 'optional demo', fixed = TRUE)
+  expect_match(html, 'function friendlyRError(error)', fixed = TRUE)
+  expect_match(html, 'rlearnxr::scaffold_lesson', fixed = TRUE)
+  expect_match(html, 'WebR 0.6.0', fixed = TRUE)
+  expect_match(html, 'id="ai-tab"', fixed = TRUE)
+  expect_match(html, 'id="generate-ai-brief"', fixed = TRUE)
+  expect_match(html, 'id="copy-ai-code"', fixed = TRUE)
+  expect_match(html, 'id="download-ai-brief"', fixed = TRUE)
+  expect_match(html, 'function localAIBrief(prompt)', fixed = TRUE)
+  expect_match(html, 'function aiProvenance()', fixed = TRUE)
+  expect_match(html, 'response_format: "rlearnxr_visualization_brief"', fixed = TRUE)
   expect_match(html, 'wrap="soft"', fixed = TRUE)
   expect_match(html, 'white-space: pre-wrap', fixed = TRUE)
   expect_match(html, 'function projectionMetrics(width, height)', fixed = TRUE)
@@ -34,8 +55,20 @@ test_that("render_scene creates an accessible complete learning loop", {
 
 test_that("render_scene rejects invalid data", {
   expect_error(render_scene(list(x = 1), "x", "y", "z"), "data must be")
+  expect_error(render_scene(data.frame(x = 1, y = 2, z = 3), "x", "y", "z"), "at least three rows")
+  expect_error(render_scene(data.frame(x = 1:3, y = 2:4, z = 3:5), "x", "x", "z"), "three columns")
+  expect_error(render_scene(data.frame(x = 1:3, y = 2:4, z = 3:5), "x", "y", "z", labels = c("a", "a", "b")), "unique")
+  expect_error(render_scene(data.frame(x = 1:3, y = 2:4, z = 3:5), "x", "y", "z", title = " "), "non-empty")
   expect_error(
-    render_scene(data.frame(x = 1, y = 2, z = NA_real_), "x", "y", "z"),
+    render_scene(data.frame(x = 1:3, y = 2:4, z = c(1, NA_real_, 3)), "x", "y", "z"),
     "cannot contain NA"
   )
+})
+
+test_that("render_scene protects existing artifacts unless overwrite is explicit", {
+  output <- tempfile("rlearnxr-overwrite-")
+  data <- data.frame(x = 1:3, y = 3:1, z = c(0, 1, 0))
+  render_scene(data, "x", "y", "z", output_dir = output)
+  expect_error(render_scene(data, "x", "y", "z", output_dir = output), "already exists")
+  expect_silent(render_scene(data, "x", "y", "z", output_dir = output, overwrite = TRUE))
 })

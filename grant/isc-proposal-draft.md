@@ -2,16 +2,16 @@
 
 ## Executive summary
 
-R-LearnXR will provide open educational infrastructure for creating reproducible, browser-based virtual data laboratories with R and Quarto. Many data-science lessons ask learners to interpret multivariate results, yet existing interactive examples are often tied to a single course, depend on opaque hosted services, or omit reproducibility and accessible alternatives. R-LearnXR addresses this gap with an R package, reusable Quarto templates, real in-browser R exercises powered by a pinned WebR runtime, 3D exploration modules synchronized with R output, automated reproducibility checks, and contributor training for R educators.
+R-LearnXR will provide a small, reusable R package and Quarto authoring framework for reproducible data-science lessons. Many lessons ask learners to interpret multivariate results, yet interactive examples often remain tied to one course, depend on opaque hosted services, or omit reproducibility and accessible alternatives. R-LearnXR addresses this infrastructure gap with a package API, reusable Quarto templates, browser-based R exercises, an optional 3D evidence view synchronized with R output, strict reproducibility checks, and contributor training for R educators.
 
-An implemented prototype already demonstrates the core learning loop and reduces delivery risk: learners predict a pattern, edit and execute real R code in the browser, inspect the returned data in a keyboard-operable 3D view or semantic table, explain their evidence, select a transfer case, and export reproducible R or Quarto source. The grant will harden this prototype into community-ready infrastructure, add reusable lesson-authoring primitives and examples, conduct an educator/learner pilot, and publish contributor onboarding materials. We request $10,000 for a six-month project beginning in January 2027.
+An implemented prototype already demonstrates the package-to-lesson workflow and reduces delivery risk: authors scaffold a lesson, render a data frame, and run checks; learners can then predict a pattern, edit and execute R code in the browser, inspect the returned data in a 3D view or semantic table, explain their evidence, and export R or Quarto source. The grant will harden the package API, add one third example, expand strict checks and browser smoke tests, conduct an educator/learner feasibility pilot, and publish contributor onboarding materials. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month project beginning in January 2027.
 
 ## Signatories
 
 ### Project team
 
 - **Jewoong Moon — Project Lead / primary contractor.** Product direction, learning-experience design, R and Quarto integration, reproducibility workflow, documentation, and project reporting. Public project artifacts will be linked from the repository.
-- **[Name to confirm] — Co-lead / core project team.** Recommended profile: R package maintenance, statistics education, accessibility, or empirical learning evaluation. Responsible for independent review, pilot oversight, and at least one milestone deliverable.
+- **Additional core team members: optional and to be added if confirmed.** The Project Lead can deliver the scoped six-month MVP as the primary contractor; any confirmed collaborator will receive a named responsibility and be added with consent.
 
 ### Contributors
 
@@ -29,23 +29,24 @@ The problem affects instructors, package authors, workshop organizers, and learn
 
 Solving this problem will let the R community share virtual laboratories as open educational resources. An instructor could start from a documented template, map three variables from an R data frame into a browser scene, add prediction and explanation prompts, verify the build, and publish through an ordinary Quarto workflow. Community contributors could improve the package, author domain-specific lessons, translate materials, and reuse the checks in other educational projects.
 
-Existing R packages provide excellent analysis, visualization, WebGL, Shiny, and publishing capabilities. R-LearnXR does not replace them. It supplies a focused educational layer that connects data preparation, learner workflow, accessibility, reproducibility, and contribution practices. The browser-first design also avoids making headsets or proprietary hardware a requirement.
+Existing R packages provide excellent analysis, visualization, WebGL, Shiny, and publishing capabilities. R-LearnXR does not replace them. It supplies a focused package-level educational layer that connects data preparation, learner workflow, accessibility, reproducibility, and contribution practices. The browser-first design also avoids making headsets or proprietary hardware a requirement. The 3D view is progressive enhancement; the package contract, R source, Quarto lesson, JSON artifact, and semantic table are the durable core. The optional LLM adapter is reviewable, bounded, and outside the funded MVP.
 
 ## The proposal
 
 ### Overview
 
-R-LearnXR will become a small, well-scoped R package and Quarto lesson framework. Its primary value is not a single 3D demo; it is a reusable contract for turning R results into inspectable learning evidence. The framework will keep R as the source of data and analysis, produce portable browser artifacts, expose a semantic table alongside the visual scene, and check lessons for reproducibility and accessibility markers.
+R-LearnXR will become a small, well-scoped R package and Quarto lesson framework. Its primary value is not a single 3D demo; it is a reusable contract for turning R results into inspectable learning evidence. The framework will keep R as the source of data and analysis, produce portable browser artifacts, expose a semantic table alongside the visual scene, and check lessons for reproducibility and accessibility markers. The grant-period release will also define and validate an open artifact bridge against a separate DataSandbox test copy: a learner-owned dataset, chart specification, provenance record, and attempt receipt can be exported into an R-LearnXR lesson bundle without changing the live intervention repository or introducing a shared database, LMS identity layer, or research-data pipeline.
 
 ### Minimum viable product
 
 The community-ready release will include:
 
-1. An R package with stable functions to scaffold lessons, render browser-based 3D scenes, and run lesson checks.
+1. An R package with stable functions to scaffold lessons, render browser-based scene artifacts, and run lesson checks, including edge-case validation and JSON reports.
 2. A Quarto lesson template implementing Orient–Predict–Run R–Explore–Explain–Reproduce.
-3. At least three openly licensed example lessons using public R datasets.
-4. Automated checks for data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and artifact hashes.
-5. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
+3. Three openly licensed example lessons using public R datasets; two are existing feasibility evidence and one is grant-period work.
+4. Strict checks for substantive data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and artifact hashes, plus a real-browser keyboard/responsive smoke test.
+5. A documented DataSandbox exchange contract and adapter with a portable manifest, source-data handoff, learning receipt, privacy boundary, and import/export examples.
+6. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
 6. Continuous integration that runs package tests, lesson checks, and Quarto renders.
 
 ### Architecture
@@ -64,37 +65,36 @@ This separation keeps the statistical workflow in R, the lesson structure in Qua
 
 ### External dependencies
 
-Core dependencies are R, Quarto, WebR, standard browser APIs, and openly licensed example datasets. Package development uses `testthat`; the reference PCA lesson uses `palmerpenguins`. The project pins WebR 0.6.0 in the prototype, will pin the R package environment with `renv`, and documents data and content licenses. No proprietary hosted service, application server, or headset is required for learners.
+Core dependencies are R, Quarto, WebR, standard browser APIs, and openly licensed example datasets. Package development uses `testthat`; the reference PCA lesson uses `palmerpenguins`. The project pins WebR 0.6.0 in the prototype, will pin the R package environment with `renv`, and documents data and content licenses. WebR is currently loaded from its public runtime URL for first-run browser execution; offline vendor/self-host support is not claimed as complete. No proprietary hosted service, application server, or headset is required for learners.
 
 ## Project plan and budget
 
 | Milestone | Target | Deliverables | Budget |
 |---|---|---|---:|
-| 1. Package and API hardening | Jan 31, 2027 | Stable API, error handling, tests, release checklist | $2,200 |
-| 2. Reusable lesson system | Mar 15, 2027 | Quarto template, three example lessons, authoring primitives | $2,300 |
-| 3. Reproducibility and accessibility checks | Apr 15, 2027 | Extended checker, CI reports, keyboard/table validation | $2,000 |
-| 4. Pilot and contributor onboarding | May 31, 2027 | Educator/learner pilot, usability findings, contributor training | $2,000 |
-| 5. Community release and reporting | Jun 30, 2027 | Public release, documentation site, blog-ready report, roadmap | $1,500 |
+| 1. Package and API hardening | Jan 31, 2027 | Stable API, edge-case tests, release checklist | $2,800 |
+| 2. Reusable lesson system | Mar 15, 2027 | Quarto template and one third example lesson | $2,400 |
+| 3. Reproducibility and browser accessibility checks | Apr 15, 2027 | Strict checker, JSON reports, CI, keyboard/overflow smoke test | $2,200 |
+| 4. Validation, release, and maintenance | Jun 30, 2027 | Educator/learner feasibility pilot, contributor training, release, report | $2,600 |
 | **Total** |  |  | **$10,000** |
 
-Funding is allocated to direct labor tied to milestone deliverables. The project will not charge indirect costs, travel, lodging, food, publication fees, or personal hardware. Code will use an OSI-approved license and educational content will use a Creative Commons license. Work will be public on GitHub, with issues and contribution templates available from project startup.
+Funding is allocated to direct labor tied to milestone deliverables. Existing prototype code, UI refinement, narration, screenshots, and the first two lessons are in-kind feasibility evidence and are not charged retroactively. The project will not charge indirect costs, travel, lodging, food, publication fees, or personal hardware. Code will use an OSI-approved license and educational content will use a Creative Commons license. Work will be public on GitHub, with issues and contribution templates available from project startup.
 
 ## Success
 
 ### Definition of done
 
 - Package functions and lesson checks pass in continuous integration.
-- Three complete lessons render from a locked environment.
+- Three complete lessons render from documented, locked environments; the third is completed during the grant.
 - Every example offers keyboard operation and a semantic data alternative.
 - Authoring, accessibility, contribution, and pilot documentation is published.
 - A tagged release and archived project report are publicly available.
 
 ### Measuring success
 
-- At least two instructors or maintainers document a concrete reuse or review outcome.
-- At least one structured pilot is completed and summarized without exposing private learner data.
-- At least 80% of pilot participants complete the core Predict–Explore–Explain task without facilitator intervention; this target will be interpreted cautiously for a small pilot.
-- All identified critical accessibility defects are fixed or documented before release.
+- Two R educators or maintainers complete a documented API/scope review with concrete reuse or review outcomes.
+- Five novice learners and two instructors are invited to the structured feasibility protocol; results record completed sessions, task times, interventions, and drop-offs without exposing private data.
+- At least four of five novice learners complete the core Predict–Run R–Explore–Explain task without facilitator intervention, reported as raw counts and limitations; smaller recruitment is reported as not estimable.
+- All critical accessibility defects found by the browser smoke test or external review are fixed or documented before release.
 - At least one contributor outside the core team completes an issue, lesson adaptation, or documentation improvement.
 
 ### Future work

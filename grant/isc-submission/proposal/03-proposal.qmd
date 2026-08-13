@@ -2,16 +2,16 @@
 
 ## Overview
 
-R-LearnXR will become a small R package and Quarto lesson framework for turning analysis results into inspectable learning evidence. R remains the source of data and analysis. A pinned WebR runtime lets learners execute edited R code locally in the browser. The result updates a portable 3D scene, semantic table, observation text, artifact hash, and reproducibility record. Quarto provides the surrounding lesson and publishing workflow.
+R-LearnXR will become a small R package and Quarto lesson framework for turning analysis results into inspectable learning evidence. R remains the source of data and analysis. The package API is the funded core: `scaffold_lesson()` creates the authoring structure, `render_scene()` validates and serializes a data frame, and `check_lesson()` produces advisory or strict release reports. A pinned WebR runtime and browser view demonstrate the learner-facing contract; the semantic table, exported R/Quarto source, and static artifacts preserve value when WebR or 3D is unavailable. The optional AI Visual Brief is a documented, unfunded adapter and is not a grant deliverable.
 
 The grant will fund the future work needed to move from prototype to community infrastructure: API stabilization, reusable authoring primitives, a third authentic example, stronger checks, external validation, contributor onboarding, and a documented release process.
 
 ## Minimum viable product
 
-1. A tested R package with stable functions to scaffold lessons, render browser scenes, and check lesson projects.
+1. A tested R package with stable functions to scaffold lessons, render browser scenes, and check lesson projects, including edge-case validation and machine-readable reports.
 2. A Quarto template implementing Orient, Predict, Run R, Explore, Explain, Transfer, and Reproduce.
-3. Three openly licensed example lessons using public datasets.
-4. Automated checks for data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and generated-artifact hashes.
+3. Three openly licensed example lessons using public datasets; the first two are existing feasibility evidence and the third is grant-period work.
+4. Strict release checks for substantive data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and generated-artifact hashes, plus a real-browser smoke check for keyboard behavior and responsive overflow.
 5. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
 6. Continuous integration for package tests, lesson checks, and Quarto rendering.
 
@@ -19,12 +19,12 @@ The grant will fund the future work needed to move from prototype to community i
 
 R prepares and validates author-supplied data. The package writes a small JSON artifact and a maintained HTML/JavaScript laboratory. WebR executes learner-edited R, validates a returned `scene` data frame, and synchronizes it with the canvas and semantic table. Quarto embeds or links the laboratory. A checker produces human-readable reports, and continuous integration repeats the checks and renders examples.
 
-Core dependencies are R, Quarto, WebR, standard browser APIs, `testthat`, and openly licensed datasets. The project will pin tested versions and document every external asset. No account, proprietary service, headset, or application server is required for learners.
+Core dependencies are R, Quarto, WebR, standard browser APIs, `testthat`, and openly licensed datasets. The project will pin tested versions and document every external asset. WebR 0.6.0 is currently loaded from its public runtime URL for first-run browser execution; offline vendor/self-host support is not claimed as complete. No account, proprietary service, headset, or application server is required for learners.
 
 ## Assumptions, risks, and recovery
 
 - **3D is useful only for selected multivariate tasks.** The pilot will test task fit. The framework will retain table-first and two-dimensional alternatives when 3D adds no instructional value.
 - **A pinned WebR runtime remains maintainable.** The release will expose loading and error states and evaluate self-hosted runtime assets. Browser execution is an enhancement; author-side rendering and accessible artifacts remain available.
 - **Educators can author concise evidence prompts.** Contributor training will include editable prompt patterns and a review rubric.
-- **Scope could expand into a general XR platform.** The grant excludes headset-native applications, multiplayer systems, accounts, cloud analytics, and a general-purpose 3D grammar.
+- **Scope could expand into a general XR platform.** The grant excludes headset-native applications, multiplayer systems, accounts, cloud analytics, offline WebR vendoring, model training, and a general-purpose 3D grammar. AI-generated briefs remain optional, reviewable, and unfunded.
 - **Early adoption may be limited.** Success will use documented reuse intent, pilot completion, outside contribution, and maintainable artifacts, not inflated usage counts.

@@ -1,3 +1,8 @@
 export(check_lesson)
+export(export_lesson_bundle)
+export(import_datasandbox_bundle)
+export(read_lesson_manifest)
 export(render_scene)
 export(scaffold_lesson)
+export(write_learning_receipt)
+export(write_lesson_manifest)

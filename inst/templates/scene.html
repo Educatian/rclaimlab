@@ -77,7 +77,14 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .restart-button { min-height: 36px; padding: 7px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text-muted); font-size: 11px; font-weight: 750; }
 .restart-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
 .status-chip { display: inline-flex; align-items: center; min-width: 0; gap: 8px; padding: 8px 12px; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary); font-size: 11px; font-weight: 800; white-space: nowrap; }
+.status-chip[data-state="success"] { background: #edf8f2; color: var(--color-success); }
+.status-chip[data-state="error"] { background: #fff1f0; color: var(--color-danger); }
+.status-chip[data-state="warning"] { background: #fff8ed; color: var(--color-warning); }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
+.status-chip[data-state="error"] .status-dot { background: var(--color-danger); }
+.status-chip[data-state="warning"] .status-dot { background: var(--color-warning); }
+.educator-link { min-height: 36px; padding: 7px 10px; border: 1px solid #c3d5f4; border-radius: var(--radius-control); background: var(--color-primary-soft); color: var(--color-primary); font-size: 10px; font-weight: 850; }
+.educator-link:hover { background: #d9e8ff; }
 .rail { grid-column: 1; grid-row: 2; min-height: 0; display: flex; flex-direction: column; padding: var(--space-7) var(--space-5) var(--space-6); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; background: var(--color-surface); border-right: 1px solid var(--color-border); }
 .rail, .main, .companion { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
 .rail::-webkit-scrollbar, .main::-webkit-scrollbar, .companion::-webkit-scrollbar { width: 7px; }
@@ -140,6 +147,60 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .engine-status[data-state="running"] { border-color: #c3d5f4; background: var(--color-primary-soft); color: var(--color-primary); }
 .engine-status[data-state="error"] { border-color: #efb8b3; background: #fff1f0; color: var(--color-danger); }
 .lab-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); align-items: start; border: 1px solid var(--color-border); border-radius: var(--radius-control); overflow: hidden; background: var(--color-surface-subtle); }
+.r-teaching-guide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .8fr); gap: 12px; margin: 0 0 14px; }
+.guide-card, .reuse-card, .authoring-card { min-width: 0; padding: 13px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface-subtle); }
+.authoring-card { grid-column: 1 / -1; background: #fff; border-color: #c3d5f4; }
+.authoring-card:focus { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.authoring-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.authoring-header h3 { margin: 5px 0 0; font-size: 15px; letter-spacing: -.01em; }
+.authoring-header p { max-width: 620px; }
+.release-gate { flex: 0 0 150px; padding: 9px 10px; border: 1px solid #efc894; border-radius: var(--radius-control); background: #fff8ed; color: var(--color-warning); font-size: 9px; font-weight: 800; line-height: 1.35; text-align: center; }
+.release-gate strong { display: block; margin-top: 3px; font-size: 11px; }
+.authoring-content { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(220px, .9fr); gap: 16px; margin-top: 12px; }
+.authoring-checklist { display: grid; gap: 7px; margin: 0; padding-left: 20px; color: var(--color-text-muted); font-size: 10px; line-height: 1.45; }
+.authoring-checklist code { color: var(--color-primary); font: 10px/1.4 "Cascadia Code", "SFMono-Regular", Consolas, monospace; }
+.authoring-links { padding: 10px 11px; border-radius: 6px; background: var(--color-primary-soft); color: var(--color-text-muted); font-size: 10px; line-height: 1.5; }
+.authoring-links strong { display: block; margin-bottom: 4px; color: var(--color-text); }
+.authoring-links a { color: var(--color-primary); font-weight: 750; }
+.guide-kicker { color: var(--color-primary); font-size: 9px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+.guide-card p, .reuse-card p { margin: 7px 0 0; color: var(--color-text-muted); font-size: 11px; line-height: 1.45; }
+.guide-schema { display: block; margin-top: 9px; padding: 8px 9px; overflow-x: auto; border-radius: 6px; background: #eaf2ff; color: #17458e; font: 11px/1.4 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre; }
+.guide-list { display: grid; gap: 5px; margin: 9px 0 0; padding-left: 17px; color: var(--color-text-muted); font-size: 10px; line-height: 1.4; }
+.code-explain { margin-top: 10px; border-top: 1px solid #dce4ef; }
+.code-explain summary { padding: 9px 0 0; color: var(--color-primary); font-size: 10px; font-weight: 850; cursor: pointer; }
+.code-explain ol { display: grid; gap: 5px; margin: 8px 0 0; padding-left: 20px; color: var(--color-text-muted); font-size: 10px; line-height: 1.4; }
+.reuse-card pre { margin: 9px 0 0; padding: 8px 9px; overflow-x: auto; border-radius: 6px; background: #172033; color: #edf3ff; font: 10px/1.5 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+.r-error-guidance { margin: 0 0 10px; padding: 10px 11px; border: 1px solid #efb8b3; border-radius: var(--radius-control); background: #fff1f0; color: var(--color-danger); font-size: 11px; line-height: 1.45; }
+.r-error-guidance[hidden] { display: none; }
+.r-error-guidance strong { display: block; margin-bottom: 3px; font-size: 10px; letter-spacing: .03em; text-transform: uppercase; }
+.r-error-fix { display: block; margin-top: 8px; padding: 8px 9px; overflow-x: auto; border-radius: 6px; background: #fff; color: #7a1d17; font: 10px/1.45 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+.r-transform-summary { margin: 8px 0 14px; padding: 9px 10px; border-left: 3px solid var(--color-teal); border-radius: 5px; background: #eaf8f8; color: #155d65; font-size: 10px; line-height: 1.45; }
+.r-transform-summary strong { font-weight: 900; }
+.repro-details { margin-top: 10px; border-top: 1px solid var(--color-border); }
+.repro-details summary { padding: 10px 0 0; color: var(--color-primary); font-size: 10px; font-weight: 850; cursor: pointer; }
+.repro-details p { margin: 8px 0 0; color: var(--color-text-muted); font-size: 10px; line-height: 1.45; }
+.ai-lab { padding: 20px 24px 24px; }
+.ai-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); gap: 14px; align-items: start; }
+.ai-prompt-card, .ai-result-card { min-width: 0; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface-subtle); }
+.ai-prompt { min-height: 120px; }
+.ai-examples { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+.ai-example { min-height: 34px; padding: 6px 9px; border: 1px solid #c3d5f4; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary); font-size: 10px; font-weight: 800; }
+.ai-example:hover { background: #d9e8ff; }
+.ai-generate { width: 100%; margin-top: 12px; }
+.ai-result-card h3 { margin: 8px 0 6px; font-size: 16px; }
+.ai-result-card p { margin: 0; color: var(--color-text-muted); font-size: 12px; line-height: 1.48; }
+.ai-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.ai-meta > div { min-width: 0; padding: 9px; border: 1px solid var(--color-border); border-radius: 6px; background: #fff; }
+.ai-meta span { display: block; color: var(--color-text-muted); font-size: 8px; font-weight: 850; text-transform: uppercase; }
+.ai-meta strong { display: block; margin-top: 4px; overflow: hidden; color: var(--color-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.ai-code-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.ai-code-head .result-label { min-width: 0; }
+.ai-copy { min-height: 30px; padding: 5px 9px; font-size: 9px; }
+.ai-code { max-height: 250px; margin: 8px 0 0; padding: 12px; overflow: auto; border: 1px solid #2b3649; border-radius: 6px; background: #111827; color: #edf3ff; font: 10px/1.5 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+.ai-result-status { min-height: 18px; margin-top: 9px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
+.ai-result-status[data-state="success"] { color: var(--color-success); font-weight: 750; }
+.ai-safety-note { margin-top: 14px; padding: 10px 12px; border-left: 3px solid var(--color-warning); border-radius: 5px; background: #fff8ed; color: #7a3b0a; font-size: 11px; line-height: 1.45; }
+.ai-provider-status[data-state="ready"] { border-color: #a9d6bd; background: #edf8f2; color: var(--color-success); }
 .code-workspace { min-width: 0; align-self: start; background: #111827; }
 .code-toolbar { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border-bottom: 1px solid #2b3649; color: #c7d2e3; font-size: 10px; font-weight: 800; }
 .code-toolbar span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -147,6 +208,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .code-editor { display: block; width: 100%; min-height: 245px; padding: 16px; resize: vertical; overflow-x: hidden; overflow-y: auto; border: 0; outline: 0; background: #111827; color: #edf3ff; font: 12px/1.55 "Cascadia Code", "SFMono-Regular", Consolas, monospace; tab-size: 2; white-space: pre-wrap; }
 .code-editor:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px; }
 .lab-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-top: 1px solid #2b3649; background: #172033; }
+.download-help { flex: 1 0 100%; color: #aebbd0; font-size: 9px; line-height: 1.4; }
 .run-button { min-height: 40px; padding: 8px 14px; border: 0; border-radius: var(--radius-control); background: #4f8df7; color: #fff; font-size: 11px; font-weight: 850; }
 .run-button:hover { background: #6ca1fb; }
 .run-button:disabled { cursor: wait; opacity: .65; }
@@ -155,6 +217,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .lab-results { align-self: stretch; padding: 16px; background: var(--color-surface-subtle); }
 .result-label { color: var(--color-text-muted); font-size: 9px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
 .r-console { min-height: 62px; margin: 8px 0 14px; padding: 10px; overflow: auto; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #fff; color: var(--color-text); font: 10px/1.45 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+.release-note { margin: -7px 0 13px; color: var(--color-text-muted); font-size: 9px; line-height: 1.4; }
 .check-list { display: grid; gap: 7px; margin: 8px 0 16px; padding: 0; list-style: none; }
 .check-list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--color-text-muted); font-size: 10px; }
 .check-state { min-width: 54px; padding: 3px 6px; border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text-muted); font-size: 8px; font-weight: 900; text-align: center; }
@@ -223,6 +286,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .topbar { position: sticky; top: 0; z-index: 10; min-height: 68px; padding: 10px 16px; }
   .brand-subtitle { max-width: 120px; }
   .lesson-label { display: none; }
+  .educator-link { display: none; }
   .restart-button { display: none; }
   .status-chip { padding: 8px 10px; }
   .rail { display: block; padding: 14px 16px; overflow: visible; border-bottom: 1px solid var(--color-border); }
@@ -239,7 +303,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .scene-header { display: block; padding: 18px 16px 12px; }
   .keyboard-hint { max-width: none; margin-top: 8px; text-align: left; }
   .view-tabs { padding: 0 12px; }
-  .view-tab { flex: 1 1 50%; padding-inline: 8px; }
+  .view-tab { flex: 1 1 33.333%; padding-inline: 6px; font-size: 10px; }
   .plot-shell { margin: 0 12px; }
   canvas { height: 300px; }
   .legend { right: 10px; left: 10px; }
@@ -253,12 +317,21 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .r-lab { padding: 16px 12px; }
   .lab-heading { display: block; }
   .engine-status { margin-top: 12px; text-align: left; }
+  .r-teaching-guide { grid-template-columns: 1fr; }
+  .authoring-card { grid-column: auto; }
+  .authoring-header { display: block; }
+  .release-gate { margin-top: 10px; }
+  .authoring-content { grid-template-columns: 1fr; }
   .lab-grid { display: block; }
+  .ai-layout { grid-template-columns: 1fr; }
   .code-editor { min-height: 240px; }
   .lab-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .run-button { grid-column: 1 / -1; }
 }
 @media (max-width: 560px) {
+  .status-chip { white-space: normal; line-height: 1.2; }
+  .view-tab { padding-inline: 4px; font-size: 9px; letter-spacing: 0; }
+  .tab-state { display: none; }
   .table-scroll { overflow: visible; padding-inline: 0; }
   .table-scroll table, .table-scroll tbody, .table-scroll tr, .table-scroll th, .table-scroll td { display: block; width: 100%; max-width: none; }
   .table-scroll thead { display: none; }
@@ -296,8 +369,9 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <div class="brand-copy"><div class="brand-title">R-LearnXR</div><div class="brand-subtitle">Reference lesson / Data space</div></div>
     <div class="topbar-spacer"></div>
     <div class="lesson-label">Lesson 01</div>
+    <button class="educator-link" id="educator-mode-link" type="button">For educators: author a lesson</button>
     <button class="restart-button" id="restart-lesson" type="button">Restart lesson</button>
-    <div class="status-chip" id="lesson-status"><span class="status-dot" aria-hidden="true"></span><span id="lesson-status-text">Reproducibility ready</span></div>
+    <div class="status-chip" id="lesson-status" data-state="ready"><span class="status-dot" aria-hidden="true"></span><span id="lesson-status-text">Browser preview ready</span></div>
   </header>
 
   <nav class="rail" aria-label="Learning path">
@@ -317,19 +391,62 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 2 OF 6</div></div>
     <div class="scene-card">
       <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required.</div></div>
-      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button></div>
-      <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab">
+      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
+      <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
         <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
         <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
         <div class="scene-tools"><div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
-        <details class="data-alternative" id="data-alternative"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details></div>
+        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details></div>
       </section>
-      <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" hidden>
+      <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" aria-hidden="true" inert hidden>
         <div class="lab-heading"><div><h2>Transform the scene with R</h2><p>Run the starter pipeline, then change the filter threshold and compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
-        <div class="lab-grid">
-          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download .R</button><button class="code-action" id="download-qmd" type="button">Download .qmd</button></div></div>
-          <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Automatic checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Reproducibility record</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Artifact hash</span><strong id="artifact-hash">Not generated</strong></div><div class="repro-item"><span>Scene rows</span><strong id="scene-rows">Baseline data</strong></div></div><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
+        <div class="r-teaching-guide">
+          <section class="guide-card" aria-labelledby="scene-contract-title">
+            <div class="guide-kicker" id="scene-contract-title">R → 3D contract</div>
+            <code class="guide-schema">scene &lt;- data.frame(label, x, y, z)</code>
+            <p>The lesson reads one data frame. <strong>label</strong> names a point; <strong>x</strong>, <strong>y</strong>, and <strong>z</strong> become its coordinates.</p>
+            <details class="code-explain"><summary>Explain this R pipeline</summary><ol><li>Create a small data frame with labels and numeric axes.</li><li>Use <code>scale()</code> to put each axis on a comparable scale.</li><li>Use <code>subset()</code> to keep points that meet the filter rule.</li></ol></details>
+          </section>
+          <section class="reuse-card" aria-labelledby="reuse-title">
+            <div class="guide-kicker" id="reuse-title">From R to lesson</div>
+            <p>Authors can scaffold a lesson, render a scene, and run the release checks locally. The browser preview pins WebR 0.6.0 and records a browser-run hash.</p>
+            <pre>rlearnxr::scaffold_lesson("my-lesson")&#10;rlearnxr::render_scene(data, "x", "y", "z", overwrite = TRUE)&#10;rlearnxr::check_lesson("my-lesson", strict = TRUE)</pre>
+          </section>
+          <section class="authoring-card" id="authoring-checklist" tabindex="-1" aria-labelledby="authoring-title">
+            <div class="authoring-header"><div><div class="guide-kicker">Educator handoff</div><h3 id="authoring-title">From browser preview to a Quarto release</h3><p>Use this lab to preview the interaction. Use the local package checks to release a reusable lesson.</p></div><div class="release-gate">PROJECT RELEASE CHECKS<strong>Run locally</strong></div></div>
+            <div class="authoring-content"><ol class="authoring-checklist"><li><code>scaffold_lesson()</code> creates the lesson, <code>index.qmd</code>, <code>scene/</code>, and a pinned environment.</li><li>Edit the lesson narrative and R pipeline, then run <code>render_scene(..., overwrite = TRUE)</code>.</li><li>Run <code>check_lesson(..., strict = TRUE)</code> and inspect the Markdown/JSON reports.</li><li>Run <code>quarto render</code>, review the browser screenshot, license, and accessibility notes before publishing.</li></ol><div class="authoring-links"><strong>Open the authoring references</strong><a href="https://github.com/Educatian/rlearnxr/blob/main/docs/authoring-guide.md" target="_blank" rel="noreferrer">Authoring guide</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/docs/runtime-dependencies.md" target="_blank" rel="noreferrer">Runtime boundary</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/CONTENT_LICENSE.md" target="_blank" rel="noreferrer">Content license</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/docs/accessibility.md" target="_blank" rel="noreferrer">Accessibility</a></div></div>
+          </section>
         </div>
+        <div class="r-transform-summary" id="r-transform-summary" aria-live="polite"><strong>Transformation preview:</strong> Run R to see how scaling and filtering change the scene.</div>
+        <div class="r-error-guidance" id="r-error-guidance" role="alert" hidden><strong>Try this fix</strong><span id="r-error-message"></span><code class="r-error-fix" id="r-error-fix-example">scene &lt;- data.frame(label = c("a", "b", "c"), x = c(0, 1, 2), y = c(0, 1, 0), z = c(0, 0, 1))</code></div>
+        <div class="lab-grid">
+          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" aria-describedby="scene-contract-title" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download analysis .R</button><button class="code-action" id="download-qmd" type="button">Download learner .qmd</button><div class="download-help">Analysis .R contains the editable pipeline. Learner .qmd contains the R code plus prediction and coordinate-based interpretation prompts.</div></div></div>
+          <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Browser run checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Last successful browser run</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Last successful hash</span><strong id="artifact-hash">None yet</strong></div><div class="repro-item"><span>Last successful rows</span><strong id="scene-rows">Baseline preview</strong></div></div><p class="release-note">Browser evidence is not the project release gate. Run <code>check_lesson(..., strict = TRUE)</code> and <code>quarto render</code> locally before publishing.</p><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
+        </div>
+      </section>
+      <section class="view-panel ai-lab" id="ai-panel" role="tabpanel" aria-labelledby="ai-tab" aria-hidden="true" inert hidden>
+        <div class="lab-heading"><div><h2>Describe the 3D view you want</h2><p>Write the analytical goal in plain language. R-LearnXR turns it into an R brief, generated code, and a verifiable 3D result. This is optional; the R package and Quarto workflow do not depend on AI.</p></div><div class="engine-status ai-provider-status" id="ai-provider-status" data-state="ready">AI assistant · optional demo</div></div>
+        <div class="ai-layout">
+          <section class="ai-prompt-card" aria-labelledby="ai-prompt-title">
+            <div class="guide-kicker" id="ai-prompt-title">Natural-language request</div>
+            <label class="field-label" for="ai-prompt">What should the 3D view show?</label>
+            <textarea class="field ai-prompt" id="ai-prompt" placeholder="Example: Standardize the three axes, keep points with positive x, and explain the result."></textarea>
+            <div class="ai-examples" aria-label="Example requests"><button class="ai-example" type="button" data-prompt="Standardize the three axes, keep points with positive x, and explain the result.">Positive x filter</button><button class="ai-example" type="button" data-prompt="Show a balanced 3D view by scaling x, y, and z without filtering points.">Compare all points</button></div>
+            <button class="run-button ai-generate" id="generate-ai-brief" type="button">Generate R visualization brief</button>
+            <div class="field-status" id="ai-status" aria-live="polite">The demo assistant is deterministic and keeps the R code visible.</div>
+          </section>
+          <section class="ai-result-card" id="ai-result-card" aria-labelledby="ai-result-title" hidden>
+            <div class="guide-kicker" id="ai-result-title">Generated explanation</div>
+            <h3 id="ai-intent">Your visualization plan</h3>
+            <p id="ai-explanation"></p>
+            <div class="ai-meta"><div><span>Axes</span><strong id="ai-axes">x, y, z</strong></div><div><span>Data contract</span><strong>scene</strong></div><div><span>Mode</span><strong id="ai-mode">Demo</strong></div></div>
+            <div class="ai-code-head"><div class="result-label">Generated R code</div><button class="link-button ai-copy" id="copy-ai-code" type="button">Copy R code</button></div><pre class="ai-code" id="ai-generated-code"></pre>
+            <div class="button-row"><button class="secondary-button" id="use-ai-code" type="button">Use in R lab</button><button class="check-button" id="run-ai-code" type="button">Run and update 3D</button></div>
+            <div class="button-row"><button class="link-button" id="download-ai-brief" type="button">Download brief (.json)</button></div>
+            <div class="ai-result-status" id="ai-result-status" aria-live="polite">Review the code before running it.</div>
+          </section>
+        </div>
+        <div class="ai-safety-note"><strong>R-first guardrail:</strong> the assistant proposes code; WebR executes only after you review or edit it. The generated prompt, code, seed, runtime, and artifact hash can be exported with the lesson.</div>
       </section>
     </div>
   </section>
@@ -361,17 +478,33 @@ const explanationFeedback = document.getElementById("explanation-feedback");
 const transferCard = document.getElementById("transfer-card");
 const completeLesson = document.getElementById("complete-lesson");
 const completionFeedback = document.getElementById("completion-feedback");
+const lessonStatus = document.getElementById("lesson-status");
 const statusText = document.getElementById("lesson-status-text");
 const stepCount = document.getElementById("step-count");
 const sceneTab = document.getElementById("scene-tab");
 const rTab = document.getElementById("r-tab");
+const aiTab = document.getElementById("ai-tab");
 const scenePanel = document.getElementById("scene-panel");
 const rPanel = document.getElementById("r-panel");
+const aiPanel = document.getElementById("ai-panel");
 const rCodeEditor = document.getElementById("r-code-editor");
 const runRCode = document.getElementById("run-r-code");
 const rConsole = document.getElementById("r-console");
 const rEngineStatus = document.getElementById("r-engine-status");
 const viewRResult = document.getElementById("view-r-result");
+const rTransformSummary = document.getElementById("r-transform-summary");
+const rErrorGuidance = document.getElementById("r-error-guidance");
+const rErrorMessage = document.getElementById("r-error-message");
+const educatorModeLink = document.getElementById("educator-mode-link");
+const aiPrompt = document.getElementById("ai-prompt");
+const aiStatus = document.getElementById("ai-status");
+const aiResultCard = document.getElementById("ai-result-card");
+const aiIntent = document.getElementById("ai-intent");
+const aiExplanation = document.getElementById("ai-explanation");
+const aiAxes = document.getElementById("ai-axes");
+const aiMode = document.getElementById("ai-mode");
+const aiGeneratedCode = document.getElementById("ai-generated-code");
+const aiResultStatus = document.getElementById("ai-result-status");
 const colors = ["#2563eb", "#078999", "#7c3aed", "#c0266d", "#c64e08", "#128553"];
 const storageKey = "rlearnxr:" + document.title;
 let yaw = 0.72;
@@ -389,6 +522,8 @@ let transferReady = false;
 let webRInstance = null;
 let webRVersion = null;
 let rRunPassed = false;
+let aiGeneratedRCode = "";
+let aiBrief = null;
 
 function rString(value) {
   return '"' + String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
@@ -423,6 +558,161 @@ function defaultRCode() {
     "scene <- subset(scene, abs(x) >= 0.25)",
     "scene"
   ].join("\n");
+}
+
+function transformationSummary(code, rowCount = null) {
+  const filter = code.match(/abs\s*\(\s*x\s*\)\s*>=\s*([0-9]*\.?[0-9]+)/i);
+  const directionalFilter = code.match(/subset\s*\(\s*scene\s*,\s*([xyz])\s*(>=|<=|>|<|==|!=)\s*(-?[0-9]*\.?[0-9]+)/i);
+  const rowSummary = Number.isFinite(rowCount) ? initialPoints.length + " → " + rowCount + " rows" : initialPoints.length + " baseline rows";
+  const scaleSummary = /scale\s*\(/i.test(code) ? "x, y, and z are standardized with scale()" : "no scale() step was detected";
+  const filterSummary = filter ? "keeps rows where abs(x) >= " + filter[1] : directionalFilter ? "keeps rows where " + directionalFilter[1] + " " + directionalFilter[2] + " " + directionalFilter[3] : "no row filter was applied";
+  return rowSummary + ". " + scaleSummary + ". The filter " + filterSummary + ".";
+}
+
+function friendlyRError(error) {
+  const raw = String(error && error.message ? error.message : error).replace(/^Error:\s*/i, "");
+  const missing = raw.match(/object ['"]([^'"]+)['"] not found/i);
+  if (missing) return "R could not find “" + missing[1] + "”. Define it before creating scene, or click Start over to restore the starter pipeline.";
+  if (/parse\(text = expr\)|unexpected/i.test(raw)) return "R could not parse this code. Remove an accidental slash or incomplete line, then make sure the final expression creates scene.";
+  if (/Create a data frame named scene/i.test(raw)) return "Create a data frame named scene, with label, x, y, and z columns.";
+  if (/scene must be a data\.frame/i.test(raw)) return "scene exists, but it is not a data frame. Wrap the result with data.frame() or restore the starter pipeline.";
+  if (/scene needs label, x, y, and z/i.test(raw)) return "scene is missing a required column. Add label, x, y, and z before running the lesson.";
+  if (/at least three rows/i.test(raw)) return "Keep at least three rows so the 3D comparison remains meaningful.";
+  if (/finite numeric values/i.test(raw)) return "Check x, y, and z for NA, Inf, or non-numeric values, then run the pipeline again.";
+  return "R could not complete this pipeline. Check the technical console for the failing line, then run again.";
+}
+
+function clearRError() {
+  rErrorGuidance.hidden = true;
+  rErrorMessage.textContent = "";
+}
+
+function localAIBrief(prompt) {
+  const normalized = prompt.toLowerCase();
+  const thresholdMatch = normalized.match(/(?:threshold|cutoff|cut-off)\s*(?:of|=|:)??\s*([0-9]*\.?[0-9]+)/i);
+  const filterAxis = /\b(y|z)\b/.test(normalized) && !/\bx\b/.test(normalized) ? normalized.match(/\b(y|z)\b/)[1] : "x";
+  const positive = /positive|greater than zero|above zero|right side|high(er)?/.test(normalized);
+  const negative = /negative|less than zero|below zero|left side|low(er)?/.test(normalized);
+  const threshold = thresholdMatch ? thresholdMatch[1] : null;
+  const base = defaultRCode().split("scene <- transform(")[0].trim();
+  let filterLine = "# No rows are filtered; compare the full standardized data space.\nscene";
+  let title = "Standardized 3D data space";
+  let explanation = "The three numeric axes are standardized with scale(), so the points can be compared on a common visual range. No observations are removed.";
+  if (threshold) {
+    filterLine = "# Keep observations beyond the requested cutoff.\nscene <- subset(scene, abs(" + filterAxis + ") >= " + threshold + ")\nscene";
+    title = "3D view filtered by " + filterAxis + " threshold";
+    explanation = "The standardized " + filterAxis + " axis is filtered with abs(" + filterAxis + ") >= " + threshold + ". The resulting row count is checked after WebR execution.";
+  } else if (positive || negative) {
+    const direction = positive && !negative ? "> 0" : negative && !positive ? "< 0" : "!= 0";
+    filterLine = "# Keep observations on the requested side of the " + filterAxis + " axis.\nscene <- subset(scene, " + filterAxis + " " + direction + ")\nscene";
+    title = "3D view focused on " + filterAxis + " " + (direction === "> 0" ? "positive" : direction === "< 0" ? "negative" : "non-zero") + " values";
+    explanation = "The standardized " + filterAxis + " axis is used as the selection rule. The 3D scene keeps points where " + filterAxis + " " + direction + ", then reports the returned rows and artifact hash.";
+  }
+  const code = [
+    base,
+    "scene <- transform(",
+    "  data,",
+    "  x = as.numeric(scale(x)),",
+    "  y = as.numeric(scale(y)),",
+    "  z = as.numeric(scale(z))",
+    ")",
+    "",
+    filterLine
+  ].join("\n");
+  return {title, explanation, axes: "x, y, z", code, mode: "Demo"};
+}
+
+function validateAIBrief(brief) {
+  const code = brief && typeof brief.code === "string" ? brief.code : "";
+  const unsafe = /\b(system|system2|shell|shell\.exec|download\.file|url|readLines|writeLines|unlink|file\.create|file\.remove|source|setwd|install\.packages|library|require|eval|parse|assign|get|do\.call|function)\s*\(?|<<-/i;
+  if (!brief || code.length > 8000 || !/\bscene\s*(<-|=)/.test(code) || !/set\.seed\s*\(/.test(code) || unsafe.test(code)) {
+    throw new Error("The assistant response must include reproducible R code that creates scene.");
+  }
+  return {
+    title: String(brief.title || "Generated 3D visualization"),
+    explanation: String(brief.explanation || "Review the generated R code, then run it in WebR to inspect the returned scene."),
+    axes: String(brief.axes || "x, y, z"),
+    code,
+    mode: String(brief.mode || "LLM endpoint")
+  };
+}
+
+async function requestAIBrief(prompt) {
+  const endpoint = window.RLearnXR_LLM_ENDPOINT;
+  if (!endpoint) return localAIBrief(prompt);
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      prompt,
+      data_schema: {required: ["label", "x", "y", "z"], runtime: "WebR 0.6.0", seed: 2026},
+      response_format: "rlearnxr_visualization_brief"
+    })
+  });
+  if (!response.ok) throw new Error("The configured LLM endpoint returned HTTP " + response.status + ".");
+  const payload = await response.json();
+  return validateAIBrief({title: payload.title, explanation: payload.explanation, axes: payload.axes, code: payload.code || payload.r_code, mode: "LLM endpoint"});
+}
+
+function showAIBrief(brief) {
+  aiBrief = brief;
+  aiGeneratedRCode = brief.code;
+  aiIntent.textContent = brief.title;
+  aiExplanation.textContent = brief.explanation;
+  aiAxes.textContent = brief.axes;
+  aiMode.textContent = brief.mode;
+  aiGeneratedCode.textContent = brief.code;
+  aiResultStatus.dataset.state = "";
+  aiResultStatus.textContent = "Review the code before running it.";
+  aiResultCard.hidden = false;
+}
+
+function aiProvenance() {
+  return {
+    schema_version: "rlearnxr_visualization_brief/1",
+    prompt: aiPrompt.value.trim(),
+    title: aiBrief ? aiBrief.title : "",
+    explanation: aiBrief ? aiBrief.explanation : "",
+    axes: aiBrief ? aiBrief.axes : "x, y, z",
+    mode: aiBrief ? aiBrief.mode : "",
+    r_code: aiGeneratedRCode,
+    runtime: webRVersion || "WebR 0.6.0",
+    seed: 2026,
+    scene_rows: rRunPassed ? points.length : null,
+    artifact_hash: document.getElementById("artifact-hash").textContent === "Not generated" ? null : document.getElementById("artifact-hash").textContent
+  };
+}
+
+async function copyAICode() {
+  if (!aiGeneratedRCode) return;
+  try {
+    await navigator.clipboard.writeText(aiGeneratedRCode);
+    aiResultStatus.textContent = "R code copied. You can paste it into RStudio or the R lab.";
+  } catch (error) {
+    aiResultStatus.textContent = "Copy was blocked by the browser. Use Use in R lab or Download brief instead.";
+  }
+}
+
+async function generateAIVisualization() {
+  const prompt = aiPrompt.value.trim();
+  if (prompt.length < 12) {
+    aiStatus.textContent = "Describe the data relationship or filter in one complete sentence.";
+    aiPrompt.focus();
+    return;
+  }
+  const button = document.getElementById("generate-ai-brief");
+  button.disabled = true;
+  aiStatus.textContent = "Interpreting the request and drafting reproducible R code…";
+  try {
+    const brief = await requestAIBrief(prompt);
+    showAIBrief(brief);
+    aiStatus.textContent = brief.mode === "Demo" ? "Demo assistant ready. Connect an LLM endpoint for model-generated briefs." : "LLM brief ready. Review the R code before execution.";
+  } catch (error) {
+    aiResultCard.hidden = true;
+    aiStatus.textContent = String(error && error.message ? error.message : error);
+  } finally {
+    button.disabled = false;
+  }
 }
 
 function relation(value) {
@@ -651,13 +941,29 @@ function buildTable() {
 
 function showView(view, focusTarget = false) {
   const showR = view === "r";
+  const showAI = view === "ai";
   const mainPanel = document.getElementById("lesson-main");
-  scenePanel.hidden = showR;
+  const dataAlternative = document.getElementById("data-alternative");
+  scenePanel.hidden = showR || showAI;
   rPanel.hidden = !showR;
-  sceneTab.setAttribute("aria-selected", String(!showR));
+  aiPanel.hidden = !showAI;
+  scenePanel.inert = showR || showAI;
+  rPanel.inert = !showR;
+  aiPanel.inert = !showAI;
+  if (dataAlternative) {
+    dataAlternative.hidden = showR || showAI;
+    dataAlternative.setAttribute("aria-hidden", String(showR || showAI));
+    dataAlternative.inert = showR || showAI;
+  }
+  scenePanel.setAttribute("aria-hidden", String(showR || showAI));
+  rPanel.setAttribute("aria-hidden", String(!showR));
+  aiPanel.setAttribute("aria-hidden", String(!showAI));
+  sceneTab.setAttribute("aria-selected", String(!showR && !showAI));
   rTab.setAttribute("aria-selected", String(showR));
-  sceneTab.tabIndex = showR ? -1 : 0;
+  aiTab.setAttribute("aria-selected", String(showAI));
+  sceneTab.tabIndex = showR || showAI ? -1 : 0;
   rTab.tabIndex = showR ? 0 : -1;
+  aiTab.tabIndex = showAI ? 0 : -1;
   if (mainPanel) mainPanel.scrollTop = 0;
   if (window.matchMedia("(max-width: 1024px)").matches) window.scrollTo({top: 0, behavior: "auto"});
   if (showR) {
@@ -668,6 +974,8 @@ function showView(view, focusTarget = false) {
         rCodeEditor.scrollTop = 0;
       }
     }
+  } else if (showAI) {
+    if (focusTarget) aiPrompt.focus();
   } else {
     resize();
     if (focusTarget) canvas.focus();
@@ -684,12 +992,14 @@ function resetRResults() {
   ["check-seed", "check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pending"));
   document.getElementById("r-version").textContent = webRVersion || "Not loaded";
   document.getElementById("r-seed").textContent = "Not checked";
-  document.getElementById("artifact-hash").textContent = "Not generated";
-  document.getElementById("scene-rows").textContent = initialPoints.length + " baseline";
+  document.getElementById("artifact-hash").textContent = "None yet";
+  document.getElementById("scene-rows").textContent = "Baseline preview";
   document.getElementById("scene-legend").textContent = "x / y / z axes · generated from R";
   rEngineStatus.dataset.state = webRInstance ? "ready" : "idle";
   rEngineStatus.textContent = webRInstance ? "R engine · ready in browser" : "R engine · load on first run";
   rConsole.textContent = "Ready. Run the starter code to initialize WebR.";
+  rTransformSummary.textContent = "Transformation preview: Run R to see how scaling and filtering change the scene.";
+  clearRError();
   viewRResult.hidden = true;
   rRunPassed = false;
 }
@@ -727,11 +1037,15 @@ async function executeRCode() {
   if (!code) {
     rConsole.textContent = "Add R code that creates a data frame named scene.";
     updateCheck("check-frame", "fail");
+    lessonStatus.dataset.state = "error";
+    statusText.textContent = "Browser preview needs attention";
     rCodeEditor.focus();
     return;
   }
   runRCode.disabled = true;
   viewRResult.hidden = true;
+  clearRError();
+  rTransformSummary.textContent = "Transformation preview: " + transformationSummary(code);
   updateCheck("check-seed", /set\.seed\s*\(/.test(code) ? "pass" : "fail");
   ["check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pending"));
   document.getElementById("r-seed").textContent = /set\.seed\s*\(\s*2026\s*\)/.test(code) ? "2026" : "Missing";
@@ -770,12 +1084,18 @@ async function executeRCode() {
     updateCheck("check-sync", "pass");
     document.getElementById("artifact-hash").textContent = await artifactHash(points);
     document.getElementById("scene-rows").textContent = points.length + " from R";
+    rTransformSummary.textContent = "Transformation evidence: " + transformationSummary(code, points.length);
     document.getElementById("scene-legend").textContent = "x / y / z axes · " + points.length + " points returned by WebR";
     rConsole.textContent = "> R pipeline completed\n" + points.length + " rows returned\n3D scene synchronized successfully";
     rEngineStatus.dataset.state = "ready";
     rEngineStatus.textContent = "R engine · execution passed";
-    statusText.textContent = "R execution verified";
+    lessonStatus.dataset.state = "success";
+    statusText.textContent = "Browser preview verified";
     rRunPassed = true;
+    if (aiBrief && rCodeEditor.value.trim() === aiGeneratedRCode.trim()) {
+      aiResultStatus.dataset.state = "success";
+      aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now available in the 3D view and table.";
+    }
     viewRResult.hidden = false;
     setStep(4);
     saveState();
@@ -783,6 +1103,11 @@ async function executeRCode() {
     rEngineStatus.dataset.state = "error";
     rEngineStatus.textContent = "R engine · fix code";
     rConsole.textContent = "R error\n" + String(error && error.message ? error.message : error).replace(/^Error:\s*/i, "");
+    rErrorMessage.textContent = friendlyRError(error);
+    lessonStatus.dataset.state = "error";
+    statusText.textContent = "Browser preview needs attention";
+    rErrorGuidance.hidden = false;
+    rTransformSummary.textContent = "Transformation evidence: The R pipeline did not return a scene. Fix the code and run again.";
     updateCheck("check-frame", "fail");
     rRunPassed = false;
   } finally {
@@ -807,6 +1132,9 @@ function qmdDocument() {
     'title: "My reproducible R-LearnXR analysis"',
     "format: html",
     "---",
+    "",
+    "<!-- Generated by the R-LearnXR browser preview. Copy this file into a scaffolded lesson and edit the narrative before publishing. -->",
+    "<!-- Release path: render_scene(..., overwrite = TRUE) -> check_lesson(..., strict = TRUE) -> quarto render. -->",
     "",
     "```{r}",
     rCodeEditor.value.trim(),
@@ -918,6 +1246,13 @@ document.getElementById("reset-view").addEventListener("click", () => {
   draw();
 });
 
+educatorModeLink.addEventListener("click", () => {
+  showView("r", true);
+  const checklist = document.getElementById("authoring-checklist");
+  checklist.scrollIntoView({block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  checklist.focus({preventScroll: true});
+});
+
 document.getElementById("restart-lesson").addEventListener("click", () => {
   try { localStorage.removeItem(storageKey); } catch (error) { /* Page state can still be reset. */ }
   predictionInput.value = "";
@@ -928,11 +1263,17 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   explanationFeedback.textContent = "Use the selected point and at least one axis as evidence.";
   transferCard.hidden = true;
   completionFeedback.textContent = "";
-  statusText.textContent = "Reproducibility ready";
+  lessonStatus.dataset.state = "ready";
+  statusText.textContent = "Browser preview ready";
   explanationPassed = false;
   explanationPointLabel = null;
   transferReady = false;
   completeLesson.disabled = true;
+  aiPrompt.value = "";
+  aiResultCard.hidden = true;
+  aiGeneratedRCode = "";
+  aiBrief = null;
+  aiStatus.textContent = "The demo assistant is deterministic and keeps the R code visible.";
   points = initialPoints.map(point => ({...point}));
   rCodeEditor.value = defaultRCode();
   resetRResults();
@@ -1040,9 +1381,37 @@ explanationInput.addEventListener("input", saveState);
 rCodeEditor.addEventListener("input", saveState);
 sceneTab.addEventListener("click", () => showView("scene"));
 rTab.addEventListener("click", () => showView("r"));
+aiTab.addEventListener("click", () => showView("ai"));
 runRCode.addEventListener("click", executeRCode);
+document.getElementById("generate-ai-brief").addEventListener("click", generateAIVisualization);
+document.querySelectorAll(".ai-example").forEach(button => button.addEventListener("click", () => {
+  aiPrompt.value = button.dataset.prompt || "";
+  aiPrompt.focus();
+}));
+document.getElementById("use-ai-code").addEventListener("click", () => {
+  if (!aiGeneratedRCode) return;
+  rCodeEditor.value = aiGeneratedRCode;
+  saveState();
+  aiResultStatus.textContent = "Code copied to the R lab. Review or edit it before running.";
+  showView("r", true);
+});
+document.getElementById("copy-ai-code").addEventListener("click", copyAICode);
+document.getElementById("download-ai-brief").addEventListener("click", () => {
+  if (!aiGeneratedRCode) return;
+  downloadText("rlearnxr-visualization-brief.json", JSON.stringify(aiProvenance(), null, 2) + "\n", "application/json");
+  aiResultStatus.textContent = "Brief downloaded with prompt, R code, seed, runtime, and result provenance.";
+});
+document.getElementById("run-ai-code").addEventListener("click", async () => {
+  if (!aiGeneratedRCode) return;
+  rCodeEditor.value = aiGeneratedRCode;
+  saveState();
+  showView("r");
+  await executeRCode();
+});
 document.getElementById("reset-r-code").addEventListener("click", () => {
   rCodeEditor.value = defaultRCode();
+  lessonStatus.dataset.state = "ready";
+  statusText.textContent = "Browser preview ready";
   resetRResults();
   showView("r");
   saveState();
