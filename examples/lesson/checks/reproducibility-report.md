@@ -1,6 +1,6 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-13 15:38:36 PDT
+Generated: 2026-08-13 15:51:00 PDT
 Mode: strict (warnings fail)
 
 | Check | Status | Message |
@@ -13,7 +13,7 @@ Mode: strict (warnings fail)
 | data_presence | PASS | data directory contains at least one file |
 | portable_paths | PASS | no common absolute local paths detected |
 | deterministic_seed | PASS | a deterministic seed is declared |
-| environment_lock | PASS | renv.lock found at C:/Users/jewoo/Documents/ChatGPT/Grant Proposal Dev/rlearnxr-mvp/renv.lock |
+| environment_lock | PASS | renv.lock found and contains the expected R and Packages sections |
 | accessible_structure | PASS | keyboard canvas, live feedback, text inputs, and a data table markers are present |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
 | artifact_hash | PASS | af1caf2b80939eaaaa9dcc792c895ad1, 7f8e33ed706100b59171c1ff58a1cba7 |

@@ -61,7 +61,7 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
     lock_text <- paste(readLines(lock_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
     lock_is_shaped <- grepl('"R"', lock_text, fixed = TRUE) && grepl('"Packages"', lock_text, fixed = TRUE)
     if (lock_is_shaped) {
-      add("environment_lock", "PASS", paste0("renv.lock found at ", normalizePath(lock_path, winslash = "/")))
+      add("environment_lock", "PASS", "renv.lock found and contains the expected R and Packages sections")
     } else {
       add("environment_lock", "WARN", "renv.lock exists but does not contain the expected R and Packages sections")
     }
