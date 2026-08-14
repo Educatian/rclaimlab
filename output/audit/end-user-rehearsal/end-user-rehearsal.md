@@ -1,12 +1,12 @@
 # R-LearnXR end-user rehearsal audit
 
 Date: 2026-08-14
-Public commit: `f8ab7d0`
+Public commit: `cfa47ea`
 Public tag: [`v0.1.0-rc.4`](https://github.com/Educatian/rlearnxr/tree/v0.1.0-rc.4)
 
 ## Verdict
 
-The Windows command-line equivalent of the RStudio onboarding flow is ready: a fresh GitHub clone and a fresh R library can install the package, load the exported API, render all three lessons, and pass strict checks. The public `main` branch and `v0.1.0-rc.4` point to the same release candidate. The browser smoke flow and offline fallback also pass on collision-resistant local ports.
+The Windows command-line equivalent of the RStudio onboarding flow is ready: a fresh GitHub clone and a fresh R library can install the package, load the exported API, render all three lessons, and pass strict checks. The public `main` branch contains the current validation workflow, while `v0.1.0-rc.4` remains the immutable release candidate. The browser smoke flow and offline fallback also pass on collision-resistant local ports.
 
 The RStudio Desktop GUI itself was not run because it is not installed in this environment. GitHub Actions now provides hosted Linux, Windows, and macOS validation without local GUI control. Posit Cloud, corporate proxy, screen-reader, and human pilot runs remain external validation environments.
 
@@ -15,7 +15,7 @@ The RStudio Desktop GUI itself was not run because it is not installed in this e
 | Step | User action | Result |
 |---:|---|---|
 | 1 | Run `scripts/diagnose_environment.R --strict` | PASS: R 4.6.1, Git, repository-local Quarto, remotes, renv, and palmerpenguins detected |
-| 2 | Clone `https://github.com/Educatian/rlearnxr.git` from public `main` | PASS: public `main` resolves to `f8ab7d0` |
+| 2 | Clone `https://github.com/Educatian/rlearnxr.git` from public `main` | PASS: public `main` resolves to `cfa47ea` |
 | 3 | Build and install the cloned package into an empty library | PASS: package version `0.1.0` and all public validators load |
 | 4 | Run `remotes::install_github("Educatian/rlearnxr")` without `ref` | PASS: default `main` now installs the current package |
 | 5 | Run package smoke and testthat checks | PASS |
@@ -25,6 +25,8 @@ The RStudio Desktop GUI itself was not run because it is not installed in this e
 | 9 | Load the static scene, then block network before first Run R | PASS: static table remains available and the WebR failure is surfaced |
 
 The remote counterpart is defined in [`docs/external-validation.md`](../../../docs/external-validation.md). It runs the package and lesson checks on GitHub-hosted Linux, Windows, and macOS runners, tests a clean public-main installation, and archives browser evidence. It does not claim human or assistive-technology validation.
+
+The latest hosted validation run [`31824543142`](https://github.com/Educatian/rlearnxr/actions/runs/31824543142) completed successfully for commit `cfa47ea`. All seven jobs passed: public clean install, Linux/Windows/macOS package and lesson checks, browser interaction smoke, and Windows offline fallback smoke.
 
 ## Browser evidence
 
