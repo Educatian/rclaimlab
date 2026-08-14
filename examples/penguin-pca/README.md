@@ -12,3 +12,5 @@ This is the authentic-domain reference lesson for R-LearnXR. It uses openly lice
 ## Intended learners
 
 Introductory data-science learners who have seen standardized variables and need practice interpreting PCA scores as evidence rather than treating the plot as decoration.
+
+The flagship lesson includes an [educator guide](educator-guide.md), [answer key](answer-key.md), [assessment rubric](assessment-rubric.md), [accessible alternative](accessible-alternative.md), and [extension activities](extension-activities.md).

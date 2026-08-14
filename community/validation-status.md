@@ -10,6 +10,8 @@ This file distinguishes implemented evidence from external evidence that cannot 
 - Predict–Explore–Explain–Transfer learning loop
 - Reproducibility checks, `renv.lock`, CI workflow, and lesson reports
 - Contributor guide, authoring guide, code of conduct, pilot protocol, and usability form
+- Statistics concept pathway, R foundations micro-lessons, LA/EDM application modules, flagship PCA educator pack, answer key, rubric, and accessible alternative
+- Literature-to-design note for Learning Analytics, Educational Data Mining, and Data Science Education
 - Keyboard, mobile, and browser flow checks
 - Synthetic novice-learner and screen-reader accessibility-tree proxy run; see [persona validation](../output/audit/persona-validation/persona-validation.md)
 

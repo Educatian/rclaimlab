@@ -1,11 +1,35 @@
 ---
-title: "R-LearnXR Reference Lesson"
-format: html
+title: "R-LearnXR Reference Lesson: From Data Frame to Evidence"
+description: "A 10-minute beginner R lesson for the reusable R-LearnXR learning loop."
+format:
+  html:
+    toc: true
 ---
 
-# Explore a reproducible data space
+# From a data frame to an evidence-based explanation
 
-This reference lesson demonstrates the R-LearnXR MVP. The analysis remains ordinary R code, while the 3D scene provides an optional spatial view of the same points.
+This contributor-training lesson introduces the R-LearnXR pattern. Learners work with a small synthetic dataset so they can focus on the workflow: identify a row, make a prediction, run R, inspect exact coordinates, explain a claim, and reproduce the result.
+
+::: {.callout-note}
+## Learning objectives
+
+By the end, learners can:
+
+1. Identify `label`, `x`, `y`, and `z` as a simple scene data contract.
+2. Predict what a filter or transformation will retain.
+3. Use one coordinate as evidence while naming a limitation.
+4. Export a reproducible source path and learning receipt.
+:::
+
+## R01 warm-up: what is one row?
+
+Open `data/learning_points.csv` and answer: “What does one row represent, and which columns identify the observation versus its coordinates?” This is the same question used in the [R Foundations micro-lessons](../../docs/curriculum/r-foundations-micro-lessons.md).
+
+## Make a prediction
+
+Before running code, predict which labels will remain after a transformation that keeps points with positive `x` and negative `y`. Write the rule in plain language, not only as code.
+
+## Run the reproducible R pipeline
 
 ```{r}
 #| echo: true
@@ -29,6 +53,24 @@ render_scene(
 summary(demo[, c("x", "y", "z")])
 ```
 
+Ask learners to identify the three reproducibility decisions: the input file, the coordinate mapping, and the seed. The scene is a visual evidence layer over this ordinary R code.
+
 [Open the interactive 3D scene](scene/index.html)
 
-The scene is browser-based and does not require a headset. A future version may expose WebXR when a compatible device is available.
+## Explore and explain
+
+Use the 3D scene or the accessible table to select one point. Complete this sentence:
+
+> Point ___ is ___ on the ___ axis at approximately ___, so I infer ___. This does not prove ___ because ___.
+
+Then select a second point and compare one coordinate. The explanation should use a point, an axis, and an interpretation—not a color or visual impression alone.
+
+## Transfer and reproduce
+
+Change the filter rule, rerun the code, and predict how the returned rows will change. Export the R or Quarto source and inspect the receipt for prediction, explanation, selected evidence, runtime, seed, row count, and artifact hash.
+
+## Teaching support
+
+Use this lesson before the [Penguin PCA flagship lesson](../penguin-pca/index.qmd). For the full statistics pathway, see [statistics modules](../../docs/curriculum/statistics-modules.md) and [R foundations micro-lessons](../../docs/curriculum/r-foundations-micro-lessons.md).
+
+The browser scene is not dependent on a headset. A future version may expose WebXR when a compatible device is available.

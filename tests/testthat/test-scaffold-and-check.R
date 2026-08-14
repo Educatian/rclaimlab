@@ -28,6 +28,8 @@ test_that("validate_lesson_manifest rejects unsafe artifact paths", {
     r_contract = list(required_columns = c("label", "x", "y", "z")),
     reproducibility = list(seed = 2026, web_r_version = "0.6.0"),
     privacy = list(storage = "browser-local", export_consent_required = TRUE),
+    education = list(audience = "learners", estimated_minutes = 15,
+                     objectives = c("a", "b", "c")),
     artifacts = list(lesson_entrypoint = "../outside.qmd", scene = "scene/index.html", points = "scene/points.json")
   )
   expect_error(validate_lesson_manifest(manifest), "relative")

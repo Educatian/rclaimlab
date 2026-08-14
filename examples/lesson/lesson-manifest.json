@@ -16,5 +16,16 @@
   "reproducibility": {"seed": 2026, "web_r_version": "0.6.0"},
   "accessibility": {"semantic_table": true, "keyboard_path": true},
   "privacy": {"storage": "browser-local", "export_consent_required": true, "research_use": "separate-consent"},
+  "education": {
+    "audience": "beginner R and data-science learners",
+    "estimated_minutes": 10,
+    "prerequisites": ["basic R assignment syntax", "read a simple plot"],
+    "objectives": ["state a falsifiable data prediction", "run an R transformation that returns a scene data frame", "explain one coordinate as evidence and reproduce the result"],
+    "sequence": ["orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"],
+    "assessment": "Use the claim-evidence-limitation-transfer rubric.",
+    "instructor_materials": ["README.md", "../../docs/authoring-guide.md"],
+    "accessibility_alternative": "semantic table and keyboard path",
+    "extension_activities": ["replace the sample data", "add a new coordinate mapping"]
+  },
   "artifacts": {"lesson_entrypoint": "index.qmd", "scene": "scene/index.html", "points": "scene/points.json", "reproducibility_report": "checks/reproducibility-report.json"}
 }

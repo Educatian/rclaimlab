@@ -29,6 +29,21 @@ write_lesson_manifest(
   dataset_file = "data/mtcars_efficiency_scene.csv",
   dataset_source = "Derived from the built-in mtcars dataset distributed with R.",
   dataset_license = "R distribution licensing and attribution terms apply; see the R COPYING files.",
+  education = list(
+    audience = "introductory data-science learners",
+    estimated_minutes = 15L,
+    prerequisites = c("mean and standard deviation", "read a scatterplot"),
+    objectives = c(
+      "interpret standardized mpg, horsepower, and weight coordinates",
+      "distinguish association from a causal claim",
+      "communicate one multivariate vehicle comparison with a limitation"
+    ),
+    sequence = c("orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"),
+    assessment = "Use the reusable R-LearnXR claim-evidence-limitation-transfer rubric.",
+    instructor_materials = c("README.md"),
+    accessibility_alternative = "semantic table and keyboard path",
+    extension_activities = c("compare scaling choices", "fit a simple regression")
+  ),
   overwrite = TRUE
 )
 cat("Built mtcars efficiency reference lesson.\n")

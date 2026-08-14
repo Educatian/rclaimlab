@@ -1,3 +1,22 @@
+default_rlearnxr_education <- function(education = NULL) {
+  if (!is.null(education)) return(education)
+  list(
+    audience = "introductory data-science learners",
+    estimated_minutes = 15L,
+    prerequisites = c("basic data-frame vocabulary", "read a simple plot"),
+    objectives = c(
+      "state a data question and identify the evidence boundary",
+      "run a reproducible R transformation",
+      "explain one observation with coordinate or statistic evidence"
+    ),
+    sequence = c("orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"),
+    assessment = "Use a claim-evidence-limitation-transfer rubric.",
+    instructor_materials = character(),
+    accessibility_alternative = "semantic table and keyboard path",
+    extension_activities = character()
+  )
+}
+
 default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
                                        source_platform = "rlearnxr",
                                        source_project = NULL, course_id = NULL,
@@ -8,7 +27,8 @@ default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL
                                        seed = 2026, web_r_version = "0.6.0",
                                        storage = "browser-local",
                                        export_consent_required = TRUE,
-                                       research_use = "separate-consent") {
+                                       research_use = "separate-consent",
+                                       education = NULL) {
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   if (is.null(lesson_id)) lesson_id <- basename(path)
   if (is.null(title)) title <- lesson_id
@@ -46,6 +66,7 @@ default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL
       export_consent_required = isTRUE(export_consent_required),
       research_use = as.character(research_use)
     ),
+    education = default_rlearnxr_education(education),
     artifacts = list(
       lesson_entrypoint = "index.qmd",
       scene = "scene/index.html",
@@ -67,6 +88,7 @@ write_lesson_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
                                   storage = "browser-local",
                                   export_consent_required = TRUE,
                                   research_use = "separate-consent",
+                                  education = NULL,
                                   overwrite = TRUE) {
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   ensure_dir(path)
@@ -82,7 +104,8 @@ write_lesson_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
     dataset_source = dataset_source, dataset_license = dataset_license,
     required_columns = required_columns, seed = seed,
     web_r_version = web_r_version, storage = storage,
-    export_consent_required = export_consent_required, research_use = research_use
+    export_consent_required = export_consent_required, research_use = research_use,
+    education = education
   )
   write_json_object(manifest, output)
   invisible(output)
@@ -123,6 +146,16 @@ validate_lesson_manifest <- function(manifest = ".") {
   privacy <- value$privacy
   if (!is.list(privacy) || is.null(privacy$storage) || is.null(privacy$export_consent_required)) {
     stop("lesson manifest privacy must declare storage and export consent", call. = FALSE)
+  }
+  if (!is.null(value$education)) {
+    education <- value$education
+    if (!is.list(education) || is.null(education$audience) ||
+        is.null(education$estimated_minutes) || is.null(education$objectives) ||
+        length(as.character(education$objectives)) < 3L ||
+        length(suppressWarnings(as.numeric(education$estimated_minutes))) != 1L ||
+        is.na(suppressWarnings(as.numeric(education$estimated_minutes)))) {
+      stop("lesson manifest education must declare audience, estimated_minutes, and at least three objectives", call. = FALSE)
+    }
   }
   artifacts <- value$artifacts
   if (!is.list(artifacts) || !all(c("lesson_entrypoint", "scene", "points") %in% names(artifacts))) {

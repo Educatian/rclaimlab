@@ -4,6 +4,8 @@ This lesson is the first end-to-end example for the MVP. It uses a six-point ope
 
 The toy data and lesson text are released under CC0 for reuse in demonstrations and contributor training.
 
+See [educator-guide.md](educator-guide.md) for facilitation prompts and connect this warm-up to the [statistics module pathway](../../docs/curriculum/statistics-modules.md).
+
 ## Reproduce
 
 1. Install R and Quarto.

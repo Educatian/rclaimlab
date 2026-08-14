@@ -1,11 +1,44 @@
 ---
-title: "Vehicle efficiency data space"
-format: html
+title: "Vehicle Efficiency: Association in Three Coordinates"
+description: "A 15-minute applied lesson on standardization, association, and responsible multivariate communication."
+format:
+  html:
+    toc: true
 ---
 
-# Vehicle efficiency data space
+# Can one vehicle be “better” on every measure?
 
-This lesson uses the built-in `mtcars` dataset to ask how fuel efficiency, horsepower, and vehicle weight relate. The coordinates are standardized for comparison; the browser scene is an evidence layer for the R transformation, not a replacement for the underlying analysis.
+This lesson uses the built-in `mtcars` dataset to ask how fuel efficiency, horsepower, and vehicle weight relate. The coordinates are standardized for comparison; the browser scene is an evidence layer for the R transformation, not a replacement for the analysis.
+
+::: {.callout-note}
+## Learning objectives
+
+By the end, learners can:
+
+1. Explain why `mpg`, `hp`, and `wt` are standardized before a multivariate comparison.
+2. Describe association without turning it into a causal claim.
+3. Compare two vehicles using coordinate evidence and a limitation.
+4. Reproduce the result from ordinary R code and a fixed seed.
+:::
+
+## Orient and predict
+
+Choose one vehicle you expect to have high `mpg` and low `wt`. Predict whether high fuel efficiency will always occur with low horsepower. State what evidence would change your mind.
+
+## R concepts: center, spread, and scale
+
+```r
+cars <- mtcars
+cars$label <- rownames(cars)
+scene <- data.frame(
+  label = cars$label,
+  x = as.numeric(scale(cars$mpg)),
+  y = as.numeric(scale(cars$hp)),
+  z = as.numeric(scale(cars$wt))
+)
+```
+
+Here `x`, `y`, and `z` are standardized values. A value near zero is near the sample mean; a positive value is above the sample mean; a negative value is below it. The coordinates do not mean that one vehicle is globally better.
 
 ```{r}
 #| echo: true
@@ -21,6 +54,24 @@ scene <- data.frame(
 )
 render_scene(scene, "x", "y", "z", labels = scene$label,
   output_dir = "scene", title = "mtcars efficiency data space", overwrite = TRUE)
+round(cor(cars[, c("mpg", "hp", "wt")]), 2)
 ```
 
 [Open the interactive R and 3D laboratory](scene/index.html)
+
+## Explore, explain, and transfer
+
+Select two vehicles using the scene or the semantic table. Cite one coordinate and explain:
+
+> Vehicle ___ is ___ on ___ at approximately ___, compared with ___. This shows an association in this sample, but it does not prove ___ because ___
+
+Now change your comparison to a vehicle that creates a trade-off. The goal is to communicate variation rather than produce a single winner.
+
+## Extension
+
+- Compare the scene with a 2D `mpg`–`hp` plot.
+- Fit `lm(mpg ~ hp + wt, data = mtcars)` and inspect residuals.
+- Ask whether the conclusion changes if one variable is omitted.
+- Use the [statistics module map](../../docs/curriculum/statistics-modules.md) to connect this activity to association, regression, and communication of variation.
+
+The data are built into R and contain no learner records. Reproducibility metadata and the accessible table remain available in the browser lesson.

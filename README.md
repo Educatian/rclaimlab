@@ -36,6 +36,9 @@ Grant preparation materials:
 - `check_lesson()` writes advisory or strict Markdown, JSON, session, and generated-artifact reports; strict mode is the release gate.
 - `examples/lesson/` is the contributor-training lesson; `examples/penguin-pca/` is the authentic analysis lesson.
 - `examples/mtcars-efficiency/` is a third, dependency-light reference lesson for multivariate vehicle-efficiency reasoning.
+- `docs/curriculum/statistics-modules.md` maps the introductory statistics pathway to Learning Analytics and Educational Data Mining application modules.
+- `docs/curriculum/r-foundations-micro-lessons.md` provides short beginner R activities; `examples/penguin-pca/` includes a full educator pack, answer key, rubric, accessible alternative, and extensions.
+- `docs/research/learning-analytics-edm-data-science-education.md` records the literature-to-design translation and primary references.
 - `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
 - GitHub Actions validates the package and all three reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.

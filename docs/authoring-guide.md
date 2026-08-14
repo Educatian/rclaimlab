@@ -4,6 +4,8 @@
 
 Write one outcome a learner can demonstrate, such as: “Use x, y, and z evidence to explain why two observations differ.” Three-dimensional presentation should support that decision rather than decorate an ordinary chart.
 
+For a statistics concept, start from the pathway in [`docs/curriculum/statistics-modules.md`](curriculum/statistics-modules.md). Choose the concept, the learner decision, the evidence boundary, and the transfer task before choosing a chart or 3D scene.
+
 ## 2. Scaffold the project
 
 ```r
@@ -51,6 +53,8 @@ Every reference lesson should include:
 6. Reproduce: select a comparison point and export the work as `.R` or `.qmd` source.
 
 The generated browser lab pins WebR 0.6.0 and validates the returned data frame before changing the visual scene. Keep starter code short, use a deterministic seed, and ensure at least three finite observations remain after learner filtering.
+
+Use [`docs/curriculum/module-authoring-template.md`](curriculum/module-authoring-template.md) to add objectives, vocabulary, misconceptions, educator prompts, assessment, accessibility, ethics, and extension activities. A rendered scene without these learning materials is not a complete educational module.
 
 ### R teaching and provenance checklist
 

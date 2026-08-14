@@ -36,6 +36,17 @@
     "export_consent_required": true,
     "research_use": "separate-consent"
   },
+  "education": {
+    "audience": "introductory data-science learners",
+    "estimated_minutes": 15,
+    "prerequisites": ["mean and standard deviation", "read a scatterplot"],
+    "objectives": ["interpret standardized mpg, horsepower, and weight coordinates", "distinguish association from a causal claim", "communicate one multivariate vehicle comparison with a limitation"],
+    "sequence": ["orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"],
+    "assessment": "Use the reusable R-LearnXR claim-evidence-limitation-transfer rubric.",
+    "instructor_materials": ["README.md"],
+    "accessibility_alternative": "semantic table and keyboard path",
+    "extension_activities": ["compare scaling choices", "fit a simple regression"]
+  },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",
     "scene": "scene/index.html",

@@ -16,5 +16,16 @@
   "reproducibility": {"seed": 2026, "web_r_version": "0.6.0"},
   "accessibility": {"semantic_table": true, "keyboard_path": true},
   "privacy": {"storage": "browser-local", "export_consent_required": true, "research_use": "separate-consent"},
+  "education": {
+    "audience": "introductory data-science learners",
+    "estimated_minutes": 20,
+    "prerequisites": ["mean and standard deviation", "read a two-dimensional scatterplot", "basic R assignment syntax"],
+    "objectives": ["explain why variables are standardized before PCA", "interpret a PCA score as a multivariate coordinate", "compare PC1, PC2, and PC3 with an evidence-based limitation", "reproduce the scene from deterministic R code"],
+    "sequence": ["orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"],
+    "assessment": "assessment-rubric.md",
+    "instructor_materials": ["educator-guide.md", "answer-key.md"],
+    "accessibility_alternative": "accessible-alternative.md",
+    "extension_activities": ["extension-activities.md"]
+  },
   "artifacts": {"lesson_entrypoint": "index.qmd", "scene": "scene/index.html", "points": "scene/points.json", "reproducibility_report": "checks/reproducibility-report.json"}
 }

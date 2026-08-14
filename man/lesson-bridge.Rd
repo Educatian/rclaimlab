@@ -18,6 +18,7 @@ write_lesson_manifest(path = ".", lesson_id = NULL, title = NULL,
   required_columns = c("label", "x", "y", "z"), seed = 2026,
   web_r_version = "0.6.0", storage = "browser-local",
   export_consent_required = TRUE, research_use = "separate-consent",
+  education = NULL,
   overwrite = TRUE)
 
 read_lesson_manifest(path = ".")
@@ -52,6 +53,7 @@ import_datasandbox_bundle(bundle, output = "rlearnxr-imported-lesson",
   \item{seed}{Reproducibility seed.}
   \item{web_r_version}{Pinned WebR runtime version.}
   \item{storage,research_use,consent,export_consent_required}{Privacy metadata.}
+  \item{education}{Optional learner-facing objectives, sequence, assessment, accessibility, and instructor-material metadata.}
   \item{input_data}{Optional input data file to hash.}
   \item{scene_files}{Scene files to hash in the learning receipt.}
   \item{outcome}{Learning receipt outcome label.}

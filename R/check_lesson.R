@@ -68,6 +68,12 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
   } else {
     add("deterministic_seed", "WARN", "no set.seed() found; add one when randomness affects lesson output")
   }
+  education_markers <- c("learning objectives", "predict", "explain", "transfer")
+  if (all(vapply(education_markers, grepl, logical(1), x = tolower(code_text), fixed = TRUE))) {
+    add("education_content", "PASS", "lesson prose includes objectives, prediction, explanation, and transfer activities")
+  } else {
+    add("education_content", "FAIL", "lesson prose must include learning objectives, predict, explain, and transfer activities")
+  }
   lock_candidates <- unique(c(
     file.path(path, "renv.lock"),
     file.path(dirname(path), "renv.lock"),
