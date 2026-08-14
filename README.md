@@ -67,7 +67,7 @@ The Explore lesson interface was refined in [Figma](https://www.figma.com/design
 install.packages("remotes")
 remotes::install_github(
   "Educatian/rlearnxr",
-  ref = "v0.1.0-rc.3",
+  ref = "v0.1.0-rc.4",
   upgrade = "never"
 )
 library(rlearnxr)
