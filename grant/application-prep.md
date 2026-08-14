@@ -1,6 +1,10 @@
 # R Consortium ISC 2026-2 application preparation
 
-Status checked: 2026-08-13.
+Status checked: 2026-08-14.
+
+Project title: **R-LearnXR: From R Code to Evidence**
+
+Grant subtitle: *A Reproducible R Framework for Interactive Data Learning*
 
 ## Submission window
 

@@ -11,6 +11,7 @@ This reference lesson demonstrates the R-LearnXR MVP. The analysis remains ordin
 #| echo: true
 source("../../R/utils.R")
 source("../../R/zzz.R")
+source("../../R/scene_contract.R")
 source("../../R/render_scene.R")
 
 demo <- read.csv("data/learning_points.csv", stringsAsFactors = FALSE)

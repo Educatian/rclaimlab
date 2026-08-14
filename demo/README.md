@@ -1,4 +1,4 @@
-# Demo video production
+# R-LearnXR — From R Code to Evidence: demo video production
 
 The grant demo combines a verified direct-interaction browser recording, an ElevenLabs narration track, and English captions. The older screenshot sequence remains as a fallback and visual storyboard reference.
 

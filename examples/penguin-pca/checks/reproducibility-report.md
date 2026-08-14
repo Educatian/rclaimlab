@@ -1,6 +1,6 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-13 20:54:25 PDT
+Generated: 2026-08-14 09:36:09 PDT
 Mode: strict (warnings fail)
 
 | Check | Status | Message |
@@ -19,7 +19,7 @@ Mode: strict (warnings fail)
 | static_fallback | PASS | table, source, and learning receipt exports remain available without the visual runtime |
 | ai_safety_markers | PASS | optional AI path omits browser credentials, records the privacy boundary, and validates returned code |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | 4915e883abba4c0510d2a6ccd9f73871, c7e1d1476f53cba818062698c19e285d |
+| artifact_hash | PASS | dd34a70f0d973eb00451a9dfc81d9622, c7e1d1476f53cba818062698c19e285d |
 | quarto_available | PASS | Quarto found at C:/Users/jewoo/Documents/ChatGPT/Grant Proposal Dev/rlearnxr-mvp/.tools/quarto-1.10.18/bin/quarto.exe |
 
 This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit.

@@ -16,6 +16,7 @@ A two-dimensional PCA view omits the third component. This lesson asks whether i
 #| echo: true
 source("../../R/utils.R")
 source("../../R/zzz.R")
+source("../../R/scene_contract.R")
 source("../../R/render_scene.R")
 
 metrics <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")

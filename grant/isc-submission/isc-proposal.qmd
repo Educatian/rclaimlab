@@ -1,8 +1,9 @@
 ---
-title: "R-LearnXR: Reproducible R-Based Virtual Laboratories for Data Science Education"
+title: "R-LearnXR: From R Code to Evidence"
+subtitle: "A Reproducible R Framework for Interactive Data Learning"
 author:
   - name: Jewoong Moon
-date: 2026-08-13
+date: 2026-08-14
 date-format: iso
 format:
   pdf:

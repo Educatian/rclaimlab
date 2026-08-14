@@ -1,4 +1,4 @@
-# R-LearnXR direct-interaction demo storyboard
+# R-LearnXR — From R Code to Evidence: direct-interaction demo storyboard
 
 Target length: 103 seconds. Language: English narration and English captions.
 

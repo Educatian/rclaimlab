@@ -60,3 +60,12 @@ The product-design audit identified one remaining risk: the strongest learning s
 - The implementation adds a real WebR editor, console, checks, reproducibility record, downloads, and a six-step learning path because the Figma source is a static visual reference.
 - The companion uses internal dividers and a compact saved state to support sustained work at desktop density.
 - Point positions are produced by learner-executed R, so the canvas preserves the Figma visual grammar while adapting to live data.
+
+## Brand title pass
+
+- Official project title: **R-LearnXR: From R Code to Evidence**.
+- Grant subtitle: *A Reproducible R Framework for Interactive Data Learning*.
+- The package and repository identifier remain `rlearnxr` for compatibility.
+- The lesson shell now uses the concise brand line `From R code to evidence` beneath `R-LearnXR`.
+- Browser evidence: `output/audit/design-improvements/13-browser-title-desktop.png` and `14-browser-title-mobile.png`.
+- Responsive result: 390 px viewport, `scrollWidth == clientWidth == 375`; no clipping or horizontal overflow.

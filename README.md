@@ -1,4 +1,6 @@
-# R-LearnXR MVP
+# R-LearnXR — From R Code to Evidence
+
+**A reproducible R framework for interactive data learning.**
 
 R-LearnXR is an open-source prototype for reproducible, browser-based R laboratories built with Quarto, WebR, and interactive 3D scenes. The MVP treats 3D/XR as an optional evidence layer. Learners edit and execute real R code in the browser, send the resulting data frame into the 3D view, explain coordinate evidence, and export the work as reproducible R or Quarto source.
 

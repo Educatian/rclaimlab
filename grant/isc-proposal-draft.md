@@ -1,4 +1,6 @@
-# R-LearnXR: Reproducible R-Based Virtual Laboratories for Data Science Education
+# R-LearnXR: From R Code to Evidence
+
+**A Reproducible R Framework for Interactive Data Learning**
 
 ## Executive summary
 
