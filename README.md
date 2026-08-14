@@ -40,6 +40,15 @@ Grant preparation materials:
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
 - GitHub Actions checks the R package, rebuilds all three reference lessons, runs strict lesson checks, renders Quarto, and runs a real-browser keyboard/responsive smoke test.
 
+## Choose your path
+
+- **Explore a lesson:** open the browser scene; RStudio is not required.
+- **Use the package:** install the public release candidate with `remotes::install_github()`.
+- **Author a lesson:** clone the repository as an RStudio Project, restore `renv`, and install the local package.
+- **Contribute:** use the repository project, run diagnosis and strict checks, then open a focused pull request.
+
+The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear.
+
 ## Visual preview
 
 ![R-LearnXR browser-based 3D demo](output/playwright/rlearnxr-3d-demo.png)
@@ -51,6 +60,30 @@ The Explore lesson interface was refined in [Figma](https://www.figma.com/design
 ![R-LearnXR Explore lesson UI](output/figma/rlearnxr-explore-screen.png)
 
 ## Run the MVP
+
+### Install from the public release candidate
+
+```r
+install.packages("remotes")
+remotes::install_github(
+  "Educatian/rlearnxr",
+  ref = "v0.1.0-rc.2",
+  upgrade = "never"
+)
+library(rlearnxr)
+packageVersion("rlearnxr")
+```
+
+### Clone for RStudio authoring
+
+Use **File > New Project > Version Control > Git** and enter `https://github.com/Educatian/rlearnxr.git`. Open the resulting `rlearnxr.Rproj`, then run:
+
+```r
+source("scripts/diagnose_environment.R")
+install.packages(c("remotes", "renv"))
+renv::restore(prompt = FALSE)
+remotes::install_local(".", upgrade = "never")
+```
 
 From this directory, run:
 

@@ -1,6 +1,6 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-14 09:36:09 PDT
+Generated: 2026-08-14 09:45:53 PDT
 Mode: strict (warnings fail)
 
 | Check | Status | Message |

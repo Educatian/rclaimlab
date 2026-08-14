@@ -1,6 +1,6 @@
 Package: rlearnxr
 Type: Package
-Title: Reproducible Quarto Lessons with Browser-Based 3D Scenes
+Title: R-LearnXR: From R Code to Evidence
 Version: 0.1.0
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]

@@ -2,6 +2,8 @@
 
 R-LearnXR is a static-site-friendly prototype, but its first browser execution currently imports WebR 0.6.0 from `https://webr.r-wasm.org/v0.6.0/webr.mjs`. The package records the tested version in the lesson UI and reproducibility export; the repository does not yet vendor the WebR runtime or claim offline execution.
 
+For repository authors, RStudio's Git integration requires a local Git installation. Quarto is required to render lesson pages, while the package API itself can be installed from GitHub with `remotes::install_github()` or from a cloned checkout with `remotes::install_local(".")`. Run `Rscript scripts/diagnose_environment.R` before setup so missing tools are visible.
+
 This is an explicit release limitation:
 
 - Author-side R rendering, Quarto output, the JSON scene artifact, and the semantic table remain available without WebR execution.

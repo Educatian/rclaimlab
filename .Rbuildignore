@@ -21,4 +21,5 @@
 ^tmp$
 ^AGENTS\.md$
 ^CONTENT_LICENSE\.md$
+^rlearnxr\.Rproj$
 ^responsive-audit\.md$

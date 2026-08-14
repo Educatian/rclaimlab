@@ -1,10 +1,15 @@
 param(
-  [string]$BaseUrl = "http://127.0.0.1:8770/examples/lesson/scene/index.html",
+  [string]$BaseUrl = "",
+  [int]$ServerPort = 8773,
   [switch]$StartServer
 )
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
+$lessonPath = "/examples/lesson/scene/index.html"
+if (-not $BaseUrl) {
+  $BaseUrl = "http://127.0.0.1:$ServerPort$lessonPath"
+}
 $npx = (Get-Command npx.cmd -ErrorAction Stop).Source
 $session = "rlearnxr-browser-smoke"
 $server = $null
@@ -17,7 +22,7 @@ function Invoke-PwCli {
 
 try {
   if ($StartServer) {
-    $server = Start-Process -FilePath "python" -ArgumentList "-m", "http.server", "8770", "--bind", "127.0.0.1" -WorkingDirectory $root -PassThru -WindowStyle Hidden
+    $server = Start-Process -FilePath "python" -ArgumentList "-m", "http.server", "$ServerPort", "--bind", "127.0.0.1" -WorkingDirectory $root -PassThru -WindowStyle Hidden
     $ready = $false
     1..30 | ForEach-Object {
       if (-not $ready) {
