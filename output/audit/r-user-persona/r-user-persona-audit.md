@@ -126,7 +126,7 @@ After this pass, the R learner fit is 4.5/5, the R educator/author fit is 4.5/5,
 
 The current release candidate now includes three reference lessons, explicit scene/manifest/receipt validators, a local learning receipt export, and the authoring handoff. Direct browser QA additionally verified keyboard canvas control, labelled text inputs, named landmarks, reduced-motion CSS, and no horizontal overflow at 200% browser zoom. R package tests, strict lesson checks, Quarto renders, clean installation, and the final PDF/video gates were rerun after the hardening pass.
 
-The internal R-user fit is now **4.8/5**. The public `v0.1.0-rc.1` release candidate and clean-clone install are complete. External community validation remains intentionally open in `community/validation-status.md`; no synthetic persona or screenshot is counted as a substitute for educator or learner evidence.
+The internal R-user fit is now **4.8/5**. The public `v0.1.0-rc.2` release candidate and clean-clone install are complete. External community validation remains intentionally open in `community/validation-status.md`; no synthetic persona or screenshot is counted as a substitute for educator or learner evidence.
 
 ## GenAI natural-language visualization extension
 
