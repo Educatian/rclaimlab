@@ -99,7 +99,7 @@ Separate deliverable completion from adoption evidence:
 - Confirmation of the project lead and any additional core team member, if applicable
 - Two or more R educators/maintainers who have reviewed the proposal
 - At least one short pilot or structured usability session
-- Public repository URL is available; a public pre-release/release tag and clean-clone install check are still needed before submission packaging
+- Public repository URL, `v0.1.0-rc.1` tag, and public clean-clone install check are complete; recheck the live form before submission
 - English narrated and captioned demo is available, including a direct-interaction browser recording
 - Concise budget justification tied to future, not already completed, work
 - Final application-form field check on or after September 1
