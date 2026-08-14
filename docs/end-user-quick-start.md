@@ -14,7 +14,7 @@ This path is for an R user who wants the package API but does not need to edit t
 install.packages("remotes")
 remotes::install_github(
   "Educatian/rlearnxr",
-  ref = "v0.1.0-rc.2",
+  ref = "v0.1.0-rc.3",
   upgrade = "never"
 )
 
@@ -22,7 +22,7 @@ library(rlearnxr)
 packageVersion("rlearnxr")
 ```
 
-The `ref` pins the public release candidate. After the release candidate is merged to the default `main` branch, the `ref` argument can be omitted.
+The `ref` pins the public release candidate. The default `main` branch is aligned with this release candidate; use the `ref` when you need an immutable installation.
 
 ## Path C: clone and author in RStudio
 
@@ -45,7 +45,7 @@ packageVersion("rlearnxr")
 rlearnxr::check_lesson("examples/lesson", strict = TRUE)
 ```
 
-If the project is on a release-candidate tag, use the Git pane or the terminal to check out `v0.1.0-rc.2` before installing locally. Do not edit the live `main` branch directly when preparing a contribution.
+If the project is on a release-candidate tag, use the Git pane or the terminal to check out `v0.1.0-rc.3` before installing locally. Do not edit the live `main` branch directly when preparing a contribution.
 
 ## First authoring loop
 
