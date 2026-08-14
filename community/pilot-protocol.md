@@ -13,6 +13,7 @@
 3. Select a point using the 3D view or data table.
 4. Explain the point using an axis and coordinate direction.
 5. Complete the transfer step.
+6. Download the learning receipt and explain what information it preserves.
 
 Record completion, time, errors, assistance, comprehension, and confidence. Do not collect names in the published dataset.
 
@@ -22,6 +23,7 @@ Record completion, time, errors, assistance, comprehension, and confidence. Do n
 2. Replace the sample data.
 3. Render and run the reproducibility check.
 4. Identify one reuse scenario and one missing authoring feature.
+5. Validate the generated manifest and learning receipt with the package validators.
 
 ## Success thresholds
 
@@ -29,5 +31,6 @@ Record completion, time, errors, assistance, comprehension, and confidence. Do n
 - Record the number of learners who produce an explanation containing a valid coordinate claim; do not convert this feasibility sample into a learning-effectiveness claim.
 - Both instructors successfully scaffold and check a lesson.
 - No unresolved blocker prevents keyboard or mobile completion.
+- At least four of five learner receipts contain a prediction, explanation, selected evidence, and reproducibility metadata; report raw counts and do not publish learner-authored text without separate permission.
 
 Publish aggregated results, limitations, and resulting issue links.

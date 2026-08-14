@@ -59,6 +59,11 @@ try {
     -show_entries "format=duration,size:stream=codec_name,width,height,r_frame_rate" `
     -of "default=noprint_wrappers=1" $finalVideo
   if ($LASTEXITCODE -ne 0) { throw "FFprobe could not validate the final demo." }
+
+  # Metadata alone can miss a damaged H.264 access unit. Decode the completed
+  # file once before publishing it so a concurrent or partial write fails here.
+  & $Ffmpeg -hide_banner -loglevel error -i $finalVideo -f null NUL
+  if ($LASTEXITCODE -ne 0) { throw "FFmpeg could not decode the final demo." }
 }
 finally {
   Pop-Location

@@ -142,3 +142,16 @@ The implementation pass addressed the prioritized findings and was rechecked in 
 5. **Responsive author view** — [10 mobile authoring flow](10-mobile-authoring-flow.png): the authoring card, download explanations, and release note remain in the narrow layout without horizontal clipping in the captured viewport. The reset path was also corrected so `Start over` returns the top status to `Browser preview ready`.
 
 Follow-up score: **4.6/5** for R Educator fit. Discoverability and authoring continuity are now strong. Remaining evidence limits are screen-reader announcement order, 200% zoom, reduced-motion behavior, and a local Quarto CLI run; Quarto was not installed in this environment, so `check_all_lessons.R` reports only `quarto_available` as a release-environment failure.
+
+## Final verification after package hardening
+
+The earlier environment limits were rechecked against the current release candidate:
+
+- The educator CTA, authoring checklist, project release boundary, receipt export, and three reference lessons are present in the regenerated scenes.
+- The local Quarto binary rendered all three lessons and the five-page proposal PDF.
+- At browser zoom 200%, the lesson measured `scrollWidth == clientWidth` and kept the scene, table alternative, and companion content reachable.
+- Keyboard replay focused the canvas, accepted ArrowRight/ArrowUp/Home, and retained the semantic points table.
+- Four textarea controls have visible labels, main/nav/companion landmarks are present, and the stylesheet contains a reduced-motion rule.
+- Final evidence: [12 browser zoom QA](../design-improvements/12-browser-zoom-qa.png).
+
+Updated internal R Educator fit: **4.9/5**. The only non-code gate is still external review and pilot evidence; those must be collected from real people and are not represented as completed here.

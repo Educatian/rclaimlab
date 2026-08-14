@@ -17,6 +17,7 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'webr.r-wasm.org', fixed = TRUE)
   expect_match(html, 'id="check-sync"', fixed = TRUE)
   expect_match(html, 'id="download-qmd"', fixed = TRUE)
+  expect_match(html, 'id="download-receipt"', fixed = TRUE)
   expect_match(html, 'id="explanation-input"', fixed = TRUE)
   expect_match(html, 'id="points-table"', fixed = TRUE)
   expect_match(html, 'tabindex="0"', fixed = TRUE)
@@ -40,6 +41,8 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="copy-ai-code"', fixed = TRUE)
   expect_match(html, 'id="download-ai-brief"', fixed = TRUE)
   expect_match(html, 'function localAIBrief(prompt)', fixed = TRUE)
+  expect_match(html, 'function learningReceipt()', fixed = TRUE)
+  expect_match(html, 'private_data_sent_to_ai: false', fixed = TRUE)
   expect_match(html, 'function aiProvenance()', fixed = TRUE)
   expect_match(html, 'response_format: "rlearnxr_visualization_brief"', fixed = TRUE)
   expect_match(html, 'wrap="soft"', fixed = TRUE)
@@ -63,6 +66,23 @@ test_that("render_scene rejects invalid data", {
     render_scene(data.frame(x = 1:3, y = 2:4, z = c(1, NA_real_, 3)), "x", "y", "z"),
     "cannot contain NA"
   )
+})
+
+test_that("validate_scene_data normalizes named axes and labels", {
+  data <- data.frame(
+    id = c("a", "b", "c"),
+    horizontal = c(-1, 0, 1),
+    vertical = c(0, 1, 0),
+    depth = c(1, 0, -1)
+  )
+  scene <- validate_scene_data(
+    data, x = "horizontal", y = "vertical", z = "depth", labels = data$id
+  )
+  expect_named(scene, c("label", "x", "y", "z"))
+  expect_equal(scene$label, c("a", "b", "c"))
+  expect_equal(scene$x, c(-1, 0, 1))
+  expect_error(validate_scene_data(data, "horizontal", "horizontal", "depth"), "three columns")
+  expect_error(validate_scene_data(data, "horizontal", "vertical", "depth", labels = c("a", "a", "c")), "unique")
 })
 
 test_that("render_scene protects existing artifacts unless overwrite is explicit", {

@@ -33,7 +33,10 @@ Grant preparation materials:
 - Pointer, keyboard, mobile, and accessible data-table paths expose the same analytical evidence.
 - `check_lesson()` writes advisory or strict Markdown, JSON, session, and generated-artifact reports; strict mode is the release gate.
 - `examples/lesson/` is the contributor-training lesson; `examples/penguin-pca/` is the authentic analysis lesson.
-- GitHub Actions checks the R package, rebuilds both lessons, runs strict lesson checks, renders Quarto, and runs a real-browser keyboard/responsive smoke test.
+- `examples/mtcars-efficiency/` is a third, dependency-light reference lesson for multivariate vehicle-efficiency reasoning.
+- `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
+- Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
+- GitHub Actions checks the R package, rebuilds all three reference lessons, runs strict lesson checks, renders Quarto, and runs a real-browser keyboard/responsive smoke test.
 
 ## Visual preview
 

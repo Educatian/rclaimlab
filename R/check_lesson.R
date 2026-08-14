@@ -14,6 +14,23 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
   require_file("index.qmd", "lesson_entrypoint")
   require_file("scene/index.html", "browser_scene")
   require_file("lesson-manifest.json", "lesson_manifest")
+  if (file.exists(file.path(path, "lesson-manifest.json"))) {
+    manifest_check <- tryCatch({
+      validate_lesson_manifest(path)
+      TRUE
+    }, error = function(error) error)
+    if (isTRUE(manifest_check)) add("manifest_contract", "PASS", "lesson manifest satisfies the version 1 contract")
+    else add("manifest_contract", "FAIL", conditionMessage(manifest_check))
+  }
+  receipt_path <- file.path(path, "checks", "learning-receipt.json")
+  if (file.exists(receipt_path)) {
+    receipt_check <- tryCatch({
+      validate_learning_receipt(receipt_path)
+      TRUE
+    }, error = function(error) error)
+    if (isTRUE(receipt_check)) add("receipt_contract", "PASS", "learning receipt satisfies the version 1 contract")
+    else add("receipt_contract", "FAIL", conditionMessage(receipt_check))
+  }
 
   license_candidates <- c("DATA_LICENSE.md", "DATA_LICENSE", "LICENSE.md", "LICENSE")
   license_path <- file.path(path, license_candidates)[file.exists(file.path(path, license_candidates))][1]
@@ -76,6 +93,20 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
     add("accessible_structure", "PASS", "keyboard canvas, live feedback, text inputs, and a data table markers are present")
   } else {
     add("accessible_structure", "FAIL", "scene is missing a required keyboard, feedback, input, or table marker")
+  }
+
+  fallback_markers <- c('id="points-table"', 'id="download-r"', 'id="download-qmd"', 'id="download-receipt"')
+  if (all(vapply(fallback_markers, grepl, logical(1), x = scene_text, fixed = TRUE))) {
+    add("static_fallback", "PASS", "table, source, and learning receipt exports remain available without the visual runtime")
+  } else {
+    add("static_fallback", "FAIL", "scene is missing a non-3D fallback or learner export path")
+  }
+
+  ai_safety_markers <- c('credentials: "omit"', 'private_data_sent_to_ai: false', 'function validateAIBrief(brief)')
+  if (all(vapply(ai_safety_markers, grepl, logical(1), x = scene_text, fixed = TRUE))) {
+    add("ai_safety_markers", "PASS", "optional AI path omits browser credentials, records the privacy boundary, and validates returned code")
+  } else {
+    add("ai_safety_markers", "FAIL", "optional AI path is missing a required privacy or code-validation marker")
   }
 
   learning_markers <- c(

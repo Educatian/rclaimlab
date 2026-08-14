@@ -4,7 +4,7 @@
 
 R-LearnXR will provide a small, reusable R package and Quarto authoring framework for reproducible data-science lessons. Many lessons ask learners to interpret multivariate results, yet interactive examples often remain tied to one course, depend on opaque hosted services, or omit reproducibility and accessible alternatives. R-LearnXR addresses this infrastructure gap with a package API, reusable Quarto templates, browser-based R exercises, an optional 3D evidence view synchronized with R output, strict reproducibility checks, and contributor training for R educators.
 
-An implemented prototype already demonstrates the package-to-lesson workflow and reduces delivery risk: authors scaffold a lesson, render a data frame, and run checks; learners can then predict a pattern, edit and execute R code in the browser, inspect the returned data in a 3D view or semantic table, explain their evidence, and export R or Quarto source. The grant will harden the package API, add one third example, expand strict checks and browser smoke tests, conduct an educator/learner feasibility pilot, and publish contributor onboarding materials. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month project beginning in January 2027.
+An implemented prototype already demonstrates the package-to-lesson workflow and reduces delivery risk: authors scaffold a lesson, validate the scene and manifest contracts, render a data frame, and run checks; learners can then predict a pattern, edit and execute R code in the browser, inspect the returned data in a 3D view or semantic table, explain their evidence, download a learning receipt, and export R or Quarto source. Three reference lessons now cover contributor training, authentic PCA, and dependency-light vehicle-efficiency reasoning. The grant will harden the package API, expand strict checks and browser smoke tests, conduct an educator/learner feasibility pilot, and publish contributor onboarding materials. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month project beginning in January 2027.
 
 ## Signatories
 
@@ -43,11 +43,11 @@ The community-ready release will include:
 
 1. An R package with stable functions to scaffold lessons, render browser-based scene artifacts, and run lesson checks, including edge-case validation and JSON reports.
 2. A Quarto lesson template implementing Orient–Predict–Run R–Explore–Explain–Reproduce.
-3. Three openly licensed example lessons using public R datasets; two are existing feasibility evidence and one is grant-period work.
+3. Three openly licensed example lessons using public R datasets, covering contributor training, PCA, and multivariate vehicle-efficiency reasoning.
 4. Strict checks for substantive data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and artifact hashes, plus a real-browser keyboard/responsive smoke test.
 5. A documented DataSandbox exchange contract and adapter with a portable manifest, source-data handoff, learning receipt, privacy boundary, and import/export examples.
 6. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
-6. Continuous integration that runs package tests, lesson checks, and Quarto renders.
+7. Continuous integration that runs package tests, lesson checks, and Quarto renders.
 
 ### Architecture
 
@@ -72,19 +72,19 @@ Core dependencies are R, Quarto, WebR, standard browser APIs, and openly license
 | Milestone | Target | Deliverables | Budget |
 |---|---|---|---:|
 | 1. Package and API hardening | Jan 31, 2027 | Stable API, edge-case tests, release checklist | $2,800 |
-| 2. Reusable lesson system | Mar 15, 2027 | Quarto template and one third example lesson | $2,400 |
+| 2. Reusable lesson system | Mar 15, 2027 | Quarto authoring primitives and one community-authored lesson adaptation | $2,400 |
 | 3. Reproducibility and browser accessibility checks | Apr 15, 2027 | Strict checker, JSON reports, CI, keyboard/overflow smoke test | $2,200 |
 | 4. Validation, release, and maintenance | Jun 30, 2027 | Educator/learner feasibility pilot, contributor training, release, report | $2,600 |
 | **Total** |  |  | **$10,000** |
 
-Funding is allocated to direct labor tied to milestone deliverables. Existing prototype code, UI refinement, narration, screenshots, and the first two lessons are in-kind feasibility evidence and are not charged retroactively. The project will not charge indirect costs, travel, lodging, food, publication fees, or personal hardware. Code will use an OSI-approved license and educational content will use a Creative Commons license. Work will be public on GitHub, with issues and contribution templates available from project startup.
+Funding is allocated to direct labor tied to milestone deliverables. Existing prototype code, UI refinement, narration, screenshots, and the three current lessons are in-kind feasibility evidence and are not charged retroactively. The project will not charge indirect costs, travel, lodging, food, publication fees, or personal hardware. Code will use an OSI-approved license and educational content will use a Creative Commons license. Work will be public on GitHub, with issues and contribution templates available from project startup.
 
 ## Success
 
 ### Definition of done
 
 - Package functions and lesson checks pass in continuous integration.
-- Three complete lessons render from documented, locked environments; the third is completed during the grant.
+- Three complete lessons render from documented, locked environments; the grant will validate reuse and add a community-authored adaptation.
 - Every example offers keyboard operation and a semantic data alternative.
 - Authoring, accessibility, contribution, and pilot documentation is published.
 - A tagged release and archived project report are publicly available.

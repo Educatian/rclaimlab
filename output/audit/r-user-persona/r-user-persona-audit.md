@@ -122,6 +122,12 @@ The high-priority R-user improvements were implemented in the template and regen
 
 After this pass, the R learner fit is 4.5/5, the R educator/author fit is 4.5/5, and the overall product fit is 4.4/5. Maintainer and community readiness remain 3.8/5 until the public prototype release, named contributor roles, and learner or instructor pilot are documented.
 
+## Final release-candidate verification
+
+The current release candidate now includes three reference lessons, explicit scene/manifest/receipt validators, a local learning receipt export, and the authoring handoff. Direct browser QA additionally verified keyboard canvas control, labelled text inputs, named landmarks, reduced-motion CSS, and no horizontal overflow at 200% browser zoom. R package tests, strict lesson checks, Quarto renders, clean installation, and the final PDF/video gates were rerun after the hardening pass.
+
+The internal R-user fit is now **4.8/5**. External community validation remains intentionally open in `community/validation-status.md`; no synthetic persona or screenshot is counted as a substitute for educator or learner evidence.
+
 ## GenAI natural-language visualization extension
 
 The new AI Visual Brief tab adds a natural-language entry point without hiding the R workflow. A user can describe a desired 3D view, inspect the generated intent and R code, run it in WebR, and receive the same row-count, runtime, seed, hash, table, and 3D evidence as a manually authored pipeline.

@@ -36,6 +36,25 @@ final result: passed
 | Responsiveness | Pass | Desktop and mobile flows remain readable, usable, and free of clipped controls. |
 | Accessibility | Pass | Semantic tabs, labelled inputs, focus indicators, keyboard canvas, live regions, reduced motion, and an accessible data selector are present. |
 
+## Post-audit learning-evidence review
+
+The product-design audit identified one remaining risk: the strongest learning signal was distributed across the R editor, checks, and updated scene. The implementation now makes the causal chain visible in one result state:
+
+- `Evidence reveal` reports the baseline and returned row counts, the removed point, and the transformation summary.
+- `Claim / Evidence / Code` connects the selected point to an interpretable coordinate and the supporting R line.
+- `Reproducible run` pins the runtime, seed, returned rows, and artifact hash beside the console.
+- The AI panel now presents a four-step `Intent -> Review -> Run -> Inspect` workflow, keeping generated code reviewable and optional.
+
+## Current implementation evidence
+
+- Desktop post-run: `output/audit/design-improvements/02-evidence-reveal-desktop.png`
+- AI review flow: `output/audit/design-improvements/03-ai-review-flow.png`
+- Mobile result connection: `output/audit/design-improvements/07-mobile-evidence-connection.png`
+- Mobile overflow check: 390 px viewport, `scrollWidth == clientWidth`
+- Package tests: `pkgload::load_all('.')` plus `testthat::test_dir('tests/testthat')` passed
+- Strict lesson checks: all three reference lessons passed with the pinned Quarto binary
+- Final browser QA: keyboard canvas controls, labelled inputs, landmarks, reduced-motion CSS, and 200% zoom with no horizontal overflow
+
 ## Intentional deviations from Figma
 
 - The implementation adds a real WebR editor, console, checks, reproducibility record, downloads, and a six-step learning path because the Figma source is a static visual reference.

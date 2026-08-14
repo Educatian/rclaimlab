@@ -26,6 +26,17 @@ rlearnxr::render_scene(
 )
 ```
 
+Before rendering, authors can validate and normalize the scene contract directly:
+
+```r
+scene <- rlearnxr::validate_scene_data(
+  lesson_data, x = "measure_1", y = "measure_2", z = "measure_3",
+  labels = lesson_data$observation_id
+)
+```
+
+The returned object always has unique `label`, numeric `x`, `y`, and `z` columns. This makes the contract explicit before browser artifacts are generated.
+
 Scale coordinates to a comparable range and keep the original analytical values in the lesson narrative when scaling changes their meaning.
 
 ## 4. Design the learning loop
@@ -48,6 +59,7 @@ The generated browser lab pins WebR 0.6.0 and validates the returned data frame 
 - Make the analytical change visible by reporting the returned row count, filter rule, and any scaling step.
 - Keep the technical R error available, but provide a plain-language fix first for beginners.
 - Record the WebR version, R runtime, seed, returned row count, and artifact hash in the lesson evidence.
+- Let learners download the browser-generated learning receipt after a run; it contains their prediction, explanation, selected evidence, code, and reproducibility metadata but does not transmit private data to the optional AI adapter.
 - Include the package reuse path so an educator can connect `scaffold_lesson()`, `render_scene()`, and `check_lesson()` to their own workflow.
 
 ## 5. Check and render

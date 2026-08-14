@@ -5,7 +5,7 @@ This file distinguishes implemented evidence from external evidence that cannot 
 ## Implemented and internally verified
 
 - Reusable R package rendering API
-- Quarto lesson templates and two runnable lessons
+- Quarto lesson templates and three runnable reference lessons
 - Browser-only 3D interaction with an accessible table alternative
 - Predict–Explore–Explain–Transfer learning loop
 - Reproducibility checks, `renv.lock`, CI workflow, and lesson reports

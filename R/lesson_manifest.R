@@ -97,6 +97,45 @@ read_lesson_manifest <- function(path = ".") {
   jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
 }
 
+#' Validate an R-LearnXR lesson manifest
+#'
+#' @param manifest A manifest list or a lesson directory/manifest JSON path.
+#' @return Invisibly returns TRUE when the manifest satisfies the version 1 contract.
+#' @export
+validate_lesson_manifest <- function(manifest = ".") {
+  value <- if (is.list(manifest)) manifest else read_lesson_manifest(manifest)
+  required <- c("manifest_version", "lesson_id", "title", "r_contract",
+                "reproducibility", "privacy", "artifacts")
+  missing <- setdiff(required, names(value))
+  if (length(missing)) stop("lesson manifest is missing: ", paste(missing, collapse = ", "), call. = FALSE)
+  if (!identical(as.character(value$manifest_version), "1.0")) {
+    stop("unsupported lesson manifest version; expected 1.0", call. = FALSE)
+  }
+  contract <- value$r_contract
+  if (!is.list(contract) || !identical(as.character(contract$required_columns), c("label", "x", "y", "z"))) {
+    stop("lesson manifest r_contract must require label, x, y, and z", call. = FALSE)
+  }
+  reproducibility <- value$reproducibility
+  if (!is.list(reproducibility) || is.null(reproducibility$seed) ||
+      is.null(reproducibility$web_r_version)) {
+    stop("lesson manifest reproducibility must declare seed and web_r_version", call. = FALSE)
+  }
+  privacy <- value$privacy
+  if (!is.list(privacy) || is.null(privacy$storage) || is.null(privacy$export_consent_required)) {
+    stop("lesson manifest privacy must declare storage and export consent", call. = FALSE)
+  }
+  artifacts <- value$artifacts
+  if (!is.list(artifacts) || !all(c("lesson_entrypoint", "scene", "points") %in% names(artifacts))) {
+    stop("lesson manifest artifacts must include lesson_entrypoint, scene, and points", call. = FALSE)
+  }
+  artifact_paths <- unlist(artifacts, use.names = FALSE)
+  if (any(grepl("(^|[/\\\\])\\.\\.([/\\\\]|$)", artifact_paths, perl = TRUE)) ||
+      any(grepl("^[A-Za-z]:[/\\\\]", artifact_paths, perl = TRUE))) {
+    stop("lesson manifest artifact paths must be relative to the lesson", call. = FALSE)
+  }
+  invisible(TRUE)
+}
+
 write_learning_receipt <- function(path = ".", attempt_number = 1,
                                    prediction = "", explanation = "",
                                    source_platform = "rlearnxr",
@@ -143,4 +182,32 @@ write_learning_receipt <- function(path = ".", attempt_number = 1,
   )
   write_json_object(receipt, output)
   invisible(output)
+}
+
+#' Validate an R-LearnXR learning receipt
+#'
+#' @param receipt A receipt list or a JSON file path.
+#' @return Invisibly returns TRUE when the receipt satisfies the version 1 contract.
+#' @export
+validate_learning_receipt <- function(receipt) {
+  value <- if (is.list(receipt)) receipt else {
+    if (!file.exists(receipt)) stop("learning receipt was not found", call. = FALSE)
+    if (!requireNamespace("jsonlite", quietly = TRUE)) stop("reading a learning receipt requires jsonlite", call. = FALSE)
+    jsonlite::fromJSON(receipt, simplifyVector = FALSE)
+  }
+  required <- c("receipt_version", "attempt_number", "prediction", "explanation", "outcome", "reproducibility", "privacy")
+  missing <- setdiff(required, names(value))
+  if (length(missing)) stop("learning receipt is missing: ", paste(missing, collapse = ", "), call. = FALSE)
+  if (!identical(as.character(value$receipt_version), "1.0")) stop("unsupported learning receipt version; expected 1.0", call. = FALSE)
+  if (length(value$attempt_number) != 1L || is.na(suppressWarnings(as.integer(value$attempt_number)))) {
+    stop("learning receipt attempt_number must be an integer", call. = FALSE)
+  }
+  if (!is.list(value$reproducibility) || is.null(value$reproducibility$seed) ||
+      is.null(value$reproducibility$r_version) || is.null(value$reproducibility$web_r_version)) {
+    stop("learning receipt reproducibility must declare seed, r_version, and web_r_version", call. = FALSE)
+  }
+  if (!is.list(value$privacy) || is.null(value$privacy$storage) || is.null(value$privacy$consent)) {
+    stop("learning receipt privacy must declare storage and consent", call. = FALSE)
+  }
+  invisible(TRUE)
 }

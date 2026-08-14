@@ -4,13 +4,13 @@
 
 R-LearnXR will become a small R package and Quarto lesson framework for turning analysis results into inspectable learning evidence. R remains the source of data and analysis. The package API is the funded core: `scaffold_lesson()` creates the authoring structure, `render_scene()` validates and serializes a data frame, and `check_lesson()` produces advisory or strict release reports. A pinned WebR runtime and browser view demonstrate the learner-facing contract; the semantic table, exported R/Quarto source, and static artifacts preserve value when WebR or 3D is unavailable. The optional AI Visual Brief is a documented, unfunded adapter and is not a grant deliverable.
 
-The grant will fund the future work needed to move from prototype to community infrastructure: API stabilization, reusable authoring primitives, a third authentic example, stronger checks, external validation, contributor onboarding, and a documented release process.
+The grant will fund the future work needed to move from prototype to community infrastructure: API stabilization, reusable authoring primitives, a community-authored lesson adaptation, stronger checks, external validation, contributor onboarding, and a documented release process.
 
 ## Minimum viable product
 
 1. A tested R package with stable functions to scaffold lessons, render browser scenes, and check lesson projects, including edge-case validation and machine-readable reports.
 2. A Quarto template implementing Orient, Predict, Run R, Explore, Explain, Transfer, and Reproduce.
-3. Three openly licensed example lessons using public datasets; the first two are existing feasibility evidence and the third is grant-period work.
+3. Three openly licensed example lessons using public datasets, with the current set serving as feasibility evidence and a community-authored adaptation planned during the grant.
 4. Strict release checks for substantive data licenses, deterministic seeds, environment locks, portable paths, required learning-loop elements, accessible alternatives, and generated-artifact hashes, plus a real-browser smoke check for keyboard behavior and responsive overflow.
 5. An authoring guide, accessibility guide, contributor pathway, pilot protocol, and issue templates.
 6. Continuous integration for package tests, lesson checks, and Quarto rendering.

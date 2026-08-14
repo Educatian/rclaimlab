@@ -18,3 +18,7 @@
 ^LICENSE\.md$
 ^grant$
 ^demo$
+^tmp$
+^AGENTS\.md$
+^CONTENT_LICENSE\.md$
+^responsive-audit\.md$

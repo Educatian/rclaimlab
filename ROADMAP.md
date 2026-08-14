@@ -2,8 +2,8 @@
 
 ## Grant milestone 1: reliable authoring core
 
-- Stabilize the package API and lesson schema.
-- Publish two reference lessons and authoring documentation.
+- Stabilize the package API and lesson schema, including explicit scene, manifest, and learning-receipt validators.
+- Publish three reference lessons and authoring documentation.
 - Run R package, Quarto render, accessibility, and browser checks in CI.
 
 ## Grant milestone 2: educator and learner validation

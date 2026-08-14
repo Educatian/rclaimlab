@@ -1,6 +1,6 @@
 # R Consortium ISC 2026-2 application preparation
 
-Status checked: 2026-08-12.
+Status checked: 2026-08-13.
 
 ## Submission window
 
@@ -9,7 +9,7 @@ Status checked: 2026-08-12.
 - Decision notification: November 1, 2026.
 - Award acceptance and contracting deadline: December 1, 2026.
 
-Calendar events were created for the opening date and the exact Pacific-time deadline.
+Calendar events were verified for the opening date and exact Pacific-time deadline; decision and contract-acceptance reminders were also added.
 
 ## Current form status
 
@@ -26,17 +26,17 @@ Official sources:
 
 The official process requires one self-contained PDF, 2–5 pages. The template repository recommends roughly 500–2,500 words.
 
-- [ ] Final 2–5 page PDF
-- [ ] Public proposal or project repository URL
-- [ ] Project lead contact information
-- [ ] Project lead contact and any confirmed core team roles; a co-lead is optional
-- [ ] Public evidence of prior work and delivery capacity
-- [ ] Total request in USD, no more than $10,000
-- [ ] Milestone-level budget and delivery dates
-- [ ] Open-source and content licenses
+- [x] Final 2–5 page PDF
+- [x] Public proposal or project repository URL
+- [x] Project lead contact information
+- [x] Project lead contact and any confirmed core team roles; a co-lead is optional
+- [x] Public evidence of prior work and delivery capacity
+- [x] Total request in USD, justified by milestone-level labor; the current proposal requests $10,000
+- [x] Milestone-level budget and delivery dates
+- [x] Open-source and content licenses
 - [ ] Community feedback, consulted people, and letters or comments of support
-- [ ] Risk, assumption, dependency, and recovery plan
-- [ ] Measurable definition of done and adoption indicators
+- [x] Risk, assumption, dependency, and recovery plan
+- [x] Measurable definition of done and adoption indicators
 
 ## Official proposal sections
 
@@ -85,7 +85,7 @@ Separate deliverable completion from adoption evidence:
 
 - Working R package API for scaffolding, rendering, and checking lessons
 - Reusable Quarto lesson structure
-- Two runnable lessons, including a `palmerpenguins` PCA example
+- Three runnable reference lessons: contributor workflow, `palmerpenguins` PCA, and dependency-light `mtcars` efficiency
 - Keyboard-operable 3D scene and semantic data-table alternative
 - Predict–Run R–Explore–Explain–Reproduce learner workflow
 - Pinned WebR runtime with learner-edited code, synchronized 3D output, semantic table, and `.R`/`.qmd` export; first-run network dependency is documented and offline execution is not claimed
@@ -99,9 +99,9 @@ Separate deliverable completion from adoption evidence:
 - Confirmation of the project lead and any additional core team member, if applicable
 - Two or more R educators/maintainers who have reviewed the proposal
 - At least one short pilot or structured usability session
-- Public repository URL is available; a public pre-release/release tag and clean-clone install check are still needed
+- Public repository URL is available; a public pre-release/release tag and clean-clone install check are still needed before submission packaging
 - English narrated and captioned demo is available, including a direct-interaction browser recording
-- Concise budget justification tied to future—not already completed—work
+- Concise budget justification tied to future, not already completed, work
 - Final application-form field check on or after September 1
 
 Public tracking:

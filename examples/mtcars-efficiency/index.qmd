@@ -1,0 +1,26 @@
+---
+title: "Vehicle efficiency data space"
+format: html
+---
+
+# Vehicle efficiency data space
+
+This lesson uses the built-in `mtcars` dataset to ask how fuel efficiency, horsepower, and vehicle weight relate. The coordinates are standardized for comparison; the browser scene is an evidence layer for the R transformation, not a replacement for the underlying analysis.
+
+```{r}
+#| echo: true
+library(rlearnxr)
+set.seed(2026)
+cars <- mtcars
+cars$label <- rownames(cars)
+scene <- data.frame(
+  label = cars$label,
+  x = as.numeric(scale(cars$mpg)),
+  y = as.numeric(scale(cars$hp)),
+  z = as.numeric(scale(cars$wt))
+)
+render_scene(scene, "x", "y", "z", labels = scene$label,
+  output_dir = "scene", title = "mtcars efficiency data space", overwrite = TRUE)
+```
+
+[Open the interactive R and 3D laboratory](scene/index.html)

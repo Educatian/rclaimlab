@@ -176,10 +176,35 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .r-error-fix { display: block; margin-top: 8px; padding: 8px 9px; overflow-x: auto; border-radius: 6px; background: #fff; color: #7a1d17; font: 10px/1.45 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
 .r-transform-summary { margin: 8px 0 14px; padding: 9px 10px; border-left: 3px solid var(--color-teal); border-radius: 5px; background: #eaf8f8; color: #155d65; font-size: 10px; line-height: 1.45; }
 .r-transform-summary strong { font-weight: 900; }
+.evidence-reveal { margin: 0 0 14px; padding: 13px; border: 1px solid #b9dccc; border-radius: var(--radius-control); background: #f4fbf7; }
+.evidence-reveal[hidden] { display: none; }
+.evidence-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.evidence-header h3 { margin: 3px 0 0; font-size: 14px; line-height: 1.25; }
+.evidence-status { flex: 0 0 auto; padding: 5px 7px; border-radius: 4px; background: #dff3e8; color: var(--color-success); font-size: 8px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+.evidence-flow { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); gap: 8px; align-items: stretch; margin-top: 11px; }
+.evidence-step { min-width: 0; padding: 9px; border: 1px solid #cbe4d4; border-radius: 6px; background: #fff; }
+.evidence-step span, .provenance-item span, .claim-label { display: block; color: var(--color-text-muted); font-size: 8px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.evidence-step strong { display: block; margin-top: 4px; color: var(--color-text); font-size: 14px; }
+.evidence-step small { display: block; margin-top: 3px; color: var(--color-text-muted); font-size: 9px; line-height: 1.35; }
+.evidence-arrow { display: grid; place-items: center; color: var(--color-teal); font-size: 18px; font-weight: 900; }
+.evidence-note { margin: 10px 0 0; color: #155d65; font-size: 10px; line-height: 1.45; }
+.claim-link { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr) minmax(0, 1.25fr); gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #cbe4d4; }
+.claim-link > div { min-width: 0; }
+.claim-link p { margin: 4px 0 0; color: var(--color-text); font-size: 10px; line-height: 1.35; }
+.claim-link code { display: block; margin-top: 4px; overflow-wrap: anywhere; color: var(--color-primary); font: 9px/1.35 "Cascadia Code", "SFMono-Regular", Consolas, monospace; }
+.provenance-ribbon { display: flex; flex-wrap: wrap; gap: 5px 10px; margin: -2px 0 12px; padding: 8px 9px; border-left: 3px solid var(--color-success); border-radius: 5px; background: #edf8f2; color: #155d65; font-size: 9px; line-height: 1.35; }
+.provenance-ribbon[hidden] { display: none; }
+.provenance-ribbon strong { color: var(--color-success); font-size: 9px; }
+.provenance-item { display: inline-flex; align-items: baseline; gap: 4px; }
+.provenance-item span { display: inline; }
 .repro-details { margin-top: 10px; border-top: 1px solid var(--color-border); }
 .repro-details summary { padding: 10px 0 0; color: var(--color-primary); font-size: 10px; font-weight: 850; cursor: pointer; }
 .repro-details p { margin: 8px 0 0; color: var(--color-text-muted); font-size: 10px; line-height: 1.45; }
 .ai-lab { padding: 20px 24px 24px; }
+.ai-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin: 0 0 14px; }
+.ai-flow-step { min-width: 0; padding: 8px 9px; border-top: 2px solid var(--color-primary); background: var(--color-primary-soft); }
+.ai-flow-step strong { display: block; color: var(--color-primary); font-size: 10px; }
+.ai-flow-step span { display: block; margin-top: 3px; color: var(--color-text-muted); font-size: 9px; line-height: 1.3; }
 .ai-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); gap: 14px; align-items: start; }
 .ai-prompt-card, .ai-result-card { min-width: 0; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface-subtle); }
 .ai-prompt { min-height: 120px; }
@@ -323,6 +348,9 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .release-gate { margin-top: 10px; }
   .authoring-content { grid-template-columns: 1fr; }
   .lab-grid { display: block; }
+  .evidence-flow, .claim-link { grid-template-columns: 1fr; }
+  .evidence-arrow { display: none; }
+  .ai-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-layout { grid-template-columns: 1fr; }
   .code-editor { min-height: 240px; }
   .lab-actions { display: grid; grid-template-columns: 1fr 1fr; }
@@ -341,6 +369,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .table-scroll td:last-child { display: block; padding-top: 10px; }
   .table-scroll td:last-child::before { display: none; }
   .inspect-button { width: 100%; white-space: normal; }
+  .ai-flow { grid-template-columns: 1fr; }
 }
 @media (max-width: 360px) {
   .topbar { gap: 8px; padding-inline: 10px; }
@@ -390,7 +419,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   <section class="main" id="lesson-main">
     <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 2 OF 6</div></div>
     <div class="scene-card">
-      <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required.</div></div>
+      <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
       <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
       <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
         <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
@@ -418,14 +447,21 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
           </section>
         </div>
         <div class="r-transform-summary" id="r-transform-summary" aria-live="polite"><strong>Transformation preview:</strong> Run R to see how scaling and filtering change the scene.</div>
+        <section class="evidence-reveal" id="evidence-reveal" aria-labelledby="evidence-reveal-title" hidden>
+          <div class="evidence-header"><div><div class="guide-kicker">Evidence reveal</div><h3 id="evidence-reveal-title">Your R decision changed the evidence space</h3></div><span class="evidence-status">R verified</span></div>
+          <div class="evidence-flow"><div class="evidence-step"><span>Before R</span><strong id="evidence-before">6 rows</strong><small>Full scene preview</small></div><div class="evidence-arrow" aria-hidden="true">→</div><div class="evidence-step"><span>After R</span><strong id="evidence-after">5 rows</strong><small id="evidence-delta">1 removed</small></div></div>
+          <p class="evidence-note" id="evidence-note">R returned a new scene that can be inspected point by point.</p>
+          <div class="claim-link" aria-label="Claim, evidence, and code connection"><div><span class="claim-label">Claim</span><p id="claim-text">The filter keeps the points that match the predicted pattern.</p></div><div><span class="claim-label">Evidence</span><p id="evidence-point">Select a point to connect it to the claim.</p></div><div><span class="claim-label">Code</span><code id="evidence-code">Run the R pipeline to reveal the supporting line.</code></div></div>
+        </section>
         <div class="r-error-guidance" id="r-error-guidance" role="alert" hidden><strong>Try this fix</strong><span id="r-error-message"></span><code class="r-error-fix" id="r-error-fix-example">scene &lt;- data.frame(label = c("a", "b", "c"), x = c(0, 1, 2), y = c(0, 1, 0), z = c(0, 0, 1))</code></div>
         <div class="lab-grid">
-          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" aria-describedby="scene-contract-title" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download analysis .R</button><button class="code-action" id="download-qmd" type="button">Download learner .qmd</button><div class="download-help">Analysis .R contains the editable pipeline. Learner .qmd contains the R code plus prediction and coordinate-based interpretation prompts.</div></div></div>
-          <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Browser run checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Last successful browser run</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Last successful hash</span><strong id="artifact-hash">None yet</strong></div><div class="repro-item"><span>Last successful rows</span><strong id="scene-rows">Baseline preview</strong></div></div><p class="release-note">Browser evidence is not the project release gate. Run <code>check_lesson(..., strict = TRUE)</code> and <code>quarto render</code> locally before publishing.</p><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
+          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" aria-describedby="scene-contract-title" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download analysis .R</button><button class="code-action" id="download-qmd" type="button">Download learner .qmd</button><button class="code-action" id="download-receipt" type="button">Download learning receipt</button><div class="download-help">Analysis .R contains the editable pipeline. Learner .qmd contains the R code plus prediction and coordinate-based interpretation prompts. The receipt contains only learner-entered evidence and reproducibility metadata.</div></div></div>
+          <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="provenance-ribbon" id="provenance-ribbon" aria-live="polite" hidden><strong>Reproducible run</strong><span class="provenance-item"><span>Runtime</span><b id="provenance-runtime">WebR</b></span><span class="provenance-item"><span>Seed</span><b id="provenance-seed">2026</b></span><span class="provenance-item"><span>Rows</span><b id="provenance-rows">5 returned</b></span><span class="provenance-item"><span>Hash</span><b id="provenance-hash">pending</b></span></div><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Browser run checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Last successful browser run</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Last successful hash</span><strong id="artifact-hash">None yet</strong></div><div class="repro-item"><span>Last successful rows</span><strong id="scene-rows">Baseline preview</strong></div></div><p class="release-note">Browser evidence is not the project release gate. Run <code>check_lesson(..., strict = TRUE)</code> and <code>quarto render</code> locally before publishing.</p><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
         </div>
       </section>
       <section class="view-panel ai-lab" id="ai-panel" role="tabpanel" aria-labelledby="ai-tab" aria-hidden="true" inert hidden>
         <div class="lab-heading"><div><h2>Describe the 3D view you want</h2><p>Write the analytical goal in plain language. R-LearnXR turns it into an R brief, generated code, and a verifiable 3D result. This is optional; the R package and Quarto workflow do not depend on AI.</p></div><div class="engine-status ai-provider-status" id="ai-provider-status" data-state="ready">AI assistant · optional demo</div></div>
+        <div class="ai-flow" aria-label="AI to R workflow"><div class="ai-flow-step"><strong>1. Intent</strong><span>Describe the comparison.</span></div><div class="ai-flow-step"><strong>2. Review</strong><span>Inspect the proposed R code.</span></div><div class="ai-flow-step"><strong>3. Run</strong><span>Execute locally in WebR.</span></div><div class="ai-flow-step"><strong>4. Inspect</strong><span>Connect rows to the scene.</span></div></div>
         <div class="ai-layout">
           <section class="ai-prompt-card" aria-labelledby="ai-prompt-title">
             <div class="guide-kicker" id="ai-prompt-title">Natural-language request</div>
@@ -493,6 +529,18 @@ const rConsole = document.getElementById("r-console");
 const rEngineStatus = document.getElementById("r-engine-status");
 const viewRResult = document.getElementById("view-r-result");
 const rTransformSummary = document.getElementById("r-transform-summary");
+const evidenceReveal = document.getElementById("evidence-reveal");
+const evidenceBefore = document.getElementById("evidence-before");
+const evidenceAfter = document.getElementById("evidence-after");
+const evidenceDelta = document.getElementById("evidence-delta");
+const evidenceNote = document.getElementById("evidence-note");
+const evidencePoint = document.getElementById("evidence-point");
+const evidenceCode = document.getElementById("evidence-code");
+const provenanceRibbon = document.getElementById("provenance-ribbon");
+const provenanceRuntime = document.getElementById("provenance-runtime");
+const provenanceSeed = document.getElementById("provenance-seed");
+const provenanceRows = document.getElementById("provenance-rows");
+const provenanceHash = document.getElementById("provenance-hash");
 const rErrorGuidance = document.getElementById("r-error-guidance");
 const rErrorMessage = document.getElementById("r-error-message");
 const educatorModeLink = document.getElementById("educator-mode-link");
@@ -522,6 +570,7 @@ let transferReady = false;
 let webRInstance = null;
 let webRVersion = null;
 let rRunPassed = false;
+let lastSuccessfulCode = "";
 let aiGeneratedRCode = "";
 let aiBrief = null;
 
@@ -571,6 +620,7 @@ function transformationSummary(code, rowCount = null) {
 
 function friendlyRError(error) {
   const raw = String(error && error.message ? error.message : error).replace(/^Error:\s*/i, "");
+  if (/fetch|network|webr|wasm|failed to load|import/i.test(raw)) return "The browser could not load the pinned WebR runtime. You can still use the accessible data table and download the R, Quarto, or learning-receipt artifacts; retry when network access is available.";
   const missing = raw.match(/object ['"]([^'"]+)['"] not found/i);
   if (missing) return "R could not find “" + missing[1] + "”. Define it before creating scene, or click Start over to restore the starter pipeline.";
   if (/parse\(text = expr\)|unexpected/i.test(raw)) return "R could not parse this code. Remove an accidental slash or incomplete line, then make sure the final expression creates scene.";
@@ -624,7 +674,7 @@ function localAIBrief(prompt) {
 
 function validateAIBrief(brief) {
   const code = brief && typeof brief.code === "string" ? brief.code : "";
-  const unsafe = /\b(system|system2|shell|shell\.exec|download\.file|url|readLines|writeLines|unlink|file\.create|file\.remove|source|setwd|install\.packages|library|require|eval|parse|assign|get|do\.call|function)\s*\(?|<<-/i;
+  const unsafe = /\b(system|system2|shell|shell\.exec|download\.file|url|readLines|writeLines|unlink|file\.create|file\.remove|source|setwd|install\.packages|library|require|eval|parse|assign|get|do\.call|function|read\.csv|readr::read_csv|data\.table::fread|readRDS|load|save|attach|detach)\s*\(?|<<-/i;
   if (!brief || code.length > 8000 || !/\bscene\s*(<-|=)/.test(code) || !/set\.seed\s*\(/.test(code) || unsafe.test(code)) {
     throw new Error("The assistant response must include reproducible R code that creates scene.");
   }
@@ -640,8 +690,12 @@ function validateAIBrief(brief) {
 async function requestAIBrief(prompt) {
   const endpoint = window.RLearnXR_LLM_ENDPOINT;
   if (!endpoint) return localAIBrief(prompt);
+  let endpointUrl;
+  try { endpointUrl = new URL(endpoint, window.location.href); } catch (error) { throw new Error("The configured AI endpoint URL is invalid."); }
+  if (!['http:', 'https:'].includes(endpointUrl.protocol)) throw new Error("The configured AI endpoint must use HTTP or HTTPS.");
   const response = await fetch(endpoint, {
     method: "POST",
+    credentials: "omit",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       prompt,
@@ -680,6 +734,27 @@ function aiProvenance() {
     seed: 2026,
     scene_rows: rRunPassed ? points.length : null,
     artifact_hash: document.getElementById("artifact-hash").textContent === "Not generated" ? null : document.getElementById("artifact-hash").textContent
+  };
+}
+
+function learningReceipt() {
+  const selected = points[selectedIndex] || null;
+  return {
+    schema_version: "rlearnxr_learning_receipt/1",
+    generated_at: new Date().toISOString(),
+    lesson: document.title,
+    outcome: statusText.textContent === "Lesson complete" ? "complete" : rRunPassed ? "r_verified" : "in_progress",
+    prediction: predictionInput.value.trim(),
+    explanation: explanationInput.value.trim(),
+    selected_point: selected ? {label: String(selected.label), x: Number(selected.x), y: Number(selected.y), z: Number(selected.z)} : null,
+    reproducibility: {
+      runtime: webRVersion || "WebR 0.6.0",
+      seed: /set\.seed\s*\(\s*2026\s*\)/.test(rCodeEditor.value) ? 2026 : null,
+      rows: rRunPassed ? points.length : null,
+      artifact_hash: rRunPassed ? document.getElementById("artifact-hash").textContent : null
+    },
+    code: rCodeEditor.value.trim(),
+    privacy: {storage: "browser-local", export: "learner-initiated local download", private_data_sent_to_ai: false}
   };
 }
 
@@ -725,6 +800,40 @@ function observationFor(point) {
   return label + " is " + relation(point.x) + " on x, " + relation(point.y) + " on y, and " + relation(point.z) + " on z.";
 }
 
+function updateClaimEvidence() {
+  if (!evidencePoint || !rRunPassed || !points[selectedIndex]) return;
+  const point = points[selectedIndex];
+  const axis = ["x", "y", "z"].sort((a, b) => Math.abs(Number(point[b])) - Math.abs(Number(point[a])))[0];
+  evidencePoint.textContent = String(point.label || "point") + " · " + axis + " " + Number(point[axis]).toFixed(2) + " supports the selected comparison.";
+  if (lastSuccessfulCode) {
+    const line = lastSuccessfulCode.split(/\r?\n/).find(value => /subset|scale|transform/.test(value)) || lastSuccessfulCode;
+    evidenceCode.textContent = line.trim();
+  }
+}
+
+function updateEvidenceReveal(code, resultPoints) {
+  const labels = new Set(resultPoints.map(point => String(point.label)));
+  const removed = initialPoints.filter(point => !labels.has(String(point.label)));
+  const before = initialPoints.length;
+  const after = resultPoints.length;
+  const delta = before - after;
+  evidenceBefore.textContent = before + " rows";
+  evidenceAfter.textContent = after + " rows";
+  evidenceDelta.textContent = delta > 0 ? delta + " removed" : delta < 0 ? Math.abs(delta) + " added" : "no row change";
+  evidenceNote.textContent = delta > 0 && removed.length
+    ? removed.length + " point" + (removed.length === 1 ? "" : "s") + " filtered from the evidence space: " + removed.map(point => String(point.label)).join(", ") + "."
+    : "The R transformation kept all observations and changed the coordinate evidence.";
+  lastSuccessfulCode = code;
+  evidenceCode.textContent = (code.split(/\r?\n/).find(value => /subset|scale|transform/.test(value)) || code).trim();
+  evidenceReveal.hidden = false;
+  provenanceRibbon.hidden = false;
+  provenanceRuntime.textContent = webRVersion || "WebR";
+  provenanceSeed.textContent = /set\.seed\s*\(\s*2026\s*\)/.test(code) ? "2026" : "missing";
+  provenanceRows.textContent = after + " returned";
+  provenanceHash.textContent = document.getElementById("artifact-hash").textContent;
+  updateClaimEvidence();
+}
+
 function setPredictionMode(saved) {
   predictionCard.dataset.state = saved ? "saved" : "editing";
   predictionEdit.hidden = saved;
@@ -748,6 +857,7 @@ function updatePointPanel(index, announce) {
     pointCoords.appendChild(item);
   });
   pointObservation.textContent = observationFor(point);
+  if (rRunPassed) updateClaimEvidence();
   if (announce) document.getElementById("observation-card").focus({preventScroll: true});
 }
 
@@ -999,6 +1109,9 @@ function resetRResults() {
   rEngineStatus.textContent = webRInstance ? "R engine · ready in browser" : "R engine · load on first run";
   rConsole.textContent = "Ready. Run the starter code to initialize WebR.";
   rTransformSummary.textContent = "Transformation preview: Run R to see how scaling and filtering change the scene.";
+  evidenceReveal.hidden = true;
+  provenanceRibbon.hidden = true;
+  lastSuccessfulCode = "";
   clearRError();
   viewRResult.hidden = true;
   rRunPassed = false;
@@ -1044,6 +1157,8 @@ async function executeRCode() {
   }
   runRCode.disabled = true;
   viewRResult.hidden = true;
+  evidenceReveal.hidden = true;
+  provenanceRibbon.hidden = true;
   clearRError();
   rTransformSummary.textContent = "Transformation preview: " + transformationSummary(code);
   updateCheck("check-seed", /set\.seed\s*\(/.test(code) ? "pass" : "fail");
@@ -1084,6 +1199,7 @@ async function executeRCode() {
     updateCheck("check-sync", "pass");
     document.getElementById("artifact-hash").textContent = await artifactHash(points);
     document.getElementById("scene-rows").textContent = points.length + " from R";
+    updateEvidenceReveal(code, points);
     rTransformSummary.textContent = "Transformation evidence: " + transformationSummary(code, points.length);
     document.getElementById("scene-legend").textContent = "x / y / z axes · " + points.length + " points returned by WebR";
     rConsole.textContent = "> R pipeline completed\n" + points.length + " rows returned\n3D scene synchronized successfully";
@@ -1092,6 +1208,7 @@ async function executeRCode() {
     lessonStatus.dataset.state = "success";
     statusText.textContent = "Browser preview verified";
     rRunPassed = true;
+    updateClaimEvidence();
     if (aiBrief && rCodeEditor.value.trim() === aiGeneratedRCode.trim()) {
       aiResultStatus.dataset.state = "success";
       aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now available in the 3D view and table.";
@@ -1419,6 +1536,10 @@ document.getElementById("reset-r-code").addEventListener("click", () => {
 });
 document.getElementById("download-r").addEventListener("click", () => downloadText("rlearnxr-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
 document.getElementById("download-qmd").addEventListener("click", () => downloadText("rlearnxr-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
+document.getElementById("download-receipt").addEventListener("click", () => {
+  downloadText("rlearnxr-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
+  statusText.textContent = "Learning receipt downloaded locally";
+});
 viewRResult.addEventListener("click", () => { showView("scene", true); setStep(4); });
 window.addEventListener("resize", resize);
 rCodeEditor.value = defaultRCode();

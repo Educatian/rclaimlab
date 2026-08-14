@@ -10,6 +10,8 @@
 - Explanation cites an axis: yes / no
 - Explanation direction is accurate: yes / no
 - Transfer completed: yes / no
+- Learning receipt downloaded: yes / no
+- Receipt included prediction, explanation, evidence, and reproducibility fields: yes / no / not checked
 - Critical error or blocker:
 - Most confusing moment:
 - Most useful moment:

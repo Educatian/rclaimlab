@@ -31,7 +31,7 @@ The endpoint must return a JSON object containing reproducible R code:
 }
 ```
 
-The adapter rejects responses that do not include `set.seed()` and code that creates `scene`. It also rejects oversized code and common filesystem, shell, network, package-install, dynamic-evaluation, and function-construction tokens. This is a lightweight browser guardrail, not a security boundary: the learner still reviews the code and WebR validates the returned `scene` data frame. The endpoint must never receive private data or an API key from the browser. Put authentication and provider-specific prompts in a server-side proxy, and record the model name, model version, prompt hash, and generated-code hash in the host application's provenance log.
+The adapter rejects responses that do not include `set.seed()` and code that creates `scene`. It also rejects oversized code and common filesystem, shell, network, package-install, data-import, dynamic-evaluation, and function-construction tokens. Browser credentials are omitted from the request, and the browser sends only the learner prompt plus the public scene schema, never the learner's raw data or an API key. This is a lightweight browser guardrail, not a security boundary: the learner still reviews the code and WebR validates the returned `scene` data frame. Put authentication and provider-specific prompts in a server-side proxy, and record the model name, model version, prompt hash, and generated-code hash in the host application's provenance log.
 
 ## Grant-safe design
 

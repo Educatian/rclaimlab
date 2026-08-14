@@ -34,9 +34,6 @@ json_number <- function(x) {
 }
 
 scene_template_path <- function() {
-  installed <- system.file("templates", "scene.html", package = "rlearnxr")
-  if (nzchar(installed) && file.exists(installed)) return(installed)
-
   working_root <- normalizePath(".", winslash = "/", mustWork = TRUE)
   search_roots <- unique(c(
     RLEARNXR_SOURCE_ROOT,
@@ -50,6 +47,9 @@ scene_template_path <- function() {
   )
   source_path <- source_candidates[file.exists(source_candidates)][1]
   if (length(source_path) && !is.na(source_path)) return(source_path)
+
+  installed <- system.file("templates", "scene.html", package = "rlearnxr")
+  if (nzchar(installed) && file.exists(installed)) return(installed)
 
   stop("R-LearnXR scene template was not found", call. = FALSE)
 }

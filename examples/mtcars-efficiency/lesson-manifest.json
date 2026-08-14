@@ -1,0 +1,46 @@
+{
+  "manifest_version": "1.0",
+  "lesson_id": "mtcars-efficiency",
+  "title": "Vehicle efficiency data space",
+  "source_platform": "rlearnxr",
+  "source_project": "rlearnxr",
+  "course_id": null,
+  "session_id": null,
+  "block_id": null,
+  "activity_id": null,
+  "dataset": {
+    "file": "data/mtcars_efficiency_scene.csv",
+    "source": "Derived from the built-in mtcars dataset distributed with R.",
+    "license": "R distribution licensing and attribution terms apply; see the R COPYING files."
+  },
+  "r_contract": {
+    "required_columns": ["label", "x", "y", "z"],
+    "scene_columns": {
+      "label": "label",
+      "x": "x",
+      "y": "y",
+      "z": "z"
+    }
+  },
+  "reproducibility": {
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "web_r_version": "0.6.0"
+  },
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true
+  },
+  "privacy": {
+    "storage": "browser-local",
+    "export_consent_required": true,
+    "research_use": "separate-consent"
+  },
+  "artifacts": {
+    "lesson_entrypoint": "index.qmd",
+    "scene": "scene/index.html",
+    "points": "scene/points.json",
+    "reproducibility_report": "checks/reproducibility-report.json",
+    "learning_receipt": "checks/learning-receipt.json"
+  }
+}

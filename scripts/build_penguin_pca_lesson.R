@@ -1,6 +1,7 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
+source(file.path(root, "R", "scene_contract.R"))
 source(file.path(root, "R", "render_scene.R"))
 
 if (!requireNamespace("palmerpenguins", quietly = TRUE)) {

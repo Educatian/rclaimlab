@@ -7,17 +7,30 @@ test_that("scaffold_lesson produces a checkable lesson", {
 
   result <- check_lesson(path, write_report = TRUE)
   expect_false(any(result$status == "FAIL"))
+  expect_true(all(c("manifest_contract", "static_fallback", "ai_safety_markers") %in% result$check))
   expect_true(file.exists(file.path(path, "checks", "reproducibility-report.md")))
   expect_true(file.exists(file.path(path, "checks", "reproducibility-report.json")))
   expect_true(file.exists(file.path(path, "checks", "session-info.txt")))
   expect_true(file.exists(file.path(path, "renv.lock")))
   expect_true(file.exists(file.path(path, "lesson-manifest.json")))
   manifest <- read_lesson_manifest(path)
+  expect_true(validate_lesson_manifest(manifest))
   expect_equal(manifest$manifest_version, "1.0")
   expect_equal(manifest$r_contract$required_columns, c("label", "x", "y", "z"))
 
   strict <- check_lesson(path, write_report = FALSE, strict = TRUE)
   expect_true(any(strict$status == "FAIL" & strict$check == "data_license"))
+})
+
+test_that("validate_lesson_manifest rejects unsafe artifact paths", {
+  manifest <- list(
+    manifest_version = "1.0", lesson_id = "x", title = "x",
+    r_contract = list(required_columns = c("label", "x", "y", "z")),
+    reproducibility = list(seed = 2026, web_r_version = "0.6.0"),
+    privacy = list(storage = "browser-local", export_consent_required = TRUE),
+    artifacts = list(lesson_entrypoint = "../outside.qmd", scene = "scene/index.html", points = "scene/points.json")
+  )
+  expect_error(validate_lesson_manifest(manifest), "relative")
 })
 
 test_that("lesson bundles preserve manifest and portable learning receipts", {
@@ -27,6 +40,7 @@ test_that("lesson bundles preserve manifest and portable learning receipts", {
   render_scene(data, "x", "y", "z", labels = data$label, output_dir = file.path(path, "scene"))
   writeLines("Source: DataSandbox synthetic dataset. License: CC BY 4.0.", file.path(path, "DATA_LICENSE.md"))
   write_learning_receipt(path, attempt_number = 2, prediction = "clustered", explanation = "The middle point is elevated", outcome = "complete")
+  expect_true(validate_learning_receipt(file.path(path, "checks", "learning-receipt.json")))
   bundle <- export_lesson_bundle(path, output = tempfile("rlearnxr-bundle-export-"))
   expect_true(file.exists(file.path(bundle, "lesson-manifest.json")))
   expect_true(file.exists(file.path(bundle, "checks", "learning-receipt.json")))

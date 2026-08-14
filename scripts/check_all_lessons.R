@@ -1,6 +1,7 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
+source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "check_lesson.R"))
 
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
