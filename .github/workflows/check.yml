@@ -24,9 +24,11 @@ jobs:
       - uses: quarto-dev/quarto-actions/setup@v2
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck any::remotes
           needs: check
       - uses: r-lib/actions/check-r-package@v2
+      - name: Install source package for Quarto execution
+        run: Rscript -e "install.packages('.', repos = NULL, type = 'source', quiet = TRUE)"
       - name: Build reference lessons
         run: Rscript scripts/build_all_lessons.R
       - name: Check all reference lessons
@@ -61,7 +63,7 @@ jobs:
           clean_lib <- file.path(tempdir(), "rlearnxr-clean-library")
           dir.create(clean_lib, recursive = TRUE)
           .libPaths(c(clean_lib, .libPaths()))
-          remotes::install_github("Educatian/rlearnxr", upgrade = "never")
+          remotes::install_git("https://github.com/Educatian/rlearnxr.git", ref = "main", upgrade = "never")
           library(rlearnxr, lib.loc = clean_lib)
           stopifnot(as.character(packageVersion("rlearnxr")) == "0.1.0")
           stopifnot(all(c("check_lesson", "render_lesson", "lesson_manifest") %in% getNamespaceExports("rlearnxr")))
