@@ -47,7 +47,7 @@ Grant preparation materials:
 - **Author a lesson:** clone the repository as an RStudio Project, restore `renv`, and install the local package.
 - **Contribute:** use the repository project, run diagnosis and strict checks, then open a focused pull request.
 
-The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear.
+The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
 
 ## Visual preview
 
