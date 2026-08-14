@@ -81,10 +81,10 @@ Run `Rscript scripts/diagnose_environment.R` before troubleshooting. It reports 
 - **Windows path errors:** clone to a short user-owned path without cloud-sync or permission restrictions, such as `C:/Users/<you>/Documents/rlearnxr`.
 - **Only the browser demo is needed:** skip RStudio and open the lesson scene directly.
 
-To rehearse the network-failure path locally, run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer`. The script confirms that the static table is usable before WebR starts and that a first-run network failure is surfaced in the R console.
+To rehearse the network-failure path locally, run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer`. The same check runs on a GitHub-hosted Windows runner, so local GUI manipulation is not required. See [External validation](external-validation.md) for the remote workflow and artifacts.
 
 ## Definition of a successful rehearsal
 
 A clean user environment is ready when a user can clone or install the current public version, see the expected package version, restore dependencies, render one lesson, run real R in the browser, inspect the table fallback, and produce a strict PASS report without editing project internals.
 
-The release process must repeat this check on Windows, macOS, and Posit Cloud before claiming cross-platform onboarding success. The current repository provides the Windows/CLI rehearsal; macOS and Posit Cloud remain external validation environments.
+The release process repeats this check on GitHub-hosted Windows, macOS, and Linux runners before claiming cross-platform onboarding success. Posit Cloud, screen-reader, and human pilot checks remain separate external gates.

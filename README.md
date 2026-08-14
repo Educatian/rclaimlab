@@ -38,7 +38,7 @@ Grant preparation materials:
 - `examples/mtcars-efficiency/` is a third, dependency-light reference lesson for multivariate vehicle-efficiency reasoning.
 - `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
-- GitHub Actions checks the R package, rebuilds all three reference lessons, runs strict lesson checks, renders Quarto, and runs a real-browser keyboard/responsive smoke test.
+- GitHub Actions validates the package and all three reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.
 
 ## Choose your path
 
@@ -47,7 +47,7 @@ Grant preparation materials:
 - **Author a lesson:** clone the repository as an RStudio Project, restore `renv`, and install the local package.
 - **Contribute:** use the repository project, run diagnosis and strict checks, then open a focused pull request.
 
-The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
+The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The no-local-GUI validation plan is in [External validation](docs/external-validation.md), and the latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
 
 ## Visual preview
 
