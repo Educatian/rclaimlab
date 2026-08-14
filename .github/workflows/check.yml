@@ -66,7 +66,7 @@ jobs:
           remotes::install_git("https://github.com/Educatian/rlearnxr.git", ref = "main", upgrade = "never")
           library(rlearnxr, lib.loc = clean_lib)
           stopifnot(as.character(packageVersion("rlearnxr")) == "0.1.0")
-          stopifnot(all(c("check_lesson", "render_lesson", "lesson_manifest") %in% getNamespaceExports("rlearnxr")))
+          stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rlearnxr")))
           message("Public main clean-install rehearsal passed")
 
   browser-smoke:
