@@ -81,6 +81,8 @@ Run `Rscript scripts/diagnose_environment.R` before troubleshooting. It reports 
 - **Windows path errors:** clone to a short user-owned path without cloud-sync or permission restrictions, such as `C:/Users/<you>/Documents/rlearnxr`.
 - **Only the browser demo is needed:** skip RStudio and open the lesson scene directly.
 
+To rehearse the network-failure path locally, run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer`. The script confirms that the static table is usable before WebR starts and that a first-run network failure is surfaced in the R console.
+
 ## Definition of a successful rehearsal
 
 A clean user environment is ready when a user can clone or install the current public version, see the expected package version, restore dependencies, render one lesson, run real R in the browser, inspect the table fallback, and produce a strict PASS report without editing project internals.

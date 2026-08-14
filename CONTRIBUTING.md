@@ -10,6 +10,7 @@ R-LearnXR welcomes contributions from R educators, package developers, accessibi
 4. Build all three reference lessons with `Rscript scripts/build_all_lessons.R`.
 5. Run `Rscript scripts/check_all_lessons.R`.
 6. Run `powershell -ExecutionPolicy Bypass -File scripts/browser_smoke_test.ps1 -StartServer` for the automated browser pass, then open each generated scene and test pointer, keyboard, mobile, and data-table paths.
+7. Run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer` to verify the static fallback and first-run WebR network error path.
 
 ## Pull request expectations
 

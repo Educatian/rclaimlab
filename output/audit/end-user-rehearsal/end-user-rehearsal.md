@@ -22,12 +22,15 @@ The RStudio Desktop GUI itself was not run because it is not installed in this e
 | 6 | Run strict checks for `lesson`, `penguin-pca`, and `mtcars-efficiency` | PASS for every check |
 | 7 | Render all three Quarto lessons | PASS |
 | 8 | Run the browser smoke flow | PASS: AI brief, mobile overflow, keyboard scene controls, and semantic table |
+| 9 | Load the static scene, then block network before first Run R | PASS: static table remains available and the WebR failure is surfaced |
 
 ## Browser evidence
 
 ![Desktop browser smoke](../../playwright/rlearnxr-browser-smoke-desktop.png)
 
 ![Mobile browser smoke](../../playwright/rlearnxr-browser-smoke-mobile.png)
+
+![Offline fallback before WebR](../../playwright/rlearnxr-browser-offline-fallback.png)
 
 The screenshots show the updated R-LearnXR brand line, the R-powered laboratory, the optional AI brief, and the mobile layout. Screenshot evidence does not establish full WCAG conformance or learning effectiveness.
 
