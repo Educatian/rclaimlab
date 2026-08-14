@@ -2,13 +2,19 @@ root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 clean_lib <- file.path(tempdir(), "rlearnxr-persona-clean-library")
 dir.create(clean_lib, recursive = TRUE, showWarnings = FALSE)
 
-install.packages(root, repos = NULL, type = "source", lib = clean_lib, quiet = TRUE)
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  stop("Posit Cloud proxy requires the remotes package for clean source installation.")
+}
+remotes::install_local(root, lib = clean_lib, upgrade = "never", quiet = TRUE)
 .libPaths(c(clean_lib, .libPaths()))
 library(rlearnxr, lib.loc = clean_lib)
 
+api_ok <- all(c("check_lesson", "render_scene", "scaffold_lesson") %in%
+  getNamespaceExports("rlearnxr"))
+
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
 lesson_results <- vapply(lessons, function(path) {
-  result <- rlearnxr::check_lesson(path, strict = TRUE)
+  result <- rlearnxr::check_lesson(path, strict = TRUE, write_report = FALSE, write_json = FALSE)
   all(as.character(result$status) == "PASS")
 }, logical(1))
 
@@ -21,14 +27,14 @@ if (!nzchar(quarto)) {
 if (!nzchar(quarto)) stop("Posit Cloud proxy requires Quarto for render verification.")
 
 render_results <- vapply(lessons, function(path) {
-  status <- system2(quarto, c("render", basename(path)), stdout = FALSE, stderr = FALSE)
+  status <- system2(quarto, c("render", path), stdout = FALSE, stderr = FALSE)
   identical(status, 0L)
 }, logical(1))
 
 report <- data.frame(
   persona = c("Posit Cloud clean-room proxy", rep("Reference lesson", length(lessons))),
   check = c("package install and exported API", basename(lessons)),
-  status = c(if (all(lesson_results) && all(render_results)) "PASS" else "FAIL", ifelse(lesson_results & render_results, "PASS", "FAIL")),
+  status = c(if (api_ok && all(lesson_results) && all(render_results)) "PASS" else "FAIL", ifelse(lesson_results & render_results, "PASS", "FAIL")),
   stringsAsFactors = FALSE
 )
 print(report, row.names = FALSE)
