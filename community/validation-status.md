@@ -11,6 +11,7 @@ This file distinguishes implemented evidence from external evidence that cannot 
 - Reproducibility checks, `renv.lock`, CI workflow, and lesson reports
 - Contributor guide, authoring guide, code of conduct, pilot protocol, and usability form
 - Keyboard, mobile, and browser flow checks
+- Synthetic novice-learner and screen-reader accessibility-tree proxy run; see [persona validation](../output/audit/persona-validation/persona-validation.md)
 
 ## External evidence still required
 
@@ -20,6 +21,8 @@ This file distinguishes implemented evidence from external evidence that cannot 
 - Public repository engagement or an R community partner statement
 
 No partner, learner, adoption, or community-impact claim should be marked complete until supporting evidence is linked here.
+
+The synthetic persona run is an engineering regression guard only. It must not be counted as learner, educator, screen-reader, or Posit Cloud user evidence.
 
 ## Evidence register
 

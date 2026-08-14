@@ -12,6 +12,8 @@ Every push, pull request, manual dispatch, and weekly scheduled run performs:
 4. Clones and installs `Educatian/rlearnxr` from public `main` into a clean R library and verifies the exported API.
 5. Runs a real Chromium interaction smoke test for keyboard controls, mobile width, the AI brief, and the semantic table.
 6. Runs the network-blocked WebR fallback test on a hosted Windows runner.
+7. Runs the synthetic novice-learner flow through completion and a screen-reader accessibility-tree proxy.
+8. Runs the Posit Cloud clean-room proxy with a temporary library, strict checks, and Quarto rendering.
 
 The workflow stores rendered lesson reports and browser screenshots as GitHub Actions artifacts. A reviewer can inspect the run summary and download evidence without opening the developer's local project.
 
@@ -37,4 +39,4 @@ This provides independent environment evidence for installation, package contrac
 - Novice learner and R educator pilot sessions, including task success and comprehension evidence.
 - Corporate proxy, locked-down browser, and institution-specific permission recovery.
 
-These are not suitable for unattended CI because they require an account, assistive technology, institutional network, or human judgment. They should be reported as explicit external gates, not presented as completed by automated CI.
+These are not suitable for unattended CI because they require an account, assistive technology, institutional network, or human judgment. They should be reported as explicit external gates, not presented as completed by automated CI. The synthetic persona proxy report is useful for pre-screening regressions, but it does not replace these human or account-based checks.
