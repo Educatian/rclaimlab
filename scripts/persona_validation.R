@@ -5,12 +5,15 @@ dir.create(clean_lib, recursive = TRUE, showWarnings = FALSE)
 r_bin <- file.path(R.home("bin"), "R")
 install_status <- system2(
   r_bin,
-  c("CMD", "INSTALL", "--no-multiarch", "--library", shQuote(clean_lib), shQuote(root)),
+  c("CMD", "INSTALL", "--no-multiarch", "-l", shQuote(clean_lib), shQuote(root)),
   stdout = FALSE,
   stderr = FALSE
 )
 if (!identical(install_status, 0L)) {
   stop("Posit Cloud proxy could not install the package into its clean library.")
+}
+if (!dir.exists(file.path(clean_lib, "rlearnxr"))) {
+  stop("Posit Cloud proxy installation did not create the package in the clean library.")
 }
 .libPaths(c(clean_lib, .libPaths()))
 library(rlearnxr, lib.loc = clean_lib)
