@@ -1,0 +1,15 @@
+{
+  "manifest_version": "1.0",
+  "lesson_id": "edm-patterns",
+  "title": "Educational data mining: discover patterns responsibly",
+  "source_platform": "rlearnxr",
+  "source_project": "rlearnxr",
+  "course_id": "rlearnxr-foundations",
+  "dataset": {"file":"data/edm_features.csv","source":"Synthetic R-LearnXR feature profiles.","license":"CC0-style synthetic instructional data; no real learner records."},
+  "r_contract": {"required_columns":["label","x","y","z"],"scene_columns":{"label":"label","x":"x","y":"y","z":"z"}},
+  "reproducibility": {"seed":2026,"r_version":"4.1.0+","web_r_version":"0.6.0"},
+  "accessibility": {"semantic_table":true,"keyboard_path":true},
+  "privacy": {"storage":"browser-local","export_consent_required":true,"research_use":"separate-consent"},
+  "education": {"audience":"introductory learning analytics and data science learners","estimated_minutes":25,"prerequisites":["basic data-frame vocabulary","read a simple plot"],"objectives":["compare clustering and prediction as discovery tools","explain a standardized feature-space pattern","state a fairness or validity limitation"],"sequence":["orient","predict","run_r","explore","explain","transfer","reproduce"],"assessment":"Use the reusable claim-evidence-limitation-transfer rubric.","instructor_materials":["README.md","../docs/curriculum/learning-analytics-edm-lab.md"],"accessibility_alternative":"semantic table and keyboard path","extension_activities":["change one feature","document a fairness or validity limitation"]},
+  "artifacts": {"lesson_entrypoint":"index.qmd","scene":"scene/index.html","points":"scene/points.json","reproducibility_report":"checks/reproducibility-report.json","learning_receipt":"checks/learning-receipt.json"}
+}

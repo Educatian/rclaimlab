@@ -1,0 +1,47 @@
+---
+title: "Learning analytics: from event to construct"
+format: html
+---
+
+# Learning objectives
+
+By the end, learners can distinguish an event from a learning construct, identify missingness and privacy boundaries, and explain one learner-safe descriptive pattern with evidence.
+
+## Predict, explore, explain, transfer
+
+**Predict:** Which learner profile will show the strongest combination of practice, revision, and transfer evidence? Write a falsifiable expectation before running R.
+
+**Explore:** Run the reproducible R code, then inspect the data space or the accessible table. Each point is a synthetic learner profile, not a person.
+
+**Explain:** Name one profile and connect an axis to a descriptive claim. A click or event is not itself proof of learning.
+
+**Transfer:** Compare a second profile and state one limitation, such as missing context, measurement error, or the risk of using a proxy as a score.
+
+## The construct boundary
+
+Learning analytics begins with traces such as attempts, hints, revisions, and time-on-task. Those events can support a carefully defined construct, but they cannot justify a hidden claim about motivation, ability, or identity without additional evidence. Keep this boundary visible in the lesson and in any downstream intervention.
+
+```{r}
+#| echo: true
+set.seed(2026)
+events <- read.csv("data/learning_events.csv")
+scene_data <- transform(
+  events,
+  x = as.numeric(scale(revision_count)),
+  y = as.numeric(scale(transfer_score)),
+  z = as.numeric(scale(1 - hint_rate)),
+  label = profile
+)
+scene_data <- scene_data[, c("label", "x", "y", "z")]
+scene_data
+```
+
+[Open the interactive R and evidence laboratory](scene/index.html)
+
+## Evidence sentence
+
+Use this frame: “Profile **___** has a higher/lower **[axis]** coordinate, which describes **___** in this synthetic activity record. This does not establish **___** because **___**.”
+
+## Reproducibility and privacy
+
+The data are synthetic and the browser stores learner work locally. Do not upload identifiable event logs to the optional AI adapter. Keep the event-to-construct decision, missingness rule, and intervention boundary in the exported Quarto source.

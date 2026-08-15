@@ -20,12 +20,12 @@ default_course_catalog <- function() {
       list(id = "statistics-efficiency", track = "Statistics", level = "Intermediate", title = "Explain efficiency patterns", minutes = 15L,
            description = "Compare vehicle observations across weight, power, and efficiency while separating association from a causal claim.",
            concepts = c("association", "comparison", "limitations"), lesson_path = "mtcars-efficiency/scene/index.html", status = "ready"),
-      list(id = "learning-analytics", track = "Learning analytics", level = "Blueprint", title = "From event to learning construct", minutes = 25L,
+      list(id = "learning-analytics", track = "Learning analytics", level = "Intermediate", title = "From event to learning construct", minutes = 25L,
            description = "Translate an event log into a transparent construct, audit missingness, and choose a learner-safe descriptive summary.",
-           concepts = c("event logs", "construct validity", "privacy"), lesson_path = "../docs/curriculum/learning-analytics-edm-lab.md", status = "authoring-ready"),
-      list(id = "edm-patterns", track = "Educational data mining", level = "Blueprint", title = "Discover patterns responsibly", minutes = 25L,
+           concepts = c("event logs", "construct validity", "privacy"), lesson_path = "learning-analytics/scene/index.html", status = "ready"),
+      list(id = "edm-patterns", track = "Educational data mining", level = "Intermediate", title = "Discover patterns responsibly", minutes = 25L,
            description = "Compare clustering and prediction as discovery tools, then document uncertainty, fairness, and intervention limits.",
-           concepts = c("clustering", "prediction", "ethics"), lesson_path = "../docs/curriculum/learning-analytics-edm-lab.md", status = "authoring-ready")
+           concepts = c("clustering", "prediction", "ethics"), lesson_path = "edm-patterns/scene/index.html", status = "ready")
     )
   )
 }

@@ -38,6 +38,8 @@ jobs:
           quarto render examples/lesson
           quarto render examples/penguin-pca
           quarto render examples/mtcars-efficiency
+          quarto render examples/learning-analytics
+          quarto render examples/edm-patterns
       - name: Upload lesson reports
         if: always()
         uses: actions/upload-artifact@v4

@@ -1,0 +1,47 @@
+---
+title: "Educational data mining: discover patterns responsibly"
+format: html
+---
+
+# Learning objectives
+
+By the end, learners can compare clustering with prediction, inspect a small feature space, explain a pattern without treating it as a diagnosis, and transfer the reasoning to a new synthetic cohort.
+
+## Predict, explore, explain, transfer
+
+**Predict:** Which synthetic profile will appear closest to the high-transfer pattern after the features are standardized?
+
+**Explore:** Run R and inspect the 3D evidence view or semantic table. The coordinates are standardized features, not a learner rank.
+
+**Explain:** Describe one cluster-like neighborhood with a feature coordinate and a limitation. A discovered pattern is a prompt for inquiry, not an automatic intervention.
+
+**Transfer:** Reconsider the same pattern after removing one feature. Explain how feature choice, missingness, or a proxy could change the conclusion.
+
+## Discovery is not diagnosis
+
+Educational data mining can reveal recurring configurations in activity data. Clustering is exploratory, and prediction is conditional on the target, features, sample, and evaluation design. Neither one authorizes a deficit label, high-stakes decision, or intervention without human review and a documented fairness and validity argument.
+
+```{r}
+#| echo: true
+set.seed(2026)
+features <- read.csv("data/edm_features.csv")
+scene_data <- transform(
+  features,
+  x = as.numeric(scale(practice_minutes)),
+  y = as.numeric(scale(revision_count)),
+  z = as.numeric(scale(transfer_score)),
+  label = profile
+)
+scene_data <- scene_data[, c("label", "x", "y", "z")]
+scene_data
+```
+
+[Open the interactive R and evidence laboratory](scene/index.html)
+
+## Evidence sentence
+
+Use this frame: “The neighborhood around **___** is similar on **[features]**, but this pattern is limited because **___**. A responsible next check would be **___**.”
+
+## Reproducibility and ethics
+
+The data are synthetic and the browser stores work locally. Record the feature definition, scaling choice, missingness handling, evaluation boundary, and human review step in any adapted lesson. Do not convert this activity into an automated learner label.
