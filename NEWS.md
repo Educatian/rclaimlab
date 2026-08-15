@@ -1,3 +1,12 @@
+# rlearnxr 1.1.0
+
+## Course flow and educator evidence
+
+- Added a browser-local resume link that follows the learner's most recently completed or opened module.
+- Added an educator receipt summary that imports R-LearnXR JSON locally, aggregates completion and reproducibility coverage by lesson, and exports privacy-preserving CSV counts.
+- Added mobile-safe receipt tables, explicit local-only privacy copy, and a data-URI favicon to keep the course home console clean.
+- Fixed course title generation when a title appears in more than one template location.
+
 # rlearnxr 1.0.0
 
 ## Product release

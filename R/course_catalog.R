@@ -88,7 +88,7 @@ render_course_catalog <- function(catalog = default_course_catalog(), output_dir
     json_value(catalog)
   }
   template <- paste(readLines(course_template_path(), warn = FALSE, encoding = "UTF-8"), collapse = "\n")
-  template <- sub("{{TITLE}}", html_escape(catalog$title), template, fixed = TRUE)
+  template <- gsub("{{TITLE}}", html_escape(catalog$title), template, fixed = TRUE)
   template <- sub("{{CATALOG_JSON}}", catalog_json, template, fixed = TRUE)
   writeLines(template, outputs[[1]], useBytes = TRUE)
   writeLines(catalog_json, outputs[[2]], useBytes = TRUE)

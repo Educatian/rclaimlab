@@ -16,7 +16,7 @@ This path is for an R user who wants the package API but does not need to edit t
 install.packages("remotes")
 remotes::install_github(
   "Educatian/rlearnxr",
-  ref = "v1.0.0",
+  ref = "v1.1.0",
   upgrade = "never"
 )
 
@@ -24,7 +24,7 @@ library(rlearnxr)
 packageVersion("rlearnxr")
 ```
 
-The `ref` pins the public v1.0.0 release. The default `main` branch is aligned with this release; use the `ref` when you need an immutable installation.
+The `ref` pins the public v1.1.0 release. The default `main` branch is aligned with this release; use the `ref` when you need an immutable installation.
 
 ## Path C: clone and author in RStudio
 
@@ -47,7 +47,7 @@ packageVersion("rlearnxr")
 rlearnxr::check_lesson("examples/lesson", strict = TRUE)
 ```
 
-If the project is on a release tag, use the Git pane or the terminal to check out `v1.0.0` before installing locally. Do not edit the live `main` branch directly when preparing a contribution.
+If the project is on a release tag, use the Git pane or the terminal to check out `v1.1.0` before installing locally. Do not edit the live `main` branch directly when preparing a contribution.
 
 ## First authoring loop
 
@@ -77,7 +77,7 @@ Run `Rscript scripts/diagnose_environment.R` before troubleshooting. It reports 
 
 - **`git` is not found:** install Git for Windows or use the hosted browser demo instead.
 - **`quarto` is not found:** install Quarto, restart RStudio, and run `quarto check`.
-- **The package version is old:** check `packageVersion("rlearnxr")`, then reinstall with `ref = "v1.0.0"`.
+- **The package version is old:** check `packageVersion("rlearnxr")`, then reinstall with `ref = "v1.1.0"`.
 - **`renv::restore()` prompts or fails:** run it from the repository root and inspect the first unavailable package or mirror URL.
 - **WebR does not start:** confirm browser network access to the pinned WebR URL; the static scene, table, and source exports remain available as fallbacks.
 - **Windows path errors:** clone to a short user-owned path without cloud-sync or permission restrictions, such as `C:/Users/<you>/Documents/rlearnxr`.

@@ -11,6 +11,7 @@ R-LearnXR v1 is a complete, installable open educational infrastructure package 
 - A stable lesson manifest, course catalog, scene contract, and learning-receipt contract.
 - Contributor and educator materials: authoring template, micro-lessons, educator guides, answer key, rubric, accessibility alternative, and extensions.
 - Browser-local progress and exports. No login, LMS, telemetry, or private data upload is required for the core product.
+- v1.1 course-flow hardening: a privacy-preserving educator receipt summary, CSV aggregate export, and a clear resume-last-module action.
 
 ## Release gates
 

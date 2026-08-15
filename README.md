@@ -73,12 +73,14 @@ The Explore lesson interface was refined in [Figma](https://www.figma.com/design
 install.packages("remotes")
 remotes::install_github(
   "Educatian/rlearnxr",
-  ref = "v1.0.0",
+  ref = "v1.1.0",
   upgrade = "never"
 )
 library(rlearnxr)
 packageVersion("rlearnxr")
 ```
+
+The course home also includes a browser-local educator view: import learner-initiated R-LearnXR receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
 
 ### Clone for RStudio authoring
 

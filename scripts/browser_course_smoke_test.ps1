@@ -30,13 +30,16 @@ try {
     if (-not $ready) { throw "Course home server did not become ready at $BaseUrl" }
   }
   Invoke-PwCli open $BaseUrl | Out-Null
-  Invoke-PwCli eval "() => { if (document.querySelectorAll('.module').length !== 5) throw new Error('module library incomplete'); const routes = [...document.querySelectorAll('[data-open]')].map(link => link.getAttribute('href')); if (!routes.includes('learning-analytics/scene/index.html') || !routes.includes('edm-patterns/scene/index.html')) throw new Error('application lesson routes missing'); return 'course-library-ready'; }" | Out-Null
+  Invoke-PwCli eval "() => { if (document.querySelectorAll('.module').length !== 5) throw new Error('module library incomplete'); const routes = [...document.querySelectorAll('[data-module]')].map(link => link.getAttribute('href')); if (!routes.includes('learning-analytics/scene/index.html') || !routes.includes('edm-patterns/scene/index.html')) throw new Error('application lesson routes missing'); return 'course-library-ready'; }" | Out-Null
+  Invoke-PwCli eval "() => { if (!document.querySelector('#educator-tools') || !document.querySelector('#receipt-files') || !document.querySelector('#resume-link')) throw new Error('course support controls missing'); return 'course-support-controls-ready'; }" | Out-Null
+  Invoke-PwCli eval "async () => { const input = document.querySelector('#receipt-files'); const transfer = new DataTransfer(); transfer.items.add(new File([JSON.stringify({schema_version:'rlearnxr_learning_receipt/1', lesson:'smoke', outcome:'complete', reproducibility:{artifact_hash:'smoke'}})], 'smoke.json', {type:'application/json'})); input.files = transfer.files; input.dispatchEvent(new Event('change', {bubbles:true})); await new Promise(resolve => setTimeout(resolve, 50)); if (document.querySelector('#receipt-count').textContent !== '1' || document.querySelector('#receipt-completed').textContent !== '1') throw new Error('receipt aggregation failed'); return 'receipt-summary-ready'; }" | Out-Null
   Invoke-PwCli eval "async () => { const routes = ['learning-analytics/scene/index.html', 'edm-patterns/scene/index.html']; for (const route of routes) { const response = await fetch(route); if (!response.ok) throw new Error('lesson route did not resolve: ' + route); } return 'application-routes-ready'; }" | Out-Null
   Invoke-PwCli screenshot --filename="output/playwright/rlearnxr-course-home-desktop.png" | Out-Null
   Invoke-PwCli click "button[data-filter='Statistics']" | Out-Null
   Invoke-PwCli eval "() => { const visible = [...document.querySelectorAll('.module')].filter(x => x.dataset.hidden !== 'true'); if (visible.length !== 2) throw new Error('statistics filter failed'); return 'filter-ok'; }" | Out-Null
-  Invoke-PwCli click "[data-complete-id='statistics-pca']" | Out-Null
-  Invoke-PwCli eval "() => { if (!document.querySelector('[data-complete-id=statistics-pca]').textContent.includes('Completed')) throw new Error('progress did not persist'); return 'progress-ok'; }" | Out-Null
+  Invoke-PwCli click "[data-module-complete='statistics-pca']" | Out-Null
+  Invoke-PwCli eval "() => { if (!document.querySelector('[data-module-complete=statistics-pca]').textContent.includes('Completed')) throw new Error('progress did not persist'); return 'progress-ok'; }" | Out-Null
+  Invoke-PwCli eval "() => { const resume = document.querySelector('#resume-link'); if (!resume || resume.hidden || !resume.href.includes('penguin-pca/scene/index.html')) throw new Error('resume link did not appear'); return 'resume-link-ok'; }" | Out-Null
   Invoke-PwCli resize 390 844 | Out-Null
   Invoke-PwCli eval "() => { if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) throw new Error('course home horizontal overflow'); return 'mobile-width-ok'; }" | Out-Null
   Invoke-PwCli screenshot --filename="output/playwright/rlearnxr-course-home-mobile.png" | Out-Null
