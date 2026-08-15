@@ -9,6 +9,9 @@ test_that("default course catalog validates and renders a complete static home",
   expect_match(html, "RLEARNXR_CATALOG")
   expect_match(html, "local progress")
   expect_match(html, "statistics-pca")
+  expect_match(html, "learning-analytics/scene/index.html")
+  expect_match(html, "edm-patterns/scene/index.html")
+  expect_true(all(vapply(catalog$modules, function(module) identical(module$status, "ready"), logical(1))))
 })
 
 test_that("course catalog rejects duplicate module ids", {
