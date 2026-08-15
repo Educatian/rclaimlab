@@ -65,7 +65,7 @@ jobs:
           .libPaths(c(clean_lib, .libPaths()))
           remotes::install_git("https://github.com/Educatian/rlearnxr.git", ref = "main", upgrade = "never")
           library(rlearnxr, lib.loc = clean_lib)
-          stopifnot(as.character(packageVersion("rlearnxr")) == "0.1.0")
+          stopifnot(as.character(packageVersion("rlearnxr")) == "1.0.0")
           stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rlearnxr")))
           message("Public main clean-install rehearsal passed")
 
@@ -148,6 +148,25 @@ jobs:
         with:
           name: rlearnxr-browser-offline-fallback
           path: output/playwright/rlearnxr-browser-offline-fallback.png
+
+  course-home-smoke:
+    name: Learner course home smoke test
+    runs-on: windows-latest
+    needs: r-package-and-lessons
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Chromium for course-home smoke test
+        shell: pwsh
+        run: npx --yes --package @playwright/cli playwright-cli install-browser chromium
+      - name: Run course-home navigation and responsive test
+        shell: pwsh
+        run: ./scripts/browser_course_smoke_test.ps1 -StartServer
+      - name: Upload course-home screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rlearnxr-course-home
+          path: output/playwright/rlearnxr-course-home-*.png
 
   persona-browser:
     name: Learner and screen-reader proxy

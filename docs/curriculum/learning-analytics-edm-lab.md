@@ -1,6 +1,6 @@
 # Learning Analytics and EDM Lab Modules
 
-This track teaches learners to analyze learning data without turning people into scores. All examples in the MVP use synthetic or openly licensed data. The browser stores work locally and exposes the evidence and limitation boundary to the learner.
+This track teaches learners to analyze learning data without turning people into scores. All examples in the v1 course use synthetic or openly licensed data. The browser stores work locally and exposes the evidence and limitation boundary to the learner.
 
 ## LA01 — From event to construct
 

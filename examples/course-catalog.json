@@ -1,0 +1,19 @@
+{
+  "schema_version": "rlearnxr-course-1",
+  "course_id": "rlearnxr-foundations",
+  "title": "From R code to evidence",
+  "subtitle": "A reproducible pathway through statistics, learning analytics, and educational data mining.",
+  "outcomes": [
+    "Frame a data question and identify an evidence boundary.",
+    "Run and explain a reproducible R transformation.",
+    "Use a visual or tabular representation to support a claim.",
+    "Transfer the reasoning to a new observation and document the result."
+  ],
+  "modules": [
+    {"id":"r-foundations","track":"R foundations","level":"Beginner","title":"Make a data claim","minutes":10,"description":"Learn the R-LearnXR loop: predict, run a real R transformation, select evidence, and explain a limitation.","concepts":["data frames","filtering","evidence sentences"],"lesson_path":"lesson/scene/index.html","status":"ready"},
+    {"id":"statistics-pca","track":"Statistics","level":"Intermediate","title":"Find structure with PCA","minutes":20,"description":"Standardize penguin measurements, inspect principal components, and defend what a multivariate coordinate does and does not mean.","concepts":["standardization","PCA","variation"],"lesson_path":"penguin-pca/scene/index.html","status":"ready"},
+    {"id":"statistics-efficiency","track":"Statistics","level":"Intermediate","title":"Explain efficiency patterns","minutes":15,"description":"Compare vehicle observations across weight, power, and efficiency while separating association from a causal claim.","concepts":["association","comparison","limitations"],"lesson_path":"mtcars-efficiency/scene/index.html","status":"ready"},
+    {"id":"learning-analytics","track":"Learning analytics","level":"Blueprint","title":"From event to learning construct","minutes":25,"description":"Translate an event log into a transparent construct, audit missingness, and choose a learner-safe descriptive summary.","concepts":["event logs","construct validity","privacy"],"lesson_path":"../docs/curriculum/learning-analytics-edm-lab.md","status":"authoring-ready"},
+    {"id":"edm-patterns","track":"Educational data mining","level":"Blueprint","title":"Discover patterns responsibly","minutes":25,"description":"Compare clustering and prediction as discovery tools, then document uncertainty, fairness, and intervention limits.","concepts":["clustering","prediction","ethics"],"lesson_path":"../docs/curriculum/learning-analytics-edm-lab.md","status":"authoring-ready"}
+  ]
+}

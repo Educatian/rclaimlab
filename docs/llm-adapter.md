@@ -35,4 +35,4 @@ The adapter rejects responses that do not include `set.seed()` and code that cre
 
 ## Grant-safe design
 
-The optional adapter must not be required for a lesson to work and is outside the funded grant MVP. A lesson remains reproducible when the model is unavailable because the R code, seed, runtime, returned rows, artifact hash, and Quarto export are the authoritative evidence. Do not describe model-generated code as independently verified or safe to run without review.
+The optional adapter must not be required for a lesson to work and is outside the funded grant scope. A lesson remains reproducible when the model is unavailable because the R code, seed, runtime, returned rows, artifact hash, and Quarto export are the authoritative evidence. Do not describe model-generated code as independently verified or safe to run without review.

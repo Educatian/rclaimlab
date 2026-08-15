@@ -5,8 +5,8 @@ Status: **implementation-ready; external validation in progress**
 | Criterion | Score | Evidence |
 |---|---:|---|
 | R technical/social infrastructure fit | 5/5 | R package, Quarto templates, reproducibility checks, contributor pathway |
-| Focused scope and clear deliverables | 5/5 | R-package-first browser MVP, explicit exclusions, four funded deliverable packages |
-| Low-to-medium delivery risk | 5/5 | Working prototype, three lessons, tests, strict CI, locked environment, browser smoke test, static hosting |
+| Focused scope and clear deliverables | 5/5 | R-package-first browser v1, explicit exclusions, four funded deliverable packages |
+| Low-to-medium delivery risk | 5/5 | Release-ready course home, three executable lessons, tests, strict CI, locked environment, browser smoke test, static hosting |
 | Demonstrable educational value | 5/5 | Functional Predict–Run R–Explore–Explain–Reproduce flow, real browser R execution, and accessible evidence path |
 | Open-source reuse and reproducibility | 5/5 | MIT code, substantive data licenses, `renv.lock`, JSON reports, authoring and accessibility guides |
 | Broad R community impact evidence | 4/5 | Reusable architecture is present; named external reuse commitments remain pending |
@@ -16,7 +16,7 @@ Status: **implementation-ready; external validation in progress**
 ## What is already grant-ready
 
 - Public-facing R package and lesson architecture
-- Real, testable prototype rather than a speculative concept
+- Real, testable release-ready product rather than a speculative concept
 - Three reusable examples and a reproducible build
 - Three reusable reference lessons: contributor training, authentic PCA, and dependency-light vehicle efficiency
 - Defined future milestones and $10,000 budget

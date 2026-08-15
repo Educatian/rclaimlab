@@ -37,7 +37,7 @@ Add one row only after the linked evidence exists. Public summaries should be ag
 | Instructor authoring task | 2 instructors | Recruiting | [Issue #3](https://github.com/Educatian/rlearnxr/issues/3) |
 | Concrete reuse statement | 2 statements | Recruiting | [Issue #2](https://github.com/Educatian/rlearnxr/issues/2) |
 | External contribution | 1 issue, lesson, or documentation change | Open | Pending |
-| Public release candidate | 1 tag and clean-clone install | Complete | [v0.1.0-rc.4](https://github.com/Educatian/rlearnxr/tree/v0.1.0-rc.4) |
+| Public v1 release | 1 tag and clean-clone install | Complete after v1.0.0 workflow pass | [v1.0.0](https://github.com/Educatian/rlearnxr/tree/v1.0.0) |
 
 ## Claim gate
 

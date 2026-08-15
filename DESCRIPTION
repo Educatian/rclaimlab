@@ -1,7 +1,7 @@
 Package: rlearnxr
 Type: Package
 Title: R-LearnXR: From R Code to Evidence
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]
 Maintainer: Jewoong Moon <Educatian@users.noreply.github.com>

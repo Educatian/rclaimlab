@@ -1,0 +1,46 @@
+param(
+  [string]$BaseUrl = "",
+  [int]$ServerPort = 8775,
+  [switch]$StartServer
+)
+
+$ErrorActionPreference = "Stop"
+$root = Split-Path -Parent $PSScriptRoot
+if (-not $BaseUrl) { $BaseUrl = "http://127.0.0.1:$ServerPort/examples/index.html" }
+$npx = (Get-Command npx.cmd -ErrorAction Stop).Source
+$session = "rlearnxr-course-smoke"
+$server = $null
+
+function Invoke-PwCli {
+  param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments)
+  & $npx --yes --package @playwright/cli playwright-cli "-s=$session" @Arguments
+  if ($LASTEXITCODE -ne 0) { throw "playwright-cli failed: $($Arguments -join ' ')" }
+}
+
+try {
+  if ($StartServer) {
+    $server = Start-Process -FilePath "python" -ArgumentList "-m", "http.server", "$ServerPort", "--bind", "127.0.0.1" -WorkingDirectory $root -PassThru -WindowStyle Hidden
+    $ready = $false
+    1..30 | ForEach-Object {
+      if (-not $ready) {
+        try { $ready = (Invoke-WebRequest -Uri $BaseUrl -UseBasicParsing -TimeoutSec 2).StatusCode -eq 200 }
+        catch { Start-Sleep -Milliseconds 250 }
+      }
+    }
+    if (-not $ready) { throw "Course home server did not become ready at $BaseUrl" }
+  }
+  Invoke-PwCli open $BaseUrl | Out-Null
+  Invoke-PwCli eval "() => { if (document.querySelectorAll('.module').length !== 5) throw new Error('module library incomplete'); return 'course-library-ready'; }" | Out-Null
+  Invoke-PwCli screenshot --filename="output/playwright/rlearnxr-course-home-desktop.png" | Out-Null
+  Invoke-PwCli click "button[data-filter='Statistics']" | Out-Null
+  Invoke-PwCli eval "() => { const visible = [...document.querySelectorAll('.module')].filter(x => x.dataset.hidden !== 'true'); if (visible.length !== 2) throw new Error('statistics filter failed'); return 'filter-ok'; }" | Out-Null
+  Invoke-PwCli click "[data-complete-id='statistics-pca']" | Out-Null
+  Invoke-PwCli eval "() => { if (!document.querySelector('[data-complete-id=statistics-pca]').textContent.includes('Completed')) throw new Error('progress did not persist'); return 'progress-ok'; }" | Out-Null
+  Invoke-PwCli resize 390 844 | Out-Null
+  Invoke-PwCli eval "() => { if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) throw new Error('course home horizontal overflow'); return 'mobile-width-ok'; }" | Out-Null
+  Invoke-PwCli screenshot --filename="output/playwright/rlearnxr-course-home-mobile.png" | Out-Null
+  Invoke-PwCli close | Out-Null
+  Write-Output "R-LearnXR course-home browser smoke test passed."
+} finally {
+  if ($server) { Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue }
+}

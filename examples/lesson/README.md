@@ -1,6 +1,6 @@
 # R-LearnXR Reference Lesson
 
-This lesson is the first end-to-end example for the MVP. It uses a six-point openly created toy dataset so that the artifact can be rendered and inspected without credentials or external services.
+This lesson is the first end-to-end example for the v1 course. It uses a six-point openly created toy dataset so that the artifact can be rendered and inspected without credentials or external services.
 
 The toy data and lesson text are released under CC0 for reuse in demonstrations and contributor training.
 

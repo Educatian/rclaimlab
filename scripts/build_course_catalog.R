@@ -1,0 +1,6 @@
+root <- normalizePath(".", winslash = "/", mustWork = TRUE)
+source(file.path(root, "R", "utils.R"))
+source(file.path(root, "R", "lesson_bundle.R"))
+source(file.path(root, "R", "course_catalog.R"))
+render_course_catalog(default_course_catalog(), output_dir = file.path(root, "examples"), overwrite = TRUE)
+cat("Built learner-facing course home at examples/index.html.\n")

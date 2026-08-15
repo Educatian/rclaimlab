@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · R-LearnXR</title>
+<style>
+:root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; --ink:#172033; --muted:#526078; --line:#d8e0eb; --canvas:#f1f4f8; --surface:#fff; --blue:#1f5fd1; --blue-soft:#e7f0ff; --green:#137a4a; --shadow:0 12px 32px rgba(23,32,51,.08); }
+* { box-sizing:border-box; } body { margin:0; min-height:100vh; background:var(--canvas); color:var(--ink); } button, a { font:inherit; } a { color:inherit; }
+.skip { position:fixed; left:12px; top:-60px; z-index:4; padding:10px 14px; background:var(--ink); color:#fff; border-radius:8px; } .skip:focus { top:12px; }
+.shell { width:min(1180px, calc(100% - 32px)); margin:16px auto; min-height:calc(100vh - 32px); border:1px solid var(--line); border-radius:16px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden; }
+header { padding:28px clamp(20px, 5vw, 56px) 26px; border-bottom:1px solid var(--line); background:linear-gradient(120deg,#fff 0%,#f7faff 100%); } .brand { display:flex; align-items:center; gap:10px; color:var(--blue); font-weight:850; letter-spacing:.02em; } .mark { display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; } h1 { max-width:760px; margin:18px 0 8px; font-size:clamp(30px,5vw,52px); line-height:1.03; letter-spacing:-.045em; } .subtitle { max-width:720px; margin:0; color:var(--muted); line-height:1.55; }
+main { padding:24px clamp(20px,5vw,56px) 48px; } .overview { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(230px,1fr); gap:20px; align-items:start; } .panel { padding:20px; border:1px solid var(--line); border-radius:12px; background:#fff; } .panel h2 { margin:0 0 12px; font-size:15px; } .outcomes { display:grid; gap:10px; margin:0; padding:0; list-style:none; } .outcomes li { display:flex; gap:10px; line-height:1.45; color:var(--muted); } .outcomes li::before { content:'✓'; color:var(--green); font-weight:900; } .resume { background:var(--blue-soft); border-color:#c3d5f4; } .resume strong { display:block; margin-top:8px; } .resume p { margin:8px 0 14px; color:var(--muted); font-size:13px; line-height:1.4; }
+.toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:28px 0 14px; } .toolbar h2 { margin:0 auto 0 0; font-size:20px; } .filter { min-height:40px; padding:8px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--muted); cursor:pointer; } .filter:hover,.filter:focus-visible,.filter[aria-pressed="true"] { border-color:var(--blue); color:var(--blue); background:var(--blue-soft); outline:3px solid transparent; } .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; } .module { display:flex; flex-direction:column; min-width:0; padding:18px; border:1px solid var(--line); border-radius:12px; background:#fff; } .module[data-hidden="true"] { display:none; } .module-track { color:var(--blue); font-size:11px; font-weight:850; text-transform:uppercase; letter-spacing:.04em; } .module h3 { margin:8px 0 8px; font-size:18px; line-height:1.16; } .module p { min-height:66px; margin:0; color:var(--muted); font-size:13px; line-height:1.45; } .meta { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 18px; color:var(--muted); font-size:11px; } .tag { padding:5px 7px; border-radius:999px; background:#f1f4f8; } .module-actions { display:flex; align-items:center; gap:8px; margin-top:auto; } .open { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 12px; border-radius:8px; background:var(--blue); color:#fff; text-decoration:none; font-size:13px; font-weight:800; } .open:hover,.open:focus-visible { background:#194fad; } .complete { min-height:44px; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--muted); cursor:pointer; font-size:12px; } .complete[data-complete="true"] { border-color:#a7d4bd; color:var(--green); background:#edf8f2; } .status { margin-left:auto; color:var(--muted); font-size:11px; }
+footer { padding:20px clamp(20px,5vw,56px); border-top:1px solid var(--line); color:var(--muted); font-size:12px; line-height:1.5; } footer a { color:var(--blue); }
+@media (max-width:800px) { .overview,.grid { grid-template-columns:1fr; } .module p { min-height:0; } }
+@media (max-width:520px) { .shell { width:100%; min-height:100vh; margin:0; border:0; border-radius:0; } header,main,footer { padding-left:16px; padding-right:16px; } .toolbar { align-items:stretch; } .toolbar h2 { width:100%; } .filter { flex:1; } .module-actions { flex-wrap:wrap; } .open { flex:1; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#course-main">Skip to course modules</a>
+<div class="shell">
+<header><div class="brand"><span class="mark" aria-hidden="true">R</span><span>R-LearnXR · Course home</span></div><h1 id="course-title">{{TITLE}}</h1><p class="subtitle" id="course-subtitle"></p></header>
+<main id="course-main">
+<div class="overview"><section class="panel" aria-labelledby="outcomes-title"><h2 id="outcomes-title">What you will be able to do</h2><ul class="outcomes" id="outcomes"></ul></section><aside class="panel resume" aria-labelledby="resume-title"><h2 id="resume-title">Your local progress</h2><div id="progress-summary">No modules completed yet.</div><strong id="resume-title-text">Choose a module to begin.</strong><p>Progress is stored only in this browser. No account or learner data is required.</p><button class="complete" id="clear-progress" type="button">Reset local progress</button></aside></div>
+<div class="toolbar"><h2 id="modules-title">Module library</h2><button class="filter" type="button" data-filter="All" aria-pressed="true">All</button><button class="filter" type="button" data-filter="Statistics" aria-pressed="false">Statistics</button><button class="filter" type="button" data-filter="Learning analytics" aria-pressed="false">Learning analytics</button><button class="filter" type="button" data-filter="Educational data mining" aria-pressed="false">EDM</button></div>
+<section class="grid" id="module-grid" aria-labelledby="modules-title"></section>
+</main>
+<footer>R-LearnXR keeps the analytical source, scene artifact, accessible table, and learning receipt inspectable. <a href="../README.md">Read the authoring and reproducibility documentation</a>.</footer>
+</div>
+<script>
+window.RLEARNXR_CATALOG = {{CATALOG_JSON}};
+(() => {
+  const catalog = window.RLEARNXR_CATALOG;
+  const progressKey = `rlearnxr:${catalog.course_id}:progress:v1`;
+  const load = () => { try { return JSON.parse(localStorage.getItem(progressKey) || '{}'); } catch (_) { return {}; } };
+  let progress = load();
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  document.getElementById('course-subtitle').textContent = catalog.subtitle;
+  document.getElementById('outcomes').innerHTML = catalog.outcomes.map(item => `<li>${escapeHtml(item)}</li>`).join('');
+  const renderProgress = () => { const completed = catalog.modules.filter(module => progress[module.id]).length; document.getElementById('progress-summary').textContent = `${completed} of ${catalog.modules.length} modules marked complete.`; const last = progress.last; document.getElementById('resume-title-text').textContent = last ? `Resume: ${catalog.modules.find(module => module.id === last)?.title || 'your last module'}` : 'Choose a module to begin.'; };
+  const render = filter => { const grid = document.getElementById('module-grid'); grid.innerHTML = catalog.modules.map(module => { const done = !!progress[module.id]; const ready = module.status === 'ready'; return `<article class="module" data-track="${escapeHtml(module.track)}" data-hidden="${filter !== 'All' && module.track !== filter}"><div class="module-track">${escapeHtml(module.track)}</div><h3>${escapeHtml(module.title)}</h3><p>${escapeHtml(module.description)}</p><div class="meta"><span class="tag">${escapeHtml(module.level)}</span><span class="tag">${escapeHtml(module.minutes)} min</span>${module.concepts.map(concept => `<span class="tag">${escapeHtml(concept)}</span>`).join('')}</div><div class="module-actions"><a class="open" href="${escapeHtml(module.lesson_path)}" data-module="${escapeHtml(module.id)}" ${ready ? '' : 'aria-label="Open authoring blueprint"'}>${ready ? 'Open module' : 'View blueprint'}</a><button class="complete" type="button" data-module-complete="${escapeHtml(module.id)}" data-complete="${done}" aria-pressed="${done}">${done ? 'Completed' : 'Mark complete'}</button></div></article>`; }).join('');
+    grid.querySelectorAll('[data-module]').forEach(link => link.addEventListener('click', () => { progress.last = link.dataset.module; localStorage.setItem(progressKey, JSON.stringify(progress)); }));
+    grid.querySelectorAll('[data-module-complete]').forEach(button => button.addEventListener('click', () => { const id = button.dataset.moduleComplete; progress[id] = !progress[id]; localStorage.setItem(progressKey, JSON.stringify(progress)); render(filter); renderProgress(); }));
+  };
+  document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.filter').forEach(item => item.setAttribute('aria-pressed', String(item === button))); render(button.dataset.filter); }));
+  document.getElementById('clear-progress').addEventListener('click', () => { progress = {}; localStorage.removeItem(progressKey); render('All'); renderProgress(); });
+  render('All'); renderProgress();
+})();
+</script>
+</body>
+</html>
