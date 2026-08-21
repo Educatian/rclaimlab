@@ -10,8 +10,7 @@ Description: Compiles R analysis objects into linked educational evidence for
     lessons, explanation tasks, transfer tasks, and reproducibility receipts.
 Depends: R (>= 4.1.0)
 License: MIT + file LICENSE
-URL: https://github.com/Educatian/rlearnxr,
-    https://educatian.github.io/rlearnxr/
+URL: https://github.com/Educatian/rlearnxr
 BugReports: https://github.com/Educatian/rlearnxr/issues
 Encoding: UTF-8
 Imports:
