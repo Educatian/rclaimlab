@@ -21,11 +21,11 @@ articles:
       - accessibility-and-receipts
 reference:
   - title: Evidence Compiler
-    contents: [as_rlearnxr_evidence, read_rlearnxr_evidence, write_rlearnxr_evidence, validate_rlearnxr_evidence]
+    contents: [as_rlearnxr_evidence, bootstrap_mean, read_rlearnxr_evidence, write_rlearnxr_evidence, validate_rlearnxr_evidence]
   - title: Lesson specifications
     contents: [lesson_spec, task_spec, representation_spec, compile_lesson, validate_lesson_spec]
   - title: Guided data-to-lesson workflow
-    contents: [profile_learning_data, recommend_lesson_analysis, lesson_from_data, run_lesson_wizard]
+    contents: [profile_learning_data, recommend_lesson_analysis, lesson_from_data, prepare_learning_events, rlearnxr_concept_registry, run_lesson_wizard]
   - title: Manifests and receipts
     contents: [write_lesson_manifest, read_lesson_manifest, validate_lesson_manifest, write_learning_receipt, read_learning_receipt, validate_learning_receipt]
   - title: Rendering and checks
