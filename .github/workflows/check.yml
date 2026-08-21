@@ -34,7 +34,7 @@ jobs:
         run: |
           coverage <- covr::package_coverage(type = "tests", quiet = TRUE)
           details <- as.data.frame(coverage)
-          core_files <- c("R/evidence_spec.R", "R/evidence_adapters.R", "R/compile_lesson.R", "R/lesson_manifest.R")
+          core_files <- c("R/evidence_spec.R", "R/evidence_adapters.R", "R/foundational_adapters.R", "R/compile_lesson.R", "R/lesson_manifest.R")
           core <- details[details$filename %in% core_files, , drop = FALSE]
           overall_percent <- covr::percent_coverage(coverage)
           core_percent <- 100 * mean(core$value > 0)
@@ -66,12 +66,7 @@ jobs:
       - name: Check all reference lessons
         run: Rscript scripts/check_all_lessons.R
       - name: Render all Quarto lessons
-        run: |
-          quarto render examples/lesson
-          quarto render examples/penguin-pca
-          quarto render examples/mtcars-efficiency
-          quarto render examples/learning-analytics
-          quarto render examples/edm-patterns
+        run: Rscript scripts/render_all_lessons.R
       - name: Upload lesson reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -154,42 +149,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Chromium for browser smoke test
         run: npx --yes --package @playwright/cli playwright-cli install-browser chromium
-      - name: Start static lesson server
-        run: python3 -m http.server 8770 --bind 127.0.0.1 > /tmp/rlearnxr-http.log 2>&1 &
-      - name: Run browser keyboard and responsive smoke test
-        shell: bash
-        run: |
-          set -euo pipefail
-          cli=(npx --yes --package @playwright/cli playwright-cli -s=ci-smoke)
-          "${cli[@]}" open http://127.0.0.1:8770/examples/lesson/scene/index.html
-          "${cli[@]}" snapshot
-          "${cli[@]}" resize 390 844
-          "${cli[@]}" eval "() => { document.querySelector('#ai-tab').click(); return 'ai-tab-open'; }"
-          "${cli[@]}" eval "() => { const root = document.documentElement; if (root.scrollWidth > root.clientWidth + 1) throw new Error('mobile horizontal overflow'); return 'mobile-width-ok'; }"
-          "${cli[@]}" fill "#ai-prompt" "Show the three-dimensional relationship between x, y, and z."
-          "${cli[@]}" click "#generate-ai-brief"
-          "${cli[@]}" run-code "async page => { await page.waitForFunction(() => { const card = document.querySelector('#ai-result-card'); return card && !card.hidden; }, null, { timeout: 15000 }); }"
-          "${cli[@]}" eval "() => { const code = document.querySelector('#ai-generated-code').textContent; if (!code.includes('set.seed(2026)')) throw new Error('AI brief missing deterministic code'); return 'ai-brief-ok'; }"
-          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-mobile.png
-          "${cli[@]}" eval "() => { document.querySelector('#scene-tab').click(); document.querySelector('#scene').focus(); return 'scene-focused'; }"
-          "${cli[@]}" press ArrowRight
-          "${cli[@]}" press ArrowUp
-          "${cli[@]}" press Home
-          "${cli[@]}" eval "() => { const canvas = document.querySelector('#scene'); if (document.activeElement !== canvas) throw new Error('canvas lost keyboard focus'); if (!document.querySelector('#points-table')) throw new Error('semantic table missing'); return 'keyboard-and-table-ok'; }"
-          "${cli[@]}" resize 1440 920
-          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-desktop.png
-          "${cli[@]}" run-code "async page => { await page.goto('http://127.0.0.1:8770/examples/penguin-pca/scene/index.html', {waitUntil: 'domcontentloaded'}); }"
-          "${cli[@]}" eval "() => { const question = document.querySelector('#lesson-question')?.textContent || ''; const diagnostics = document.querySelector('#method-diagnostics')?.textContent || ''; const criteriaText = document.querySelector('#criteria-grid')?.textContent || ''; const source = document.querySelector('#source-analysis-code')?.textContent || ''; const evidenceHead = document.querySelector('#compiled-evidence-head')?.textContent || ''; const criteria = document.querySelectorAll('#criteria-grid .criterion').length; const commands = document.querySelectorAll('#analysis-command-explanations li').length; if (!question.includes('Which morphology measurements vary together')) throw new Error('compiled PCA question missing'); if (!diagnostics.includes('Largest absolute PC1 loading')) throw new Error('PCA diagnostic missing'); if (!criteriaText.includes('Names a principal component')) throw new Error('PCA criterion missing'); if (!source.includes('complete.cases')) throw new Error('complete-case command missing'); if (!evidenceHead.includes('PC1') || document.querySelectorAll('#compiled-evidence-body tr').length < 3) throw new Error('full Evidence IR table missing'); if (criteria !== 4 || commands < 8) throw new Error('compiled method contract missing'); if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) throw new Error('method desktop overflow'); return 'method-contract-desktop-ok'; }"
-          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-method-contract-desktop.png
-          "${cli[@]}" resize 390 844
-          "${cli[@]}" eval "() => { if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) throw new Error('method mobile overflow'); const grid = document.querySelector('#criteria-grid'); if (!grid || grid.getBoundingClientRect().right > document.documentElement.clientWidth + 1) throw new Error('method criteria overflow'); return 'method-contract-mobile-ok'; }"
-          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-method-contract-mobile.png
-          "${cli[@]}" resize 1440 920
-          "${cli[@]}" run-code "async page => { await page.goto('http://127.0.0.1:8770/examples/edm-patterns/scene/index.html', {waitUntil: 'domcontentloaded'}); }"
-          "${cli[@]}" eval "() => { const header = document.querySelector('#compiled-evidence-head')?.textContent || ''; const diagnostics = document.querySelector('#method-diagnostics')?.textContent || ''; const criteria = document.querySelector('#criteria-grid')?.textContent || ''; if (!header.includes('cluster') || !header.includes('distance_to_centroid')) throw new Error('k-means evidence columns missing'); if (!diagnostics.includes('Sensitivity across k and seeds')) throw new Error('k-means stability diagnostic missing'); if (!criteria.includes('centroid distance')) throw new Error('k-means criterion missing'); return 'kmeans-contract-ok'; }"
-          "${cli[@]}" eval "() => { const details = document.querySelector('#compiled-evidence-alternative'); details.open = true; details.scrollIntoView({block: 'start'}); return 'full-evidence-table-open'; }"
-          "${cli[@]}" screenshot --filename=output/playwright/rlearnxr-browser-smoke-kmeans-contract-desktop.png
-          "${cli[@]}" close
+      - name: Run browser interaction and responsive smoke test
+        shell: pwsh
+        run: ./scripts/browser_smoke_test.ps1 -StartServer -ServerPort 8770
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

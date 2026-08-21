@@ -18,21 +18,6 @@ html_escape <- function(x) {
   x
 }
 
-json_escape <- function(x) {
-  x <- as.character(x)
-  x <- gsub("\\\\", "\\\\\\\\", x)
-  x <- gsub('"', '\\"', x, fixed = TRUE)
-  x <- gsub("<", "\\\\u003c", x, fixed = TRUE)
-  x <- gsub("\n", "\\\\n", x, fixed = TRUE)
-  x <- gsub("\r", "\\\\r", x, fixed = TRUE)
-  x
-}
-
-json_number <- function(x) {
-  if (length(x) != 1L || !is.finite(x)) return("null")
-  formatC(x, format = "fg", digits = 8, flag = "#")
-}
-
 scene_template_path <- function() {
   working_root <- normalizePath(".", winslash = "/", mustWork = TRUE)
   search_roots <- unique(c(

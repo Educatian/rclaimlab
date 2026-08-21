@@ -31,8 +31,8 @@ as_rlearnxr_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
                                             analysis_call = NULL, ...) {
   if (is.null(dimensions)) dimensions <- names(x)[vapply(x, is.numeric, logical(1))]
   dimensions <- as.character(dimensions)
-  if (length(dimensions) < 2L || any(!dimensions %in% names(x))) {
-    stop("data.frame evidence requires at least two named numeric dimensions", call. = FALSE)
+  if (length(dimensions) < 1L || any(!dimensions %in% names(x))) {
+    stop("data.frame evidence requires at least one named numeric dimension", call. = FALSE)
   }
   if (any(!vapply(x[dimensions], is.numeric, logical(1)))) {
     stop("all evidence dimensions must be numeric", call. = FALSE)
@@ -95,10 +95,21 @@ as_rlearnxr_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
     interval_high = as.numeric(prediction$fit + 1.96 * prediction$se.fit)
   )
   if (is.null(labels)) labels <- rownames(frame)
+  fitted_values <- as.numeric(stats::fitted(x))
+  residual_values <- as.numeric(stats::residuals(x))
+  diagnostics <- list(
+    residual_fitted_correlation = suppressWarnings(stats::cor(residual_values, fitted_values)),
+    absolute_residual_fitted_correlation = suppressWarnings(stats::cor(abs(residual_values), fitted_values)),
+    maximum_leverage = max(stats::hatvalues(x), na.rm = TRUE),
+    shapiro_p_value = if (length(residual_values) >= 3L && length(residual_values) <= 5000L) stats::shapiro.test(residual_values)$p.value else NA_real_
+  )
   build_rlearnxr_evidence(
     values, labels, "lm", deparse_analysis_call(x$call, "stats::lm"), seed,
     roles = c("outcome", "fitted", "residual", "uncertainty", "uncertainty"),
-    metadata = list(coefficients = stats::setNames(unname(stats::coef(x)), names(stats::coef(x))), sigma = summary(x)$sigma)
+    metadata = list(
+      coefficients = stats::setNames(unname(stats::coef(x)), names(stats::coef(x))),
+      sigma = summary(x)$sigma, diagnostics = diagnostics
+    )
   )
 }
 
@@ -116,13 +127,20 @@ as_rlearnxr_evidence.glm <- function(x, labels = NULL, seed = 2026L,
   probability <- stats::fitted(x)
   lower <- x$family$linkinv(link$fit - 1.96 * link$se.fit)
   upper <- x$family$linkinv(link$fit + 1.96 * link$se.fit)
+  predicted_class <- as.numeric(probability >= threshold)
+  truth <- as.numeric(observed)
+  true_positive <- sum(predicted_class == 1 & truth == 1)
+  true_negative <- sum(predicted_class == 0 & truth == 0)
+  false_positive <- sum(predicted_class == 1 & truth == 0)
+  false_negative <- sum(predicted_class == 0 & truth == 1)
+  safe_ratio <- function(numerator, denominator) if (denominator > 0) numerator / denominator else NA_real_
   values <- data.frame(
     observed = as.numeric(observed),
     predicted_probability = as.numeric(probability),
     residual = as.numeric(stats::residuals(x, type = "deviance")),
     probability_low = as.numeric(lower),
     probability_high = as.numeric(upper),
-    predicted_class = as.numeric(probability >= threshold)
+    predicted_class = predicted_class
   )
   if (is.null(labels)) labels <- rownames(frame)
   build_rlearnxr_evidence(
@@ -132,7 +150,15 @@ as_rlearnxr_evidence.glm <- function(x, labels = NULL, seed = 2026L,
       coefficients = stats::setNames(unname(stats::coef(x)), names(stats::coef(x))),
       family = x$family$family,
       link = x$family$link,
-      threshold = threshold
+      threshold = threshold,
+      classification = list(
+        true_positive = true_positive, true_negative = true_negative,
+        false_positive = false_positive, false_negative = false_negative,
+        accuracy = mean(predicted_class == truth),
+        sensitivity = safe_ratio(true_positive, true_positive + false_negative),
+        specificity = safe_ratio(true_negative, true_negative + false_positive),
+        brier_score = mean((probability - truth)^2)
+      )
     )
   )
 }
@@ -154,19 +180,38 @@ as_rlearnxr_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NUL
   distance <- vapply(seq_len(nrow(matrix_data)), function(i) {
     sqrt(sum((matrix_data[i, ] - centers[x$cluster[[i]], ])^2))
   }, numeric(1))
+  previous_seed <- if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) get(".Random.seed", envir = .GlobalEnv) else NULL
+  on.exit({
+    if (is.null(previous_seed)) {
+      if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) rm(".Random.seed", envir = .GlobalEnv)
+    } else assign(".Random.seed", previous_seed, envir = .GlobalEnv)
+  }, add = TRUE)
+  baseline_pairs <- outer(x$cluster, x$cluster, `==`)
+  sensitivity_seeds <- as.integer(seed) + seq_len(5L)
+  agreement <- vapply(sensitivity_seeds, function(candidate_seed) {
+    set.seed(candidate_seed)
+    candidate <- stats::kmeans(matrix_data, centers = nrow(centers), nstart = 10L)
+    mean(outer(candidate$cluster, candidate$cluster, `==`) == baseline_pairs)
+  }, numeric(1))
   values <- data.frame(data[dimensions], cluster = as.numeric(x$cluster), distance_to_centroid = distance, check.names = FALSE)
   if (is.null(labels)) labels <- rownames(data)
   build_rlearnxr_evidence(
     values, labels, "kmeans", "stats::kmeans", seed,
     roles = c(rep("feature", length(dimensions)), "cluster", "distance"),
-    metadata = list(centers = unclass(x$centers), size = unname(x$size), tot_withinss = unname(x$tot.withinss))
+    metadata = list(
+      centers = unclass(x$centers), size = unname(x$size), tot_withinss = unname(x$tot.withinss),
+      stability = list(
+        metric = "pairwise co-membership agreement", seeds = sensitivity_seeds,
+        agreement = agreement, minimum = min(agreement), mean = mean(agreement)
+      )
+    )
   )
 }
 
 build_rlearnxr_evidence <- function(values, labels, engine, analysis_call, seed,
                                     roles = NULL, units = NULL, metadata = list()) {
   values <- as.data.frame(values, stringsAsFactors = FALSE, check.names = FALSE)
-  if (!nrow(values) || ncol(values) < 2L) stop("evidence must contain rows and at least two dimensions", call. = FALSE)
+  if (!nrow(values) || ncol(values) < 1L) stop("evidence must contain rows and at least one dimension", call. = FALSE)
   if (any(!vapply(values, is.numeric, logical(1))) || any(!is.finite(as.matrix(values)))) {
     stop("evidence values must be finite numeric columns", call. = FALSE)
   }
@@ -274,21 +319,22 @@ summary.rlearnxr_evidence <- function(object, ...) {
 #' @param x_dimension,y_dimension Dimensions used by the base R preview plot.
 #' @export
 plot.rlearnxr_evidence <- function(x, x_dimension = x$dimensions$dimension_id[[1]],
-                                   y_dimension = x$dimensions$dimension_id[[2]], ...) {
+                                   y_dimension = if (nrow(x$dimensions) >= 2L) x$dimensions$dimension_id[[2]] else NULL, ...) {
   table <- as.data.frame(x)
   x_index <- match(x_dimension, x$dimensions$dimension_id)
-  y_index <- match(y_dimension, x$dimensions$dimension_id)
-  if (is.na(x_index) || is.na(y_index)) stop("plot dimensions were not found in the evidence object", call. = FALSE)
+  y_index <- if (is.null(y_dimension)) NA_integer_ else match(y_dimension, x$dimensions$dimension_id)
+  if (is.na(x_index) || (!is.null(y_dimension) && is.na(y_index))) stop("plot dimensions were not found in the evidence object", call. = FALSE)
+  y <- if (is.na(y_index)) seq_len(nrow(table)) else table[[y_index + 2L]]
+  y_label <- if (is.na(y_index)) "Observation order" else x$dimensions$label[[y_index]]
   graphics::plot(
-    table[[x_index + 2L]], table[[y_index + 2L]],
-    xlab = x$dimensions$label[[x_index]], ylab = x$dimensions$label[[y_index]], ...
+    table[[x_index + 2L]], y,
+    xlab = x$dimensions$label[[x_index]], ylab = y_label, ...
   )
-  graphics::text(table[[x_index + 2L]], table[[y_index + 2L]], labels = table$label, pos = 3, cex = 0.75)
+  graphics::text(table[[x_index + 2L]], y, labels = table$label, pos = 3, cex = 0.75)
   invisible(x)
 }
 
 evidence_hash <- function(value) {
-  if (!requireNamespace("jsonlite", quietly = TRUE)) stop("Evidence IR requires the jsonlite package", call. = FALSE)
   json <- jsonlite::toJSON(value, auto_unbox = TRUE, dataframe = "rows", null = "null", na = "null", digits = NA)
   path <- tempfile(fileext = ".json")
   on.exit(unlink(path), add = TRUE)
@@ -311,7 +357,6 @@ current_rlearnxr_version <- function() {
 #' @export
 read_rlearnxr_evidence <- function(path) {
   if (!file.exists(path)) stop("evidence artifact was not found", call. = FALSE)
-  if (!requireNamespace("jsonlite", quietly = TRUE)) stop("reading Evidence IR requires jsonlite", call. = FALSE)
   value <- jsonlite::fromJSON(path, simplifyDataFrame = TRUE, simplifyMatrix = TRUE)
   value <- structure(value, class = c("rlearnxr_evidence", "list"))
   validate_rlearnxr_evidence(value)

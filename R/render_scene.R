@@ -9,14 +9,19 @@
 #' @param title Scene title.
 #' @param learning_contract Optional `rlearnxr_lesson` or browser-contract list
 #'   used to render method-specific prompts, criteria, diagnostics, and provenance.
+#' @param min_rows Minimum observations accepted by this renderer. Direct 3D
+#'   authoring defaults to three; the compiler may lower this for table/2D-first
+#'   aggregate evidence.
 #' @param overwrite Whether compiler-owned scene files may be replaced.
 #' @return Invisibly returns paths to HTML, point JSON, and Evidence IR artifacts.
 #' @export
 render_scene <- function(data, x, y, z, labels = NULL, observation_ids = NULL,
-                         evidence_ids = NULL, output_dir = "scene",
-                         title = "R-LearnXR 3D Scene", learning_contract = NULL,
-                         overwrite = FALSE) {
-  scene_data <- validate_scene_data(data, x, y, z, labels, observation_ids = observation_ids)
+                          evidence_ids = NULL, output_dir = "scene",
+                          title = "R-LearnXR 3D Scene", learning_contract = NULL,
+                          min_rows = 3L, overwrite = FALSE) {
+  scene_data <- validate_scene_data(
+    data, x, y, z, labels, observation_ids = observation_ids, min_rows = min_rows
+  )
   if (!is.character(title) || length(title) != 1L || is.na(title) || !nzchar(trimws(title))) {
     stop("title must be one non-empty character string", call. = FALSE)
   }
@@ -41,19 +46,15 @@ render_scene <- function(data, x, y, z, labels = NULL, observation_ids = NULL,
   if (is.null(evidence_ids)) {
     evidence_ids <- split(scene_evidence$values$evidence_id, scene_evidence$values$observation_id)
   }
-  points <- vapply(seq_len(nrow(scene_data)), function(i) {
-    ids <- evidence_ids[[scene_data$observation_id[[i]]]] %||% evidence_ids[[i]] %||% character()
-    ids_json <- paste0("[", paste(sprintf('"%s"', json_escape(as.character(ids))), collapse = ","), "]")
-    paste0(
-      '{"observation_id":"', json_escape(scene_data$observation_id[i]), '",',
-      '"evidence_ids":', ids_json, ',',
-      '"x":', json_number(scene_data$x[i]),
-      ',"y":', json_number(scene_data$y[i]),
-      ',"z":', json_number(scene_data$z[i]),
-      ',"label":"', json_escape(scene_data$label[i]), '"}'
-    )
-  }, character(1))
-  points_json <- paste0("[", paste(points, collapse = ","), "]")
+  point_records <- lapply(seq_len(nrow(scene_data)), function(i) list(
+    observation_id = scene_data$observation_id[[i]],
+    evidence_ids = as.character(evidence_ids[[scene_data$observation_id[[i]]]] %||% evidence_ids[[i]] %||% character()),
+    x = scene_data$x[[i]], y = scene_data$y[[i]], z = scene_data$z[[i]],
+    label = scene_data$label[[i]]
+  ))
+  points_json <- as.character(jsonlite::toJSON(
+    point_records, auto_unbox = TRUE, null = "null", na = "null", digits = NA
+  ))
   writeLines(points_json, file.path(output_dir, "points.json"), useBytes = TRUE)
   write_rlearnxr_evidence(scene_evidence, file.path(output_dir, "evidence.json"), overwrite = TRUE)
   browser_contract <- if (inherits(learning_contract, "rlearnxr_lesson")) {
@@ -63,7 +64,8 @@ render_scene <- function(data, x, y, z, labels = NULL, observation_ids = NULL,
   } else {
     default_scene_contract(title)
   }
-  writeLines(scene_html(title, points_json, browser_contract), file.path(output_dir, "index.html"), useBytes = TRUE)
+  embedded_points <- gsub("<", "\\u003c", points_json, fixed = TRUE)
+  writeLines(scene_html(title, embedded_points, browser_contract), file.path(output_dir, "index.html"), useBytes = TRUE)
   invisible(list(
     index = file.path(output_dir, "index.html"),
     points = file.path(output_dir, "points.json"),

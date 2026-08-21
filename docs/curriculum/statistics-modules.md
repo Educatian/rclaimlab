@@ -44,12 +44,30 @@ These modules reuse S01–S11 rather than replacing them with a dashboard.
 
 ## Current implementation map
 
+- `rlearnxr_concept_registry()`: authoritative machine-readable distinction between tested and planned curriculum capabilities.
+- `as_rlearnxr_evidence.numeric()`: S03 center, spread, percentile, and histogram evidence.
+- `as_rlearnxr_evidence.table()`: S02/S03 categorical counts and proportions.
+- `as_rlearnxr_evidence.htest()`: S04–S07 paired correlation, t-test, and chi-square evidence when the required source data are supplied.
+- `bootstrap_mean()`: S04 deterministic resampling distribution and percentile interval.
+- `as_rlearnxr_evidence.aov()`: explicit ANOVA evidence; `aov` objects no longer fall through to the generic `lm` contract.
+- `prepare_learning_events()`: local event-to-learner aggregation with a reviewable recipe for LA/EDM authoring.
 - `examples/lesson/`: S01/S02/S05/S11 plus the complete browser learning loop; contributor-training reference.
+- `examples/statistics-distribution/`: S03 numeric summary and histogram lesson.
+- `examples/statistics-association/`: S05 paired correlation lesson.
+- `examples/statistics-bootstrap/`: S04 resampling and interval lesson.
+- `examples/statistics-groups/`: S03/S04 group variation and ANOVA lesson.
+- `examples/statistics-categories/`: S02/S05 observed-versus-expected chi-square lesson.
 - `examples/penguin-pca/`: S08 flagship authentic-domain lesson; the first full 20-minute instructional exemplar.
 - `examples/mtcars-efficiency/`: S03/S05/S08/S10 applied multivariate reference lesson.
 - `docs/curriculum/r-foundations-micro-lessons.md`: short beginner R sequence supporting S01–S05 and S11.
 - `docs/curriculum/learning-analytics-edm-lab.md`: LA/EDM application modules with synthetic-data safeguards.
 - `docs/curriculum/module-authoring-template.md`: reusable authoring contract for adding future modules.
+
+Every compiled lesson now exposes the same evidence IDs through a semantic table,
+a true two-dimensional plot, and a three-dimensional scene when those
+representations are declared. Theoretical probability distributions and
+longitudinal/multilevel model adapters remain planned scope; they are not marked
+as implemented merely because curriculum prose mentions them.
 
 ## Module completion contract
 

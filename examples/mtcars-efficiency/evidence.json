@@ -8,7 +8,7 @@
     "packages": {
       "rlearnxr": "2.0.0.900"
     },
-    "artifact_hash": "7a879e28a6bc29b722ecc5f19fb6eb50"
+    "artifact_hash": "b4ab0b94e4983adfedf67009f0a73e2e"
   },
   "observations": [
     {
@@ -2291,6 +2291,12 @@
   "metadata": {
     "coefficients": [37.2272701164472, -0.031772946982161, -3.87783074240468],
     "sigma": 2.59341177722657,
+    "diagnostics": {
+      "residual_fitted_correlation": -3.24670619229755e-16,
+      "absolute_residual_fitted_correlation": 0.145299605440126,
+      "maximum_leverage": 0.394208157646881,
+      "shapiro_p_value": 0.0342747606137473
+    },
     "wizard": {
       "analysis": "lm",
       "source_columns": ["hp", "wt"],
@@ -2357,6 +2363,20 @@
           "value": "95% fitted-mean interval",
           "status": "review",
           "interpretation": "An interval communicates uncertainty; it does not guarantee a future individual outcome."
+        },
+        {
+          "id": "linearity",
+          "label": "Residual-fitted correlation",
+          "value": "-0.000",
+          "status": "review",
+          "interpretation": "A strong residual trend is a cue to inspect linearity and model form."
+        },
+        {
+          "id": "spread-pattern",
+          "label": "Absolute-residual/fitted correlation",
+          "value": "0.145",
+          "status": "review",
+          "interpretation": "A strong trend is a cue to inspect non-constant residual spread."
         }
       ],
       "cautions": "Regression coefficients describe conditional association unless the design supports a causal claim.",

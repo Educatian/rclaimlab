@@ -1,37 +1,9 @@
 write_json_object <- function(value, path) {
-  if (requireNamespace("jsonlite", quietly = TRUE)) {
-    json <- jsonlite::toJSON(value, auto_unbox = TRUE, pretty = TRUE, null = "null")
-    writeLines(as.character(json), path, useBytes = TRUE)
-    return(invisible(path))
-  }
-  if (is.list(value) && !is.null(names(value))) {
-    fields <- vapply(names(value), function(name) {
-      paste0('"', json_escape(name), '":', json_value(value[[name]]))
-    }, character(1))
-    writeLines(paste0("{", paste(fields, collapse = ","), "}"), path, useBytes = TRUE)
-    return(invisible(path))
-  }
-  stop("writing a manifest requires the optional jsonlite package", call. = FALSE)
-}
-
-json_value <- function(value) {
-  if (is.null(value)) return("null")
-  if (length(value) > 1L && is.atomic(value) && is.null(names(value))) {
-    return(paste0("[", paste(vapply(as.list(value), json_value, character(1)), collapse = ","), "]"))
-  }
-  if (is.logical(value) && length(value) == 1L) return(ifelse(is.na(value), "null", ifelse(value, "true", "false")))
-  if (is.numeric(value) && length(value) == 1L) return(ifelse(is.na(value), "null", json_number(value)))
-  if (is.character(value) && length(value) == 1L) return(if (is.na(value)) "null" else paste0('"', json_escape(value), '"'))
-  if (is.atomic(value) && !is.null(names(value))) {
-    fields <- vapply(names(value), function(name) paste0('"', json_escape(name), '":', json_value(value[[name]])), character(1))
-    return(paste0("{", paste(fields, collapse = ","), "}"))
-  }
-  if (is.list(value) && is.null(names(value))) return(paste0("[", paste(vapply(value, json_value, character(1)), collapse = ","), "]"))
-  if (is.list(value)) {
-    fields <- vapply(names(value), function(name) paste0('"', json_escape(name), '":', json_value(value[[name]])), character(1))
-    return(paste0("{", paste(fields, collapse = ","), "}"))
-  }
-  "null"
+  jsonlite::write_json(
+    value, path, auto_unbox = TRUE, dataframe = "rows", pretty = TRUE,
+    null = "null", na = "null", digits = NA
+  )
+  invisible(path)
 }
 
 lesson_bundle_files <- function(path, include_receipt = TRUE) {
@@ -111,7 +83,6 @@ import_datasandbox_bundle <- function(bundle, output = "rlearnxr-imported-lesson
     return(invisible(output))
   }
   if (!grepl("\\.json$", bundle, ignore.case = TRUE)) stop("bundle must be a directory, ZIP, or portable JSON bundle", call. = FALSE)
-  if (!requireNamespace("jsonlite", quietly = TRUE)) stop("importing a portable bundle requires the optional jsonlite package", call. = FALSE)
   payload <- jsonlite::fromJSON(bundle, simplifyVector = FALSE)
   if (is.null(payload$schema_version) || payload$schema_version != "rlearnxr-bundle-1") {
     stop("unsupported portable bundle schema", call. = FALSE)

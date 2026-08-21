@@ -120,7 +120,13 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .view-tab[aria-selected="true"] { border-bottom-color: var(--color-primary); color: var(--color-primary); }
 .tab-state { margin-left: 7px; color: var(--color-success); font-size: 9px; }
 .view-panel[hidden] { display: none; }
+.representation-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 24px; }
+.representation-label { margin-right: 4px; color: var(--color-text-muted); font-size: 10px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.representation-button { min-height: 34px; padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 999px; background: #fff; color: var(--color-text-muted); font-size: 10px; font-weight: 850; }
+.representation-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
+.representation-button[aria-pressed="true"] { border-color: var(--color-primary); background: var(--color-primary-soft); color: var(--color-primary); }
 .plot-shell { position: relative; margin: 0 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
+.plot-shell[hidden], .controls[hidden] { display: none; }
 canvas { display: block; width: 100%; height: min(43vh, 390px); cursor: grab; }
 canvas:active { cursor: grabbing; }
 .legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 10px; color: var(--color-text-muted); pointer-events: none; }
@@ -356,6 +362,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .scene-header { display: block; padding: 18px 16px 12px; }
   .keyboard-hint { max-width: none; margin-top: 8px; text-align: left; }
   .view-tabs { padding: 0 12px; }
+  .representation-bar { padding: 10px 12px; }
   .view-tab { flex: 1 1 33.333%; padding-inline: 6px; font-size: 10px; }
   .plot-shell { margin: 0 12px; }
   canvas { height: 300px; }
@@ -388,6 +395,8 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .status-chip { white-space: normal; line-height: 1.2; }
   .view-tab { padding-inline: 4px; font-size: 9px; letter-spacing: 0; }
+  .representation-label { width: 100%; }
+  .representation-button { flex: 1 1 calc(33.333% - 8px); padding-inline: 6px; }
   .tab-state { display: none; }
   .table-scroll { overflow: visible; padding-inline: 0; }
   .table-scroll table, .table-scroll tbody, .table-scroll tr, .table-scroll th, .table-scroll td { display: block; width: 100%; max-width: none; }
@@ -449,20 +458,21 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   <section class="main" id="lesson-main">
     <div class="title-row"><div><h1 id="lesson-title">Learn R through a data space</h1><p id="lesson-question">Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
     <div class="scene-card">
-      <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
-      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
+      <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then compare the same evidence as a table, 2D plot, and 3D scene.</span></div><div class="keyboard-hint">WebR runs locally in this tab. Every representation keeps the same observation and evidence identifiers.</div></div>
+      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">EVIDENCE VIEWS</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
       <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
-        <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
+        <div class="representation-bar" id="representation-bar" role="group" aria-label="Evidence representation"><span class="representation-label">Representation</span><button class="representation-button" type="button" data-representation="table" aria-pressed="false">TABLE</button><button class="representation-button" type="button" data-representation="plot2d" aria-pressed="false">2D PLOT</button><button class="representation-button" type="button" data-representation="scene3d" aria-pressed="true">3D SCENE</button></div>
+        <div class="plot-shell" id="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
         <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
-        <div class="scene-tools"><div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
-        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible 3D-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted observations and their three displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
+        <div class="scene-tools"><div class="controls" id="scene-controls"><div class="control-item" id="spatial-control"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
+        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible linked-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All observations and their displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
         <details class="data-alternative" id="compiled-evidence-alternative"><summary>Full compiled evidence table</summary><div class="table-scroll"><table class="compiled-evidence-table"><caption>All Evidence IR dimensions, including method evidence not mapped to the three axes</caption><thead><tr id="compiled-evidence-head"></tr></thead><tbody id="compiled-evidence-body"></tbody></table></div></details></div>
       </section>
       <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" aria-hidden="true" inert hidden>
         <div class="lab-heading"><div><h2>Transform compiled evidence with R</h2><p id="run-r-prompt">Run the browser evidence transformation, then compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
         <div class="r-teaching-guide">
           <section class="guide-card" aria-labelledby="scene-contract-title">
-            <div class="guide-kicker" id="scene-contract-title">R → 3D contract</div>
+            <div class="guide-kicker" id="scene-contract-title">R → evidence-view contract</div>
             <code class="guide-schema">scene &lt;- data.frame(label, x, y, z)</code>
             <p>The lesson reads one data frame. <strong>label</strong> names a point; <strong>x</strong>, <strong>y</strong>, and <strong>z</strong> become its coordinates.</p>
             <details class="code-explain"><summary>Explain every compiled R command</summary><ol id="analysis-command-explanations"><li>The compiled method source and command explanations will appear here.</li></ol></details>
@@ -536,8 +546,8 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   </aside>
 </main>
 <script>
-const initialPoints = [{"observation_id":"obs-0001","evidence_ids":["ev-0001-001","ev-0001-002","ev-0001-003","ev-0001-004","ev-0001-005"],"x":21.000000,"y":23.572329,"z":-2.5723294,"label":"Mazda RX4"},{"observation_id":"obs-0002","evidence_ids":["ev-0002-001","ev-0002-002","ev-0002-003","ev-0002-004","ev-0002-005"],"x":21.000000,"y":22.583483,"z":-1.5834826,"label":"Mazda RX4 Wag"},{"observation_id":"obs-0003","evidence_ids":["ev-0003-001","ev-0003-002","ev-0003-003","ev-0003-004","ev-0003-005"],"x":22.800000,"y":25.275819,"z":-2.4758187,"label":"Datsun 710"},{"observation_id":"obs-0004","evidence_ids":["ev-0004-001","ev-0004-002","ev-0004-003","ev-0004-004","ev-0004-005"],"x":21.400000,"y":21.265020,"z":0.13497989,"label":"Hornet 4 Drive"},{"observation_id":"obs-0005","evidence_ids":["ev-0005-001","ev-0005-002","ev-0005-003","ev-0005-004","ev-0005-005"],"x":18.700000,"y":18.327267,"z":0.37273336,"label":"Hornet Sportabout"},{"observation_id":"obs-0006","evidence_ids":["ev-0006-001","ev-0006-002","ev-0006-003","ev-0006-004","ev-0006-005"],"x":18.100000,"y":20.473816,"z":-2.3738163,"label":"Valiant"},{"observation_id":"obs-0007","evidence_ids":["ev-0007-001","ev-0007-002","ev-0007-003","ev-0007-004","ev-0007-005"],"x":14.300000,"y":15.599042,"z":-1.2990424,"label":"Duster 360"},{"observation_id":"obs-0008","evidence_ids":["ev-0008-001","ev-0008-002","ev-0008-003","ev-0008-004","ev-0008-005"],"x":24.400000,"y":22.887067,"z":1.5129327,"label":"Merc 240D"},{"observation_id":"obs-0009","evidence_ids":["ev-0009-001","ev-0009-002","ev-0009-003","ev-0009-004","ev-0009-005"],"x":22.800000,"y":21.993673,"z":0.80632669,"label":"Merc 230"},{"observation_id":"obs-0010","evidence_ids":["ev-0010-001","ev-0010-002","ev-0010-003","ev-0010-004","ev-0010-005"],"x":19.200000,"y":19.979460,"z":-0.77945988,"label":"Merc 280"},{"observation_id":"obs-0011","evidence_ids":["ev-0011-001","ev-0011-002","ev-0011-003","ev-0011-004","ev-0011-005"],"x":17.800000,"y":19.979460,"z":-2.1794599,"label":"Merc 280C"},{"observation_id":"obs-0012","evidence_ids":["ev-0012-001","ev-0012-002","ev-0012-003","ev-0012-004","ev-0012-005"],"x":16.400000,"y":15.725369,"z":0.67463146,"label":"Merc 450SE"},{"observation_id":"obs-0013","evidence_ids":["ev-0013-001","ev-0013-002","ev-0013-003","ev-0013-004","ev-0013-005"],"x":17.300000,"y":17.043831,"z":0.25616901,"label":"Merc 450SL"},{"observation_id":"obs-0014","evidence_ids":["ev-0014-001","ev-0014-002","ev-0014-003","ev-0014-004","ev-0014-005"],"x":15.200000,"y":16.849939,"z":-1.6499395,"label":"Merc 450SLC"},{"observation_id":"obs-0015","evidence_ids":["ev-0015-001","ev-0015-002","ev-0015-003","ev-0015-004","ev-0015-005"],"x":10.400000,"y":10.355205,"z":0.044795413,"label":"Cadillac Fleetwood"},{"observation_id":"obs-0016","evidence_ids":["ev-0016-001","ev-0016-002","ev-0016-003","ev-0016-004","ev-0016-005"],"x":10.400000,"y":9.3627326,"z":1.0372674,"label":"Lincoln Continental"},{"observation_id":"obs-0017","evidence_ids":["ev-0017-001","ev-0017-002","ev-0017-003","ev-0017-004","ev-0017-005"],"x":14.700000,"y":9.1924870,"z":5.5075130,"label":"Chrysler Imperial"},{"observation_id":"obs-0018","evidence_ids":["ev-0018-001","ev-0018-002","ev-0018-003","ev-0018-004","ev-0018-005"],"x":32.400000,"y":26.599028,"z":5.8009720,"label":"Fiat 128"},{"observation_id":"obs-0019","evidence_ids":["ev-0019-001","ev-0019-002","ev-0019-003","ev-0019-004","ev-0019-005"],"x":30.400000,"y":29.312380,"z":1.0876198,"label":"Honda Civic"},{"observation_id":"obs-0020","evidence_ids":["ev-0020-001","ev-0020-002","ev-0020-003","ev-0020-004","ev-0020-005"],"x":33.900000,"y":28.046209,"z":5.8537908,"label":"Toyota Corolla"},{"observation_id":"obs-0021","evidence_ids":["ev-0021-001","ev-0021-002","ev-0021-003","ev-0021-004","ev-0021-005"],"x":21.500000,"y":24.586441,"z":-3.0864415,"label":"Toyota Corona"},{"observation_id":"obs-0022","evidence_ids":["ev-0022-001","ev-0022-002","ev-0022-003","ev-0022-004","ev-0022-005"],"x":15.500000,"y":18.811364,"z":-3.3113639,"label":"Dodge Challenger"},{"observation_id":"obs-0023","evidence_ids":["ev-0023-001","ev-0023-002","ev-0023-003","ev-0023-004","ev-0023-005"],"x":15.200000,"y":19.140979,"z":-3.9409795,"label":"AMC Javelin"},{"observation_id":"obs-0024","evidence_ids":["ev-0024-001","ev-0024-002","ev-0024-003","ev-0024-004","ev-0024-005"],"x":13.300000,"y":14.552028,"z":-1.2520281,"label":"Camaro Z28"},{"observation_id":"obs-0025","evidence_ids":["ev-0025-001","ev-0025-002","ev-0025-003","ev-0025-004","ev-0025-005"],"x":19.200000,"y":16.756745,"z":2.4432548,"label":"Pontiac Firebird"},{"observation_id":"obs-0026","evidence_ids":["ev-0026-001","ev-0026-002","ev-0026-003","ev-0026-004","ev-0026-005"],"x":27.300000,"y":27.626653,"z":-0.32665313,"label":"Fiat X1-9"},{"observation_id":"obs-0027","evidence_ids":["ev-0027-001","ev-0027-002","ev-0027-003","ev-0027-004","ev-0027-005"],"x":26.000000,"y":26.037374,"z":-0.037374152,"label":"Porsche 914-2"},{"observation_id":"obs-0028","evidence_ids":["ev-0028-001","ev-0028-002","ev-0028-003","ev-0028-004","ev-0028-005"],"x":30.400000,"y":27.769769,"z":2.6302308,"label":"Lotus Europa"},{"observation_id":"obs-0029","evidence_ids":["ev-0029-001","ev-0029-002","ev-0029-003","ev-0029-004","ev-0029-005"],"x":15.800000,"y":16.546489,"z":-0.74648866,"label":"Ford Pantera L"},{"observation_id":"obs-0030","evidence_ids":["ev-0030-001","ev-0030-002","ev-0030-003","ev-0030-004","ev-0030-005"],"x":19.700000,"y":20.925413,"z":-1.2254132,"label":"Ferrari Dino"},{"observation_id":"obs-0031","evidence_ids":["ev-0031-001","ev-0031-002","ev-0031-003","ev-0031-004","ev-0031-005"],"x":15.000000,"y":12.739477,"z":2.2605229,"label":"Maserati Bora"},{"observation_id":"obs-0032","evidence_ids":["ev-0032-001","ev-0032-002","ev-0032-003","ev-0032-004","ev-0032-005"],"x":21.400000,"y":22.983649,"z":-1.5836494,"label":"Volvo 142E"}];
-const lessonSpec = {"schema_version":"rlearnxr-browser-contract-1","lesson_id":"mtcars-efficiency","title":"Vehicle efficiency model evidence","outcomes":["Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","Explain one observation with linked analytical evidence and an explicit limitation","Repair and transfer the interpretation while preserving reproducibility"],"question":"How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","analysis":"lm","axis_labels":{"x":"observed","y":"fitted","z":"residual"},"seed":2026,"evidence_hash":"7a879e28a6bc29b722ecc5f19fb6eb50","tasks":{"orient":{"id":"wizard-orient","type":"orient","prompt":"State why one vehicle model in the built-in mtcars dataset is the unit of observation, identify each variable role, and restate the question: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","criteria":{"meaning":"Defines the unit of observation and variable roles","question":"Connects the data to the stated question"},"evidence_required":false},"predict":{"id":"wizard-predict","type":"predict","prompt":"Predict the direction of association between hp, wt and mpg.","criteria":{"prediction":"Records a falsifiable expectation before inspection"},"evidence_required":false},"run_r":{"id":"wizard-run_r","type":"run_r","prompt":"Inspect the model formula, run the linear model, and connect fitted values, residuals, intervals, and provenance.","criteria":{"execution":"Connects visible R source to the compiled artifact"},"evidence_required":false},"explore":{"id":"wizard-explore","type":"explore","prompt":"Select one observation and compare its fitted value, residual, and interval evidence in the full compiled evidence table.","criteria":{"selection":"Selects an observation using a stable evidence ID"},"evidence_required":true},"explain":{"id":"wizard-explain","type":"explain","prompt":"Explain the selected observation using its fitted value and residual, then state an uncertainty or causal limitation.","criteria":{"point":"Names the selected observation","fitted":"Cites a fitted value","residual":"Interprets a residual or interval","limitation":"States an uncertainty or causal limitation"},"evidence_required":true},"repair":{"id":"wizard-repair","type":"repair","prompt":"Check residual, influence, independence, and interval evidence before revising the association claim.","criteria":{"revision":"Corrects the identified evidence or assumption problem"},"evidence_required":true},"transfer":{"id":"wizard-transfer","type":"transfer","prompt":"Apply the fitted-versus-observed reasoning to a different observation and compare uncertainty.","criteria":{"point":"Uses a different observation","comparison":"Compares the method-specific evidence","limitation":"Keeps the interpretation within its evidence boundary"},"evidence_required":true},"reproduce":{"id":"wizard-reproduce","type":"reproduce","prompt":"Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.","criteria":{"provenance":"Verifies source, seed, version, retained rows, and artifact hash"},"evidence_required":false}},"diagnostics":[{"id":"r-squared","label":"R-squared","value":"0.827","status":"review","interpretation":"Report fit together with residual and uncertainty evidence."},{"id":"residual","label":"Residual standard error","value":"2.593","status":"review","interpretation":"Residuals show where observed outcomes differ from fitted values."},{"id":"influence","label":"Largest Cook's distance","value":"0.424","status":"review","interpretation":"Compare with the teaching flag 4/n = 0.125; this is a review cue, not an automatic deletion rule."},{"id":"interval","label":"Uncertainty representation","value":"95% fitted-mean interval","status":"review","interpretation":"An interval communicates uncertainty; it does not guarantee a future individual outcome."}],"cautions":"Regression coefficients describe conditional association unless the design supports a causal claim.","misconceptions":["A fitted value is not the observed outcome.","A small residual does not validate every model assumption."],"context":{"question":"How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","intent":"explain","intent_label":"Explain variation in a numeric outcome","unit_of_analysis":"one vehicle model in the built-in mtcars dataset","outcome":"mpg","id_column":"label","grouping":null,"time":null,"decision_context":"learning to critique an association model, not making a causal vehicle-design claim","dependence_warning":false},"analysis_source":["set.seed(2026)","# learner_data is the local CSV data frame","analysis_columns \u003c- c(\"hp\", \"wt\", \"mpg\", \"label\")","source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","labels \u003c- as.character(analysis_data[[\"label\"]])","fit \u003c- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)","evidence \u003c- as_rlearnxr_evidence(fit, labels = labels)"],"evidence_table":{"columns":["observation_id","label","observed","fitted","residual","interval_low","interval_high"],"rows":[{"observation_id":"obs-0001","label":"Mazda RX4","observed":21,"fitted":23.5723294033093,"residual":-2.57232940330929,"interval_low":22.5027421316469,"interval_high":24.6419166749715},{"observation_id":"obs-0002","label":"Mazda RX4 Wag","observed":21,"fitted":22.583482563996,"residual":-1.58348256399603,"interval_low":21.5606991708738,"interval_high":23.6062659571183},{"observation_id":"obs-0003","label":"Datsun 710","observed":22.8,"fitted":25.2758187247274,"residual":-2.47581872472737,"interval_low":24.0286382494973,"interval_high":26.5229991999574},{"observation_id":"obs-0004","label":"Hornet 4 Drive","observed":21.4,"fitted":21.2650201115784,"residual":0.134979888421558,"interval_low":20.1574792782644,"interval_high":22.3725609448924},{"observation_id":"obs-0005","label":"Hornet Sportabout","observed":18.7,"fitted":18.3272666406969,"residual":0.372733359303077,"interval_low":17.3513287503628,"interval_high":19.303204531031},{"observation_id":"obs-0006","label":"Valiant","observed":18.1,"fitted":20.4738163146001,"residual":-2.3738163146001,"interval_low":19.1566096202684,"interval_high":21.7910230089317},{"observation_id":"obs-0007","label":"Duster 360","observed":14.3,"fitted":15.599042355433,"residual":-1.29904235543304,"interval_low":13.8602445256616,"interval_high":17.3378401852045},{"observation_id":"obs-0008","label":"Merc 240D","observed":24.4,"fitted":22.8870673352823,"residual":1.51293266471771,"interval_low":21.1583980427324,"interval_high":24.6157366278321},{"observation_id":"obs-0009","label":"Merc 230","observed":22.8,"fitted":21.9936733145672,"residual":0.806326685432842,"interval_low":20.7484070929423,"interval_high":23.238939536192},{"observation_id":"obs-0010","label":"Merc 280","observed":19.2,"fitted":19.9794598837693,"residual":-0.779459883769295,"interval_low":18.8785187801883,"interval_high":21.0804009873503},{"observation_id":"obs-0011","label":"Merc 280C","observed":17.8,"fitted":19.9794598837693,"residual":-2.17945988376929,"interval_low":18.8785187801883,"interval_high":21.0804009873503},{"observation_id":"obs-0012","label":"Merc 450SE","observed":16.4,"fitted":15.7253685380712,"residual":0.674631461928831,"interval_low":14.5203917751667,"interval_high":16.9303453009756},{"observation_id":"obs-0013","label":"Merc 450SL","observed":17.3,"fitted":17.0438309904888,"residual":0.256169009511241,"interval_low":16.0116250198068,"interval_high":18.0760369611708},{"observation_id":"obs-0014","label":"Merc 450SLC","observed":15.2,"fitted":16.8499394533685,"residual":-1.64993945336853,"interval_low":15.8011356354697,"interval_high":17.8987432712674},{"observation_id":"obs-0015","label":"Cadillac Fleetwood","observed":10.4,"fitted":10.3552045874796,"residual":0.0447954125203775,"interval_low":8.16433439582432,"interval_high":12.5460747791349},{"observation_id":"obs-0016","label":"Lincoln Continental","observed":10.4,"fitted":9.3627325684796,"residual":1.0372674315204,"interval_low":7.03904234107133,"interval_high":11.6864227958879},{"observation_id":"obs-0017","label":"Chrysler Imperial","observed":14.7,"fitted":9.19248699239715,"residual":5.50751300760284,"interval_low":6.99739828975243,"interval_high":11.3875756950419},{"observation_id":"obs-0018","label":"Fiat 128","observed":32.4,"fitted":26.5990279823343,"residual":5.80097201766573,"interval_low":25.1621236018789,"interval_high":28.0359323627896},{"observation_id":"obs-0019","label":"Honda Civic","observed":30.4,"fitted":29.3123802243913,"residual":1.08761977560873,"interval_low":27.5299760724091,"interval_high":31.0947843763735},{"observation_id":"obs-0020","label":"Toyota Corolla","observed":33.9,"fitted":28.0462091502941,"residual":5.85379084970586,"interval_low":26.442792488359,"interval_high":29.6496258122293},{"observation_id":"obs-0021","label":"Toyota Corona","observed":21.5,"fitted":24.58644147915,"residual":-3.08644147915004,"interval_low":23.4158818635085,"interval_high":25.7570010947916},{"observation_id":"obs-0022","label":"Dodge Challenger","observed":15.5,"fitted":18.8113638558586,"residual":-3.31136385585857,"interval_low":17.8507203108298,"interval_high":19.7720074008873},{"observation_id":"obs-0023","label":"AMC Javelin","observed":15.2,"fitted":19.140979468963,"residual":-3.94097946896297,"interval_low":18.2120373564387,"interval_high":20.0699215814873},{"observation_id":"obs-0024","label":"Camaro Z28","observed":13.3,"fitted":14.5520280549838,"residual":-1.25202805498378,"interval_low":12.9207975080484,"interval_high":16.1832586019192},{"observation_id":"obs-0025","label":"Pontiac Firebird","observed":19.2,"fitted":16.756745190023,"residual":2.44325480997697,"interval_low":15.6840668035557,"interval_high":17.8294235764904},{"observation_id":"obs-0026","label":"Fiat X1-9","observed":27.3,"fitted":27.6266531290715,"residual":-0.326653129071512,"interval_low":26.0827673516843,"interval_high":29.1705389064588},{"observation_id":"obs-0027","label":"Porsche 914-2","observed":26,"fitted":26.0373741523245,"residual":-0.037374152324528,"interval_low":24.6850263766076,"interval_high":27.3897219280414},{"observation_id":"obs-0028","label":"Lotus Europa","observed":30.4,"fitted":27.7697691942047,"residual":2.63023080579528,"interval_low":25.7773459290999,"interval_high":29.7621924593095},{"observation_id":"obs-0029","label":"Ford Pantera L","observed":15.8,"fitted":16.5464886597339,"residual":-0.746488659733857,"interval_low":14.2482594628233,"interval_high":18.8447178566444},{"observation_id":"obs-0030","label":"Ferrari Dino","observed":19.7,"fitted":20.9254132381081,"residual":-1.22541323810806,"interval_low":19.6092321820195,"interval_high":22.2415942941966},{"observation_id":"obs-0031","label":"Maserati Bora","observed":15,"fitted":12.7394771270386,"residual":2.26052287296144,"interval_low":9.54801015974263,"interval_high":15.9309440943345},{"observation_id":"obs-0032","label":"Volvo 142E","observed":21.4,"fitted":22.9836494315066,"residual":-1.58364943150664,"interval_low":21.9493164215725,"interval_high":24.0179824414407}]},"command_explanations":[{"code":"set.seed(2026)","explanation":"Fixes the random seed so stochastic methods and downstream artifacts can be reproduced."},{"code":"# learner_data is the local CSV data frame","explanation":"Names the local input data object used by the generated analysis."},{"code":"analysis_columns \u003c- c(\"hp\", \"wt\", \"mpg\", \"label\")","explanation":"Declares the exact variables needed for the analysis, outcome, and stable labels."},{"code":"source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","explanation":"Records the retained source-row positions after the explicit complete-case rule."},{"code":"analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","explanation":"Creates the analysis data from the retained source rows and approved columns."},{"code":"labels \u003c- as.character(analysis_data[[\"label\"]])","explanation":"Creates stable observation labels from the approved ID column or original source-row position."},{"code":"fit \u003c- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)","explanation":"Fits the approved linear model formula to the selected outcome and predictors."},{"code":"evidence \u003c- as_rlearnxr_evidence(fit, labels = labels)","explanation":"Converts the existing lm result into linked Evidence IR without reimplementing the statistical method."}]};
+const initialPoints = [{"observation_id":"obs-0001","evidence_ids":["ev-0001-001","ev-0001-002","ev-0001-003","ev-0001-004","ev-0001-005"],"x":21,"y":23.5723294033093,"z":-2.57232940330929,"label":"Mazda RX4"},{"observation_id":"obs-0002","evidence_ids":["ev-0002-001","ev-0002-002","ev-0002-003","ev-0002-004","ev-0002-005"],"x":21,"y":22.583482563996,"z":-1.58348256399603,"label":"Mazda RX4 Wag"},{"observation_id":"obs-0003","evidence_ids":["ev-0003-001","ev-0003-002","ev-0003-003","ev-0003-004","ev-0003-005"],"x":22.8,"y":25.2758187247274,"z":-2.47581872472737,"label":"Datsun 710"},{"observation_id":"obs-0004","evidence_ids":["ev-0004-001","ev-0004-002","ev-0004-003","ev-0004-004","ev-0004-005"],"x":21.4,"y":21.2650201115784,"z":0.134979888421558,"label":"Hornet 4 Drive"},{"observation_id":"obs-0005","evidence_ids":["ev-0005-001","ev-0005-002","ev-0005-003","ev-0005-004","ev-0005-005"],"x":18.7,"y":18.3272666406969,"z":0.372733359303077,"label":"Hornet Sportabout"},{"observation_id":"obs-0006","evidence_ids":["ev-0006-001","ev-0006-002","ev-0006-003","ev-0006-004","ev-0006-005"],"x":18.1,"y":20.4738163146001,"z":-2.3738163146001,"label":"Valiant"},{"observation_id":"obs-0007","evidence_ids":["ev-0007-001","ev-0007-002","ev-0007-003","ev-0007-004","ev-0007-005"],"x":14.3,"y":15.599042355433,"z":-1.29904235543304,"label":"Duster 360"},{"observation_id":"obs-0008","evidence_ids":["ev-0008-001","ev-0008-002","ev-0008-003","ev-0008-004","ev-0008-005"],"x":24.4,"y":22.8870673352823,"z":1.51293266471771,"label":"Merc 240D"},{"observation_id":"obs-0009","evidence_ids":["ev-0009-001","ev-0009-002","ev-0009-003","ev-0009-004","ev-0009-005"],"x":22.8,"y":21.9936733145672,"z":0.806326685432842,"label":"Merc 230"},{"observation_id":"obs-0010","evidence_ids":["ev-0010-001","ev-0010-002","ev-0010-003","ev-0010-004","ev-0010-005"],"x":19.2,"y":19.9794598837693,"z":-0.779459883769295,"label":"Merc 280"},{"observation_id":"obs-0011","evidence_ids":["ev-0011-001","ev-0011-002","ev-0011-003","ev-0011-004","ev-0011-005"],"x":17.8,"y":19.9794598837693,"z":-2.17945988376929,"label":"Merc 280C"},{"observation_id":"obs-0012","evidence_ids":["ev-0012-001","ev-0012-002","ev-0012-003","ev-0012-004","ev-0012-005"],"x":16.4,"y":15.7253685380712,"z":0.674631461928831,"label":"Merc 450SE"},{"observation_id":"obs-0013","evidence_ids":["ev-0013-001","ev-0013-002","ev-0013-003","ev-0013-004","ev-0013-005"],"x":17.3,"y":17.0438309904888,"z":0.256169009511241,"label":"Merc 450SL"},{"observation_id":"obs-0014","evidence_ids":["ev-0014-001","ev-0014-002","ev-0014-003","ev-0014-004","ev-0014-005"],"x":15.2,"y":16.8499394533685,"z":-1.64993945336853,"label":"Merc 450SLC"},{"observation_id":"obs-0015","evidence_ids":["ev-0015-001","ev-0015-002","ev-0015-003","ev-0015-004","ev-0015-005"],"x":10.4,"y":10.3552045874796,"z":0.0447954125203775,"label":"Cadillac Fleetwood"},{"observation_id":"obs-0016","evidence_ids":["ev-0016-001","ev-0016-002","ev-0016-003","ev-0016-004","ev-0016-005"],"x":10.4,"y":9.3627325684796,"z":1.0372674315204,"label":"Lincoln Continental"},{"observation_id":"obs-0017","evidence_ids":["ev-0017-001","ev-0017-002","ev-0017-003","ev-0017-004","ev-0017-005"],"x":14.7,"y":9.19248699239715,"z":5.50751300760284,"label":"Chrysler Imperial"},{"observation_id":"obs-0018","evidence_ids":["ev-0018-001","ev-0018-002","ev-0018-003","ev-0018-004","ev-0018-005"],"x":32.4,"y":26.5990279823343,"z":5.80097201766573,"label":"Fiat 128"},{"observation_id":"obs-0019","evidence_ids":["ev-0019-001","ev-0019-002","ev-0019-003","ev-0019-004","ev-0019-005"],"x":30.4,"y":29.3123802243913,"z":1.08761977560873,"label":"Honda Civic"},{"observation_id":"obs-0020","evidence_ids":["ev-0020-001","ev-0020-002","ev-0020-003","ev-0020-004","ev-0020-005"],"x":33.9,"y":28.0462091502941,"z":5.85379084970586,"label":"Toyota Corolla"},{"observation_id":"obs-0021","evidence_ids":["ev-0021-001","ev-0021-002","ev-0021-003","ev-0021-004","ev-0021-005"],"x":21.5,"y":24.58644147915,"z":-3.08644147915004,"label":"Toyota Corona"},{"observation_id":"obs-0022","evidence_ids":["ev-0022-001","ev-0022-002","ev-0022-003","ev-0022-004","ev-0022-005"],"x":15.5,"y":18.8113638558586,"z":-3.31136385585857,"label":"Dodge Challenger"},{"observation_id":"obs-0023","evidence_ids":["ev-0023-001","ev-0023-002","ev-0023-003","ev-0023-004","ev-0023-005"],"x":15.2,"y":19.140979468963,"z":-3.94097946896297,"label":"AMC Javelin"},{"observation_id":"obs-0024","evidence_ids":["ev-0024-001","ev-0024-002","ev-0024-003","ev-0024-004","ev-0024-005"],"x":13.3,"y":14.5520280549838,"z":-1.25202805498378,"label":"Camaro Z28"},{"observation_id":"obs-0025","evidence_ids":["ev-0025-001","ev-0025-002","ev-0025-003","ev-0025-004","ev-0025-005"],"x":19.2,"y":16.756745190023,"z":2.44325480997697,"label":"Pontiac Firebird"},{"observation_id":"obs-0026","evidence_ids":["ev-0026-001","ev-0026-002","ev-0026-003","ev-0026-004","ev-0026-005"],"x":27.3,"y":27.6266531290715,"z":-0.326653129071512,"label":"Fiat X1-9"},{"observation_id":"obs-0027","evidence_ids":["ev-0027-001","ev-0027-002","ev-0027-003","ev-0027-004","ev-0027-005"],"x":26,"y":26.0373741523245,"z":-0.037374152324528,"label":"Porsche 914-2"},{"observation_id":"obs-0028","evidence_ids":["ev-0028-001","ev-0028-002","ev-0028-003","ev-0028-004","ev-0028-005"],"x":30.4,"y":27.7697691942047,"z":2.63023080579528,"label":"Lotus Europa"},{"observation_id":"obs-0029","evidence_ids":["ev-0029-001","ev-0029-002","ev-0029-003","ev-0029-004","ev-0029-005"],"x":15.8,"y":16.5464886597339,"z":-0.746488659733857,"label":"Ford Pantera L"},{"observation_id":"obs-0030","evidence_ids":["ev-0030-001","ev-0030-002","ev-0030-003","ev-0030-004","ev-0030-005"],"x":19.7,"y":20.9254132381081,"z":-1.22541323810806,"label":"Ferrari Dino"},{"observation_id":"obs-0031","evidence_ids":["ev-0031-001","ev-0031-002","ev-0031-003","ev-0031-004","ev-0031-005"],"x":15,"y":12.7394771270386,"z":2.26052287296144,"label":"Maserati Bora"},{"observation_id":"obs-0032","evidence_ids":["ev-0032-001","ev-0032-002","ev-0032-003","ev-0032-004","ev-0032-005"],"x":21.4,"y":22.9836494315066,"z":-1.58364943150664,"label":"Volvo 142E"}];
+const lessonSpec = {"schema_version":"rlearnxr-browser-contract-1","lesson_id":"mtcars-efficiency","title":"Vehicle efficiency model evidence","outcomes":["Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","Explain one observation with linked analytical evidence and an explicit limitation","Repair and transfer the interpretation while preserving reproducibility"],"question":"How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","analysis":"lm","representations":[{"type":"table","dimensions":null,"fallback":"table","title":"Evidence table"},{"type":"plot2d","dimensions":null,"fallback":"table","title":"Two-dimensional evidence"},{"type":"scene3d","dimensions":null,"fallback":"table","title":"Three-dimensional evidence"}],"visualization_metadata":{},"axis_labels":{"x":"observed","y":"fitted","z":"residual"},"seed":2026,"evidence_hash":"b4ab0b94e4983adfedf67009f0a73e2e","tasks":{"orient":{"id":"wizard-orient","type":"orient","prompt":"State why one vehicle model in the built-in mtcars dataset is the unit of observation, identify each variable role, and restate the question: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","criteria":{"meaning":"Defines the unit of observation and variable roles","question":"Connects the data to the stated question"},"evidence_required":false},"predict":{"id":"wizard-predict","type":"predict","prompt":"Predict the direction of association between hp, wt and mpg.","criteria":{"prediction":"Records a falsifiable expectation before inspection"},"evidence_required":false},"run_r":{"id":"wizard-run_r","type":"run_r","prompt":"Inspect the model formula, run the linear model, and connect fitted values, residuals, intervals, and provenance.","criteria":{"execution":"Connects visible R source to the compiled artifact"},"evidence_required":false},"explore":{"id":"wizard-explore","type":"explore","prompt":"Select one observation and compare its fitted value, residual, and interval evidence in the full compiled evidence table.","criteria":{"selection":"Selects an observation using a stable evidence ID"},"evidence_required":true},"explain":{"id":"wizard-explain","type":"explain","prompt":"Explain the selected observation using its fitted value and residual, then state an uncertainty or causal limitation.","criteria":{"point":"Names the selected observation","fitted":"Cites a fitted value","residual":"Interprets a residual or interval","limitation":"States an uncertainty or causal limitation"},"evidence_required":true},"repair":{"id":"wizard-repair","type":"repair","prompt":"Check residual, influence, independence, and interval evidence before revising the association claim.","criteria":{"revision":"Corrects the identified evidence or assumption problem"},"evidence_required":true},"transfer":{"id":"wizard-transfer","type":"transfer","prompt":"Apply the fitted-versus-observed reasoning to a different observation and compare uncertainty.","criteria":{"point":"Uses a different observation","comparison":"Compares the method-specific evidence","limitation":"Keeps the interpretation within its evidence boundary"},"evidence_required":true},"reproduce":{"id":"wizard-reproduce","type":"reproduce","prompt":"Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.","criteria":{"provenance":"Verifies source, seed, version, retained rows, and artifact hash"},"evidence_required":false}},"diagnostics":[{"id":"r-squared","label":"R-squared","value":"0.827","status":"review","interpretation":"Report fit together with residual and uncertainty evidence."},{"id":"residual","label":"Residual standard error","value":"2.593","status":"review","interpretation":"Residuals show where observed outcomes differ from fitted values."},{"id":"influence","label":"Largest Cook's distance","value":"0.424","status":"review","interpretation":"Compare with the teaching flag 4/n = 0.125; this is a review cue, not an automatic deletion rule."},{"id":"interval","label":"Uncertainty representation","value":"95% fitted-mean interval","status":"review","interpretation":"An interval communicates uncertainty; it does not guarantee a future individual outcome."},{"id":"linearity","label":"Residual-fitted correlation","value":"-0.000","status":"review","interpretation":"A strong residual trend is a cue to inspect linearity and model form."},{"id":"spread-pattern","label":"Absolute-residual/fitted correlation","value":"0.145","status":"review","interpretation":"A strong trend is a cue to inspect non-constant residual spread."}],"cautions":"Regression coefficients describe conditional association unless the design supports a causal claim.","misconceptions":["A fitted value is not the observed outcome.","A small residual does not validate every model assumption."],"context":{"question":"How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?","intent":"explain","intent_label":"Explain variation in a numeric outcome","unit_of_analysis":"one vehicle model in the built-in mtcars dataset","outcome":"mpg","id_column":"label","grouping":null,"time":null,"decision_context":"learning to critique an association model, not making a causal vehicle-design claim","dependence_warning":false},"analysis_source":["set.seed(2026)","# learner_data is the local CSV data frame","analysis_columns \u003c- c(\"hp\", \"wt\", \"mpg\", \"label\")","source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","labels \u003c- as.character(analysis_data[[\"label\"]])","fit \u003c- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)","evidence \u003c- as_rlearnxr_evidence(fit, labels = labels)"],"evidence_table":{"columns":["observation_id","label","observed","fitted","residual","interval_low","interval_high"],"rows":[{"observation_id":"obs-0001","label":"Mazda RX4","observed":21,"fitted":23.5723294033093,"residual":-2.57232940330929,"interval_low":22.5027421316469,"interval_high":24.6419166749715},{"observation_id":"obs-0002","label":"Mazda RX4 Wag","observed":21,"fitted":22.583482563996,"residual":-1.58348256399603,"interval_low":21.5606991708738,"interval_high":23.6062659571183},{"observation_id":"obs-0003","label":"Datsun 710","observed":22.8,"fitted":25.2758187247274,"residual":-2.47581872472737,"interval_low":24.0286382494973,"interval_high":26.5229991999574},{"observation_id":"obs-0004","label":"Hornet 4 Drive","observed":21.4,"fitted":21.2650201115784,"residual":0.134979888421558,"interval_low":20.1574792782644,"interval_high":22.3725609448924},{"observation_id":"obs-0005","label":"Hornet Sportabout","observed":18.7,"fitted":18.3272666406969,"residual":0.372733359303077,"interval_low":17.3513287503628,"interval_high":19.303204531031},{"observation_id":"obs-0006","label":"Valiant","observed":18.1,"fitted":20.4738163146001,"residual":-2.3738163146001,"interval_low":19.1566096202684,"interval_high":21.7910230089317},{"observation_id":"obs-0007","label":"Duster 360","observed":14.3,"fitted":15.599042355433,"residual":-1.29904235543304,"interval_low":13.8602445256616,"interval_high":17.3378401852045},{"observation_id":"obs-0008","label":"Merc 240D","observed":24.4,"fitted":22.8870673352823,"residual":1.51293266471771,"interval_low":21.1583980427324,"interval_high":24.6157366278321},{"observation_id":"obs-0009","label":"Merc 230","observed":22.8,"fitted":21.9936733145672,"residual":0.806326685432842,"interval_low":20.7484070929423,"interval_high":23.238939536192},{"observation_id":"obs-0010","label":"Merc 280","observed":19.2,"fitted":19.9794598837693,"residual":-0.779459883769295,"interval_low":18.8785187801883,"interval_high":21.0804009873503},{"observation_id":"obs-0011","label":"Merc 280C","observed":17.8,"fitted":19.9794598837693,"residual":-2.17945988376929,"interval_low":18.8785187801883,"interval_high":21.0804009873503},{"observation_id":"obs-0012","label":"Merc 450SE","observed":16.4,"fitted":15.7253685380712,"residual":0.674631461928831,"interval_low":14.5203917751667,"interval_high":16.9303453009756},{"observation_id":"obs-0013","label":"Merc 450SL","observed":17.3,"fitted":17.0438309904888,"residual":0.256169009511241,"interval_low":16.0116250198068,"interval_high":18.0760369611708},{"observation_id":"obs-0014","label":"Merc 450SLC","observed":15.2,"fitted":16.8499394533685,"residual":-1.64993945336853,"interval_low":15.8011356354697,"interval_high":17.8987432712674},{"observation_id":"obs-0015","label":"Cadillac Fleetwood","observed":10.4,"fitted":10.3552045874796,"residual":0.0447954125203775,"interval_low":8.16433439582432,"interval_high":12.5460747791349},{"observation_id":"obs-0016","label":"Lincoln Continental","observed":10.4,"fitted":9.3627325684796,"residual":1.0372674315204,"interval_low":7.03904234107133,"interval_high":11.6864227958879},{"observation_id":"obs-0017","label":"Chrysler Imperial","observed":14.7,"fitted":9.19248699239715,"residual":5.50751300760284,"interval_low":6.99739828975243,"interval_high":11.3875756950419},{"observation_id":"obs-0018","label":"Fiat 128","observed":32.4,"fitted":26.5990279823343,"residual":5.80097201766573,"interval_low":25.1621236018789,"interval_high":28.0359323627896},{"observation_id":"obs-0019","label":"Honda Civic","observed":30.4,"fitted":29.3123802243913,"residual":1.08761977560873,"interval_low":27.5299760724091,"interval_high":31.0947843763735},{"observation_id":"obs-0020","label":"Toyota Corolla","observed":33.9,"fitted":28.0462091502941,"residual":5.85379084970586,"interval_low":26.442792488359,"interval_high":29.6496258122293},{"observation_id":"obs-0021","label":"Toyota Corona","observed":21.5,"fitted":24.58644147915,"residual":-3.08644147915004,"interval_low":23.4158818635085,"interval_high":25.7570010947916},{"observation_id":"obs-0022","label":"Dodge Challenger","observed":15.5,"fitted":18.8113638558586,"residual":-3.31136385585857,"interval_low":17.8507203108298,"interval_high":19.7720074008873},{"observation_id":"obs-0023","label":"AMC Javelin","observed":15.2,"fitted":19.140979468963,"residual":-3.94097946896297,"interval_low":18.2120373564387,"interval_high":20.0699215814873},{"observation_id":"obs-0024","label":"Camaro Z28","observed":13.3,"fitted":14.5520280549838,"residual":-1.25202805498378,"interval_low":12.9207975080484,"interval_high":16.1832586019192},{"observation_id":"obs-0025","label":"Pontiac Firebird","observed":19.2,"fitted":16.756745190023,"residual":2.44325480997697,"interval_low":15.6840668035557,"interval_high":17.8294235764904},{"observation_id":"obs-0026","label":"Fiat X1-9","observed":27.3,"fitted":27.6266531290715,"residual":-0.326653129071512,"interval_low":26.0827673516843,"interval_high":29.1705389064588},{"observation_id":"obs-0027","label":"Porsche 914-2","observed":26,"fitted":26.0373741523245,"residual":-0.037374152324528,"interval_low":24.6850263766076,"interval_high":27.3897219280414},{"observation_id":"obs-0028","label":"Lotus Europa","observed":30.4,"fitted":27.7697691942047,"residual":2.63023080579528,"interval_low":25.7773459290999,"interval_high":29.7621924593095},{"observation_id":"obs-0029","label":"Ford Pantera L","observed":15.8,"fitted":16.5464886597339,"residual":-0.746488659733857,"interval_low":14.2482594628233,"interval_high":18.8447178566444},{"observation_id":"obs-0030","label":"Ferrari Dino","observed":19.7,"fitted":20.9254132381081,"residual":-1.22541323810806,"interval_low":19.6092321820195,"interval_high":22.2415942941966},{"observation_id":"obs-0031","label":"Maserati Bora","observed":15,"fitted":12.7394771270386,"residual":2.26052287296144,"interval_low":9.54801015974263,"interval_high":15.9309440943345},{"observation_id":"obs-0032","label":"Volvo 142E","observed":21.4,"fitted":22.9836494315066,"residual":-1.58364943150664,"interval_low":21.9493164215725,"interval_high":24.0179824414407}]},"command_explanations":[{"code":"set.seed(2026)","explanation":"Fixes the random seed so stochastic methods and downstream artifacts can be reproduced."},{"code":"# learner_data is the local CSV data frame","explanation":"Names the local input data object used by the generated analysis."},{"code":"analysis_columns \u003c- c(\"hp\", \"wt\", \"mpg\", \"label\")","explanation":"Declares the exact variables needed for the analysis, outcome, and stable labels."},{"code":"source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","explanation":"Records the retained source-row positions after the explicit complete-case rule."},{"code":"analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","explanation":"Creates the analysis data from the retained source rows and approved columns."},{"code":"labels \u003c- as.character(analysis_data[[\"label\"]])","explanation":"Creates stable observation labels from the approved ID column or original source-row position."},{"code":"fit \u003c- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)","explanation":"Fits the approved linear model formula to the selected outcome and predictors."},{"code":"evidence \u003c- as_rlearnxr_evidence(fit, labels = labels)","explanation":"Converts the existing lm result into linked Evidence IR without reimplementing the statistical method."}]};
 function taskFor(type) {
   return lessonSpec && lessonSpec.tasks && lessonSpec.tasks[type]
     ? lessonSpec.tasks[type]
@@ -603,6 +613,13 @@ const aiTab = document.getElementById("ai-tab");
 const scenePanel = document.getElementById("scene-panel");
 const rPanel = document.getElementById("r-panel");
 const aiPanel = document.getElementById("ai-panel");
+const plotShell = document.getElementById("plot-shell");
+const sceneControls = document.getElementById("scene-controls");
+const spatialControl = document.getElementById("spatial-control");
+const sceneHelp = document.getElementById("scene-help");
+const dataAlternative = document.getElementById("data-alternative");
+const compiledEvidenceAlternative = document.getElementById("compiled-evidence-alternative");
+const representationButtons = Array.from(document.querySelectorAll("[data-representation]"));
 const rCodeEditor = document.getElementById("r-code-editor");
 const runRCode = document.getElementById("run-r-code");
 const rConsole = document.getElementById("r-console");
@@ -644,6 +661,7 @@ let moved = false;
 let last = null;
 let hoverIndex = null;
 let selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
+let renderedPointPositions = [];
 let currentStep = 1;
 let orientationPassed = false;
 let evidenceSelected = false;
@@ -660,6 +678,10 @@ let lastSuccessfulCode = "";
 let aiGeneratedRCode = "";
 let aiBrief = null;
 const contractSeed = Number(lessonSpec.seed || 2026);
+const availableRepresentations = new Set(
+  (lessonSpec.representations || [{type: "table"}, {type: "plot2d"}, {type: "scene3d"}]).map(value => value.type)
+);
+let representationMode = availableRepresentations.has("scene3d") ? "scene3d" : availableRepresentations.has("plot2d") ? "plot2d" : "table";
 
 function applyLessonContract() {
   const setText = (id, value) => {
@@ -724,8 +746,13 @@ function applyLessonContract() {
   });
   const tip = (lessonSpec.misconceptions || [])[0] || (lessonSpec.cautions || [])[0];
   if (tip) setText("method-tip", tip);
+  representationButtons.forEach(button => {
+    const available = availableRepresentations.has(button.dataset.representation);
+    button.hidden = !available;
+    button.disabled = !available;
+  });
   buildCompiledEvidenceTable();
-  canvas.setAttribute("aria-label", "Interactive three-dimensional evidence scene for " + (lessonSpec.question || lessonSpec.title));
+  setRepresentation(representationMode, false, false);
 }
 
 function buildCompiledEvidenceTable() {
@@ -796,6 +823,17 @@ function explanationCriteria(text, selected) {
     axis: () => /(^|\W)[xyz](\W|$)/i.test(text) || axisLabels.some(value => lower.includes(value)),
     component: () => /(^|\W)(pc\s*[123]|component\s*[123]|principal component)(\W|$)/i.test(text),
     direction: () => /(positive|negative|above|below|higher|lower|increase|decrease|near|zero|greater|less)/i.test(text),
+    center: () => /(mean|median|center|average)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    spread: () => /(standard deviation|\bsd\b|iqr|interquartile|range|spread|variance)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    association: () => /(correlation|association|relationship|paired)/i.test(text) && /(positive|negative|weak|moderate|strong|zero|[-+]?\d*\.?\d+)/i.test(text),
+    pair: () => /(pair|paired|both|together)/i.test(text) || axisLabels.filter(value => lower.includes(value)).length >= 2,
+    estimate: () => /(bootstrap|resample|estimate|mean|statistic)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    interval: () => /(interval|confidence|uncertainty|percentile)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    difference: () => /(difference|group|mean|higher|lower)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    inference: () => /(p-value|p value|t statistic|confidence|interval|null|significant)/i.test(text),
+    variation: () => /(variation|variance|group mean|residual|f statistic|between|within)/i.test(text),
+    omnibus: () => /(omnibus|overall|f statistic|anova|not identify|does not identify)/i.test(text),
+    observed: () => /(observed|count)/i.test(text) && /(expected|[-+]?\d*\.?\d+)/i.test(text),
     fitted: () => /(fitted|predicted|estimate|expected)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
     residual: () => /(residual|interval|observed|difference|error)/i.test(text),
     probability: () => /(probability|chance|odds|percent|%)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
@@ -818,7 +856,19 @@ function transferCriteria(text, selectedLabel) {
         ? /(probability|threshold|event|class|odds|percent|%)/i.test(text)
         : analysis === "kmeans"
           ? /(cluster|centroid|distance|group)/i.test(text)
-          : /(^|\W)[xyz](\W|$)/i.test(text) || Object.values(lessonSpec.axis_labels || {}).some(value => lower.includes(String(value).toLowerCase()));
+          : analysis === "numeric_summary"
+            ? /(mean|median|sd|iqr|spread|percentile|distribution)/i.test(text)
+            : analysis === "cor.test"
+              ? /(correlation|association|pair|interval)/i.test(text)
+              : analysis === "bootstrap_mean"
+                ? /(bootstrap|resample|estimate|interval|deviation)/i.test(text)
+                : analysis === "t.test"
+                  ? /(difference|group|mean|interval|p-value|t statistic)/i.test(text)
+                  : analysis === "aov"
+                    ? /(group mean|residual|variation|anova|f statistic)/i.test(text)
+                    : analysis === "chisq.test"
+                      ? /(observed|expected|count|residual|chi-square)/i.test(text)
+                      : /(^|\W)[xyz](\W|$)/i.test(text) || Object.values(lessonSpec.axis_labels || {}).some(value => lower.includes(String(value).toLowerCase()));
   return {
     point: Boolean(selectedLabel) && lower.includes(String(selectedLabel).toLowerCase()),
     comparison: metric && /(compared|higher|lower|positive|negative|similar|same|differ|greater|less|near|zero|while|whereas|than)/i.test(text),
@@ -1202,6 +1252,42 @@ function setSelectedPoint(index, options = {}) {
   else if (currentStep < 4) setStep(4);
 }
 
+function setRepresentation(mode, focusTarget = true, persist = true) {
+  if (!availableRepresentations.has(mode)) return;
+  representationMode = mode;
+  const tableMode = mode === "table";
+  const plot2dMode = mode === "plot2d";
+  representationButtons.forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.representation === mode));
+  });
+  plotShell.hidden = tableMode;
+  sceneControls.hidden = tableMode;
+  spatialControl.firstElementChild.nextSibling.textContent = plot2dMode ? "Compare axes" : "Rotate";
+  dataAlternative.open = tableMode;
+  compiledEvidenceAlternative.open = tableMode;
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+  if (tableMode) {
+    sceneHelp.textContent = "Use the evidence tables to inspect exact values and select an observation with the same evidence identifiers used by the plots.";
+    document.getElementById("scene-legend").textContent = "Semantic evidence table · exact values from R";
+  } else if (plot2dMode) {
+    canvas.setAttribute("aria-label", "Interactive two-dimensional evidence plot for " + (lessonSpec.question || lessonSpec.title));
+    sceneHelp.textContent = "Use arrow keys to move between observations. Use the accessible table below to inspect exact values.";
+    document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y"].join(" / ") + " · 2D linked evidence from R";
+  } else {
+    canvas.setAttribute("aria-label", "Interactive three-dimensional evidence scene for " + (lessonSpec.question || lessonSpec.title));
+    sceneHelp.textContent = "Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible table below to select an exact point.";
+    document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y", axisLabels.z || "z"].join(" / ") + " · 3D linked evidence from R";
+  }
+  if (!tableMode) {
+    resize();
+    if (focusTarget) canvas.focus();
+  } else if (focusTarget) {
+    const firstAction = document.querySelector("#points-table button");
+    if (firstAction) firstAction.focus();
+  }
+  if (persist) saveState();
+}
+
 function resize() {
   const ratio = window.devicePixelRatio || 1;
   const box = canvas.getBoundingClientRect();
@@ -1257,7 +1343,7 @@ function line(from, to, color, width = 1) {
   ctx.stroke();
 }
 
-function draw() {
+function draw3d() {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
   const metrics = projectionMetrics(width, height);
@@ -1276,7 +1362,8 @@ function draw() {
     ctx.fillText(axis, Math.max(8, Math.min(width - 16, labelPoint.x)), Math.max(16, Math.min(height - 10, labelPoint.y)));
   });
   const active = activePointIndex();
-  const projected = points.map((point, index) => ({point, index, projected: project(point, width, height, metrics)})).sort((a, b) => a.projected.z - b.projected.z);
+  renderedPointPositions = points.map(point => project(point, width, height, metrics));
+  const projected = points.map((point, index) => ({point, index, projected: renderedPointPositions[index]})).sort((a, b) => a.projected.z - b.projected.z);
   projected.forEach(item => {
     const isActive = item.index === active;
     ctx.beginPath();
@@ -1309,14 +1396,174 @@ function draw() {
   }
 }
 
-function pointAt(x, y) {
+function plot2dMetrics(width, height) {
+  const xValues = points.map(point => point.x);
+  const yValues = points.map(point => point.y);
+  const extent = values => {
+    let minimum = Math.min(...values), maximum = Math.max(...values);
+    if (minimum === maximum) { minimum -= 1; maximum += 1; }
+    const padding = (maximum - minimum) * .08;
+    return [minimum - padding, maximum + padding];
+  };
+  return {x: extent(xValues), y: extent(yValues), left: 58, right: 24, top: 24, bottom: 50, width, height};
+}
+
+function project2d(point, metrics) {
+  const plotWidth = Math.max(1, metrics.width - metrics.left - metrics.right);
+  const plotHeight = Math.max(1, metrics.height - metrics.top - metrics.bottom);
+  return {
+    x: metrics.left + (point.x - metrics.x[0]) / (metrics.x[1] - metrics.x[0]) * plotWidth,
+    y: metrics.top + (metrics.y[1] - point.y) / (metrics.y[1] - metrics.y[0]) * plotHeight,
+    z: 0
+  };
+}
+
+function draw2d() {
+  if (String(lessonSpec.analysis) === "numeric_summary" && lessonSpec.visualization_metadata && lessonSpec.visualization_metadata.histogram) {
+    drawHistogram2d();
+    return;
+  }
+  if (["table", "chisq.test"].includes(String(lessonSpec.analysis))) {
+    drawBar2d();
+    return;
+  }
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
-  const metrics = projectionMetrics(width, height);
+  const metrics = plot2dMetrics(width, height);
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y"};
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(metrics.left, metrics.top, width - metrics.left - metrics.right, height - metrics.top - metrics.bottom);
+  ctx.strokeStyle = "#d8e0eb";
+  ctx.lineWidth = 1;
+  for (let index = 0; index <= 4; index += 1) {
+    const x = metrics.left + (width - metrics.left - metrics.right) * index / 4;
+    const y = metrics.top + (height - metrics.top - metrics.bottom) * index / 4;
+    line({x, y: metrics.top}, {x, y: height - metrics.bottom}, "#e6ebf2");
+    line({x: metrics.left, y}, {x: width - metrics.right, y}, "#e6ebf2");
+  }
+  line({x: metrics.left, y: height - metrics.bottom}, {x: width - metrics.right, y: height - metrics.bottom}, "#526078", 1.25);
+  line({x: metrics.left, y: metrics.top}, {x: metrics.left, y: height - metrics.bottom}, "#526078", 1.25);
+  ctx.fillStyle = "#526078";
+  ctx.font = "11px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText(axisLabels.x || "x", metrics.left + (width - metrics.left - metrics.right) / 2, height - 14);
+  ctx.save();
+  ctx.translate(15, metrics.top + (height - metrics.top - metrics.bottom) / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(axisLabels.y || "y", 0, 0);
+  ctx.restore();
+  ctx.textAlign = "left";
+  const active = activePointIndex();
+  renderedPointPositions = points.map(point => project2d(point, metrics));
+  points.forEach((point, index) => {
+    const projected = renderedPointPositions[index];
+    const isActive = index === active;
+    ctx.beginPath();
+    ctx.arc(projected.x, projected.y, isActive ? 8 : 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = colors[index % colors.length];
+    ctx.globalAlpha = isActive ? 1 : .82;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (isActive) { ctx.strokeStyle = "#172033"; ctx.lineWidth = 2; ctx.stroke(); }
+  });
+  if (active !== null && points[active]) {
+    const point = points[active];
+    const projected = project2d(point, metrics);
+    const text = String(point.label || ("point " + (active + 1))) + " (" + point.x.toFixed(2) + ", " + point.y.toFixed(2) + ")";
+    ctx.font = "12px system-ui";
+    const textWidth = ctx.measureText(text).width + 18;
+    const labelX = Math.max(8, Math.min(width - textWidth - 8, projected.x + 10));
+    const labelY = Math.max(8, Math.min(height - 34, projected.y - 30));
+    ctx.fillStyle = "rgba(255, 255, 255, .96)";
+    ctx.fillRect(labelX, labelY, textWidth, 24);
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.strokeRect(labelX, labelY, textWidth, 24);
+    ctx.fillStyle = "#172033";
+    ctx.fillText(text, labelX + 9, labelY + 16);
+  }
+}
+
+function drawHistogram2d() {
+  const width = canvas.clientWidth, height = canvas.clientHeight;
+  const metadata = lessonSpec.visualization_metadata.histogram;
+  const breaks = metadata.breaks || [], counts = metadata.counts || [];
+  const left = 58, right = 24, top = 24, bottom = 52;
+  const xMin = Math.min(...breaks), xMax = Math.max(...breaks);
+  const maxCount = Math.max(1, ...counts);
+  const mapX = value => left + (value - xMin) / Math.max(.000001, xMax - xMin) * (width - left - right);
+  const mapY = value => top + (maxCount - value) / maxCount * (height - top - bottom);
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(left, top, width - left - right, height - top - bottom);
+  counts.forEach((count, index) => {
+    const x0 = mapX(breaks[index]), x1 = mapX(breaks[index + 1]);
+    const y = mapY(count);
+    ctx.fillStyle = "#cfe0fb";
+    ctx.fillRect(x0 + 1, y, Math.max(1, x1 - x0 - 2), height - bottom - y);
+    ctx.strokeStyle = "#3977df";
+    ctx.strokeRect(x0 + 1, y, Math.max(1, x1 - x0 - 2), height - bottom - y);
+  });
+  line({x: left, y: height - bottom}, {x: width - right, y: height - bottom}, "#526078", 1.25);
+  line({x: left, y: top}, {x: left, y: height - bottom}, "#526078", 1.25);
+  const rugBase = height - bottom + 10;
+  renderedPointPositions = points.map((point, index) => ({x: mapX(point.x), y: rugBase + (index % 3) * 5, z: 0}));
+  renderedPointPositions.forEach((position, index) => {
+    ctx.beginPath();
+    ctx.arc(position.x, position.y, index === activePointIndex() ? 5 : 3, 0, Math.PI * 2);
+    ctx.fillStyle = colors[index % colors.length];
+    ctx.fill();
+  });
+  ctx.fillStyle = "#526078";
+  ctx.font = "11px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText((lessonSpec.axis_labels || {}).x || "value", left + (width - left - right) / 2, height - 12);
+  ctx.save(); ctx.translate(15, top + (height - top - bottom) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("Count", 0, 0); ctx.restore();
+  ctx.textAlign = "left";
+}
+
+function drawBar2d() {
+  const width = canvas.clientWidth, height = canvas.clientHeight;
+  const left = 48, right = 20, top = 24, bottom = 72;
+  const maximum = Math.max(1, ...points.map(point => point.x));
+  const slot = (width - left - right) / Math.max(1, points.length);
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(left, top, width - left - right, height - top - bottom);
+  renderedPointPositions = points.map((point, index) => {
+    const barHeight = point.x / maximum * (height - top - bottom);
+    const x = left + index * slot + slot * .15;
+    const barWidth = Math.max(3, slot * .7);
+    const y = height - bottom - barHeight;
+    ctx.fillStyle = index === activePointIndex() ? "#2563eb" : "#9cbcf0";
+    ctx.fillRect(x, y, barWidth, barHeight);
+    ctx.fillStyle = "#526078";
+    ctx.font = "10px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText(String(Math.round(point.x * 100) / 100), x + barWidth / 2, Math.max(12, y - 5));
+    const label = String(point.label || index + 1);
+    ctx.save();
+    ctx.translate(x + barWidth / 2, height - bottom + 7);
+    ctx.rotate(-Math.PI / 4);
+    ctx.textAlign = "right";
+    ctx.fillText(label.length > 18 ? label.slice(0, 17) + "…" : label, 0, 0);
+    ctx.restore();
+    return {x: x + barWidth / 2, y, z: 0};
+  });
+  line({x: left, y: height - bottom}, {x: width - right, y: height - bottom}, "#526078", 1.25);
+  line({x: left, y: top}, {x: left, y: height - bottom}, "#526078", 1.25);
+  ctx.textAlign = "left";
+}
+
+function draw() {
+  if (representationMode === "table") return;
+  if (representationMode === "plot2d") draw2d(); else draw3d();
+}
+
+function pointAt(x, y) {
   let best = null;
   let distance = 20;
-  points.forEach((point, index) => {
-    const projectedPoint = project(point, width, height, metrics);
+  renderedPointPositions.forEach((projectedPoint, index) => {
     const candidate = Math.hypot(projectedPoint.x - x, projectedPoint.y - y);
     if (candidate < distance) {
       distance = candidate;
@@ -1371,7 +1618,8 @@ function buildTable() {
     const action = document.createElement("button");
     action.type = "button";
     action.className = "inspect-button";
-    action.textContent = "Inspect " + values[0];
+    action.textContent = "Inspect";
+    action.setAttribute("aria-label", "Inspect " + values[0]);
     action.addEventListener("click", () => setSelectedPoint(index));
     actionCell.appendChild(action);
     row.appendChild(actionCell);
@@ -1545,7 +1793,7 @@ async function executeRCode() {
     updateClaimEvidence();
     if (aiBrief && rCodeEditor.value.trim() === aiGeneratedRCode.trim()) {
       aiResultStatus.dataset.state = "success";
-      aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now available in the 3D view and table.";
+      aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now linked across the evidence views and table.";
     }
     viewRResult.hidden = false;
     setStep(4);
@@ -1659,6 +1907,7 @@ function saveState() {
       points: rRunPassed ? points : null,
       artifactHash: rRunPassed ? document.getElementById("artifact-hash").textContent : null,
       selectedIndex,
+      representationMode,
       evidenceSelected,
       explanationAttempted,
       currentStep,
@@ -1678,6 +1927,7 @@ function restoreState() {
     explanationInput.value = saved.explanation || "";
     transferInput.value = saved.transfer || "";
     rCodeEditor.value = saved.rCode || defaultRCode();
+    if (availableRepresentations.has(saved.representationMode)) representationMode = saved.representationMode;
     orientationPassed = Boolean(saved.orientationPassed || orientInput.value);
     if (orientationPassed) {
       orientStatus.textContent = "Saved orientation restored.";
@@ -1687,7 +1937,7 @@ function restoreState() {
       predictionStatus.textContent = "Saved response restored.";
       setPredictionMode(true);
     }
-    if (saved.rRunPassed && Array.isArray(saved.points) && saved.points.length >= 3) {
+    if (saved.rRunPassed && Array.isArray(saved.points) && saved.points.length >= 1) {
       points = saved.points.map((point, index) => normalizePointIdentity({observation_id: point.observation_id, evidence_ids: point.evidence_ids, label: String(point.label), x: Number(point.x), y: Number(point.y), z: Number(point.z)}, index));
       selectedIndex = Math.max(0, Math.min(points.length - 1, Number(saved.selectedIndex) || 0));
       webRVersion = saved.runtime || "WebR 0.6.0";
@@ -1748,7 +1998,7 @@ canvas.addEventListener("pointerdown", event => {
 canvas.addEventListener("pointermove", event => {
   const rectangle = canvas.getBoundingClientRect();
   hoverIndex = pointAt(event.clientX - rectangle.left, event.clientY - rectangle.top);
-  if (dragging && last) {
+  if (representationMode === "scene3d" && dragging && last) {
     const dx = event.clientX - last.x;
     const dy = event.clientY - last.y;
     moved = moved || Math.abs(dx) + Math.abs(dy) > 2;
@@ -1772,12 +2022,21 @@ canvas.addEventListener("pointerleave", () => {
   draw();
 });
 canvas.addEventListener("wheel", event => {
+  if (representationMode !== "scene3d") return;
   event.preventDefault();
   zoom *= event.deltaY < 0 ? 1.08 : .92;
   zoom = Math.max(.55, Math.min(2.5, zoom));
   draw();
 }, {passive: false});
 canvas.addEventListener("keydown", event => {
+  if (representationMode === "plot2d" && ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "Home"].includes(event.key)) {
+    event.preventDefault();
+    const direction = ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 1;
+    const index = event.key === "Home" ? 0 : (selectedIndex + direction + points.length) % points.length;
+    setSelectedPoint(index, {announce: true});
+    setStep(4);
+    return;
+  }
   const keyActions = {
     ArrowLeft: () => { yaw -= .12; },
     ArrowRight: () => { yaw += .12; },
@@ -1802,6 +2061,10 @@ document.getElementById("reset-view").addEventListener("click", () => {
   hoverIndex = null;
   updatePointPanel(selectedIndex, false);
   draw();
+});
+
+representationButtons.forEach(button => {
+  button.addEventListener("click", () => setRepresentation(button.dataset.representation));
 });
 
 educatorModeLink.addEventListener("click", () => {
@@ -1855,6 +2118,8 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   yaw = .72;
   pitch = .46;
   zoom = 1;
+  representationMode = availableRepresentations.has("scene3d") ? "scene3d" : availableRepresentations.has("plot2d") ? "plot2d" : "table";
+  setRepresentation(representationMode, false, false);
   updatePointPanel(selectedIndex, false);
   buildTable();
   setStep(1);
@@ -1983,7 +2248,7 @@ document.getElementById("check-transfer").addEventListener("click", () => {
   const missing = Object.entries(result).filter(([, value]) => !value).map(([name]) => name);
   if (!transferPointLabel) {
     transferFeedback.dataset.state = "error";
-    transferFeedback.textContent = "Select a different point in the 3D view or accessible table first.";
+    transferFeedback.textContent = "Select a different point in an evidence view or the accessible table first.";
     showView("scene", true);
     return;
   }
@@ -2124,6 +2389,7 @@ resetRResults();
 predictionCard.dataset.state = "editing";
 buildTable();
 restoreState();
+setRepresentation(representationMode, false, false);
 syncCourseProgress(lessonCompleted);
 updatePointPanel(selectedIndex, false);
 setStep(currentStep);

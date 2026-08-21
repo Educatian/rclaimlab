@@ -1,0 +1,107 @@
+---
+title: "Describe a distribution with linked evidence"
+format: html
+---
+
+# Learning objectives
+
+- Use the describe adapter to address: What is typical fuel efficiency, how variable is it, and which observations shape that description?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
+
+# Question and data structure
+
+**Question:** What is typical fuel efficiency, how variable is it, and which observations shape that description?
+
+**Unit of analysis:** one observation in a built-in R teaching dataset
+
+**Analytical intent:** Summarize one numeric variable
+
+# Learning sequence
+
+## Orient
+
+State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: What is typical fuel efficiency, how variable is it, and which observations shape that description?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict the center, spread, and shape of mpg before inspecting its distribution evidence.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Run the numeric-summary adapter and inspect mean, median, SD, IQR, percentile, and histogram evidence.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Compare exact values, centered values, and percentiles in the table and 2D plot before using the 3D view.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Describe the distribution using one center, one spread, and one shape or unusual-value observation.
+
+Completion evidence:
+- **point:** Names a selected observation
+- **center:** Cites a center
+- **spread:** Cites a spread
+- **limitation:** States a sample or shape limitation
+
+## Repair
+
+Check whether the selected center and spread match the distribution shape and retained observations.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply the same center-spread-shape reasoning to a different part of the distribution.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Retained observations:** 32. All summaries refer to these complete observations.
+- **Mean / median:** 20.091 / 19.200. Compare both when the distribution is skewed or has unusual values.
+- **SD / IQR:** 6.027 / 7.375. Standard deviation and IQR describe spread differently.
+- **Minimum / maximum:** 10.400 / 33.900. Inspect extremes before calling them errors or outliers.
+
+# Interpretation cautions
+
+- A sample summary does not establish a population value.
+- Center and spread should be interpreted with the distribution shape.
+
+```{r}
+#| echo: true
+set.seed(2026)
+```
+
+# Evidence compiler artifact
+
+This lesson was compiled from `numeric_summary` evidence with hash `470bb09c22419493d8f4ad5cdf9ef335`.
+
+[Open the synchronized browser laboratory](scene/index.html)
+
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

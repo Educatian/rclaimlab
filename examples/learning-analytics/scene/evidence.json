@@ -106,17 +106,20 @@
     {
       "dimension_id": "dim-001",
       "label": "x",
-      "role": "variable"
+      "role": "variable",
+      "unit": null
     },
     {
       "dimension_id": "dim-002",
       "label": "y",
-      "role": "variable"
+      "role": "variable",
+      "unit": null
     },
     {
       "dimension_id": "dim-003",
       "label": "z",
-      "role": "variable"
+      "role": "variable",
+      "unit": null
     }
   ],
   "values": [

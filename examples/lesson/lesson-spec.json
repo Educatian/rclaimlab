@@ -98,12 +98,66 @@
     "profile_schema": "rlearnxr-data-profile-2",
     "analysis_recommendations": [
       {
+        "analysis": "describe",
+        "label": "Describe one numeric variable",
+        "available": true,
+        "recommended": false,
+        "reason": "Starts with center, spread, percentile, and distribution evidence for one numeric variable.",
+        "caution": "A sample summary describes retained observations; it does not establish a population value.",
+        "intent": "explore"
+      },
+      {
         "analysis": "data_view",
         "label": "Explore numeric dimensions",
         "available": true,
         "recommended": true,
         "reason": "Safest starting point for describing observations without adding a model.",
         "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "correlation",
+        "label": "Correlation with paired evidence",
+        "available": true,
+        "recommended": false,
+        "reason": "Connects a correlation estimate to the paired observations that produced it.",
+        "caution": "Correlation measures paired association, not causation; inspect form, outliers, and dependence.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "bootstrap",
+        "label": "Bootstrap a sample mean",
+        "available": true,
+        "recommended": false,
+        "reason": "Uses resampled means to make sampling variability and interval interpretation visible.",
+        "caution": "A bootstrap interval reflects the observed sample and resampling rule, not every source of uncertainty.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "t_test",
+        "label": "Compare two group means",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a numeric outcome and a grouping variable with exactly two levels.",
+        "caution": "Interpret the mean difference with its interval, assumptions, design, and practical importance.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "aov",
+        "label": "Analysis of variance",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a numeric outcome and a grouping variable with at least two levels.",
+        "caution": "A significant omnibus F test does not identify which groups differ or establish causation.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "chi_square",
+        "label": "Chi-square association",
+        "available": false,
+        "recommended": false,
+        "reason": "Select categorical outcome and grouping variables with at least two levels each.",
+        "caution": "Inspect expected counts and standardized residuals; association does not establish causation.",
         "intent": "explore"
       },
       {

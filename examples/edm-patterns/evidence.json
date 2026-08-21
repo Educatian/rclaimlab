@@ -8,7 +8,7 @@
     "packages": {
       "rlearnxr": "2.0.0.900"
     },
-    "artifact_hash": "4227f32fe327aa1b86065bfe3352ddde"
+    "artifact_hash": "d899f780fc03080ca82e4131e3696a56"
   },
   "observations": [
     {
@@ -476,6 +476,13 @@
     ],
     "size": [2, 2, 2],
     "tot_withinss": 1.14369896922527,
+    "stability": {
+      "metric": "pairwise co-membership agreement",
+      "seeds": [2027, 2028, 2029, 2030, 2031],
+      "agreement": [1, 1, 1, 1, 1],
+      "minimum": 1,
+      "mean": 1
+    },
     "wizard": {
       "analysis": "kmeans",
       "source_columns": ["practice_minutes", "revision_count", "transfer_score"],
@@ -546,9 +553,9 @@
         {
           "id": "stability",
           "label": "Sensitivity across k and seeds",
-          "value": "not yet evaluated",
+          "value": "seed minimum 1.000; mean 1.000",
           "status": "review",
-          "interpretation": "Compare plausible k values and additional seeds before treating a grouping as stable."
+          "interpretation": "Pairwise co-membership agreement is label-invariant across five additional seeds; still compare plausible k values."
         }
       ],
       "cautions": ["K-means always returns the requested number of clusters.", "Cluster labels are descriptive and should not be treated as learner identities."],

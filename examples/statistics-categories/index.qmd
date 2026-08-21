@@ -1,0 +1,107 @@
+---
+title: "Inspect categorical association cell by cell"
+format: html
+---
+
+# Learning objectives
+
+- Use the chi_square adapter to address: Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
+
+# Question and data structure
+
+**Question:** Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?
+
+**Unit of analysis:** one observation in a built-in R teaching dataset
+
+**Analytical intent:** Compare outcomes across groups
+
+# Learning sequence
+
+## Orient
+
+State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict which category combinations may appear more or less often than expected under independence.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Build the contingency table, run chisq.test(), and connect observed counts, expected counts, and standardized residuals.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Compare cells in the semantic table and 2D plot, prioritizing large absolute standardized residuals.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Identify a contributing cell, compare observed with expected count, and state an association-not-causation limitation.
+
+Completion evidence:
+- **point:** Names a contingency cell
+- **observed:** Cites observed and expected counts
+- **residual:** Interprets a standardized residual
+- **limitation:** States an assumption or causal limitation
+
+## Repair
+
+Check expected counts and remove claims that every cell or every individual follows the omnibus pattern.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply observed-versus-expected reasoning to a different contingency cell.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Contingency cells:** 9. Observed and expected counts are linked cell by cell.
+- **Smallest expected count:** 5.00. Small expected counts can make the chi-square approximation unreliable.
+- **Chi-square / p-value:** 45.125 / 3.75e-09. Use standardized residuals to locate cells contributing to the omnibus association.
+
+# Interpretation cautions
+
+- Association between categorical variables does not establish causation.
+- Expected-count assumptions and the sampling design must be checked.
+- The data declare grouping by width_band. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used.
+
+```{r}
+#| echo: true
+set.seed(2026)
+```
+
+# Evidence compiler artifact
+
+This lesson was compiled from `chisq.test` evidence with hash `8b0557370190a23169855444c8ba44fa`.
+
+[Open the synchronized browser laboratory](scene/index.html)
+
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

@@ -16,11 +16,11 @@ validate_scene_data <- function(data, x = "x", y = "y", z = "z", labels = NULL,
       any(!nzchar(axes)) || anyDuplicated(axes) || any(!axes %in% names(data))) {
     stop("x, y, and z must name three columns in data", call. = FALSE)
   }
-  if (length(min_rows) != 1L || is.na(min_rows) || min_rows < 3L) {
-    stop("min_rows must be one integer greater than or equal to 3", call. = FALSE)
+  if (length(min_rows) != 1L || is.na(min_rows) || min_rows < 1L) {
+    stop("min_rows must be one positive integer", call. = FALSE)
   }
   if (nrow(data) < min_rows) {
-    minimum_label <- if (min_rows == 3L) "three" else as.character(min_rows)
+    minimum_label <- if (min_rows == 3L) "three" else if (min_rows == 2L) "two" else as.character(min_rows)
     stop("data must contain at least ", minimum_label, " rows", call. = FALSE)
   }
   if (any(!vapply(data[axes], is.numeric, logical(1)))) {

@@ -5,7 +5,8 @@ rlearnxr_source_root <- if (exists("root", inherits = FALSE)) {
 }
 rlearnxr_source_files <- c(
   "utils.R", "zzz.R", "lesson_bundle.R", "evidence_spec.R",
-  "evidence_adapters.R", "scene_contract.R", "lesson_manifest.R",
+  "evidence_adapters.R", "foundational_adapters.R", "learning_events.R",
+  "concept_registry.R", "scene_contract.R", "lesson_manifest.R",
   "lesson_pedagogy.R", "render_scene.R", "check_lesson.R",
   "compile_lesson.R", "lesson_wizard.R"
 )

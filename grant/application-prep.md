@@ -89,7 +89,7 @@ Separate deliverable completion from adoption evidence:
 
 - Working R package API for scaffolding, rendering, and checking lessons
 - Reusable Quarto lesson structure
-- Three runnable reference lessons: contributor workflow, `palmerpenguins` PCA, and dependency-light `mtcars` efficiency
+- Ten runnable reference lessons spanning contributor workflow, foundational statistics, PCA, regression, Learning Analytics, and Educational Data Mining
 - Keyboard-operable 3D scene and semantic data-table alternative
 - Predict–Run R–Explore–Explain–Reproduce learner workflow
 - Pinned WebR runtime with learner-edited code, synchronized 3D output, semantic table, and `.R`/`.qmd` export; first-run network dependency is documented and offline execution is not claimed

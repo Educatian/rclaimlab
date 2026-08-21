@@ -1,6 +1,6 @@
 # R-LearnXR reproducibility report
 
-Generated: 2026-08-21 09:27:00 PDT
+Generated: 2026-08-21 12:52:38 PDT
 Mode: advisory
 
 | Check | Status | Message |
@@ -21,7 +21,7 @@ Mode: advisory
 | static_fallback | PASS | table, source, and learning receipt exports remain available without the visual runtime |
 | ai_safety_markers | PASS | optional AI path omits browser credentials, records the privacy boundary, and validates returned code |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | 3a1baa115aeaa41bcdbccbf7a6dfb5a2, 6b77865830005ed2506f71c5bbc2a033, b0b55b9d3a2f500c846b0153efe78b24 |
+| artifact_hash | PASS | e5ec0c1e5c5d7171b167c0e7e0595379, c75eb45d49385073cedf058acad1d2a6, 0e774ba31f44abdf0d58cdc01ea20acf |
 | quarto_available | WARN | Quarto CLI was not found; CI must render the lesson before release |
 
 This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit.

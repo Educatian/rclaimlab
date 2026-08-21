@@ -176,21 +176,13 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
     )
     writeLines(sub("[ \\t]+$", "", session, perl = TRUE), file.path(path, "checks", "session-info.txt"), useBytes = TRUE)
     if (isTRUE(write_json)) {
-      quote_json <- function(value) paste0('"', json_escape(value), '"')
-      check_json <- apply(results, 1, function(row) paste0(
-        "{\"check\":", quote_json(row[["check"]]),
-        ",\"status\":", quote_json(row[["status"]]),
-        ",\"message\":", quote_json(row[["message"]]), "}"
-      ))
-      report_json <- c(
-        "{",
-        paste0("  \"report_version\": \"1\",\n"),
-        paste0("  \"path\": ", quote_json("."), ",\n"),
-        paste0("  \"strict\": ", if (isTRUE(strict)) "true" else "false", ",\n"),
-        paste0("  \"checks\": [", paste(check_json, collapse = ","), "]\n"),
-        "}"
+      write_json_object(
+        list(
+          report_version = "1", path = ".", strict = isTRUE(strict),
+          checks = lapply(seq_len(nrow(results)), function(index) as.list(results[index, , drop = FALSE]))
+        ),
+        file.path(path, "checks", "reproducibility-report.json")
       )
-      writeLines(report_json, file.path(path, "checks", "reproducibility-report.json"), useBytes = TRUE)
     }
   }
   class(results) <- c("rlearnxr_checks", class(results))

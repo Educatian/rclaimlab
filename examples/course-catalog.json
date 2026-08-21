@@ -17,6 +17,61 @@
       "status": "ready"
     },
     {
+      "id": "statistics-distribution",
+      "track": "Statistics",
+      "level": "Beginner",
+      "title": "Describe a distribution",
+      "minutes": 15,
+      "description": "Connect center, spread, distribution shape, and individual observations without overstating the sample.",
+      "concepts": ["center", "spread", "distribution", "outliers"],
+      "lesson_path": "statistics-distribution/scene/index.html",
+      "status": "ready"
+    },
+    {
+      "id": "statistics-association",
+      "track": "Statistics",
+      "level": "Beginner",
+      "title": "Reason about correlation",
+      "minutes": 20,
+      "description": "Use paired evidence to interpret direction, strength, form, and limits of an association.",
+      "concepts": ["scatterplot", "correlation", "form", "outliers"],
+      "lesson_path": "statistics-association/scene/index.html",
+      "status": "ready"
+    },
+    {
+      "id": "statistics-bootstrap",
+      "track": "Statistics",
+      "level": "Intermediate",
+      "title": "See sampling variability",
+      "minutes": 20,
+      "description": "Inspect a bootstrap distribution and explain what its interval can and cannot establish.",
+      "concepts": ["resampling", "sampling variability", "confidence interval"],
+      "lesson_path": "statistics-bootstrap/scene/index.html",
+      "status": "ready"
+    },
+    {
+      "id": "statistics-groups",
+      "track": "Statistics",
+      "level": "Intermediate",
+      "title": "Compare group variation",
+      "minutes": 25,
+      "description": "Relate individual outcomes, group means, residuals, and the omnibus analysis-of-variance result.",
+      "concepts": ["group means", "within-group variation", "ANOVA"],
+      "lesson_path": "statistics-groups/scene/index.html",
+      "status": "ready"
+    },
+    {
+      "id": "statistics-categories",
+      "track": "Statistics",
+      "level": "Intermediate",
+      "title": "Inspect categorical association",
+      "minutes": 25,
+      "description": "Compare observed and expected counts and identify cells that drive a chi-square association.",
+      "concepts": ["contingency table", "expected counts", "standardized residuals"],
+      "lesson_path": "statistics-categories/scene/index.html",
+      "status": "ready"
+    },
+    {
       "id": "statistics-pca",
       "track": "Statistics",
       "level": "Intermediate",

@@ -15,8 +15,8 @@
 profile_learning_data <- function(data, outcome = NULL, intent = "explore",
                                   grouping = NULL, time = NULL) {
   if (!is.data.frame(data)) stop("data must be a data.frame", call. = FALSE)
-  if (nrow(data) < 2L || ncol(data) < 2L) {
-    stop("learning data must contain at least two rows and two columns", call. = FALSE)
+  if (nrow(data) < 2L || ncol(data) < 1L) {
+    stop("learning data must contain at least two rows and one column", call. = FALSE)
   }
   if (!is.null(outcome) && (length(outcome) != 1L || is.na(outcome) || !(outcome %in% names(data)))) {
     stop("outcome must name one column in data", call. = FALSE)
@@ -120,9 +120,11 @@ recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
 #' Evidence Adapter, and creates all eight default learning stages.
 #'
 #' @param data A local data frame.
-#' @param analysis One of `auto`, `data_view`, `prcomp`, `lm`, `glm`, or `kmeans`.
-#' @param dimensions Numeric columns used as dimensions or predictors.
-#' @param outcome Outcome column for `lm` or `glm`.
+#' @param analysis One of `auto`, `describe`, `data_view`, `correlation`,
+#'   `bootstrap`, `t_test`, `aov`, `chi_square`, `prcomp`, `lm`, `glm`, or
+#'   `kmeans`.
+#' @param dimensions Numeric columns used as variables, dimensions, or predictors.
+#' @param outcome Outcome column for model or group-comparison adapters.
 #' @param id_column Optional unique observation-label column.
 #' @param question Required educational or analytical question that the lesson addresses.
 #' @param intent Intended analytical learning goal.
@@ -136,6 +138,7 @@ recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
 #' @param stages Ordered learning stages to include.
 #' @param seed Deterministic seed recorded in Evidence IR.
 #' @param clusters Number of clusters for `kmeans`.
+#' @param bootstrap_times Number of resamples for `bootstrap`.
 #' @param na_action Either `fail` or `complete` for explicit complete-case use.
 #' @return An object of class `rlearnxr_lesson` ready for `compile_lesson()`.
 #' @export
@@ -148,7 +151,8 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
                              title = "My data evidence lesson", id = NULL,
                              outcomes = NULL,
                              stages = rlearnxr_learning_stages(), seed = 2026L,
-                             clusters = 3L, na_action = c("fail", "complete")) {
+                             clusters = 3L, bootstrap_times = 1000L,
+                             na_action = c("fail", "complete")) {
   context <- normalize_learning_context(
     data, question = question, intent = intent,
     unit_of_analysis = unit_of_analysis, outcome = outcome,
@@ -159,7 +163,14 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     data, outcome = outcome, intent = context$intent,
     grouping = grouping, time = time
   )
-  analysis <- match.arg(analysis, c("auto", "data_view", "prcomp", "lm", "glm", "kmeans"))
+  analysis <- match.arg(analysis, c(
+    "auto", "describe", "data_view", "correlation", "bootstrap",
+    "t_test", "aov", "chi_square", "prcomp", "lm", "glm", "kmeans"
+  ))
+  bootstrap_times <- as.integer(bootstrap_times)
+  if (length(bootstrap_times) != 1L || is.na(bootstrap_times) || bootstrap_times < 20L) {
+    stop("bootstrap_times must be one integer greater than or equal to 20", call. = FALSE)
+  }
   na_action <- match.arg(na_action)
   if (analysis == "auto") analysis <- recommended_analysis_id(profile$recommendations)
   available <- profile$recommendations
@@ -171,18 +182,28 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
 
   numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
   numeric_columns <- setdiff(numeric_columns, c(outcome, id_column, grouping, time))
-  if (is.null(dimensions)) dimensions <- numeric_columns
+  dimension_free <- analysis %in% c("t_test", "aov", "chi_square")
+  if (is.null(dimensions)) {
+    dimensions <- if (dimension_free) character()
+    else if (analysis %in% c("describe", "bootstrap")) numeric_columns[seq_len(min(1L, length(numeric_columns)))]
+    else if (analysis == "correlation") numeric_columns[seq_len(min(2L, length(numeric_columns)))]
+    else numeric_columns
+  }
   dimensions <- unique(as.character(dimensions))
-  if (!length(dimensions) || any(!dimensions %in% names(data)) ||
-      any(!vapply(data[dimensions], is.numeric, logical(1)))) {
+  if (dimension_free) dimensions <- character()
+  if (!dimension_free && (!length(dimensions) || any(!dimensions %in% names(data)) ||
+      any(!vapply(data[dimensions], is.numeric, logical(1))))) {
     stop("dimensions must name numeric columns in data", call. = FALSE)
   }
-  minimum_dimensions <- if (analysis %in% c("data_view", "prcomp", "kmeans")) 2L else 1L
-  if (length(dimensions) < minimum_dimensions) {
+  minimum_dimensions <- if (analysis %in% c("data_view", "correlation", "prcomp", "kmeans")) 2L else if (dimension_free) 0L else 1L
+  if (!dimension_free && length(dimensions) < minimum_dimensions) {
     stop("analysis '", analysis, "' requires at least ", minimum_dimensions, " numeric dimension(s)", call. = FALSE)
   }
-  if (analysis %in% c("lm", "glm") && (is.null(outcome) || !(outcome %in% names(data)))) {
+  if (analysis %in% c("lm", "glm", "t_test", "aov", "chi_square") && (is.null(outcome) || !(outcome %in% names(data)))) {
     stop("analysis '", analysis, "' requires an outcome column", call. = FALSE)
+  }
+  if (analysis %in% c("t_test", "aov", "chi_square") && (is.null(grouping) || !(grouping %in% names(data)))) {
+    stop("analysis '", analysis, "' requires a grouping column", call. = FALSE)
   }
   if (!is.null(id_column) && (length(id_column) != 1L || !(id_column %in% names(data)))) {
     stop("id_column must name one column in data", call. = FALSE)
@@ -196,19 +217,51 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
   source_rows <- which(keep)
   prepared <- data[keep, , drop = FALSE]
   if (nrow(prepared) < 2L) stop("fewer than two complete rows remain", call. = FALSE)
-  finite <- vapply(prepared[dimensions], function(value) all(is.finite(value)), logical(1))
-  if (!all(finite)) stop("selected numeric dimensions contain non-finite values", call. = FALSE)
-  variable <- vapply(prepared[dimensions], function(value) length(unique(value)) > 1L, logical(1))
-  if (!all(variable)) stop("selected dimensions must vary across observations", call. = FALSE)
+  if (length(dimensions)) {
+    finite <- vapply(prepared[dimensions], function(value) all(is.finite(value)), logical(1))
+    if (!all(finite)) stop("selected numeric dimensions contain non-finite values", call. = FALSE)
+    variable <- vapply(prepared[dimensions], function(value) length(unique(value)) > 1L, logical(1))
+    if (!all(variable)) stop("selected dimensions must vary across observations", call. = FALSE)
+  }
 
   labels <- wizard_observation_labels(prepared, id_column, source_rows)
   model <- NULL
   evidence <- switch(
     analysis,
+    describe = as_rlearnxr_evidence(prepared[[dimensions[[1]]]], labels = labels, variable = dimensions[[1]], seed = seed),
     data_view = as_rlearnxr_evidence(
       prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed,
-      analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column)
+      analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column, grouping, bootstrap_times)
     ),
+    correlation = {
+      model <- stats::cor.test(prepared[[dimensions[[1]]]], prepared[[dimensions[[2]]]])
+      as_rlearnxr_evidence(model, data = prepared, x_column = dimensions[[1]],
+                           y_column = dimensions[[2]], labels = labels, seed = seed)
+    },
+    bootstrap = {
+      model <- bootstrap_mean(prepared[[dimensions[[1]]]], times = bootstrap_times, seed = seed)
+      as_rlearnxr_evidence(model)
+    },
+    t_test = {
+      if (!is.numeric(prepared[[outcome]])) stop("t_test requires a numeric outcome", call. = FALSE)
+      if (length(unique(prepared[[grouping]])) != 2L) stop("t_test requires exactly two groups", call. = FALSE)
+      model <- stats::t.test(prepared[[outcome]] ~ factor(prepared[[grouping]]))
+      as_rlearnxr_evidence(model, data = prepared, x_column = outcome,
+                           group = grouping, labels = labels, seed = seed)
+    },
+    aov = {
+      if (!is.numeric(prepared[[outcome]])) stop("aov requires a numeric outcome", call. = FALSE)
+      if (length(unique(prepared[[grouping]])) < 2L) stop("aov requires at least two groups", call. = FALSE)
+      model_data <- data.frame(outcome = prepared[[outcome]], group = factor(prepared[[grouping]]))
+      model <- stats::aov(outcome ~ group, data = model_data)
+      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+    },
+    chi_square = {
+      contingency <- table(prepared[[grouping]], prepared[[outcome]])
+      if (any(dim(contingency) < 2L)) stop("chi_square requires at least two levels in both variables", call. = FALSE)
+      model <- suppressWarnings(stats::chisq.test(contingency))
+      as_rlearnxr_evidence(model, seed = seed)
+    },
     prcomp = {
       model <- stats::prcomp(prepared[dimensions], center = TRUE, scale. = TRUE)
       as_rlearnxr_evidence(model, labels = labels, seed = seed)
@@ -236,9 +289,9 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     }
   )
 
-  source_code <- wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column)
+  source_code <- wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column, grouping, bootstrap_times)
   pedagogy <- analysis_teaching_contract(
-    analysis, context, evidence, model, prepared, dimensions,
+    analysis, context, evidence, model, prepared, if (length(dimensions)) dimensions else grouping,
     outcome, seed, clusters
   )
   evidence$analysis$call <- paste(source_code, collapse = " ")
@@ -670,8 +723,8 @@ learning_column_type <- function(value) {
 }
 
 lesson_analysis_recommendations <- function(data, outcome = NULL,
-                                            intent = "explore",
-                                            grouping = NULL, time = NULL) {
+                                             intent = "explore",
+                                             grouping = NULL, time = NULL) {
   intent <- match.arg(intent, names(learning_intents()))
   numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
   numeric_predictors <- setdiff(numeric_columns, c(outcome, grouping, time))
@@ -679,11 +732,21 @@ lesson_analysis_recommendations <- function(data, outcome = NULL,
   variable_predictors <- setdiff(variable_numeric, c(outcome, grouping, time))
   complete_numeric <- if (length(variable_predictors)) sum(stats::complete.cases(data[variable_predictors])) else 0L
   outcome_exists <- !is.null(outcome) && outcome %in% names(data)
-  outcome_binary <- outcome_exists && length(unique(data[[outcome]][!is.na(data[[outcome]])])) == 2L
+  outcome_levels <- if (outcome_exists) length(unique(data[[outcome]][!is.na(data[[outcome]])])) else 0L
+  outcome_binary <- outcome_exists && outcome_levels == 2L
   outcome_numeric <- outcome_exists && is.numeric(data[[outcome]]) && !outcome_binary
+  grouping_exists <- !is.null(grouping) && grouping %in% names(data)
+  grouping_levels <- if (grouping_exists) length(unique(data[[grouping]][!is.na(data[[grouping]])])) else 0L
 
   available <- c(
+    describe = length(variable_predictors) >= 1L,
     data_view = length(variable_predictors) >= 2L,
+    correlation = length(variable_predictors) >= 2L && complete_numeric >= 3L,
+    bootstrap = length(variable_predictors) >= 1L && complete_numeric >= 5L,
+    t_test = outcome_numeric && grouping_levels == 2L,
+    aov = outcome_numeric && grouping_levels >= 2L,
+    chi_square = outcome_exists && grouping_levels >= 2L && grouping_levels <= 12L &&
+      outcome_levels >= 2L && outcome_levels <= 12L,
     prcomp = length(variable_predictors) >= 2L && complete_numeric >= 3L,
     lm = outcome_numeric && length(numeric_predictors) >= 1L,
     glm = outcome_binary && length(numeric_predictors) >= 1L,
@@ -694,7 +757,10 @@ lesson_analysis_recommendations <- function(data, outcome = NULL,
   dependence <- !is.null(grouping) || !is.null(time)
   target <- switch(
     intent,
-    explore = "data_view",
+    explore = if (available[["data_view"]]) "data_view" else "describe",
+    describe = "describe",
+    compare = if (available[["aov"]]) "aov" else if (available[["data_view"]]) "data_view" else "describe",
+    infer = "bootstrap",
     reduce = "prcomp",
     explain = if (outcome_numeric && !dependence) "lm" else "data_view",
     classify = if (outcome_binary && !dependence) "glm" else "data_view",
@@ -702,16 +768,35 @@ lesson_analysis_recommendations <- function(data, outcome = NULL,
   )
   if (isTRUE(available[[target]])) recommended[[target]] <- TRUE
   if (!any(recommended) && isTRUE(available[["data_view"]])) recommended[["data_view"]] <- TRUE
-  label <- c(data_view = "Explore numeric dimensions", prcomp = "Principal component analysis", lm = "Linear regression", glm = "Binary logistic regression", kmeans = "K-means clustering")
+  if (!any(recommended) && isTRUE(available[["describe"]])) recommended[["describe"]] <- TRUE
+  label <- c(
+    describe = "Describe one numeric variable", data_view = "Explore numeric dimensions",
+    correlation = "Correlation with paired evidence", bootstrap = "Bootstrap a sample mean",
+    t_test = "Compare two group means", aov = "Analysis of variance",
+    chi_square = "Chi-square association", prcomp = "Principal component analysis",
+    lm = "Linear regression", glm = "Binary logistic regression", kmeans = "K-means clustering"
+  )
   reason <- c(
+    describe = if (available[["describe"]]) "Starts with center, spread, percentile, and distribution evidence for one numeric variable." else "Requires one varying numeric column.",
     data_view = if (available[["data_view"]]) "Safest starting point for describing observations without adding a model." else "Requires at least two varying numeric columns.",
+    correlation = if (available[["correlation"]]) "Connects a correlation estimate to the paired observations that produced it." else "Requires two varying numeric columns and three complete pairs.",
+    bootstrap = if (available[["bootstrap"]]) "Uses resampled means to make sampling variability and interval interpretation visible." else "Requires one varying numeric column and at least five complete rows.",
+    t_test = if (available[["t_test"]]) "Compares a numeric outcome across exactly two declared groups." else "Select a numeric outcome and a grouping variable with exactly two levels.",
+    aov = if (available[["aov"]]) "Partitions numeric outcome variation across the declared groups." else "Select a numeric outcome and a grouping variable with at least two levels.",
+    chi_square = if (available[["chi_square"]]) "Compares observed and expected counts for two categorical variables." else "Select categorical outcome and grouping variables with at least two levels each.",
     prcomp = if (available[["prcomp"]]) "Available when the question is about summarizing shared variation across numeric variables." else "Requires at least two varying numeric columns and three complete rows.",
     lm = if (available[["lm"]]) paste0("Available for a numeric outcome", if (dependence) "; not recommended because grouped or repeated observations were declared." else ".") else "Select a non-binary numeric outcome and at least one numeric predictor.",
     glm = if (available[["glm"]]) paste0("Available for a two-level outcome", if (dependence) "; not recommended because grouped or repeated observations were declared." else ".") else "Select a two-level outcome and at least one numeric predictor.",
     kmeans = if (available[["kmeans"]]) "Available when the question is explicitly about tentative groups in standardized numeric data." else "Requires at least two varying numeric columns and four complete rows."
   )
   caution <- c(
+    describe = "A sample summary describes retained observations; it does not establish a population value.",
     data_view = "Describe patterns only; visible proximity does not establish causation.",
+    correlation = "Correlation measures paired association, not causation; inspect form, outliers, and dependence.",
+    bootstrap = "A bootstrap interval reflects the observed sample and resampling rule, not every source of uncertainty.",
+    t_test = "Interpret the mean difference with its interval, assumptions, design, and practical importance.",
+    aov = "A significant omnibus F test does not identify which groups differ or establish causation.",
+    chi_square = "Inspect expected counts and standardized residuals; association does not establish causation.",
     prcomp = "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
     lm = if (dependence) "Use a grouped or longitudinal model for inferential work." else "Check residuals, influence, independence, and uncertainty.",
     glm = if (dependence) "Use a grouped or longitudinal model for inferential work." else "Declare the modeled event, reference level, class balance, and threshold.",
@@ -758,9 +843,10 @@ wizard_model_data <- function(data, dimensions, outcome, binary = FALSE) {
 }
 
 wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters,
-                                   id_column = NULL) {
+                                   id_column = NULL, grouping = NULL,
+                                   bootstrap_times = 1000L) {
   quoted_dimensions <- paste(sprintf('"%s"', gsub('"', '\\"', dimensions, fixed = TRUE)), collapse = ", ")
-  analysis_columns <- unique(c(dimensions, outcome, id_column))
+  analysis_columns <- unique(c(dimensions, outcome, id_column, grouping))
   quoted_columns <- paste(sprintf('"%s"', gsub('"', '\\"', analysis_columns, fixed = TRUE)), collapse = ", ")
   header <- c(
     paste0("set.seed(", as.integer(seed), ")"),
@@ -777,7 +863,31 @@ wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters
   quoted_outcome <- if (is.null(outcome)) "" else gsub('"', '\\"', outcome, fixed = TRUE)
   code <- switch(
     analysis,
+    describe = paste0('evidence <- as_rlearnxr_evidence(analysis_data[["', dimensions[[1]], '"]], labels = labels, variable = "', dimensions[[1]], '")'),
     data_view = paste0("evidence <- as_rlearnxr_evidence(analysis_data[c(", quoted_dimensions, ")], dimensions = c(", quoted_dimensions, "), labels = labels)"),
+    correlation = c(
+      paste0('fit <- cor.test(analysis_data[["', dimensions[[1]], '"]], analysis_data[["', dimensions[[2]], '"]])'),
+      paste0('evidence <- as_rlearnxr_evidence(fit, data = analysis_data, x_column = "', dimensions[[1]], '", y_column = "', dimensions[[2]], '", labels = labels)')
+    ),
+    bootstrap = c(
+      paste0('fit <- bootstrap_mean(analysis_data[["', dimensions[[1]], '"]], times = ', as.integer(bootstrap_times), ', seed = ', as.integer(seed), ')'),
+      "evidence <- as_rlearnxr_evidence(fit)"
+    ),
+    t_test = c(
+      paste0('analysis_data[["', grouping, '"]] <- factor(analysis_data[["', grouping, '"]])'),
+      paste0('fit <- t.test(analysis_data[["', outcome, '"]] ~ analysis_data[["', grouping, '"]])'),
+      paste0('evidence <- as_rlearnxr_evidence(fit, data = analysis_data, x_column = "', outcome, '", group = "', grouping, '", labels = labels)')
+    ),
+    aov = c(
+      paste0('analysis_data[["', grouping, '"]] <- factor(analysis_data[["', grouping, '"]])'),
+      paste0('fit <- aov(reformulate("', grouping, '", response = "', outcome, '"), data = analysis_data)'),
+      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+    ),
+    chi_square = c(
+      paste0('contingency <- table(analysis_data[["', grouping, '"]], analysis_data[["', outcome, '"]])'),
+      "fit <- suppressWarnings(chisq.test(contingency))",
+      "evidence <- as_rlearnxr_evidence(fit)"
+    ),
     prcomp = c(paste0("fit <- prcomp(analysis_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rlearnxr_evidence(fit, labels = labels)"),
     lm = c(
       paste0('fit <- lm(reformulate(c(', quoted_dimensions, '), response = "', quoted_outcome, '"), data = analysis_data)'),

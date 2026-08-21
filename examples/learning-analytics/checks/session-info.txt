@@ -1,4 +1,4 @@
-Generated: 2026-08-21 09:27:00 PDT
+Generated: 2026-08-21 12:52:39 PDT
 R version 4.6.1 (2026-06-24 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 26200)
@@ -17,4 +17,8 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base
 
 loaded via a namespace (and not attached):
-[1] compiler_4.6.1 tools_4.6.1    jsonlite_2.0.0
+ [1] compiler_4.6.1       magrittr_2.0.5       cli_3.6.6
+ [4] tools_4.6.1          pillar_1.11.1        glue_1.8.1
+ [7] tibble_3.3.1         vctrs_0.7.3          palmerpenguins_0.1.1
+[10] jsonlite_2.0.0       lifecycle_1.0.5      pkgconfig_2.0.3
+[13] rlang_1.3.0

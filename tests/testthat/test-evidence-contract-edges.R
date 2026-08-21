@@ -1,6 +1,6 @@
 test_that("evidence adapters reject malformed method inputs", {
   expect_error(as_rlearnxr_evidence(structure(list(), class = "unknown_model")), "no R-LearnXR")
-  expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, b = 4:6), dimensions = "a"), "two")
+  expect_equal(nrow(as_rlearnxr_evidence(data.frame(a = 1:3, b = 4:6), dimensions = "a")$dimensions), 1)
   expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, b = letters[1:3]), dimensions = c("a", "b")), "numeric")
 
   pca <- stats::prcomp(iris[1:6, 1:4])

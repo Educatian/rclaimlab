@@ -34,12 +34,15 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
   utils::write.csv(wide, file.path(output_dir, "data", "evidence-table.csv"), row.names = FALSE, na = "")
   dimension_labels <- lesson$evidence$dimensions$label
   selected <- seq_len(min(3L, length(dimension_labels)))
+  coordinate <- function(index, fallback = 0) {
+    if (length(selected) >= index) wide[[selected[[index]] + 2L]] else rep(fallback, nrow(wide))
+  }
   scene <- data.frame(
     observation_id = wide$observation_id,
     label = wide$label,
-    x = wide[[selected[[1]] + 2L]],
-    y = wide[[selected[[2]] + 2L]],
-    z = if (length(selected) >= 3L) wide[[selected[[3]] + 2L]] else 0,
+    x = coordinate(1L),
+    y = coordinate(2L),
+    z = coordinate(3L),
     stringsAsFactors = FALSE
   )
   render_scene(
@@ -47,7 +50,7 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
     observation_ids = scene$observation_id,
     evidence_ids = evidence_ids_by_observation(lesson$evidence),
     output_dir = file.path(output_dir, "scene"), title = lesson$title,
-    learning_contract = lesson, overwrite = TRUE
+    learning_contract = lesson, min_rows = min(3L, nrow(scene)), overwrite = TRUE
   )
   writeLines(c(
     "project:", "  type: website", "  output-dir: _site",

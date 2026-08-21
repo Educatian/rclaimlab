@@ -19,22 +19,28 @@ test_that("Evidence IR preserves stable linked identifiers", {
   expect_equal(as.data.frame(restored)$label, c("alpha", "beta", "gamma"))
 })
 
-test_that("all five official adapters satisfy the Evidence IR contract", {
+test_that("all model and foundational adapters satisfy the Evidence IR contract", {
   pca <- stats::prcomp(iris[1:12, 1:4], scale. = TRUE)
   regression <- stats::lm(mpg ~ wt + hp, data = mtcars)
   classification <- stats::glm(am ~ wt + hp, data = mtcars, family = stats::binomial())
   set.seed(2026)
   clusters <- stats::kmeans(iris[1:20, 1:4], centers = 3)
+  analysis_of_variance <- stats::aov(mpg ~ factor(cyl), data = mtcars)
+  bootstrap <- bootstrap_mean(mtcars$mpg, times = 40, seed = 2026)
 
   adapters <- list(
     data.frame = as_rlearnxr_evidence(iris[1:12, 1:4]),
     prcomp = as_rlearnxr_evidence(pca),
     lm = as_rlearnxr_evidence(regression),
     glm = as_rlearnxr_evidence(classification),
-    kmeans = as_rlearnxr_evidence(clusters, data = iris[1:20, 1:4])
+    kmeans = as_rlearnxr_evidence(clusters, data = iris[1:20, 1:4]),
+    numeric_summary = as_rlearnxr_evidence(mtcars$mpg, variable = "mpg"),
+    table = as_rlearnxr_evidence(table(iris$Species)),
+    aov = as_rlearnxr_evidence(analysis_of_variance),
+    bootstrap_mean = as_rlearnxr_evidence(bootstrap)
   )
 
-  expect_named(adapters, c("data.frame", "prcomp", "lm", "glm", "kmeans"))
+  expect_named(adapters, c("data.frame", "prcomp", "lm", "glm", "kmeans", "numeric_summary", "table", "aov", "bootstrap_mean"))
   for (name in names(adapters)) {
     expect_true(validate_rlearnxr_evidence(adapters[[name]]), info = name)
     expect_equal(adapters[[name]]$analysis$engine, name, info = name)
@@ -43,14 +49,17 @@ test_that("all five official adapters satisfy the Evidence IR contract", {
   expect_true(all(c("loadings", "explained_variance", "scale") %in% names(adapters$prcomp$metadata)))
   expect_true(all(c("fitted", "residual", "interval_low") %in% adapters$lm$dimensions$label))
   expect_true(all(c("predicted_probability", "predicted_class") %in% adapters$glm$dimensions$label))
+  expect_true(all(c("accuracy", "sensitivity", "specificity", "brier_score") %in% names(adapters$glm$metadata$classification)))
   expect_true(all(c("cluster", "distance_to_centroid") %in% adapters$kmeans$dimensions$label))
+  expect_equal(length(adapters$kmeans$metadata$stability$agreement), 5)
+  expect_true(adapters$kmeans$metadata$stability$minimum >= 0 && adapters$kmeans$metadata$stability$minimum <= 1)
 })
 
 test_that("invalid analytical evidence fails early", {
   expect_error(as_rlearnxr_evidence(data.frame(a = numeric(), b = numeric())), "empty")
   expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, b = c(1, NA, 3))), "NA")
   expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, b = 4:6), labels = c("x", "x", "z")), "unique")
-  expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, text = letters[1:3])), "two")
+  expect_s3_class(as_rlearnxr_evidence(data.frame(a = 1:3, text = letters[1:3])), "rlearnxr_evidence")
 })
 
 test_that("adapter builder normalizes default roles and named units", {

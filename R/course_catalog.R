@@ -14,6 +14,21 @@ default_course_catalog <- function() {
       list(id = "r-foundations", track = "R foundations", level = "Beginner", title = "Make a data claim", minutes = 10L,
            description = "Learn the R-LearnXR loop: predict, run a real R transformation, select evidence, and explain a limitation.",
            concepts = c("data frames", "filtering", "evidence sentences"), lesson_path = "lesson/scene/index.html", status = "ready"),
+      list(id = "statistics-distribution", track = "Statistics", level = "Beginner", title = "Describe a distribution", minutes = 15L,
+           description = "Connect center, spread, distribution shape, and individual observations without overstating the sample.",
+           concepts = c("center", "spread", "distribution", "outliers"), lesson_path = "statistics-distribution/scene/index.html", status = "ready"),
+      list(id = "statistics-association", track = "Statistics", level = "Beginner", title = "Reason about correlation", minutes = 20L,
+           description = "Use paired evidence to interpret direction, strength, form, and limits of an association.",
+           concepts = c("scatterplot", "correlation", "form", "outliers"), lesson_path = "statistics-association/scene/index.html", status = "ready"),
+      list(id = "statistics-bootstrap", track = "Statistics", level = "Intermediate", title = "See sampling variability", minutes = 20L,
+           description = "Inspect a bootstrap distribution and explain what its interval can and cannot establish.",
+           concepts = c("resampling", "sampling variability", "confidence interval"), lesson_path = "statistics-bootstrap/scene/index.html", status = "ready"),
+      list(id = "statistics-groups", track = "Statistics", level = "Intermediate", title = "Compare group variation", minutes = 25L,
+           description = "Relate individual outcomes, group means, residuals, and the omnibus analysis-of-variance result.",
+           concepts = c("group means", "within-group variation", "ANOVA"), lesson_path = "statistics-groups/scene/index.html", status = "ready"),
+      list(id = "statistics-categories", track = "Statistics", level = "Intermediate", title = "Inspect categorical association", minutes = 25L,
+           description = "Compare observed and expected counts and identify cells that drive a chi-square association.",
+           concepts = c("contingency table", "expected counts", "standardized residuals"), lesson_path = "statistics-categories/scene/index.html", status = "ready"),
       list(id = "statistics-pca", track = "Statistics", level = "Intermediate", title = "Find structure with PCA", minutes = 20L,
            description = "Standardize penguin measurements, inspect principal components, and defend what a multivariate coordinate does and does not mean.",
            concepts = c("standardization", "PCA", "variation"), lesson_path = "penguin-pca/scene/index.html", status = "ready"),
@@ -82,11 +97,9 @@ render_course_catalog <- function(catalog = default_course_catalog(), output_dir
   if (!isTRUE(overwrite) && any(file.exists(outputs))) {
     stop("course catalog output already exists; use overwrite = TRUE to replace it", call. = FALSE)
   }
-  catalog_json <- if (requireNamespace("jsonlite", quietly = TRUE)) {
-    as.character(jsonlite::toJSON(catalog, auto_unbox = TRUE, pretty = TRUE, null = "null"))
-  } else {
-    json_value(catalog)
-  }
+  catalog_json <- as.character(jsonlite::toJSON(
+    catalog, auto_unbox = TRUE, pretty = TRUE, null = "null", na = "null"
+  ))
   template <- paste(readLines(course_template_path(), warn = FALSE, encoding = "UTF-8"), collapse = "\n")
   template <- gsub("{{TITLE}}", html_escape(catalog$title), template, fixed = TRUE)
   template <- sub("{{CATALOG_JSON}}", catalog_json, template, fixed = TRUE)

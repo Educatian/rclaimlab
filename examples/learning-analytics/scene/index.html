@@ -120,7 +120,13 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .view-tab[aria-selected="true"] { border-bottom-color: var(--color-primary); color: var(--color-primary); }
 .tab-state { margin-left: 7px; color: var(--color-success); font-size: 9px; }
 .view-panel[hidden] { display: none; }
+.representation-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 24px; }
+.representation-label { margin-right: 4px; color: var(--color-text-muted); font-size: 10px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.representation-button { min-height: 34px; padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 999px; background: #fff; color: var(--color-text-muted); font-size: 10px; font-weight: 850; }
+.representation-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
+.representation-button[aria-pressed="true"] { border-color: var(--color-primary); background: var(--color-primary-soft); color: var(--color-primary); }
 .plot-shell { position: relative; margin: 0 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
+.plot-shell[hidden], .controls[hidden] { display: none; }
 canvas { display: block; width: 100%; height: min(43vh, 390px); cursor: grab; }
 canvas:active { cursor: grabbing; }
 .legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 10px; color: var(--color-text-muted); pointer-events: none; }
@@ -356,6 +362,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .scene-header { display: block; padding: 18px 16px 12px; }
   .keyboard-hint { max-width: none; margin-top: 8px; text-align: left; }
   .view-tabs { padding: 0 12px; }
+  .representation-bar { padding: 10px 12px; }
   .view-tab { flex: 1 1 33.333%; padding-inline: 6px; font-size: 10px; }
   .plot-shell { margin: 0 12px; }
   canvas { height: 300px; }
@@ -388,6 +395,8 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .status-chip { white-space: normal; line-height: 1.2; }
   .view-tab { padding-inline: 4px; font-size: 9px; letter-spacing: 0; }
+  .representation-label { width: 100%; }
+  .representation-button { flex: 1 1 calc(33.333% - 8px); padding-inline: 6px; }
   .tab-state { display: none; }
   .table-scroll { overflow: visible; padding-inline: 0; }
   .table-scroll table, .table-scroll tbody, .table-scroll tr, .table-scroll th, .table-scroll td { display: block; width: 100%; max-width: none; }
@@ -449,20 +458,21 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   <section class="main" id="lesson-main">
     <div class="title-row"><div><h1 id="lesson-title">Learn R through a data space</h1><p id="lesson-question">Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
     <div class="scene-card">
-      <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
-      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
+      <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then compare the same evidence as a table, 2D plot, and 3D scene.</span></div><div class="keyboard-hint">WebR runs locally in this tab. Every representation keeps the same observation and evidence identifiers.</div></div>
+      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">EVIDENCE VIEWS</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
       <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
-        <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
+        <div class="representation-bar" id="representation-bar" role="group" aria-label="Evidence representation"><span class="representation-label">Representation</span><button class="representation-button" type="button" data-representation="table" aria-pressed="false">TABLE</button><button class="representation-button" type="button" data-representation="plot2d" aria-pressed="false">2D PLOT</button><button class="representation-button" type="button" data-representation="scene3d" aria-pressed="true">3D SCENE</button></div>
+        <div class="plot-shell" id="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
         <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
-        <div class="scene-tools"><div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
-        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible 3D-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted observations and their three displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
+        <div class="scene-tools"><div class="controls" id="scene-controls"><div class="control-item" id="spatial-control"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
+        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible linked-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All observations and their displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
         <details class="data-alternative" id="compiled-evidence-alternative"><summary>Full compiled evidence table</summary><div class="table-scroll"><table class="compiled-evidence-table"><caption>All Evidence IR dimensions, including method evidence not mapped to the three axes</caption><thead><tr id="compiled-evidence-head"></tr></thead><tbody id="compiled-evidence-body"></tbody></table></div></details></div>
       </section>
       <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" aria-hidden="true" inert hidden>
         <div class="lab-heading"><div><h2>Transform compiled evidence with R</h2><p id="run-r-prompt">Run the browser evidence transformation, then compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
         <div class="r-teaching-guide">
           <section class="guide-card" aria-labelledby="scene-contract-title">
-            <div class="guide-kicker" id="scene-contract-title">R → 3D contract</div>
+            <div class="guide-kicker" id="scene-contract-title">R → evidence-view contract</div>
             <code class="guide-schema">scene &lt;- data.frame(label, x, y, z)</code>
             <p>The lesson reads one data frame. <strong>label</strong> names a point; <strong>x</strong>, <strong>y</strong>, and <strong>z</strong> become its coordinates.</p>
             <details class="code-explain"><summary>Explain every compiled R command</summary><ol id="analysis-command-explanations"><li>The compiled method source and command explanations will appear here.</li></ol></details>
@@ -536,8 +546,8 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   </aside>
 </main>
 <script>
-const initialPoints = [{"observation_id":"obs-0001","evidence_ids":["ev-0001-001","ev-0001-002","ev-0001-003"],"x":1.0000000,"y":0.31000000,"z":0.55000000,"label":"event-001"},{"observation_id":"obs-0002","evidence_ids":["ev-0002-001","ev-0002-002","ev-0002-003"],"x":2.0000000,"y":0.45000000,"z":0.40000000,"label":"event-002"},{"observation_id":"obs-0003","evidence_ids":["ev-0003-001","ev-0003-002","ev-0003-003"],"x":4.0000000,"y":0.62000000,"z":0.25000000,"label":"event-003"},{"observation_id":"obs-0004","evidence_ids":["ev-0004-001","ev-0004-002","ev-0004-003"],"x":1.0000000,"y":0.28000000,"z":0.70000000,"label":"event-004"},{"observation_id":"obs-0005","evidence_ids":["ev-0005-001","ev-0005-002","ev-0005-003"],"x":2.0000000,"y":0.39000000,"z":0.58000000,"label":"event-005"},{"observation_id":"obs-0006","evidence_ids":["ev-0006-001","ev-0006-002","ev-0006-003"],"x":3.0000000,"y":0.51000000,"z":0.42000000,"label":"event-006"},{"observation_id":"obs-0007","evidence_ids":["ev-0007-001","ev-0007-002","ev-0007-003"],"x":3.0000000,"y":0.52000000,"z":0.35000000,"label":"event-007"},{"observation_id":"obs-0008","evidence_ids":["ev-0008-001","ev-0008-002","ev-0008-003"],"x":5.0000000,"y":0.69000000,"z":0.22000000,"label":"event-008"},{"observation_id":"obs-0009","evidence_ids":["ev-0009-001","ev-0009-002","ev-0009-003"],"x":6.0000000,"y":0.78000000,"z":0.18000000,"label":"event-009"},{"observation_id":"obs-0010","evidence_ids":["ev-0010-001","ev-0010-002","ev-0010-003"],"x":2.0000000,"y":0.36000000,"z":0.48000000,"label":"event-010"},{"observation_id":"obs-0011","evidence_ids":["ev-0011-001","ev-0011-002","ev-0011-003"],"x":4.0000000,"y":0.57000000,"z":0.33000000,"label":"event-011"},{"observation_id":"obs-0012","evidence_ids":["ev-0012-001","ev-0012-002","ev-0012-003"],"x":5.0000000,"y":0.71000000,"z":0.20000000,"label":"event-012"},{"observation_id":"obs-0013","evidence_ids":["ev-0013-001","ev-0013-002","ev-0013-003"],"x":2.0000000,"y":0.34000000,"z":0.61000000,"label":"event-013"},{"observation_id":"obs-0014","evidence_ids":["ev-0014-001","ev-0014-002","ev-0014-003"],"x":3.0000000,"y":0.47000000,"z":0.49000000,"label":"event-014"},{"observation_id":"obs-0015","evidence_ids":["ev-0015-001","ev-0015-002","ev-0015-003"],"x":4.0000000,"y":0.63000000,"z":0.31000000,"label":"event-015"},{"observation_id":"obs-0016","evidence_ids":["ev-0016-001","ev-0016-002","ev-0016-003"],"x":1.0000000,"y":0.43000000,"z":0.44000000,"label":"event-016"},{"observation_id":"obs-0017","evidence_ids":["ev-0017-001","ev-0017-002","ev-0017-003"],"x":3.0000000,"y":0.60000000,"z":0.29000000,"label":"event-017"},{"observation_id":"obs-0018","evidence_ids":["ev-0018-001","ev-0018-002","ev-0018-003"],"x":6.0000000,"y":0.82000000,"z":0.14000000,"label":"event-018"}];
-const lessonSpec = {"schema_version":"rlearnxr-browser-contract-1","lesson_id":"learning-analytics","title":"Learning analytics event-to-construct evidence","outcomes":["Use the data_view adapter to address: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","Explain one observation with linked analytical evidence and an explicit limitation","Repair and transfer the interpretation while preserving reproducibility"],"question":"How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","analysis":"data.frame","axis_labels":{"x":"revision_count","y":"transfer_score","z":"hint_rate"},"seed":2026,"evidence_hash":"945d37d3fd2b6e5bbff1625593c2c0e4","tasks":{"orient":{"id":"wizard-orient","type":"orient","prompt":"State why one synthetic learner-session summary is the unit of observation, identify each variable role, and restate the question: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","criteria":{"meaning":"Defines the unit of observation and variable roles","question":"Connects the data to the stated question"},"evidence_required":false},"predict":{"id":"wizard-predict","type":"predict","prompt":"Predict one descriptive pattern among revision_count, transfer_score, hint_rate before inspecting the evidence.","criteria":{"prediction":"Records a falsifiable expectation before inspection"},"evidence_required":false},"run_r":{"id":"wizard-run_r","type":"run_r","prompt":"Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.","criteria":{"execution":"Connects visible R source to the compiled artifact"},"evidence_required":false},"explore":{"id":"wizard-explore","type":"explore","prompt":"Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.","criteria":{"selection":"Selects an observation using a stable evidence ID"},"evidence_required":true},"explain":{"id":"wizard-explain","type":"explain","prompt":"Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.","criteria":{"point":"Names the selected observation","axis":"Cites a displayed variable or axis","direction":"States the value or direction","limitation":"States a descriptive limitation"},"evidence_required":true},"repair":{"id":"wizard-repair","type":"repair","prompt":"Check the exact value and scale, then remove any causal or population-level overclaim.","criteria":{"revision":"Corrects the identified evidence or assumption problem"},"evidence_required":true},"transfer":{"id":"wizard-transfer","type":"transfer","prompt":"Apply the same descriptive rule to a different observation and identify where the pattern changes.","criteria":{"point":"Uses a different observation","comparison":"Compares the method-specific evidence","limitation":"Keeps the interpretation within its evidence boundary"},"evidence_required":true},"reproduce":{"id":"wizard-reproduce","type":"reproduce","prompt":"Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.","criteria":{"provenance":"Verifies source, seed, version, retained rows, and artifact hash"},"evidence_required":false}},"diagnostics":[{"id":"rows","label":"Complete observations","value":"18","status":"ready","interpretation":"The evidence describes the retained rows only."},{"id":"dimensions","label":"Compared variables","value":"revision_count, transfer_score, hint_rate","status":"review","interpretation":"Variables remain on their original scales."}],"cautions":["Visible association is not evidence of causation.","Different variable scales can dominate spatial distance.","The data declare grouping by learner_id and time by session. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used."],"misconceptions":"A point that looks distant is not automatically unusual in the original construct.","context":{"question":"How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","intent":"explore","intent_label":"Describe and compare observations","unit_of_analysis":"one synthetic learner-session summary","outcome":null,"id_column":"event_id","grouping":"learner_id","time":"session","decision_context":"choosing a reversible instructional support or deciding that the evidence is insufficient","dependence_warning":true},"analysis_source":["set.seed(2026)","# learner_data is the local CSV data frame","analysis_columns \u003c- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\")","source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","labels \u003c- as.character(analysis_data[[\"event_id\"]])","evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)"],"evidence_table":{"columns":["observation_id","label","revision_count","transfer_score","hint_rate"],"rows":[{"observation_id":"obs-0001","label":"event-001","revision_count":1,"transfer_score":0.31,"hint_rate":0.55},{"observation_id":"obs-0002","label":"event-002","revision_count":2,"transfer_score":0.45,"hint_rate":0.4},{"observation_id":"obs-0003","label":"event-003","revision_count":4,"transfer_score":0.62,"hint_rate":0.25},{"observation_id":"obs-0004","label":"event-004","revision_count":1,"transfer_score":0.28,"hint_rate":0.7},{"observation_id":"obs-0005","label":"event-005","revision_count":2,"transfer_score":0.39,"hint_rate":0.58},{"observation_id":"obs-0006","label":"event-006","revision_count":3,"transfer_score":0.51,"hint_rate":0.42},{"observation_id":"obs-0007","label":"event-007","revision_count":3,"transfer_score":0.52,"hint_rate":0.35},{"observation_id":"obs-0008","label":"event-008","revision_count":5,"transfer_score":0.69,"hint_rate":0.22},{"observation_id":"obs-0009","label":"event-009","revision_count":6,"transfer_score":0.78,"hint_rate":0.18},{"observation_id":"obs-0010","label":"event-010","revision_count":2,"transfer_score":0.36,"hint_rate":0.48},{"observation_id":"obs-0011","label":"event-011","revision_count":4,"transfer_score":0.57,"hint_rate":0.33},{"observation_id":"obs-0012","label":"event-012","revision_count":5,"transfer_score":0.71,"hint_rate":0.2},{"observation_id":"obs-0013","label":"event-013","revision_count":2,"transfer_score":0.34,"hint_rate":0.61},{"observation_id":"obs-0014","label":"event-014","revision_count":3,"transfer_score":0.47,"hint_rate":0.49},{"observation_id":"obs-0015","label":"event-015","revision_count":4,"transfer_score":0.63,"hint_rate":0.31},{"observation_id":"obs-0016","label":"event-016","revision_count":1,"transfer_score":0.43,"hint_rate":0.44},{"observation_id":"obs-0017","label":"event-017","revision_count":3,"transfer_score":0.6,"hint_rate":0.29},{"observation_id":"obs-0018","label":"event-018","revision_count":6,"transfer_score":0.82,"hint_rate":0.14}]},"command_explanations":[{"code":"set.seed(2026)","explanation":"Fixes the random seed so stochastic methods and downstream artifacts can be reproduced."},{"code":"# learner_data is the local CSV data frame","explanation":"Names the local input data object used by the generated analysis."},{"code":"analysis_columns \u003c- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\")","explanation":"Declares the exact variables needed for the analysis, outcome, and stable labels."},{"code":"source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","explanation":"Records the retained source-row positions after the explicit complete-case rule."},{"code":"analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","explanation":"Creates the analysis data from the retained source rows and approved columns."},{"code":"labels \u003c- as.character(analysis_data[[\"event_id\"]])","explanation":"Creates stable observation labels from the approved ID column or original source-row position."},{"code":"evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)","explanation":"Converts the existing data.frame result into linked Evidence IR without reimplementing the statistical method."}]};
+const initialPoints = [{"observation_id":"obs-0001","evidence_ids":["ev-0001-001","ev-0001-002","ev-0001-003"],"x":1,"y":0.31,"z":0.55,"label":"event-001"},{"observation_id":"obs-0002","evidence_ids":["ev-0002-001","ev-0002-002","ev-0002-003"],"x":2,"y":0.45,"z":0.4,"label":"event-002"},{"observation_id":"obs-0003","evidence_ids":["ev-0003-001","ev-0003-002","ev-0003-003"],"x":4,"y":0.62,"z":0.25,"label":"event-003"},{"observation_id":"obs-0004","evidence_ids":["ev-0004-001","ev-0004-002","ev-0004-003"],"x":1,"y":0.28,"z":0.7,"label":"event-004"},{"observation_id":"obs-0005","evidence_ids":["ev-0005-001","ev-0005-002","ev-0005-003"],"x":2,"y":0.39,"z":0.58,"label":"event-005"},{"observation_id":"obs-0006","evidence_ids":["ev-0006-001","ev-0006-002","ev-0006-003"],"x":3,"y":0.51,"z":0.42,"label":"event-006"},{"observation_id":"obs-0007","evidence_ids":["ev-0007-001","ev-0007-002","ev-0007-003"],"x":3,"y":0.52,"z":0.35,"label":"event-007"},{"observation_id":"obs-0008","evidence_ids":["ev-0008-001","ev-0008-002","ev-0008-003"],"x":5,"y":0.69,"z":0.22,"label":"event-008"},{"observation_id":"obs-0009","evidence_ids":["ev-0009-001","ev-0009-002","ev-0009-003"],"x":6,"y":0.78,"z":0.18,"label":"event-009"},{"observation_id":"obs-0010","evidence_ids":["ev-0010-001","ev-0010-002","ev-0010-003"],"x":2,"y":0.36,"z":0.48,"label":"event-010"},{"observation_id":"obs-0011","evidence_ids":["ev-0011-001","ev-0011-002","ev-0011-003"],"x":4,"y":0.57,"z":0.33,"label":"event-011"},{"observation_id":"obs-0012","evidence_ids":["ev-0012-001","ev-0012-002","ev-0012-003"],"x":5,"y":0.71,"z":0.2,"label":"event-012"},{"observation_id":"obs-0013","evidence_ids":["ev-0013-001","ev-0013-002","ev-0013-003"],"x":2,"y":0.34,"z":0.61,"label":"event-013"},{"observation_id":"obs-0014","evidence_ids":["ev-0014-001","ev-0014-002","ev-0014-003"],"x":3,"y":0.47,"z":0.49,"label":"event-014"},{"observation_id":"obs-0015","evidence_ids":["ev-0015-001","ev-0015-002","ev-0015-003"],"x":4,"y":0.63,"z":0.31,"label":"event-015"},{"observation_id":"obs-0016","evidence_ids":["ev-0016-001","ev-0016-002","ev-0016-003"],"x":1,"y":0.43,"z":0.44,"label":"event-016"},{"observation_id":"obs-0017","evidence_ids":["ev-0017-001","ev-0017-002","ev-0017-003"],"x":3,"y":0.6,"z":0.29,"label":"event-017"},{"observation_id":"obs-0018","evidence_ids":["ev-0018-001","ev-0018-002","ev-0018-003"],"x":6,"y":0.82,"z":0.14,"label":"event-018"}];
+const lessonSpec = {"schema_version":"rlearnxr-browser-contract-1","lesson_id":"learning-analytics","title":"Learning analytics event-to-construct evidence","outcomes":["Use the data_view adapter to address: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","Explain one observation with linked analytical evidence and an explicit limitation","Repair and transfer the interpretation while preserving reproducibility"],"question":"How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","analysis":"data.frame","representations":[{"type":"table","dimensions":null,"fallback":"table","title":"Evidence table"},{"type":"plot2d","dimensions":null,"fallback":"table","title":"Two-dimensional evidence"},{"type":"scene3d","dimensions":null,"fallback":"table","title":"Three-dimensional evidence"}],"visualization_metadata":{},"axis_labels":{"x":"revision_count","y":"transfer_score","z":"hint_rate"},"seed":2026,"evidence_hash":"9e0680e78eb9a94efe2f6077176e1288","tasks":{"orient":{"id":"wizard-orient","type":"orient","prompt":"State why one synthetic learner-session summary is the unit of observation, identify each variable role, and restate the question: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","criteria":{"meaning":"Defines the unit of observation and variable roles","question":"Connects the data to the stated question"},"evidence_required":false},"predict":{"id":"wizard-predict","type":"predict","prompt":"Predict one descriptive pattern among revision_count, transfer_score, hint_rate before inspecting the evidence.","criteria":{"prediction":"Records a falsifiable expectation before inspection"},"evidence_required":false},"run_r":{"id":"wizard-run_r","type":"run_r","prompt":"Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.","criteria":{"execution":"Connects visible R source to the compiled artifact"},"evidence_required":false},"explore":{"id":"wizard-explore","type":"explore","prompt":"Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.","criteria":{"selection":"Selects an observation using a stable evidence ID"},"evidence_required":true},"explain":{"id":"wizard-explain","type":"explain","prompt":"Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.","criteria":{"point":"Names the selected observation","axis":"Cites a displayed variable or axis","direction":"States the value or direction","limitation":"States a descriptive limitation"},"evidence_required":true},"repair":{"id":"wizard-repair","type":"repair","prompt":"Check the exact value and scale, then remove any causal or population-level overclaim.","criteria":{"revision":"Corrects the identified evidence or assumption problem"},"evidence_required":true},"transfer":{"id":"wizard-transfer","type":"transfer","prompt":"Apply the same descriptive rule to a different observation and identify where the pattern changes.","criteria":{"point":"Uses a different observation","comparison":"Compares the method-specific evidence","limitation":"Keeps the interpretation within its evidence boundary"},"evidence_required":true},"reproduce":{"id":"wizard-reproduce","type":"reproduce","prompt":"Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.","criteria":{"provenance":"Verifies source, seed, version, retained rows, and artifact hash"},"evidence_required":false}},"diagnostics":[{"id":"rows","label":"Complete observations","value":"18","status":"ready","interpretation":"The evidence describes the retained rows only."},{"id":"dimensions","label":"Compared variables","value":"revision_count, transfer_score, hint_rate","status":"review","interpretation":"Variables remain on their original scales."}],"cautions":["Visible association is not evidence of causation.","Different variable scales can dominate spatial distance.","The data declare grouping by learner_id and time by session. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used."],"misconceptions":"A point that looks distant is not automatically unusual in the original construct.","context":{"question":"How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?","intent":"explore","intent_label":"Describe and compare observations","unit_of_analysis":"one synthetic learner-session summary","outcome":null,"id_column":"event_id","grouping":"learner_id","time":"session","decision_context":"choosing a reversible instructional support or deciding that the evidence is insufficient","dependence_warning":true},"analysis_source":["set.seed(2026)","# learner_data is the local CSV data frame","analysis_columns \u003c- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\")","source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","labels \u003c- as.character(analysis_data[[\"event_id\"]])","evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)"],"evidence_table":{"columns":["observation_id","label","revision_count","transfer_score","hint_rate"],"rows":[{"observation_id":"obs-0001","label":"event-001","revision_count":1,"transfer_score":0.31,"hint_rate":0.55},{"observation_id":"obs-0002","label":"event-002","revision_count":2,"transfer_score":0.45,"hint_rate":0.4},{"observation_id":"obs-0003","label":"event-003","revision_count":4,"transfer_score":0.62,"hint_rate":0.25},{"observation_id":"obs-0004","label":"event-004","revision_count":1,"transfer_score":0.28,"hint_rate":0.7},{"observation_id":"obs-0005","label":"event-005","revision_count":2,"transfer_score":0.39,"hint_rate":0.58},{"observation_id":"obs-0006","label":"event-006","revision_count":3,"transfer_score":0.51,"hint_rate":0.42},{"observation_id":"obs-0007","label":"event-007","revision_count":3,"transfer_score":0.52,"hint_rate":0.35},{"observation_id":"obs-0008","label":"event-008","revision_count":5,"transfer_score":0.69,"hint_rate":0.22},{"observation_id":"obs-0009","label":"event-009","revision_count":6,"transfer_score":0.78,"hint_rate":0.18},{"observation_id":"obs-0010","label":"event-010","revision_count":2,"transfer_score":0.36,"hint_rate":0.48},{"observation_id":"obs-0011","label":"event-011","revision_count":4,"transfer_score":0.57,"hint_rate":0.33},{"observation_id":"obs-0012","label":"event-012","revision_count":5,"transfer_score":0.71,"hint_rate":0.2},{"observation_id":"obs-0013","label":"event-013","revision_count":2,"transfer_score":0.34,"hint_rate":0.61},{"observation_id":"obs-0014","label":"event-014","revision_count":3,"transfer_score":0.47,"hint_rate":0.49},{"observation_id":"obs-0015","label":"event-015","revision_count":4,"transfer_score":0.63,"hint_rate":0.31},{"observation_id":"obs-0016","label":"event-016","revision_count":1,"transfer_score":0.43,"hint_rate":0.44},{"observation_id":"obs-0017","label":"event-017","revision_count":3,"transfer_score":0.6,"hint_rate":0.29},{"observation_id":"obs-0018","label":"event-018","revision_count":6,"transfer_score":0.82,"hint_rate":0.14}]},"command_explanations":[{"code":"set.seed(2026)","explanation":"Fixes the random seed so stochastic methods and downstream artifacts can be reproduced."},{"code":"# learner_data is the local CSV data frame","explanation":"Names the local input data object used by the generated analysis."},{"code":"analysis_columns \u003c- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\")","explanation":"Declares the exact variables needed for the analysis, outcome, and stable labels."},{"code":"source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","explanation":"Records the retained source-row positions after the explicit complete-case rule."},{"code":"analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","explanation":"Creates the analysis data from the retained source rows and approved columns."},{"code":"labels \u003c- as.character(analysis_data[[\"event_id\"]])","explanation":"Creates stable observation labels from the approved ID column or original source-row position."},{"code":"evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)","explanation":"Converts the existing data.frame result into linked Evidence IR without reimplementing the statistical method."}]};
 function taskFor(type) {
   return lessonSpec && lessonSpec.tasks && lessonSpec.tasks[type]
     ? lessonSpec.tasks[type]
@@ -603,6 +613,13 @@ const aiTab = document.getElementById("ai-tab");
 const scenePanel = document.getElementById("scene-panel");
 const rPanel = document.getElementById("r-panel");
 const aiPanel = document.getElementById("ai-panel");
+const plotShell = document.getElementById("plot-shell");
+const sceneControls = document.getElementById("scene-controls");
+const spatialControl = document.getElementById("spatial-control");
+const sceneHelp = document.getElementById("scene-help");
+const dataAlternative = document.getElementById("data-alternative");
+const compiledEvidenceAlternative = document.getElementById("compiled-evidence-alternative");
+const representationButtons = Array.from(document.querySelectorAll("[data-representation]"));
 const rCodeEditor = document.getElementById("r-code-editor");
 const runRCode = document.getElementById("run-r-code");
 const rConsole = document.getElementById("r-console");
@@ -644,6 +661,7 @@ let moved = false;
 let last = null;
 let hoverIndex = null;
 let selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
+let renderedPointPositions = [];
 let currentStep = 1;
 let orientationPassed = false;
 let evidenceSelected = false;
@@ -660,6 +678,10 @@ let lastSuccessfulCode = "";
 let aiGeneratedRCode = "";
 let aiBrief = null;
 const contractSeed = Number(lessonSpec.seed || 2026);
+const availableRepresentations = new Set(
+  (lessonSpec.representations || [{type: "table"}, {type: "plot2d"}, {type: "scene3d"}]).map(value => value.type)
+);
+let representationMode = availableRepresentations.has("scene3d") ? "scene3d" : availableRepresentations.has("plot2d") ? "plot2d" : "table";
 
 function applyLessonContract() {
   const setText = (id, value) => {
@@ -724,8 +746,13 @@ function applyLessonContract() {
   });
   const tip = (lessonSpec.misconceptions || [])[0] || (lessonSpec.cautions || [])[0];
   if (tip) setText("method-tip", tip);
+  representationButtons.forEach(button => {
+    const available = availableRepresentations.has(button.dataset.representation);
+    button.hidden = !available;
+    button.disabled = !available;
+  });
   buildCompiledEvidenceTable();
-  canvas.setAttribute("aria-label", "Interactive three-dimensional evidence scene for " + (lessonSpec.question || lessonSpec.title));
+  setRepresentation(representationMode, false, false);
 }
 
 function buildCompiledEvidenceTable() {
@@ -796,6 +823,17 @@ function explanationCriteria(text, selected) {
     axis: () => /(^|\W)[xyz](\W|$)/i.test(text) || axisLabels.some(value => lower.includes(value)),
     component: () => /(^|\W)(pc\s*[123]|component\s*[123]|principal component)(\W|$)/i.test(text),
     direction: () => /(positive|negative|above|below|higher|lower|increase|decrease|near|zero|greater|less)/i.test(text),
+    center: () => /(mean|median|center|average)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    spread: () => /(standard deviation|\bsd\b|iqr|interquartile|range|spread|variance)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    association: () => /(correlation|association|relationship|paired)/i.test(text) && /(positive|negative|weak|moderate|strong|zero|[-+]?\d*\.?\d+)/i.test(text),
+    pair: () => /(pair|paired|both|together)/i.test(text) || axisLabels.filter(value => lower.includes(value)).length >= 2,
+    estimate: () => /(bootstrap|resample|estimate|mean|statistic)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    interval: () => /(interval|confidence|uncertainty|percentile)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    difference: () => /(difference|group|mean|higher|lower)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    inference: () => /(p-value|p value|t statistic|confidence|interval|null|significant)/i.test(text),
+    variation: () => /(variation|variance|group mean|residual|f statistic|between|within)/i.test(text),
+    omnibus: () => /(omnibus|overall|f statistic|anova|not identify|does not identify)/i.test(text),
+    observed: () => /(observed|count)/i.test(text) && /(expected|[-+]?\d*\.?\d+)/i.test(text),
     fitted: () => /(fitted|predicted|estimate|expected)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
     residual: () => /(residual|interval|observed|difference|error)/i.test(text),
     probability: () => /(probability|chance|odds|percent|%)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
@@ -818,7 +856,19 @@ function transferCriteria(text, selectedLabel) {
         ? /(probability|threshold|event|class|odds|percent|%)/i.test(text)
         : analysis === "kmeans"
           ? /(cluster|centroid|distance|group)/i.test(text)
-          : /(^|\W)[xyz](\W|$)/i.test(text) || Object.values(lessonSpec.axis_labels || {}).some(value => lower.includes(String(value).toLowerCase()));
+          : analysis === "numeric_summary"
+            ? /(mean|median|sd|iqr|spread|percentile|distribution)/i.test(text)
+            : analysis === "cor.test"
+              ? /(correlation|association|pair|interval)/i.test(text)
+              : analysis === "bootstrap_mean"
+                ? /(bootstrap|resample|estimate|interval|deviation)/i.test(text)
+                : analysis === "t.test"
+                  ? /(difference|group|mean|interval|p-value|t statistic)/i.test(text)
+                  : analysis === "aov"
+                    ? /(group mean|residual|variation|anova|f statistic)/i.test(text)
+                    : analysis === "chisq.test"
+                      ? /(observed|expected|count|residual|chi-square)/i.test(text)
+                      : /(^|\W)[xyz](\W|$)/i.test(text) || Object.values(lessonSpec.axis_labels || {}).some(value => lower.includes(String(value).toLowerCase()));
   return {
     point: Boolean(selectedLabel) && lower.includes(String(selectedLabel).toLowerCase()),
     comparison: metric && /(compared|higher|lower|positive|negative|similar|same|differ|greater|less|near|zero|while|whereas|than)/i.test(text),
@@ -1202,6 +1252,42 @@ function setSelectedPoint(index, options = {}) {
   else if (currentStep < 4) setStep(4);
 }
 
+function setRepresentation(mode, focusTarget = true, persist = true) {
+  if (!availableRepresentations.has(mode)) return;
+  representationMode = mode;
+  const tableMode = mode === "table";
+  const plot2dMode = mode === "plot2d";
+  representationButtons.forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.representation === mode));
+  });
+  plotShell.hidden = tableMode;
+  sceneControls.hidden = tableMode;
+  spatialControl.firstElementChild.nextSibling.textContent = plot2dMode ? "Compare axes" : "Rotate";
+  dataAlternative.open = tableMode;
+  compiledEvidenceAlternative.open = tableMode;
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+  if (tableMode) {
+    sceneHelp.textContent = "Use the evidence tables to inspect exact values and select an observation with the same evidence identifiers used by the plots.";
+    document.getElementById("scene-legend").textContent = "Semantic evidence table · exact values from R";
+  } else if (plot2dMode) {
+    canvas.setAttribute("aria-label", "Interactive two-dimensional evidence plot for " + (lessonSpec.question || lessonSpec.title));
+    sceneHelp.textContent = "Use arrow keys to move between observations. Use the accessible table below to inspect exact values.";
+    document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y"].join(" / ") + " · 2D linked evidence from R";
+  } else {
+    canvas.setAttribute("aria-label", "Interactive three-dimensional evidence scene for " + (lessonSpec.question || lessonSpec.title));
+    sceneHelp.textContent = "Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible table below to select an exact point.";
+    document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y", axisLabels.z || "z"].join(" / ") + " · 3D linked evidence from R";
+  }
+  if (!tableMode) {
+    resize();
+    if (focusTarget) canvas.focus();
+  } else if (focusTarget) {
+    const firstAction = document.querySelector("#points-table button");
+    if (firstAction) firstAction.focus();
+  }
+  if (persist) saveState();
+}
+
 function resize() {
   const ratio = window.devicePixelRatio || 1;
   const box = canvas.getBoundingClientRect();
@@ -1257,7 +1343,7 @@ function line(from, to, color, width = 1) {
   ctx.stroke();
 }
 
-function draw() {
+function draw3d() {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
   const metrics = projectionMetrics(width, height);
@@ -1276,7 +1362,8 @@ function draw() {
     ctx.fillText(axis, Math.max(8, Math.min(width - 16, labelPoint.x)), Math.max(16, Math.min(height - 10, labelPoint.y)));
   });
   const active = activePointIndex();
-  const projected = points.map((point, index) => ({point, index, projected: project(point, width, height, metrics)})).sort((a, b) => a.projected.z - b.projected.z);
+  renderedPointPositions = points.map(point => project(point, width, height, metrics));
+  const projected = points.map((point, index) => ({point, index, projected: renderedPointPositions[index]})).sort((a, b) => a.projected.z - b.projected.z);
   projected.forEach(item => {
     const isActive = item.index === active;
     ctx.beginPath();
@@ -1309,14 +1396,174 @@ function draw() {
   }
 }
 
-function pointAt(x, y) {
+function plot2dMetrics(width, height) {
+  const xValues = points.map(point => point.x);
+  const yValues = points.map(point => point.y);
+  const extent = values => {
+    let minimum = Math.min(...values), maximum = Math.max(...values);
+    if (minimum === maximum) { minimum -= 1; maximum += 1; }
+    const padding = (maximum - minimum) * .08;
+    return [minimum - padding, maximum + padding];
+  };
+  return {x: extent(xValues), y: extent(yValues), left: 58, right: 24, top: 24, bottom: 50, width, height};
+}
+
+function project2d(point, metrics) {
+  const plotWidth = Math.max(1, metrics.width - metrics.left - metrics.right);
+  const plotHeight = Math.max(1, metrics.height - metrics.top - metrics.bottom);
+  return {
+    x: metrics.left + (point.x - metrics.x[0]) / (metrics.x[1] - metrics.x[0]) * plotWidth,
+    y: metrics.top + (metrics.y[1] - point.y) / (metrics.y[1] - metrics.y[0]) * plotHeight,
+    z: 0
+  };
+}
+
+function draw2d() {
+  if (String(lessonSpec.analysis) === "numeric_summary" && lessonSpec.visualization_metadata && lessonSpec.visualization_metadata.histogram) {
+    drawHistogram2d();
+    return;
+  }
+  if (["table", "chisq.test"].includes(String(lessonSpec.analysis))) {
+    drawBar2d();
+    return;
+  }
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
-  const metrics = projectionMetrics(width, height);
+  const metrics = plot2dMetrics(width, height);
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y"};
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(metrics.left, metrics.top, width - metrics.left - metrics.right, height - metrics.top - metrics.bottom);
+  ctx.strokeStyle = "#d8e0eb";
+  ctx.lineWidth = 1;
+  for (let index = 0; index <= 4; index += 1) {
+    const x = metrics.left + (width - metrics.left - metrics.right) * index / 4;
+    const y = metrics.top + (height - metrics.top - metrics.bottom) * index / 4;
+    line({x, y: metrics.top}, {x, y: height - metrics.bottom}, "#e6ebf2");
+    line({x: metrics.left, y}, {x: width - metrics.right, y}, "#e6ebf2");
+  }
+  line({x: metrics.left, y: height - metrics.bottom}, {x: width - metrics.right, y: height - metrics.bottom}, "#526078", 1.25);
+  line({x: metrics.left, y: metrics.top}, {x: metrics.left, y: height - metrics.bottom}, "#526078", 1.25);
+  ctx.fillStyle = "#526078";
+  ctx.font = "11px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText(axisLabels.x || "x", metrics.left + (width - metrics.left - metrics.right) / 2, height - 14);
+  ctx.save();
+  ctx.translate(15, metrics.top + (height - metrics.top - metrics.bottom) / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(axisLabels.y || "y", 0, 0);
+  ctx.restore();
+  ctx.textAlign = "left";
+  const active = activePointIndex();
+  renderedPointPositions = points.map(point => project2d(point, metrics));
+  points.forEach((point, index) => {
+    const projected = renderedPointPositions[index];
+    const isActive = index === active;
+    ctx.beginPath();
+    ctx.arc(projected.x, projected.y, isActive ? 8 : 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = colors[index % colors.length];
+    ctx.globalAlpha = isActive ? 1 : .82;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (isActive) { ctx.strokeStyle = "#172033"; ctx.lineWidth = 2; ctx.stroke(); }
+  });
+  if (active !== null && points[active]) {
+    const point = points[active];
+    const projected = project2d(point, metrics);
+    const text = String(point.label || ("point " + (active + 1))) + " (" + point.x.toFixed(2) + ", " + point.y.toFixed(2) + ")";
+    ctx.font = "12px system-ui";
+    const textWidth = ctx.measureText(text).width + 18;
+    const labelX = Math.max(8, Math.min(width - textWidth - 8, projected.x + 10));
+    const labelY = Math.max(8, Math.min(height - 34, projected.y - 30));
+    ctx.fillStyle = "rgba(255, 255, 255, .96)";
+    ctx.fillRect(labelX, labelY, textWidth, 24);
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.strokeRect(labelX, labelY, textWidth, 24);
+    ctx.fillStyle = "#172033";
+    ctx.fillText(text, labelX + 9, labelY + 16);
+  }
+}
+
+function drawHistogram2d() {
+  const width = canvas.clientWidth, height = canvas.clientHeight;
+  const metadata = lessonSpec.visualization_metadata.histogram;
+  const breaks = metadata.breaks || [], counts = metadata.counts || [];
+  const left = 58, right = 24, top = 24, bottom = 52;
+  const xMin = Math.min(...breaks), xMax = Math.max(...breaks);
+  const maxCount = Math.max(1, ...counts);
+  const mapX = value => left + (value - xMin) / Math.max(.000001, xMax - xMin) * (width - left - right);
+  const mapY = value => top + (maxCount - value) / maxCount * (height - top - bottom);
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(left, top, width - left - right, height - top - bottom);
+  counts.forEach((count, index) => {
+    const x0 = mapX(breaks[index]), x1 = mapX(breaks[index + 1]);
+    const y = mapY(count);
+    ctx.fillStyle = "#cfe0fb";
+    ctx.fillRect(x0 + 1, y, Math.max(1, x1 - x0 - 2), height - bottom - y);
+    ctx.strokeStyle = "#3977df";
+    ctx.strokeRect(x0 + 1, y, Math.max(1, x1 - x0 - 2), height - bottom - y);
+  });
+  line({x: left, y: height - bottom}, {x: width - right, y: height - bottom}, "#526078", 1.25);
+  line({x: left, y: top}, {x: left, y: height - bottom}, "#526078", 1.25);
+  const rugBase = height - bottom + 10;
+  renderedPointPositions = points.map((point, index) => ({x: mapX(point.x), y: rugBase + (index % 3) * 5, z: 0}));
+  renderedPointPositions.forEach((position, index) => {
+    ctx.beginPath();
+    ctx.arc(position.x, position.y, index === activePointIndex() ? 5 : 3, 0, Math.PI * 2);
+    ctx.fillStyle = colors[index % colors.length];
+    ctx.fill();
+  });
+  ctx.fillStyle = "#526078";
+  ctx.font = "11px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText((lessonSpec.axis_labels || {}).x || "value", left + (width - left - right) / 2, height - 12);
+  ctx.save(); ctx.translate(15, top + (height - top - bottom) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("Count", 0, 0); ctx.restore();
+  ctx.textAlign = "left";
+}
+
+function drawBar2d() {
+  const width = canvas.clientWidth, height = canvas.clientHeight;
+  const left = 48, right = 20, top = 24, bottom = 72;
+  const maximum = Math.max(1, ...points.map(point => point.x));
+  const slot = (width - left - right) / Math.max(1, points.length);
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(left, top, width - left - right, height - top - bottom);
+  renderedPointPositions = points.map((point, index) => {
+    const barHeight = point.x / maximum * (height - top - bottom);
+    const x = left + index * slot + slot * .15;
+    const barWidth = Math.max(3, slot * .7);
+    const y = height - bottom - barHeight;
+    ctx.fillStyle = index === activePointIndex() ? "#2563eb" : "#9cbcf0";
+    ctx.fillRect(x, y, barWidth, barHeight);
+    ctx.fillStyle = "#526078";
+    ctx.font = "10px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText(String(Math.round(point.x * 100) / 100), x + barWidth / 2, Math.max(12, y - 5));
+    const label = String(point.label || index + 1);
+    ctx.save();
+    ctx.translate(x + barWidth / 2, height - bottom + 7);
+    ctx.rotate(-Math.PI / 4);
+    ctx.textAlign = "right";
+    ctx.fillText(label.length > 18 ? label.slice(0, 17) + "…" : label, 0, 0);
+    ctx.restore();
+    return {x: x + barWidth / 2, y, z: 0};
+  });
+  line({x: left, y: height - bottom}, {x: width - right, y: height - bottom}, "#526078", 1.25);
+  line({x: left, y: top}, {x: left, y: height - bottom}, "#526078", 1.25);
+  ctx.textAlign = "left";
+}
+
+function draw() {
+  if (representationMode === "table") return;
+  if (representationMode === "plot2d") draw2d(); else draw3d();
+}
+
+function pointAt(x, y) {
   let best = null;
   let distance = 20;
-  points.forEach((point, index) => {
-    const projectedPoint = project(point, width, height, metrics);
+  renderedPointPositions.forEach((projectedPoint, index) => {
     const candidate = Math.hypot(projectedPoint.x - x, projectedPoint.y - y);
     if (candidate < distance) {
       distance = candidate;
@@ -1371,7 +1618,8 @@ function buildTable() {
     const action = document.createElement("button");
     action.type = "button";
     action.className = "inspect-button";
-    action.textContent = "Inspect " + values[0];
+    action.textContent = "Inspect";
+    action.setAttribute("aria-label", "Inspect " + values[0]);
     action.addEventListener("click", () => setSelectedPoint(index));
     actionCell.appendChild(action);
     row.appendChild(actionCell);
@@ -1545,7 +1793,7 @@ async function executeRCode() {
     updateClaimEvidence();
     if (aiBrief && rCodeEditor.value.trim() === aiGeneratedRCode.trim()) {
       aiResultStatus.dataset.state = "success";
-      aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now available in the 3D view and table.";
+      aiResultStatus.textContent = "Visualization updated from the generated R code. " + points.length + " rows are now linked across the evidence views and table.";
     }
     viewRResult.hidden = false;
     setStep(4);
@@ -1659,6 +1907,7 @@ function saveState() {
       points: rRunPassed ? points : null,
       artifactHash: rRunPassed ? document.getElementById("artifact-hash").textContent : null,
       selectedIndex,
+      representationMode,
       evidenceSelected,
       explanationAttempted,
       currentStep,
@@ -1678,6 +1927,7 @@ function restoreState() {
     explanationInput.value = saved.explanation || "";
     transferInput.value = saved.transfer || "";
     rCodeEditor.value = saved.rCode || defaultRCode();
+    if (availableRepresentations.has(saved.representationMode)) representationMode = saved.representationMode;
     orientationPassed = Boolean(saved.orientationPassed || orientInput.value);
     if (orientationPassed) {
       orientStatus.textContent = "Saved orientation restored.";
@@ -1687,7 +1937,7 @@ function restoreState() {
       predictionStatus.textContent = "Saved response restored.";
       setPredictionMode(true);
     }
-    if (saved.rRunPassed && Array.isArray(saved.points) && saved.points.length >= 3) {
+    if (saved.rRunPassed && Array.isArray(saved.points) && saved.points.length >= 1) {
       points = saved.points.map((point, index) => normalizePointIdentity({observation_id: point.observation_id, evidence_ids: point.evidence_ids, label: String(point.label), x: Number(point.x), y: Number(point.y), z: Number(point.z)}, index));
       selectedIndex = Math.max(0, Math.min(points.length - 1, Number(saved.selectedIndex) || 0));
       webRVersion = saved.runtime || "WebR 0.6.0";
@@ -1748,7 +1998,7 @@ canvas.addEventListener("pointerdown", event => {
 canvas.addEventListener("pointermove", event => {
   const rectangle = canvas.getBoundingClientRect();
   hoverIndex = pointAt(event.clientX - rectangle.left, event.clientY - rectangle.top);
-  if (dragging && last) {
+  if (representationMode === "scene3d" && dragging && last) {
     const dx = event.clientX - last.x;
     const dy = event.clientY - last.y;
     moved = moved || Math.abs(dx) + Math.abs(dy) > 2;
@@ -1772,12 +2022,21 @@ canvas.addEventListener("pointerleave", () => {
   draw();
 });
 canvas.addEventListener("wheel", event => {
+  if (representationMode !== "scene3d") return;
   event.preventDefault();
   zoom *= event.deltaY < 0 ? 1.08 : .92;
   zoom = Math.max(.55, Math.min(2.5, zoom));
   draw();
 }, {passive: false});
 canvas.addEventListener("keydown", event => {
+  if (representationMode === "plot2d" && ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "Home"].includes(event.key)) {
+    event.preventDefault();
+    const direction = ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 1;
+    const index = event.key === "Home" ? 0 : (selectedIndex + direction + points.length) % points.length;
+    setSelectedPoint(index, {announce: true});
+    setStep(4);
+    return;
+  }
   const keyActions = {
     ArrowLeft: () => { yaw -= .12; },
     ArrowRight: () => { yaw += .12; },
@@ -1802,6 +2061,10 @@ document.getElementById("reset-view").addEventListener("click", () => {
   hoverIndex = null;
   updatePointPanel(selectedIndex, false);
   draw();
+});
+
+representationButtons.forEach(button => {
+  button.addEventListener("click", () => setRepresentation(button.dataset.representation));
 });
 
 educatorModeLink.addEventListener("click", () => {
@@ -1855,6 +2118,8 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   yaw = .72;
   pitch = .46;
   zoom = 1;
+  representationMode = availableRepresentations.has("scene3d") ? "scene3d" : availableRepresentations.has("plot2d") ? "plot2d" : "table";
+  setRepresentation(representationMode, false, false);
   updatePointPanel(selectedIndex, false);
   buildTable();
   setStep(1);
@@ -1983,7 +2248,7 @@ document.getElementById("check-transfer").addEventListener("click", () => {
   const missing = Object.entries(result).filter(([, value]) => !value).map(([name]) => name);
   if (!transferPointLabel) {
     transferFeedback.dataset.state = "error";
-    transferFeedback.textContent = "Select a different point in the 3D view or accessible table first.";
+    transferFeedback.textContent = "Select a different point in an evidence view or the accessible table first.";
     showView("scene", true);
     return;
   }
@@ -2124,6 +2389,7 @@ resetRResults();
 predictionCard.dataset.state = "editing";
 buildTable();
 restoreState();
+setRepresentation(representationMode, false, false);
 syncCourseProgress(lessonCompleted);
 updatePointPanel(selectedIndex, false);
 setStep(currentStep);

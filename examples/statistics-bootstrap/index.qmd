@@ -1,0 +1,106 @@
+---
+title: "See sampling variability through bootstrap evidence"
+format: html
+---
+
+# Learning objectives
+
+- Use the bootstrap adapter to address: How stable is the observed mean fuel efficiency under resampling, and what uncertainty remains?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
+
+# Question and data structure
+
+**Question:** How stable is the observed mean fuel efficiency under resampling, and what uncertainty remains?
+
+**Unit of analysis:** one observation in a built-in R teaching dataset
+
+**Analytical intent:** Quantify sampling uncertainty
+
+# Learning sequence
+
+## Orient
+
+State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: How stable is the observed mean fuel efficiency under resampling, and what uncertainty remains?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict how much bootstrap means for mpg will vary around the observed sample mean.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Resample with replacement using the recorded seed and construct the bootstrap distribution and percentile interval.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Compare bootstrap estimates, deviations, and percentiles across the table and 2D plot.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Explain what the bootstrap interval says about sampling variability and what it does not include.
+
+Completion evidence:
+- **point:** Names a resample
+- **estimate:** Cites a bootstrap estimate
+- **interval:** Interprets sampling variability or interval
+- **limitation:** States a sample or interval limitation
+
+## Repair
+
+Separate original sample size from number of resamples and revise any probability claim about the fixed interval.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Compare a different resample estimate with the observed statistic and interval.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Observed sample mean:** 20.091. This is the statistic recomputed across resamples.
+- **Bootstrap resamples:** 200. Seed 2026 makes the instructional resampling distribution reproducible.
+- **Percentile interval:** 17.844 to 22.292. This interval summarizes bootstrap sampling variability for the mean.
+
+# Interpretation cautions
+
+- Bootstrap results inherit limitations of the observed sample and resampling rule.
+- A 95% interval is not a 95% probability that this fixed interval contains the parameter.
+
+```{r}
+#| echo: true
+set.seed(2026)
+```
+
+# Evidence compiler artifact
+
+This lesson was compiled from `bootstrap_mean` evidence with hash `72db462ea07511794fe530de758c5cc5`.
+
+[Open the synchronized browser laboratory](scene/index.html)
+
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

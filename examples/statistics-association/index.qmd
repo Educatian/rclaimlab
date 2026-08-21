@@ -1,0 +1,106 @@
+---
+title: "Reason about correlation with paired evidence"
+format: html
+---
+
+# Learning objectives
+
+- Use the correlation adapter to address: How are vehicle weight and fuel efficiency associated, and which paired observations constrain that claim?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
+
+# Question and data structure
+
+**Question:** How are vehicle weight and fuel efficiency associated, and which paired observations constrain that claim?
+
+**Unit of analysis:** one observation in a built-in R teaching dataset
+
+**Analytical intent:** Describe and compare observations
+
+# Learning sequence
+
+## Orient
+
+State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: How are vehicle weight and fuel efficiency associated, and which paired observations constrain that claim?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict the direction and form of association between wt and mpg.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Run cor.test() and connect the estimate and interval to the complete paired observations.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Inspect paired values, the 2D form, and each observation's standardized association contribution.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+State the correlation direction and magnitude, cite paired evidence, and state a non-causal limitation.
+
+Completion evidence:
+- **point:** Names a paired observation
+- **association:** Cites direction or magnitude
+- **pair:** Cites paired evidence
+- **limitation:** States a non-causal limitation
+
+## Repair
+
+Check form, outliers, range, uncertainty, and dependence before revising the association claim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Test whether the same association interpretation holds for a different paired observation.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Correlation estimate:** -0.868. The sign gives direction and the magnitude gives linear or monotonic association strength.
+- **95% confidence interval:** -0.934 to -0.744. The interval represents uncertainty in the population association under the test assumptions.
+- **Complete pairs:** 32. Each plotted pair contributes to the estimate.
+
+# Interpretation cautions
+
+- Correlation does not establish causation.
+- Outliers, nonlinear form, restricted range, and dependence can change the estimate.
+
+```{r}
+#| echo: true
+set.seed(2026)
+```
+
+# Evidence compiler artifact
+
+This lesson was compiled from `cor.test` evidence with hash `75056f0fc15a53acf97137ed191ed274`.
+
+[Open the synchronized browser laboratory](scene/index.html)
+
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

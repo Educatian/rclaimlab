@@ -22,17 +22,20 @@ lesson_from_data(
   stages = rlearnxr_learning_stages(),
   seed = 2026L,
   clusters = 3L,
+  bootstrap_times = 1000L,
   na_action = c("fail", "complete")
 )
 }
 \arguments{
 \item{data}{A local data frame.}
 
-\item{analysis}{One of `auto`, `data_view`, `prcomp`, `lm`, `glm`, or `kmeans`.}
+\item{analysis}{One of `auto`, `describe`, `data_view`, `correlation`,
+`bootstrap`, `t_test`, `aov`, `chi_square`, `prcomp`, `lm`, `glm`, or
+`kmeans`.}
 
-\item{dimensions}{Numeric columns used as dimensions or predictors.}
+\item{dimensions}{Numeric columns used as variables, dimensions, or predictors.}
 
-\item{outcome}{Outcome column for `lm` or `glm`.}
+\item{outcome}{Outcome column for model or group-comparison adapters.}
 
 \item{id_column}{Optional unique observation-label column.}
 
@@ -59,6 +62,8 @@ lesson_from_data(
 \item{seed}{Deterministic seed recorded in Evidence IR.}
 
 \item{clusters}{Number of clusters for `kmeans`.}
+
+\item{bootstrap_times}{Number of resamples for `bootstrap`.}
 
 \item{na_action}{Either `fail` or `complete` for explicit complete-case use.}
 }

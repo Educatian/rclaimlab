@@ -1,0 +1,107 @@
+---
+title: "Compare groups with analysis-of-variance evidence"
+format: html
+---
+
+# Learning objectives
+
+- Use the aov adapter to address: How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
+
+# Question and data structure
+
+**Question:** How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?
+
+**Unit of analysis:** one observation in a built-in R teaching dataset
+
+**Analytical intent:** Compare outcomes across groups
+
+# Learning sequence
+
+## Orient
+
+State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict how mpg may differ across the declared groups before running ANOVA.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Run aov(), inspect between- and within-group variation, and connect each outcome to its fitted group mean and residual.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Compare observed outcomes, fitted group means, and residuals across representations.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Interpret the omnibus F evidence and state why it does not identify every differing pair or a causal effect.
+
+Completion evidence:
+- **point:** Names an observation or group
+- **variation:** Cites group mean, residual, or F evidence
+- **omnibus:** Keeps the conclusion omnibus
+- **limitation:** States an assumption or causal limitation
+
+## Repair
+
+Check residual assumptions and remove unsupported pairwise or causal conclusions.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply observed-versus-group-mean reasoning to a different observation.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Compared groups:** 3. The omnibus test compares variation between and within these groups.
+- **Omnibus F statistic:** 39.698. A larger F indicates more between-group variation relative to within-group variation.
+- **Omnibus p-value:** 4.98e-09. The omnibus result does not identify which group pairs differ.
+
+# Interpretation cautions
+
+- A significant ANOVA does not identify the differing groups or establish causation.
+- Inspect residual assumptions and use planned or multiplicity-aware follow-up comparisons.
+- The data declare grouping by cylinder_group. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used.
+
+```{r}
+#| echo: true
+set.seed(2026)
+```
+
+# Evidence compiler artifact
+
+This lesson was compiled from `aov` evidence with hash `9dbf1f8e1361fd08a2ebf0347b9837fd`.
+
+[Open the synchronized browser laboratory](scene/index.html)
+
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

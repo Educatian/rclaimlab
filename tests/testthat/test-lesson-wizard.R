@@ -21,6 +21,17 @@ test_that("data profiling makes fit and privacy risks inspectable", {
   expect_output(print(profile), "rlearnxr_data_profile")
 })
 
+test_that("a one-column numeric file can start a descriptive lesson", {
+  data <- data.frame(score = c(4, 5, 7, 8, 9))
+  profile <- profile_learning_data(data, intent = "describe")
+  expect_true(profile$recommendations$recommended[profile$recommendations$analysis == "describe"])
+  lesson <- lesson_from_data(
+    data, analysis = "auto", question = "What is a typical score and how variable are scores?",
+    intent = "describe"
+  )
+  expect_equal(lesson$evidence$analysis$engine, "numeric_summary")
+})
+
 test_that("outcomes produce transparent regression recommendations", {
   binary <- transform(iris, passed = rep(c("no", "yes"), length.out = nrow(iris)))
   glm_recommendations <- recommend_lesson_analysis(binary, outcome = "passed", intent = "classify")

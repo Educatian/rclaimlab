@@ -1,0 +1,700 @@
+{
+  "schema_version": "rlearnxr-evidence-2",
+  "analysis": {
+    "engine": "chisq.test",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"Species\", \"width_band\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- sprintf(\"observation-%04d\", source_rows) contingency <- table(analysis_data[[\"width_band\"]], analysis_data[[\"Species\"]]) fit <- suppressWarnings(chisq.test(contingency)) evidence <- as_rlearnxr_evidence(fit)",
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "packages": {
+      "rlearnxr": "2.0.0.900"
+    },
+    "artifact_hash": "8b0557370190a23169855444c8ba44fa"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-0001",
+      "label": "narrow x setosa",
+      "source_row": 1
+    },
+    {
+      "observation_id": "obs-0002",
+      "label": "middle x setosa",
+      "source_row": 2
+    },
+    {
+      "observation_id": "obs-0003",
+      "label": "wide x setosa",
+      "source_row": 3
+    },
+    {
+      "observation_id": "obs-0004",
+      "label": "narrow x versicolor",
+      "source_row": 4
+    },
+    {
+      "observation_id": "obs-0005",
+      "label": "middle x versicolor",
+      "source_row": 5
+    },
+    {
+      "observation_id": "obs-0006",
+      "label": "wide x versicolor",
+      "source_row": 6
+    },
+    {
+      "observation_id": "obs-0007",
+      "label": "narrow x virginica",
+      "source_row": 7
+    },
+    {
+      "observation_id": "obs-0008",
+      "label": "middle x virginica",
+      "source_row": 8
+    },
+    {
+      "observation_id": "obs-0009",
+      "label": "wide x virginica",
+      "source_row": 9
+    }
+  ],
+  "dimensions": [
+    {
+      "dimension_id": "dim-001",
+      "label": "count",
+      "role": "count",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-002",
+      "label": "proportion",
+      "role": "proportion",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-003",
+      "label": "expected_count",
+      "role": "expected",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-004",
+      "label": "standardized_residual",
+      "role": "residual",
+      "unit": null
+    }
+  ],
+  "values": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "value": 1
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "value": 36
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "value": 13
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "value": 27
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "value": 23
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "value": 0
+    },
+    {
+      "evidence_id": "ev-0007-001",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-001",
+      "value": 19
+    },
+    {
+      "evidence_id": "ev-0008-001",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-001",
+      "value": 29
+    },
+    {
+      "evidence_id": "ev-0009-001",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-001",
+      "value": 2
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "value": 0.00666666666666667
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "value": 0.24
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "value": 0.0866666666666667
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "value": 0.18
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "value": 0.153333333333333
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "value": 0
+    },
+    {
+      "evidence_id": "ev-0007-002",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-002",
+      "value": 0.126666666666667
+    },
+    {
+      "evidence_id": "ev-0008-002",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-002",
+      "value": 0.193333333333333
+    },
+    {
+      "evidence_id": "ev-0009-002",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-002",
+      "value": 0.0133333333333333
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "value": 15.6666666666667
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "value": 29.3333333333333
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "value": 5
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "value": 15.6666666666667
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "value": 29.3333333333333
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "value": 5
+    },
+    {
+      "evidence_id": "ev-0007-003",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-003",
+      "value": 15.6666666666667
+    },
+    {
+      "evidence_id": "ev-0008-003",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-003",
+      "value": 29.3333333333333
+    },
+    {
+      "evidence_id": "ev-0009-003",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-003",
+      "value": 5
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "value": -3.70546845269268
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "value": 1.23091490979333
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "value": 3.57770876399966
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "value": 2.86331653162616
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "value": -1.16936916430366
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "value": -2.23606797749979
+    },
+    {
+      "evidence_id": "ev-0007-004",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-004",
+      "value": 0.842151921066519
+    },
+    {
+      "evidence_id": "ev-0008-004",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-004",
+      "value": -0.0615457454896662
+    },
+    {
+      "evidence_id": "ev-0009-004",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-004",
+      "value": -1.34164078649987
+    }
+  ],
+  "links": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0001:dim-001"
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0002:dim-001"
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0003:dim-001"
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0004:dim-001"
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0005:dim-001"
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0006:dim-001"
+    },
+    {
+      "evidence_id": "ev-0007-001",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0007:dim-001"
+    },
+    {
+      "evidence_id": "ev-0008-001",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0008:dim-001"
+    },
+    {
+      "evidence_id": "ev-0009-001",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0009:dim-001"
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0001:dim-002"
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0002:dim-002"
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0003:dim-002"
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0004:dim-002"
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0005:dim-002"
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0006:dim-002"
+    },
+    {
+      "evidence_id": "ev-0007-002",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0007:dim-002"
+    },
+    {
+      "evidence_id": "ev-0008-002",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0008:dim-002"
+    },
+    {
+      "evidence_id": "ev-0009-002",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0009:dim-002"
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0001:dim-003"
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0002:dim-003"
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0003:dim-003"
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0004:dim-003"
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0005:dim-003"
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0006:dim-003"
+    },
+    {
+      "evidence_id": "ev-0007-003",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0007:dim-003"
+    },
+    {
+      "evidence_id": "ev-0008-003",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0008:dim-003"
+    },
+    {
+      "evidence_id": "ev-0009-003",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0009:dim-003"
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0001:dim-004"
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0002:dim-004"
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0003:dim-004"
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0004:dim-004"
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0005:dim-004"
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0006:dim-004"
+    },
+    {
+      "evidence_id": "ev-0007-004",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0007:dim-004"
+    },
+    {
+      "evidence_id": "ev-0008-004",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0008:dim-004"
+    },
+    {
+      "evidence_id": "ev-0009-004",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "table:obs-0009:dim-004"
+    }
+  ],
+  "metadata": {
+    "table_dimensions": [3, 3],
+    "table_levels": {
+      "1": ["narrow", "middle", "wide"],
+      "2": ["setosa", "versicolor", "virginica"]
+    },
+    "total": 150,
+    "source_cells": [
+      {
+        "Var1": "narrow",
+        "Var2": "setosa",
+        "count": 1
+      },
+      {
+        "Var1": "middle",
+        "Var2": "setosa",
+        "count": 36
+      },
+      {
+        "Var1": "wide",
+        "Var2": "setosa",
+        "count": 13
+      },
+      {
+        "Var1": "narrow",
+        "Var2": "versicolor",
+        "count": 27
+      },
+      {
+        "Var1": "middle",
+        "Var2": "versicolor",
+        "count": 23
+      },
+      {
+        "Var1": "wide",
+        "Var2": "versicolor",
+        "count": 0
+      },
+      {
+        "Var1": "narrow",
+        "Var2": "virginica",
+        "count": 19
+      },
+      {
+        "Var1": "middle",
+        "Var2": "virginica",
+        "count": 29
+      },
+      {
+        "Var1": "wide",
+        "Var2": "virginica",
+        "count": 2
+      }
+    ],
+    "test": {
+      "method": "Pearson's Chi-squared test",
+      "data_name": "contingency",
+      "statistic": {
+        "X-squared": 45.1246615087041
+      },
+      "parameter": {
+        "df": 4
+      },
+      "p_value": 3.74560954074129e-09
+    },
+    "wizard": {
+      "analysis": "chi_square",
+      "source_columns": [],
+      "outcome": "Species",
+      "id_column": null,
+      "original_rows": 150,
+      "compiled_rows": 150,
+      "omitted_source_rows": [],
+      "na_action": "fail",
+      "context": {
+        "question": "Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?",
+        "intent": "compare",
+        "intent_label": "Compare outcomes across groups",
+        "unit_of_analysis": "one observation in a built-in R teaching dataset",
+        "outcome": "Species",
+        "id_column": null,
+        "grouping": "width_band",
+        "time": null,
+        "decision_context": "statistical reasoning practice, not a causal or population claim",
+        "dependence_warning": true
+      },
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"Species\", \"width_band\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- sprintf(\"observation-%04d\", source_rows)", "contingency <- table(analysis_data[[\"width_band\"]], analysis_data[[\"Species\"]])", "fit <- suppressWarnings(chisq.test(contingency))", "evidence <- as_rlearnxr_evidence(fit)"]
+    },
+    "pedagogy": {
+      "analysis": "chi_square",
+      "question": "Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?",
+      "context": {
+        "question": "Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?",
+        "intent": "compare",
+        "intent_label": "Compare outcomes across groups",
+        "unit_of_analysis": "one observation in a built-in R teaching dataset",
+        "outcome": "Species",
+        "id_column": null,
+        "grouping": "width_band",
+        "time": null,
+        "decision_context": "statistical reasoning practice, not a causal or population claim",
+        "dependence_warning": true
+      },
+      "diagnostics": [
+        {
+          "id": "cells",
+          "label": "Contingency cells",
+          "value": "9",
+          "status": "ready",
+          "interpretation": "Observed and expected counts are linked cell by cell."
+        },
+        {
+          "id": "expected",
+          "label": "Smallest expected count",
+          "value": "5.00",
+          "status": "ready",
+          "interpretation": "Small expected counts can make the chi-square approximation unreliable."
+        },
+        {
+          "id": "statistic",
+          "label": "Chi-square / p-value",
+          "value": "45.125 / 3.75e-09",
+          "status": "review",
+          "interpretation": "Use standardized residuals to locate cells contributing to the omnibus association."
+        }
+      ],
+      "cautions": ["Association between categorical variables does not establish causation.", "Expected-count assumptions and the sampling design must be checked.", "The data declare grouping by width_band. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used."],
+      "misconceptions": "A significant chi-square result does not mean every cell differs meaningfully from expectation.",
+      "prompts": ["State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?", "Predict which category combinations may appear more or less often than expected under independence.", "Build the contingency table, run chisq.test(), and connect observed counts, expected counts, and standardized residuals.", "Compare cells in the semantic table and 2D plot, prioritizing large absolute standardized residuals.", "Identify a contributing cell, compare observed with expected count, and state an association-not-causation limitation.", "Check expected counts and remove claims that every cell or every individual follows the omnibus pattern.", "Apply observed-versus-expected reasoning to a different contingency cell.", "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson."],
+      "criteria": {
+        "orient": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+        "predict": "Records a falsifiable expectation before inspection",
+        "run_r": "Connects visible R source to the compiled artifact",
+        "explore": "Selects an observation using a stable evidence ID",
+        "explain": ["Names a contingency cell", "Cites observed and expected counts", "Interprets a standardized residual", "States an assumption or causal limitation"],
+        "repair": "Corrects the identified evidence or assumption problem",
+        "transfer": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+        "reproduce": "Verifies source, seed, version, retained rows, and artifact hash"
+      },
+      "outcomes": ["Use the chi_square adapter to address: Are species and sepal-width band associated, and which observed-versus-expected cells support the conclusion?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"]
+    }
+  }
+}

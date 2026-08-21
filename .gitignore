@@ -9,6 +9,10 @@ rlearnxr.Rcheck/
 output/demo/.video-parts/
 output/demo/verify-*.png
 output/playwright/*server*.log
+output/recordings/
+output/speech/
+output/wizard-build/
+..Rcheck/
 grant/isc-submission/_output/
 tmp/
 site/

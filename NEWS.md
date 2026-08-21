@@ -3,26 +3,34 @@
 ## Evidence Compiler
 
 - Added public S3 contracts for lessons, evidence, builds, and learner receipts.
-- Added `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` evidence adapters.
+- Added numeric-summary, table, correlation, bootstrap, t-test, ANOVA,
+  chi-square, `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` evidence adapters.
 - Added stable observation, dimension, and evidence identifiers with provenance links and deterministic hashes.
 - Added `compile_lesson()` for synchronized Evidence IR, semantic data, Quarto, scene, manifest, and check artifacts.
 - Migrated manifests and learner receipts to version 2 contracts.
-- Migrated all five reference lessons to emit and validate Evidence IR.
+- Migrated and expanded ten reference lessons to emit and validate Evidence IR.
+- Added linked semantic table, true 2D, and 3D representations that preserve
+  observation and evidence identifiers across view changes.
 
 ## Guided Lesson Wizard
 
 - Added `profile_learning_data()` and `recommend_lesson_analysis()` to expose variable types, missingness, possible identifiers, method eligibility, and rationale before authoring.
-- Added `lesson_from_data()` to compile local data through direct exploration, principal component analysis, linear regression, binary logistic regression, or k-means while preserving generated R code and source-row accounting.
+- Added `lesson_from_data()` to compile local data through descriptive,
+  inferential, multivariate, regression, classification, or clustering adapters
+  while preserving generated R code and source-row accounting.
 - Made the Lesson Wizard question-first by requiring an analytical question and recording intent, unit of analysis, outcome, grouping, time, and decision context before method recommendation.
 - Bound browser prompts, method diagnostics, criteria, Repair guidance, Quarto export, and learning receipts to the compiled lesson contract instead of fixed PCA-like copy.
 - Added method-specific teaching checks for PCA loadings and variance, linear-model residuals and influence, logistic event/reference/threshold choices, and k-means scaling, initialization, and unresolved stability.
-- Migrated the five reference lessons to v2 contracts and replaced the Learning Analytics profile snapshot with synthetic repeated-session event summaries.
+- Added five foundational statistics lessons and retained the five original v2
+  lessons, including synthetic repeated-session Learning Analytics summaries.
 - Added the optional local `run_lesson_wizard()` Shiny workflow for CSV upload, outcome-aware recommendations, explicit variable and missing-value decisions, eight-stage lesson preview, and portable artifact compilation.
 - Added desktop, mobile, and full-build browser validation for the local CSV workflow.
 
 ## Quality and sustainability
 
 - Added contract edge tests and coverage gates of 85% overall and 95% for Evidence Compiler core files.
+- Reached 90.84% overall coverage and 99.06% coverage for the foundational
+  adapter contract in the local release-candidate audit.
 - Added four authoring vignettes, pkgdown configuration, citation files, JOSS scaffold, research protocols, security/support policies, and schema governance.
 - Preserved the previous public contract at the `v1.1.0` tag while v2 remains on its release-candidate branch.
 

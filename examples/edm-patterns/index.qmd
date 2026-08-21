@@ -87,7 +87,7 @@ Completion evidence:
 - **Cluster sizes:** 2, 2, 2. Very small clusters may be unstable or idiosyncratic.
 - **Between-cluster variance ratio:** 0.924. Use this as descriptive evidence, not proof of natural groups.
 - **Random starts:** 25. Seed 2026 and multiple starts reduce initialization dependence.
-- **Sensitivity across k and seeds:** not yet evaluated. Compare plausible k values and additional seeds before treating a grouping as stable.
+- **Sensitivity across k and seeds:** seed minimum 1.000; mean 1.000. Pairwise co-membership agreement is label-invariant across five additional seeds; still compare plausible k values.
 
 # Interpretation cautions
 
@@ -101,7 +101,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `kmeans` evidence with hash `4227f32fe327aa1b86065bfe3352ddde`.
+This lesson was compiled from `kmeans` evidence with hash `d899f780fc03080ca82e4131e3696a56`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

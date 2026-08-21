@@ -1,10 +1,97 @@
 {
   "report_version": "1",
-
   "path": ".",
-
   "strict": false,
-
-  "checks": [{"check":"project_config","status":"PASS","message":"_quarto.yml exists"},{"check":"lesson_entrypoint","status":"PASS","message":"index.qmd exists"},{"check":"browser_scene","status":"PASS","message":"scene/index.html exists"},{"check":"lesson_manifest","status":"PASS","message":"lesson-manifest.json exists"},{"check":"manifest_contract","status":"PASS","message":"lesson manifest satisfies the version 2 contract"},{"check":"evidence_ir","status":"PASS","message":"Evidence IR satisfies rlearnxr-evidence-2"},{"check":"data_license","status":"PASS","message":"lesson data source, provenance, and reuse terms are documented"},{"check":"data_presence","status":"PASS","message":"data directory contains at least one file"},{"check":"portable_paths","status":"PASS","message":"no common absolute local paths detected"},{"check":"deterministic_seed","status":"PASS","message":"a deterministic seed is declared"},{"check":"education_content","status":"PASS","message":"lesson prose includes objectives, prediction, explanation, and transfer activities"},{"check":"environment_lock","status":"PASS","message":"renv.lock found and contains the expected R and Packages sections"},{"check":"accessible_structure","status":"PASS","message":"keyboard canvas, live feedback, text inputs, and a data table markers are present"},{"check":"static_fallback","status":"PASS","message":"table, source, and learning receipt exports remain available without the visual runtime"},{"check":"ai_safety_markers","status":"PASS","message":"optional AI path omits browser credentials, records the privacy boundary, and validates returned code"},{"check":"learning_loop","status":"PASS","message":"predict, run R, explore, explain, reproduce, and completion controls are present"},{"check":"artifact_hash","status":"PASS","message":"ef0a3faa21c1c78b43bc140713b57074, 4b116798f1c3813743feb44d0b8c3036, 8cb6aefb2af49d8b70c5c95b576e0e5f"},{"check":"quarto_available","status":"WARN","message":"Quarto CLI was not found; CI must render the lesson before release"}]
-
+  "checks": [
+    {
+      "check": "project_config",
+      "status": "PASS",
+      "message": "_quarto.yml exists"
+    },
+    {
+      "check": "lesson_entrypoint",
+      "status": "PASS",
+      "message": "index.qmd exists"
+    },
+    {
+      "check": "browser_scene",
+      "status": "PASS",
+      "message": "scene/index.html exists"
+    },
+    {
+      "check": "lesson_manifest",
+      "status": "PASS",
+      "message": "lesson-manifest.json exists"
+    },
+    {
+      "check": "manifest_contract",
+      "status": "PASS",
+      "message": "lesson manifest satisfies the version 2 contract"
+    },
+    {
+      "check": "evidence_ir",
+      "status": "PASS",
+      "message": "Evidence IR satisfies rlearnxr-evidence-2"
+    },
+    {
+      "check": "data_license",
+      "status": "PASS",
+      "message": "lesson data source, provenance, and reuse terms are documented"
+    },
+    {
+      "check": "data_presence",
+      "status": "PASS",
+      "message": "data directory contains at least one file"
+    },
+    {
+      "check": "portable_paths",
+      "status": "PASS",
+      "message": "no common absolute local paths detected"
+    },
+    {
+      "check": "deterministic_seed",
+      "status": "PASS",
+      "message": "a deterministic seed is declared"
+    },
+    {
+      "check": "education_content",
+      "status": "PASS",
+      "message": "lesson prose includes objectives, prediction, explanation, and transfer activities"
+    },
+    {
+      "check": "environment_lock",
+      "status": "PASS",
+      "message": "renv.lock found and contains the expected R and Packages sections"
+    },
+    {
+      "check": "accessible_structure",
+      "status": "PASS",
+      "message": "keyboard canvas, live feedback, text inputs, and a data table markers are present"
+    },
+    {
+      "check": "static_fallback",
+      "status": "PASS",
+      "message": "table, source, and learning receipt exports remain available without the visual runtime"
+    },
+    {
+      "check": "ai_safety_markers",
+      "status": "PASS",
+      "message": "optional AI path omits browser credentials, records the privacy boundary, and validates returned code"
+    },
+    {
+      "check": "learning_loop",
+      "status": "PASS",
+      "message": "predict, run R, explore, explain, reproduce, and completion controls are present"
+    },
+    {
+      "check": "artifact_hash",
+      "status": "PASS",
+      "message": "096be2d7e3ff9df87d6d7825f112fa17, 2c5e753ed38b5b2257c1bc3f341f3773, 98d2cd2e4102962a9e8575671bad4fe2"
+    },
+    {
+      "check": "quarto_available",
+      "status": "WARN",
+      "message": "Quarto CLI was not found; CI must render the lesson before release"
+    }
+  ]
 }

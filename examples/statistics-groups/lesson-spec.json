@@ -1,0 +1,239 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "statistics-groups",
+  "title": "Compare groups with analysis-of-variance evidence",
+  "outcomes": ["Use the aov adapter to address: How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "9dbf1f8e1361fd08a2ebf0347b9837fd"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict how mpg may differ across the declared groups before running ANOVA.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Run aov(), inspect between- and within-group variation, and connect each outcome to its fitted group mean and residual.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Compare observed outcomes, fitted group means, and residuals across representations.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Interpret the omnibus F evidence and state why it does not identify every differing pair or a causal effect.",
+      "criteria": ["Names an observation or group", "Cites group mean, residual, or F evidence", "Keeps the conclusion omnibus", "States an assumption or causal limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Check residual assumptions and remove unsupported pairwise or causal conclusions.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Apply observed-versus-group-mean reasoning to a different observation.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "describe",
+        "label": "Describe one numeric variable",
+        "available": true,
+        "recommended": false,
+        "reason": "Starts with center, spread, percentile, and distribution evidence for one numeric variable.",
+        "caution": "A sample summary describes retained observations; it does not establish a population value.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": false,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "correlation",
+        "label": "Correlation with paired evidence",
+        "available": true,
+        "recommended": false,
+        "reason": "Connects a correlation estimate to the paired observations that produced it.",
+        "caution": "Correlation measures paired association, not causation; inspect form, outliers, and dependence.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "bootstrap",
+        "label": "Bootstrap a sample mean",
+        "available": true,
+        "recommended": false,
+        "reason": "Uses resampled means to make sampling variability and interval interpretation visible.",
+        "caution": "A bootstrap interval reflects the observed sample and resampling rule, not every source of uncertainty.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "t_test",
+        "label": "Compare two group means",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a numeric outcome and a grouping variable with exactly two levels.",
+        "caution": "Interpret the mean difference with its interval, assumptions, design, and practical importance.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "aov",
+        "label": "Analysis of variance",
+        "available": true,
+        "recommended": true,
+        "reason": "Partitions numeric outcome variation across the declared groups.",
+        "caution": "A significant omnibus F test does not identify which groups differ or establish causation.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "chi_square",
+        "label": "Chi-square association",
+        "available": false,
+        "recommended": false,
+        "reason": "Select categorical outcome and grouping variables with at least two levels each.",
+        "caution": "Inspect expected counts and standardized residuals; association does not establish causation.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": true,
+        "recommended": false,
+        "reason": "Available for a numeric outcome; not recommended because grouped or repeated observations were declared.",
+        "caution": "Use a grouped or longitudinal model for inferential work.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Use a grouped or longitudinal model for inferential work.",
+        "intent": "compare"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "compare"
+      }
+    ],
+    "warnings": "Grouped or repeated observations were declared. Core lm/glm adapters do not model dependence, so regression is not automatically recommended.",
+    "context": {
+      "question": "How does fuel efficiency vary across cylinder groups, and what does the omnibus comparison leave unresolved?",
+      "intent": "compare",
+      "intent_label": "Compare outcomes across groups",
+      "unit_of_analysis": "one observation in a built-in R teaching dataset",
+      "outcome": "mpg",
+      "id_column": null,
+      "grouping": "cylinder_group",
+      "time": null,
+      "decision_context": "statistical reasoning practice, not a causal or population claim",
+      "dependence_warning": true
+    },
+    "diagnostics": [
+      {
+        "id": "groups",
+        "label": "Compared groups",
+        "value": "3",
+        "status": "ready",
+        "interpretation": "The omnibus test compares variation between and within these groups."
+      },
+      {
+        "id": "f-statistic",
+        "label": "Omnibus F statistic",
+        "value": "39.698",
+        "status": "review",
+        "interpretation": "A larger F indicates more between-group variation relative to within-group variation."
+      },
+      {
+        "id": "p-value",
+        "label": "Omnibus p-value",
+        "value": "4.98e-09",
+        "status": "review",
+        "interpretation": "The omnibus result does not identify which group pairs differ."
+      }
+    ],
+    "cautions": ["A significant ANOVA does not identify the differing groups or establish causation.", "Inspect residual assumptions and use planned or multiplicity-aware follow-up comparisons.", "The data declare grouping by cylinder_group. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used."],
+    "misconceptions": "ANOVA is not simply several uncorrected t tests."
+  }
+}

@@ -50,7 +50,7 @@
   "evidence": {
     "schema_version": "rlearnxr-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "4227f32fe327aa1b86065bfe3352ddde"
+    "artifact_hash": "d899f780fc03080ca82e4131e3696a56"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

@@ -37,6 +37,12 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'function syncCourseProgress(completed)', fixed = TRUE)
   expect_match(html, 'COMPLETE \\u00b7 8 OF 8', fixed = TRUE)
   expect_match(html, 'id="points-table"', fixed = TRUE)
+  expect_match(html, 'data-representation="plot2d"', fixed = TRUE)
+  expect_match(html, 'function draw2d()', fixed = TRUE)
+  expect_match(html, 'function setRepresentation(mode', fixed = TRUE)
+  expect_match(html, 'function drawHistogram2d()', fixed = TRUE)
+  expect_match(html, 'function drawBar2d()', fixed = TRUE)
+  expect_match(html, 'plotShell.hidden = tableMode', fixed = TRUE)
   expect_match(html, 'id="compiled-evidence-body"', fixed = TRUE)
   expect_match(html, 'tabindex="0"', fixed = TRUE)
   expect_match(html, 'id="complete-lesson"', fixed = TRUE)
@@ -90,7 +96,6 @@ test_that("render_scene rejects invalid data", {
     render_scene(data.frame(x = 1:3, y = 2:4, z = 3:5), "x", "y", "z", evidence_ids = "bad"),
     "must be a list"
   )
-  expect_equal(rlearnxr:::json_number(Inf), "null")
 })
 
 test_that("validate_scene_data normalizes named axes and labels", {

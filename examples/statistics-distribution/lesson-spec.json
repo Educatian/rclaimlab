@@ -1,0 +1,246 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "statistics-distribution",
+  "title": "Describe a distribution with linked evidence",
+  "outcomes": ["Use the describe adapter to address: What is typical fuel efficiency, how variable is it, and which observations shape that description?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "470bb09c22419493d8f4ad5cdf9ef335"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one observation in a built-in R teaching dataset is the unit of observation, identify each variable role, and restate the question: What is typical fuel efficiency, how variable is it, and which observations shape that description?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict the center, spread, and shape of mpg before inspecting its distribution evidence.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Run the numeric-summary adapter and inspect mean, median, SD, IQR, percentile, and histogram evidence.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Compare exact values, centered values, and percentiles in the table and 2D plot before using the 3D view.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Describe the distribution using one center, one spread, and one shape or unusual-value observation.",
+      "criteria": ["Names a selected observation", "Cites a center", "Cites a spread", "States a sample or shape limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Check whether the selected center and spread match the distribution shape and retained observations.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Apply the same center-spread-shape reasoning to a different part of the distribution.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "describe",
+        "label": "Describe one numeric variable",
+        "available": true,
+        "recommended": true,
+        "reason": "Starts with center, spread, percentile, and distribution evidence for one numeric variable.",
+        "caution": "A sample summary describes retained observations; it does not establish a population value.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": false,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "correlation",
+        "label": "Correlation with paired evidence",
+        "available": true,
+        "recommended": false,
+        "reason": "Connects a correlation estimate to the paired observations that produced it.",
+        "caution": "Correlation measures paired association, not causation; inspect form, outliers, and dependence.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "bootstrap",
+        "label": "Bootstrap a sample mean",
+        "available": true,
+        "recommended": false,
+        "reason": "Uses resampled means to make sampling variability and interval interpretation visible.",
+        "caution": "A bootstrap interval reflects the observed sample and resampling rule, not every source of uncertainty.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "t_test",
+        "label": "Compare two group means",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a numeric outcome and a grouping variable with exactly two levels.",
+        "caution": "Interpret the mean difference with its interval, assumptions, design, and practical importance.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "aov",
+        "label": "Analysis of variance",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a numeric outcome and a grouping variable with at least two levels.",
+        "caution": "A significant omnibus F test does not identify which groups differ or establish causation.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "chi_square",
+        "label": "Chi-square association",
+        "available": false,
+        "recommended": false,
+        "reason": "Select categorical outcome and grouping variables with at least two levels each.",
+        "caution": "Inspect expected counts and standardized residuals; association does not establish causation.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a non-binary numeric outcome and at least one numeric predictor.",
+        "caution": "Check residuals, influence, independence, and uncertainty.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Declare the modeled event, reference level, class balance, and threshold.",
+        "intent": "describe"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "describe"
+      }
+    ],
+    "warnings": [],
+    "context": {
+      "question": "What is typical fuel efficiency, how variable is it, and which observations shape that description?",
+      "intent": "describe",
+      "intent_label": "Summarize one numeric variable",
+      "unit_of_analysis": "one observation in a built-in R teaching dataset",
+      "outcome": null,
+      "id_column": null,
+      "grouping": null,
+      "time": null,
+      "decision_context": "statistical reasoning practice, not a causal or population claim",
+      "dependence_warning": false
+    },
+    "diagnostics": [
+      {
+        "id": "sample-size",
+        "label": "Retained observations",
+        "value": "32",
+        "status": "ready",
+        "interpretation": "All summaries refer to these complete observations."
+      },
+      {
+        "id": "center",
+        "label": "Mean / median",
+        "value": "20.091 / 19.200",
+        "status": "review",
+        "interpretation": "Compare both when the distribution is skewed or has unusual values."
+      },
+      {
+        "id": "spread",
+        "label": "SD / IQR",
+        "value": "6.027 / 7.375",
+        "status": "review",
+        "interpretation": "Standard deviation and IQR describe spread differently."
+      },
+      {
+        "id": "range",
+        "label": "Minimum / maximum",
+        "value": "10.400 / 33.900",
+        "status": "review",
+        "interpretation": "Inspect extremes before calling them errors or outliers."
+      }
+    ],
+    "cautions": ["A sample summary does not establish a population value.", "Center and spread should be interpreted with the distribution shape."],
+    "misconceptions": "The mean is not necessarily a typical observed value, especially in a skewed distribution."
+  }
+}

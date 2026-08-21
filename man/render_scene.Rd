@@ -7,7 +7,7 @@ render_scene(
   data, x, y, z, labels = NULL, observation_ids = NULL,
   evidence_ids = NULL, output_dir = "scene",
   title = "R-LearnXR 3D Scene", learning_contract = NULL,
-  overwrite = FALSE
+  min_rows = 3L, overwrite = FALSE
 )
 }
 \arguments{
@@ -19,6 +19,7 @@ render_scene(
   \item{output_dir}{Directory in which to write the scene files.}
   \item{title}{Scene title.}
   \item{learning_contract}{Optional \code{rlearnxr_lesson} or browser-contract list used to render method-specific prompts, criteria, diagnostics, and provenance.}
+  \item{min_rows}{Minimum number of observations accepted by the renderer. The compiler may lower this for table/2D-first aggregate evidence.}
   \item{overwrite}{Logical; replace existing scene files when \code{TRUE}.}
 }
 \value{Invisibly, a list containing paths to the generated HTML, point JSON, and Evidence IR files.}
