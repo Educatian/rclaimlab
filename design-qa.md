@@ -52,12 +52,12 @@ The product-design audit identified one remaining risk: the strongest learning s
 - Mobile result connection: `output/audit/design-improvements/07-mobile-evidence-connection.png`
 - Mobile overflow check: 390 px viewport, `scrollWidth == clientWidth`
 - Package tests: `pkgload::load_all('.')` plus `testthat::test_dir('tests/testthat')` passed
-- Strict lesson checks: all three reference lessons passed with the pinned Quarto binary
+- Strict lesson checks: all five reference lessons passed with the pinned Quarto binary
 - Final browser QA: keyboard canvas controls, labelled inputs, landmarks, reduced-motion CSS, and 200% zoom with no horizontal overflow
 
 ## Intentional deviations from Figma
 
-- The implementation adds a real WebR editor, console, checks, reproducibility record, downloads, and a six-step learning path because the Figma source is a static visual reference.
+- The implementation adds a real WebR editor, console, checks, reproducibility record, downloads, and an eight-step learning path because the Figma source is a static visual reference.
 - The companion uses internal dividers and a compact saved state to support sustained work at desktop density.
 - Point positions are produced by learner-executed R, so the canvas preserves the Figma visual grammar while adapting to live data.
 
@@ -69,3 +69,31 @@ The product-design audit identified one remaining risk: the strongest learning s
 - The lesson shell now uses the concise brand line `From R code to evidence` beneath `R-LearnXR`.
 - Browser evidence: `output/audit/design-improvements/13-browser-title-desktop.png` and `14-browser-title-mobile.png`.
 - Responsive result: 390 px viewport, `scrollWidth == clientWidth == 375`; no clipping or horizontal overflow.
+
+## Storyboard completion pass
+
+Date: 2026-08-20
+
+Reference design: Figma file `jZ0W2ieUoSRwZtrMUKru8g`, explore lesson node `1:13`
+
+Implementation reference: `inst/templates/scene.html`
+
+The Figma-grounded shell and the current 1440 by 920 browser implementation retain the same three-part instructional hierarchy: learning path, dominant laboratory scene, and learning companion. The current implementation uses the repository's semantic tokens, compact instructional density, rectangular controls, visible focus states, and a single primary scene.
+
+| Priority | Finding | Resolution |
+|---|---|---|
+| P0 | Orient appeared complete without learner evidence | Added validated, persisted Orient response |
+| P0 | Explanation omitted a distinct limitation criterion | Added four criteria and a gated Repair step |
+| P0 | Selecting a second point could satisfy Transfer | Added required transfer comparison response |
+| P0 | Lesson and course completion were independent | Added evidence-backed local progress synchronization |
+| P1 | Six-step rail hid the repair and transfer structure | Expanded to eight visible, responsive learning steps |
+| P1 | Completion lacked an inspectable final state | Added provenance summary, downloads, receipt, and next-module handoff |
+| P2 | Narrow layouts risked crowded step labels | Added 8, 4, and 2-column rail breakpoints and verified zero document overflow at 375 CSS pixels |
+
+Final checks:
+
+- Desktop 1440 by 920: no component collision or clipped primary control observed.
+- Mobile 390 by 844 override: no horizontal document overflow; explanation criteria, transfer response, downloads, and receipt remain usable.
+- Essential learning content remains visible on mobile. No instructional section was hidden to fit the viewport.
+- Focus outlines are deliberately visible for keyboard navigation.
+- Evidence is stored in `output/audit/storyboard-completion/`.

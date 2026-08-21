@@ -1,6 +1,8 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
+source(file.path(root, "R", "lesson_bundle.R"))
+source(file.path(root, "R", "evidence_adapters.R"))
 source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "check_lesson.R"))
 

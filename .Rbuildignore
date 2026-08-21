@@ -23,3 +23,16 @@
 ^CONTENT_LICENSE\.md$
 ^rlearnxr\.Rproj$
 ^responsive-audit\.md$
+^\.Rproj\.user$
+^\.Rhistory$
+^\.\.Rcheck$
+^rlearnxr\.Rcheck$
+^_pkgdown\.yml$
+^CITATION\.cff$
+^cran-comments\.md$
+^governance$
+^paper$
+^research$
+^SECURITY\.md$
+^SUPPORT\.md$
+^site$

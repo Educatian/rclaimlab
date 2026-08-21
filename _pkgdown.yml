@@ -1,0 +1,32 @@
+url: https://educatian.github.io/rlearnxr/
+destination: site
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#155EEF"
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Sans 3"}
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+articles:
+  - title: Start authoring
+    contents:
+      - author-first-lesson
+      - evidence-compiler
+  - title: Extend and evaluate
+    contents:
+      - adapter-development
+      - accessibility-and-receipts
+reference:
+  - title: Evidence Compiler
+    contents: [as_rlearnxr_evidence, read_rlearnxr_evidence, write_rlearnxr_evidence, validate_rlearnxr_evidence]
+  - title: Lesson specifications
+    contents: [lesson_spec, task_spec, representation_spec, compile_lesson, validate_lesson_spec]
+  - title: Manifests and receipts
+    contents: [write_lesson_manifest, read_lesson_manifest, validate_lesson_manifest, write_learning_receipt, read_learning_receipt, validate_learning_receipt]
+  - title: Rendering and checks
+    contents: [render_scene, validate_scene_data, scaffold_lesson, check_lesson]
+  - title: Course, bundles, and educator console
+    contents: [course-catalog, lesson-bridge, run_rlearnxr_shiny]

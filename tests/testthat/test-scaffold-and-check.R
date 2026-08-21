@@ -15,7 +15,7 @@ test_that("scaffold_lesson produces a checkable lesson", {
   expect_true(file.exists(file.path(path, "lesson-manifest.json")))
   manifest <- read_lesson_manifest(path)
   expect_true(validate_lesson_manifest(manifest))
-  expect_equal(manifest$manifest_version, "1.0")
+  expect_equal(manifest$manifest_version, "2.0")
   expect_equal(manifest$r_contract$required_columns, c("label", "x", "y", "z"))
 
   strict <- check_lesson(path, write_report = FALSE, strict = TRUE)
@@ -24,13 +24,14 @@ test_that("scaffold_lesson produces a checkable lesson", {
 
 test_that("validate_lesson_manifest rejects unsafe artifact paths", {
   manifest <- list(
-    manifest_version = "1.0", lesson_id = "x", title = "x",
+    manifest_version = "2.0", lesson_id = "x", title = "x",
     r_contract = list(required_columns = c("label", "x", "y", "z")),
     reproducibility = list(seed = 2026, web_r_version = "0.6.0"),
     privacy = list(storage = "browser-local", export_consent_required = TRUE),
     education = list(audience = "learners", estimated_minutes = 15,
                      objectives = c("a", "b", "c")),
-    artifacts = list(lesson_entrypoint = "../outside.qmd", scene = "scene/index.html", points = "scene/points.json")
+    evidence = list(schema_version = "rlearnxr-evidence-2", artifact = "scene/evidence.json"),
+    artifacts = list(lesson_entrypoint = "../outside.qmd", scene = "scene/index.html", points = "scene/points.json", evidence = "scene/evidence.json")
   )
   expect_error(validate_lesson_manifest(manifest), "relative")
 })

@@ -19,7 +19,7 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
       validate_lesson_manifest(path)
       TRUE
     }, error = function(error) error)
-    if (isTRUE(manifest_check)) add("manifest_contract", "PASS", "lesson manifest satisfies the version 1 contract")
+    if (isTRUE(manifest_check)) add("manifest_contract", "PASS", "lesson manifest satisfies the version 2 contract")
     else add("manifest_contract", "FAIL", conditionMessage(manifest_check))
   }
   receipt_path <- file.path(path, "checks", "learning-receipt.json")
@@ -28,8 +28,22 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
       validate_learning_receipt(receipt_path)
       TRUE
     }, error = function(error) error)
-    if (isTRUE(receipt_check)) add("receipt_contract", "PASS", "learning receipt satisfies the version 1 contract")
+    if (isTRUE(receipt_check)) add("receipt_contract", "PASS", "learning receipt satisfies the version 2 contract")
     else add("receipt_contract", "FAIL", conditionMessage(receipt_check))
+  }
+
+  evidence_path <- file.path(path, "scene", "evidence.json")
+  root_evidence_path <- file.path(path, "evidence.json")
+  declared_evidence_path <- if (file.exists(root_evidence_path)) root_evidence_path else evidence_path
+  if (file.exists(declared_evidence_path)) {
+    evidence_check <- tryCatch({
+      read_rlearnxr_evidence(declared_evidence_path)
+      TRUE
+    }, error = function(error) error)
+    if (isTRUE(evidence_check)) add("evidence_ir", "PASS", "Evidence IR satisfies rlearnxr-evidence-2")
+    else add("evidence_ir", "FAIL", conditionMessage(evidence_check))
+  } else {
+    add("evidence_ir", "FAIL", "evidence.json is missing")
   }
 
   license_candidates <- c("DATA_LICENSE.md", "DATA_LICENSE", "LICENSE.md", "LICENSE")
@@ -126,13 +140,13 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
     add("learning_loop", "FAIL", "scene does not contain the complete learner loop")
   }
 
-  artifact_files <- file.path(path, c("scene/index.html", "scene/points.json"))
+  artifact_files <- file.path(path, c("scene/index.html", "scene/points.json", if (file.exists(root_evidence_path)) "evidence.json" else "scene/evidence.json"))
   artifact_files <- artifact_files[file.exists(artifact_files)]
-  if (length(artifact_files) == 2L) {
+  if (length(artifact_files) == 3L) {
     hashes <- unname(tools::md5sum(artifact_files))
     add("artifact_hash", "PASS", paste(hashes, collapse = ", "))
   } else {
-    add("artifact_hash", "FAIL", "both generated scene artifacts are required")
+    add("artifact_hash", "FAIL", "scene, point, and Evidence IR artifacts are required")
   }
 
   quarto_env <- Sys.getenv("QUARTO_PATH", unset = "")

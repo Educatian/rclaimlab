@@ -4,11 +4,12 @@
 #' @param x,y,z Names of the columns used for the three scene axes.
 #' @param labels Optional point labels. If omitted, an existing `label` column,
 #'   row names, or stable point names are used.
+#' @param observation_ids Optional stable Evidence IR observation identifiers.
 #' @param min_rows Minimum number of observations required for a meaningful scene.
 #' @return A data frame with exactly `label`, `x`, `y`, and `z` columns.
 #' @export
 validate_scene_data <- function(data, x = "x", y = "y", z = "z", labels = NULL,
-                                min_rows = 3L) {
+                                observation_ids = NULL, min_rows = 3L) {
   if (!is.data.frame(data)) stop("data must be a data.frame", call. = FALSE)
   axes <- c(x, y, z)
   if (!is.character(axes) || length(axes) != 3L || anyNA(axes) ||
@@ -41,7 +42,16 @@ validate_scene_data <- function(data, x = "x", y = "y", z = "z", labels = NULL,
   if (anyNA(labels) || any(!nzchar(trimws(labels))) || anyDuplicated(labels)) {
     stop("labels must be non-empty, non-missing, and unique", call. = FALSE)
   }
+  if (is.null(observation_ids)) {
+    observation_ids <- if ("observation_id" %in% names(data)) data$observation_id else sprintf("obs-%04d", seq_len(nrow(data)))
+  }
+  observation_ids <- as.character(observation_ids)
+  if (length(observation_ids) != nrow(data) || anyNA(observation_ids) ||
+      any(!nzchar(trimws(observation_ids))) || anyDuplicated(observation_ids)) {
+    stop("observation_ids must be non-empty, non-missing, unique, and match the rows", call. = FALSE)
+  }
   data.frame(
+    observation_id = observation_ids,
     label = labels,
     x = as.numeric(data[[x]]),
     y = as.numeric(data[[y]]),

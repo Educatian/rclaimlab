@@ -4,6 +4,8 @@ R-LearnXR is static-site-friendly v1 infrastructure, but its first browser execu
 
 For repository authors, RStudio's Git integration requires a local Git installation. Quarto is required to render lesson pages, while the package API itself can be installed from GitHub with `remotes::install_github()` or from a cloned checkout with `remotes::install_local(".")`. Run `Rscript scripts/diagnose_environment.R` before setup so missing tools are visible.
 
+Shiny is an optional author-side dependency. `run_rlearnxr_shiny()` provides a local educator console for catalog validation, lesson opening, and strict checks; it is not required for learners, static deployment, or the browser-based WebR lesson.
+
 This is an explicit release limitation:
 
 - Author-side R rendering, Quarto output, the JSON scene artifact, and the semantic table remain available without WebR execution.

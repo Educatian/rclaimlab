@@ -257,19 +257,21 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .companion { grid-column: 3; grid-row: 2; min-height: 0; padding: 28px 20px 20px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; background: var(--color-surface); border-left: 1px solid var(--color-border); }
 .companion h2 { margin: 7px 0 16px; font-size: 21px; line-height: 1.15; letter-spacing: -.03em; }
 .companion-card { margin: 0; padding: 16px 0; border-bottom: 1px solid var(--color-border); background: transparent; }
-.prediction-card { padding: 14px; border: 1px solid #c7d8f4; border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.orient-card, .prediction-card { padding: 14px; border: 1px solid #c7d8f4; border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
+.orient-card[data-state="saved"] { padding: 12px 14px; border-color: var(--color-border); border-left-color: var(--color-success); background: var(--color-surface-subtle); }
 .prediction-card[data-state="saved"] { padding: 12px 14px; border-color: var(--color-border); border-left-color: var(--color-success); background: var(--color-surface-subtle); }
 .prediction-card[data-state="saved"] h3 { margin: 7px 0 4px; font-size: 13px; }
 .prediction-summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-top: 8px; }
 .prediction-summary p { min-width: 0; display: -webkit-box; overflow: hidden; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; }
 .link-button { min-height: 30px; padding: 4px 8px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); color: var(--color-primary); font-size: 10px; font-weight: 800; }
 .companion-card[data-current="true"] { box-shadow: inset 3px 0 0 var(--color-primary); }
-.prediction-edit[hidden], .prediction-summary[hidden] { display: none; }
+.orient-edit[hidden], .orient-summary[hidden], .prediction-edit[hidden], .prediction-summary[hidden] { display: none; }
 .prediction-card + .companion-card { margin-top: 4px; }
 .card-label { color: var(--color-primary); font-size: 10px; font-weight: 850; letter-spacing: .03em; }
 .observation-card .card-label { color: var(--color-teal); }
 .explanation-card .card-label { color: var(--color-warning); }
 .transfer-card .card-label { color: var(--color-success); }
+.reproduce-card .card-label { color: var(--color-primary); }
 .companion-card h3 { margin: 10px 0 8px; font-size: 14px; line-height: 1.24; }
 .companion-card p { margin: 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.48; }
 .field-label { display: block; margin-top: 12px; color: var(--color-text); font-size: 11px; font-weight: 750; }
@@ -288,14 +290,30 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .field-status, .feedback { min-height: 18px; margin-top: 9px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
 .feedback[data-state="error"] { color: var(--color-danger); }
 .feedback[data-state="success"] { color: var(--color-success); font-weight: 750; }
-.transfer-card[hidden] { display: none; }
+.criteria-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+.criterion { display: flex; align-items: center; gap: 6px; min-height: 34px; padding: 6px 8px; border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text-muted); background: var(--color-surface-subtle); font-size: 10px; font-weight: 800; }
+.criterion::before { content: "○"; color: var(--color-text-muted); }
+.criterion[data-state="pass"] { border-color: #a9d6bd; color: var(--color-success); background: #edf8f2; }
+.criterion[data-state="pass"]::before { content: "✓"; color: var(--color-success); }
+.criterion[data-state="missing"] { border-color: #efb8b3; color: var(--color-danger); background: #fff1f0; }
+.criterion[data-state="missing"]::before { content: "!"; color: var(--color-danger); }
+.transfer-evidence { margin-top: 10px; padding: 9px; border-left: 3px solid var(--color-teal); background: #eefafa; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
+.repro-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+.repro-summary div { min-width: 0; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface-subtle); }
+.repro-summary span { display: block; color: var(--color-text-muted); font-size: 8px; font-weight: 850; text-transform: uppercase; }
+.repro-summary strong { display: block; margin-top: 4px; overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.completion-receipt { margin-top: 12px; padding: 12px; border: 1px solid #a9d6bd; border-radius: var(--radius-control); background: #edf8f2; }
+.completion-receipt h3 { margin: 0 0 6px; color: var(--color-success); }
+.completion-receipt p { color: var(--color-text); }
+.course-return { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-control); background: var(--color-primary); color: #fff; text-decoration: none; font-size: 11px; font-weight: 850; }
+.transfer-card[hidden], .reproduce-card[hidden], .completion-receipt[hidden] { display: none; }
 .tip { margin-top: 14px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 @media (max-width: 1120px) {
   .app { grid-template-columns: minmax(0, 1fr) minmax(280px, 320px); grid-template-rows: 72px auto 1fr; }
   .rail { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px 20px; padding: 16px 24px; border-right: 0; border-bottom: 1px solid var(--color-border); }
   .rail-title { margin: 5px 0 0; }
-  .step-list { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: visible; }
+  .step-list { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: repeat(8, minmax(0, 1fr)); overflow: visible; }
   .step-row { min-width: 0; gap: 6px; padding: 0 4px; }
   .step-index { width: 24px; height: 24px; flex-basis: 24px; }
   .step-name { min-width: 0; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
@@ -316,7 +334,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .status-chip { padding: 8px 10px; }
   .rail { display: block; padding: 14px 16px; overflow: visible; border-bottom: 1px solid var(--color-border); }
   .rail-title { margin: 5px 0 12px; }
-  .step-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; overflow: visible; padding: 0; }
+  .step-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; overflow: visible; padding: 0; }
   .step-row { width: 100%; min-height: 38px; padding: 0 7px; gap: 7px; }
   .step-index { width: 22px; height: 22px; flex-basis: 22px; }
   .step-name { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
@@ -357,6 +375,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .run-button { grid-column: 1 / -1; }
 }
 @media (max-width: 560px) {
+  .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .status-chip { white-space: normal; line-height: 1.2; }
   .view-tab { padding-inline: 4px; font-size: 9px; letter-spacing: 0; }
   .tab-state { display: none; }
@@ -377,7 +396,6 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .brand-title { font-size: 16px; }
   .status-chip { gap: 6px; padding: 7px 8px; font-size: 10px; }
   .status-dot { width: 7px; height: 7px; }
-  .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .step-name { overflow: visible; text-overflow: clip; }
   .title-row { gap: 10px; }
   .title-row h1 { font-size: 23px; }
@@ -406,18 +424,20 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   <nav class="rail" aria-label="Learning path">
     <div><div class="eyebrow">Learning path</div><div class="rail-title">Data exploration workflow</div></div>
     <div class="step-list">
-      <button class="step-row" type="button" data-step="1" data-target="learning-goal" data-state="done"><span class="step-index">1</span><span class="step-name">Orient</span><span class="step-current">DONE</span></button>
-      <button class="step-row" type="button" data-step="2" data-target="prediction-input" aria-current="step"><span class="step-index">2</span><span class="step-name">Predict</span><span class="step-current">CURRENT</span></button>
+      <button class="step-row" type="button" data-step="1" data-target="orient-input" aria-current="step"><span class="step-index">1</span><span class="step-name">Orient</span><span class="step-current">CURRENT</span></button>
+      <button class="step-row" type="button" data-step="2" data-target="prediction-input"><span class="step-index">2</span><span class="step-name">Predict</span><span class="step-current"></span></button>
       <button class="step-row" type="button" data-step="3" data-target="r-code-editor" data-view="r"><span class="step-index">3</span><span class="step-name">Run R</span><span class="step-current"></span></button>
       <button class="step-row" type="button" data-step="4" data-target="scene" data-view="scene"><span class="step-index">4</span><span class="step-name">Explore</span><span class="step-current"></span></button>
       <button class="step-row" type="button" data-step="5" data-target="explanation-input"><span class="step-index">5</span><span class="step-name">Explain</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="6" data-target="transfer-card"><span class="step-index">6</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="6" data-target="explanation-feedback"><span class="step-index">6</span><span class="step-name">Repair</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="7" data-target="transfer-input"><span class="step-index">7</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="8" data-target="reproduce-card" data-view="r"><span class="step-index">8</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
     </div>
     <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p>Run an R transformation, inspect the updated 3D result, and explain one coordinate as evidence.</p><small>Estimated time: 10 minutes</small></section>
   </nav>
 
   <section class="main" id="lesson-main">
-    <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 2 OF 6</div></div>
+    <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
     <div class="scene-card">
       <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
       <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
@@ -487,22 +507,38 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     </div>
   </section>
 
-  <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2>Notice, then explain</h2>
-    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>What pattern should the R filter retain?</h3><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Your response is saved only in this browser.</div></section>
-    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 OBSERVE</div><div class="selected-row"><h3>Selected point</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
-    <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN</div><h3>Why might this point matter for the analysis?</h3><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Connect at least one coordinate to your claim."></textarea><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" aria-live="polite">Use the selected point and at least one axis as evidence.</div></section>
-    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the same reasoning to another point.</h3><p id="transfer-prompt">Select a different point and compare one coordinate with your current evidence.</p><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite"></div></section>
-    <div class="tip">Tip: A strong explanation names a point, an axis, and what the coordinate means.</div>
+  <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2>Build an evidence-backed explanation</h2>
+    <section class="companion-card orient-card" id="orient-card" data-state="editing"><div class="card-label">00 ORIENT</div><h3>How does R become a data space?</h3><div class="orient-edit" id="orient-edit"><label class="field-label" for="orient-input">Complete the data contract in your own words</label><textarea class="field" id="orient-input" placeholder="One row represents… label identifies… and x, y, z describe…"></textarea><div class="button-row"><button class="secondary-button" id="save-orient" type="button">Confirm orientation</button></div></div><div class="orient-summary" id="orient-summary" hidden><p id="orient-summary-text"></p><button class="link-button" id="edit-orient" type="button">Edit</button></div><div class="field-status" id="orient-status" aria-live="polite">Name what one row represents and what the coordinates describe.</div></section>
+    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>What pattern should the R filter retain?</h3><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Complete Orient before saving a prediction.</div></section>
+    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3>Selected point</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
+    <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN + REPAIR</div><h3>Why might this point matter for the analysis?</h3><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Name the point, an axis and direction, then state what this evidence cannot prove."></textarea><div class="criteria-grid" aria-label="Explanation criteria"><div class="criterion" id="criterion-point">Point</div><div class="criterion" id="criterion-axis">Axis</div><div class="criterion" id="criterion-direction">Direction</div><div class="criterion" id="criterion-limitation">Limitation</div></div><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" tabindex="-1" aria-live="polite">Use the selected point, an axis and direction, and a limitation.</div></section>
+    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the reasoning to a different point.</h3><p id="transfer-prompt">Select a different point, then compare one coordinate with your original evidence.</p><div class="transfer-evidence" id="transfer-evidence">No second point selected yet.</div><label class="field-label" for="transfer-input">Transfer response</label><textarea class="field" id="transfer-input" placeholder="Compared with the first point, this point has… This means…"></textarea><div class="button-row"><button class="check-button" id="check-transfer" type="button">Check transfer</button></div><div class="feedback" id="transfer-feedback" aria-live="polite">Completion requires a changed point and a written comparison.</div></section>
+    <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p>Download the editable R analysis, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button" id="download-r-companion" type="button">Download .R</button><button class="link-button" id="download-qmd-companion" type="button">Download .qmd</button><button class="link-button" id="download-receipt-companion" type="button">Download receipt</button></div><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
+    <div class="tip">A strong explanation names a point, an axis and direction, and what the evidence cannot prove.</div>
   </aside>
 </main>
 <script>
 const initialPoints = {{POINTS_JSON}};
-let points = initialPoints.map(point => ({...point}));
+function normalizePointIdentity(point, index) {
+  const baseline = initialPoints.find(candidate => String(candidate.label) === String(point.label));
+  return {
+    ...point,
+    observation_id: String(point.observation_id || (baseline && baseline.observation_id) || ("obs-" + String(index + 1).padStart(4, "0"))),
+    evidence_ids: Array.isArray(point.evidence_ids) ? [...point.evidence_ids] : baseline && Array.isArray(baseline.evidence_ids) ? [...baseline.evidence_ids] : []
+  };
+}
+let points = initialPoints.map(normalizePointIdentity);
 const canvas = document.getElementById("scene");
 const ctx = canvas.getContext("2d");
 const pointName = document.getElementById("point-name");
 const pointCoords = document.getElementById("point-coords");
 const pointObservation = document.getElementById("point-observation");
+const orientInput = document.getElementById("orient-input");
+const orientStatus = document.getElementById("orient-status");
+const orientCard = document.getElementById("orient-card");
+const orientEdit = document.getElementById("orient-edit");
+const orientSummary = document.getElementById("orient-summary");
+const orientSummaryText = document.getElementById("orient-summary-text");
 const predictionInput = document.getElementById("prediction-input");
 const predictionStatus = document.getElementById("prediction-status");
 const predictionCard = document.getElementById("prediction-card");
@@ -511,9 +547,20 @@ const predictionSummary = document.getElementById("prediction-summary");
 const predictionSummaryText = document.getElementById("prediction-summary-text");
 const explanationInput = document.getElementById("explanation-input");
 const explanationFeedback = document.getElementById("explanation-feedback");
+const criteria = {
+  point: document.getElementById("criterion-point"),
+  axis: document.getElementById("criterion-axis"),
+  direction: document.getElementById("criterion-direction"),
+  limitation: document.getElementById("criterion-limitation")
+};
 const transferCard = document.getElementById("transfer-card");
+const transferInput = document.getElementById("transfer-input");
+const transferEvidence = document.getElementById("transfer-evidence");
+const transferFeedback = document.getElementById("transfer-feedback");
+const reproduceCard = document.getElementById("reproduce-card");
 const completeLesson = document.getElementById("complete-lesson");
 const completionFeedback = document.getElementById("completion-feedback");
+const completionReceipt = document.getElementById("completion-receipt");
 const lessonStatus = document.getElementById("lesson-status");
 const statusText = document.getElementById("lesson-status-text");
 const stepCount = document.getElementById("step-count");
@@ -555,6 +602,7 @@ const aiGeneratedCode = document.getElementById("ai-generated-code");
 const aiResultStatus = document.getElementById("ai-result-status");
 const colors = ["#2563eb", "#078999", "#7c3aed", "#c0266d", "#c64e08", "#128553"];
 const storageKey = "rlearnxr:" + document.title;
+const courseProgressKey = "rlearnxr:rlearnxr-foundations:progress:v1";
 let yaw = 0.72;
 let pitch = 0.46;
 let zoom = 1.0;
@@ -563,10 +611,15 @@ let moved = false;
 let last = null;
 let hoverIndex = null;
 let selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
-let currentStep = 2;
+let currentStep = 1;
+let orientationPassed = false;
+let evidenceSelected = false;
+let explanationAttempted = false;
 let explanationPassed = false;
 let explanationPointLabel = null;
 let transferReady = false;
+let transferPointLabel = null;
+let lessonCompleted = false;
 let webRInstance = null;
 let webRVersion = null;
 let rRunPassed = false;
@@ -576,6 +629,65 @@ let aiBrief = null;
 
 function rString(value) {
   return '"' + String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+}
+
+function lessonContext() {
+  const folder = window.location.pathname.split("/").filter(Boolean).slice(-3, -2)[0] || "lesson";
+  const modules = {
+    lesson: {id: "r-foundations", next: "Find structure with PCA"},
+    "penguin-pca": {id: "statistics-pca", next: "Explain efficiency patterns"},
+    "mtcars-efficiency": {id: "statistics-efficiency", next: "From event to learning construct"},
+    "learning-analytics": {id: "learning-analytics", next: "Discover patterns responsibly"},
+    "edm-patterns": {id: "edm-patterns", next: "Review another module or your receipt"}
+  };
+  return modules[folder] || {id: folder, next: "Continue from the course home"};
+}
+
+function setOrientMode(saved) {
+  orientationPassed = saved;
+  orientCard.dataset.state = saved ? "saved" : "editing";
+  orientEdit.hidden = saved;
+  orientSummary.hidden = !saved;
+  orientSummaryText.textContent = saved ? orientInput.value.trim() : "";
+  if (!saved) orientInput.focus({preventScroll: true});
+}
+
+function explanationCriteria(text, selected) {
+  const label = String(selected && selected.label ? selected.label : "").trim();
+  return {
+    point: Boolean(label) && text.toLowerCase().includes(label.toLowerCase()),
+    axis: /(^|\W)[xyz](\W|$)/i.test(text),
+    direction: /(positive|negative|above|below|higher|lower|increase|decrease|near|zero|greater|less)/i.test(text),
+    limitation: /(cannot|can not|does not|doesn't|not prove|single point|one point|limited|limitation|uncertain|uncertainty|association|causal|may not|might not)/i.test(text)
+  };
+}
+
+function renderCriteria(result, markMissing = false) {
+  Object.entries(criteria).forEach(([name, element]) => {
+    const state = result[name] ? "pass" : markMissing ? "missing" : "";
+    if (state) element.dataset.state = state;
+    else element.removeAttribute("data-state");
+  });
+}
+
+function updateReproSummary() {
+  document.getElementById("receipt-runtime").textContent = webRVersion || "WebR 0.6.0";
+  document.getElementById("receipt-seed").textContent = /set\.seed\s*\(\s*2026\s*\)/.test(rCodeEditor.value) ? "2026" : "Missing";
+  document.getElementById("receipt-rows").textContent = rRunPassed ? points.length + " returned" : "Pending";
+  document.getElementById("receipt-hash").textContent = rRunPassed ? document.getElementById("artifact-hash").textContent : "Pending";
+}
+
+function syncCourseProgress(completed) {
+  try {
+    const context = lessonContext();
+    const progress = JSON.parse(localStorage.getItem(courseProgressKey) || "{}");
+    progress.last = context.id;
+    if (completed) progress[context.id] = true;
+    localStorage.setItem(courseProgressKey, JSON.stringify(progress));
+    document.getElementById("next-module-text").textContent = "Next: " + context.next;
+  } catch (error) {
+    completionFeedback.textContent = "Lesson complete. Course progress could not be synchronized in this browser.";
+  }
 }
 
 function defaultRCode() {
@@ -739,14 +851,23 @@ function aiProvenance() {
 
 function learningReceipt() {
   const selected = points[selectedIndex] || null;
+  const evidence = points.find(point => String(point.label) === explanationPointLabel) || null;
+  const context = lessonContext();
   return {
-    schema_version: "rlearnxr_learning_receipt/1",
+      receipt_version: "2.0",
+      schema_version: "rlearnxr-receipt-2",
     generated_at: new Date().toISOString(),
     lesson: document.title,
-    outcome: statusText.textContent === "Lesson complete" ? "complete" : rRunPassed ? "r_verified" : "in_progress",
+    course_id: "rlearnxr-foundations",
+    module_id: context.id,
+    outcome: lessonCompleted ? "complete" : rRunPassed ? "r_verified" : "in_progress",
+    orientation: orientInput.value.trim(),
     prediction: predictionInput.value.trim(),
     explanation: explanationInput.value.trim(),
-    selected_point: selected ? {label: String(selected.label), x: Number(selected.x), y: Number(selected.y), z: Number(selected.z)} : null,
+    explanation_criteria: explanationCriteria(explanationInput.value.trim(), evidence || selected),
+    evidence_point: evidence ? {observation_id: evidence.observation_id, evidence_ids: evidence.evidence_ids, label: String(evidence.label), x: Number(evidence.x), y: Number(evidence.y), z: Number(evidence.z)} : null,
+    transfer_response: transferInput.value.trim(),
+    transfer_point: selected ? {observation_id: selected.observation_id, evidence_ids: selected.evidence_ids, label: String(selected.label), x: Number(selected.x), y: Number(selected.y), z: Number(selected.z)} : null,
     reproducibility: {
       runtime: webRVersion || "WebR 0.6.0",
       seed: /set\.seed\s*\(\s*2026\s*\)/.test(rCodeEditor.value) ? 2026 : null,
@@ -867,13 +988,24 @@ function setSelectedPoint(index, options = {}) {
   hoverIndex = null;
   updatePointPanel(index, Boolean(options.announce));
   draw();
-  if (currentStep >= 6 && explanationPointLabel && String(points[index].label) !== explanationPointLabel) {
-    transferReady = true;
-    completeLesson.disabled = false;
-    completionFeedback.dataset.state = "success";
-    completionFeedback.textContent = String(points[index].label) + " selected for comparison. You can now complete the reproducible workflow.";
+  if (rRunPassed) evidenceSelected = true;
+  if (currentStep >= 7 && explanationPointLabel) {
+    if (String(points[index].label) !== explanationPointLabel) {
+      transferPointLabel = String(points[index].label);
+      transferReady = false;
+      reproduceCard.hidden = true;
+      transferEvidence.textContent = transferPointLabel + " selected. Compare one of its x, y, or z coordinates with " + explanationPointLabel + ".";
+      transferFeedback.dataset.state = "";
+      transferFeedback.textContent = "Write the comparison, then check the transfer response.";
+    } else {
+      transferPointLabel = null;
+      transferReady = false;
+      reproduceCard.hidden = true;
+      transferEvidence.textContent = "Choose a point other than " + explanationPointLabel + ".";
+    }
   }
-  if (currentStep < 4) setStep(4);
+  if (rRunPassed && currentStep <= 4) setStep(5);
+  else if (currentStep < 4) setStep(4);
 }
 
 function resize() {
@@ -1001,7 +1133,7 @@ function pointAt(x, y) {
 }
 
 function setStep(step) {
-  currentStep = Math.max(1, Math.min(6, step));
+  currentStep = Math.max(1, Math.min(8, step));
   document.querySelectorAll(".step-row").forEach(button => {
     const buttonStep = Number(button.dataset.step);
     button.removeAttribute("aria-current");
@@ -1015,11 +1147,13 @@ function setStep(step) {
       currentLabel.textContent = buttonStep < currentStep ? "DONE" : "";
     }
   });
+  orientCard.dataset.current = String(currentStep === 1 && orientCard.dataset.state !== "saved");
+  predictionCard.dataset.current = String(currentStep === 2 && predictionCard.dataset.state !== "saved");
   document.getElementById("observation-card").dataset.current = String(currentStep === 4);
-  document.getElementById("explanation-card").dataset.current = String(currentStep === 5);
-  transferCard.dataset.current = String(currentStep === 6);
-  predictionCard.dataset.current = String(currentStep <= 3 && predictionCard.dataset.state !== "saved");
-  stepCount.textContent = "STEP " + currentStep + " OF 6";
+  document.getElementById("explanation-card").dataset.current = String(currentStep === 5 || currentStep === 6);
+  transferCard.dataset.current = String(currentStep === 7);
+  reproduceCard.dataset.current = String(currentStep === 8);
+  stepCount.textContent = "STEP " + currentStep + " OF 8";
 }
 
 function buildTable() {
@@ -1027,12 +1161,14 @@ function buildTable() {
   body.replaceChildren();
   points.forEach((point, index) => {
     const row = document.createElement("tr");
+    row.dataset.observationId = point.observation_id;
     const labels = ["Point", "X", "Y", "Z"];
     const values = [String(point.label || ("point " + (index + 1))), point.x.toFixed(2), point.y.toFixed(2), point.z.toFixed(2)];
     values.forEach((value, valueIndex) => {
       const cell = document.createElement(valueIndex === 0 ? "th" : "td");
       if (valueIndex === 0) cell.scope = "row";
       cell.dataset.label = labels[valueIndex];
+      if (valueIndex > 0 && point.evidence_ids[valueIndex - 1]) cell.dataset.evidenceId = point.evidence_ids[valueIndex - 1];
       cell.textContent = value;
       row.appendChild(cell);
     });
@@ -1188,7 +1324,7 @@ async function executeRCode() {
     const result = await engine.evalR(validatedCode);
     const rows = await result.toD3();
     await engine.destroy(result);
-    points = rows.map(row => ({label: String(row.label), x: Number(row.x), y: Number(row.y), z: Number(row.z)}));
+    points = rows.map((row, index) => normalizePointIdentity({label: String(row.label), x: Number(row.x), y: Number(row.y), z: Number(row.z)}, index));
     selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
     hoverIndex = null;
     buildTable();
@@ -1208,6 +1344,8 @@ async function executeRCode() {
     lessonStatus.dataset.state = "success";
     statusText.textContent = "Browser preview verified";
     rRunPassed = true;
+    evidenceSelected = false;
+    updateReproSummary();
     updateClaimEvidence();
     if (aiBrief && rCodeEditor.value.trim() === aiGeneratedRCode.trim()) {
       aiResultStatus.dataset.state = "success";
@@ -1259,17 +1397,49 @@ function qmdDocument() {
     "",
     "## Interpretation",
     "",
+    "### Orientation",
+    "",
+    orientInput.value.trim() || "Describe how one row, label, and x/y/z coordinates form the scene.",
+    "",
+    "### Prediction",
+    "",
     predictionInput.value.trim() || "Add your prediction here.",
     "",
-    explanationInput.value.trim() || "Add your coordinate-based explanation here."
+    "### Evidence-based explanation",
+    "",
+    explanationInput.value.trim() || "Add your coordinate-based explanation and limitation here.",
+    "",
+    "### Transfer",
+    "",
+    transferInput.value.trim() || "Compare the evidence with a second point or changed rule."
   ].join("\n");
 }
 
 function saveState() {
   try {
-    localStorage.setItem(storageKey, JSON.stringify({prediction: predictionInput.value, explanation: explanationInput.value, rCode: rCodeEditor.value, completed: statusText.textContent === "Lesson complete"}));
+    localStorage.setItem(storageKey, JSON.stringify({
+      orientation: orientInput.value,
+      orientationPassed,
+      prediction: predictionInput.value,
+      explanation: explanationInput.value,
+      explanationPassed,
+      explanationPointLabel,
+      transfer: transferInput.value,
+      transferReady,
+      transferPointLabel,
+      rCode: rCodeEditor.value,
+      rRunPassed,
+      runtime: webRVersion,
+      points: rRunPassed ? points : null,
+      artifactHash: rRunPassed ? document.getElementById("artifact-hash").textContent : null,
+      selectedIndex,
+      evidenceSelected,
+      explanationAttempted,
+      currentStep,
+      completed: lessonCompleted
+    }));
   } catch (error) {
-    predictionStatus.textContent = "Browser storage is unavailable; your response remains on this page.";
+    orientStatus.textContent = "Browser storage is unavailable; your response remains on this page.";
   }
 }
 
@@ -1277,24 +1447,69 @@ function restoreState() {
   try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
     if (!saved) return;
+    orientInput.value = saved.orientation || "";
     predictionInput.value = saved.prediction || "";
     explanationInput.value = saved.explanation || "";
+    transferInput.value = saved.transfer || "";
     rCodeEditor.value = saved.rCode || defaultRCode();
+    orientationPassed = Boolean(saved.orientationPassed || orientInput.value);
+    if (orientationPassed) {
+      orientStatus.textContent = "Saved orientation restored.";
+      setOrientMode(true);
+    }
     if (predictionInput.value) {
       predictionStatus.textContent = "Saved response restored.";
       setPredictionMode(true);
     }
-    if (saved.completed) {
+    if (saved.rRunPassed && Array.isArray(saved.points) && saved.points.length >= 3) {
+      points = saved.points.map((point, index) => normalizePointIdentity({observation_id: point.observation_id, evidence_ids: point.evidence_ids, label: String(point.label), x: Number(point.x), y: Number(point.y), z: Number(point.z)}, index));
+      selectedIndex = Math.max(0, Math.min(points.length - 1, Number(saved.selectedIndex) || 0));
+      webRVersion = saved.runtime || "WebR 0.6.0";
+      rRunPassed = true;
+      evidenceSelected = Boolean(saved.evidenceSelected);
+      buildTable();
+      updatePointPanel(selectedIndex, false);
+      ["check-seed", "check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pass"));
+      document.getElementById("artifact-hash").textContent = saved.artifactHash || "Restored";
+      document.getElementById("scene-rows").textContent = points.length + " restored";
+      updateEvidenceReveal(rCodeEditor.value, points);
+      lessonStatus.dataset.state = "success";
+      statusText.textContent = "Browser evidence restored";
+    }
+    explanationAttempted = Boolean(saved.explanationAttempted);
+    explanationPassed = Boolean(saved.explanationPassed);
+    explanationPointLabel = saved.explanationPointLabel || null;
+    if (explanationPassed) {
+      const evidence = points.find(point => String(point.label) === explanationPointLabel) || points[selectedIndex];
+      renderCriteria(explanationCriteria(explanationInput.value, evidence), true);
+      explanationFeedback.dataset.state = "success";
+      explanationFeedback.textContent = "Saved explanation and all four criteria restored.";
       transferCard.hidden = false;
-      explanationPassed = true;
-      transferReady = true;
+    }
+    transferReady = Boolean(saved.transferReady);
+    transferPointLabel = saved.transferPointLabel || null;
+    if (transferPointLabel) transferEvidence.textContent = transferPointLabel + " restored as the transfer comparison point.";
+    if (transferReady) {
+      transferFeedback.dataset.state = "success";
+      transferFeedback.textContent = "Saved transfer response restored.";
+      reproduceCard.hidden = false;
       completeLesson.disabled = false;
+      updateReproSummary();
+    }
+    currentStep = Math.max(1, Math.min(8, Number(saved.currentStep) || (orientationPassed ? 2 : 1)));
+    if (saved.completed) {
+      lessonCompleted = true;
+      transferCard.hidden = false;
+      reproduceCard.hidden = false;
+      completionReceipt.hidden = false;
       statusText.textContent = "Lesson complete";
+      lessonStatus.dataset.state = "success";
       completionFeedback.textContent = "Completed response restored from this browser.";
-      setStep(6);
+      syncCourseProgress(true);
+      currentStep = 8;
     }
   } catch (error) {
-    predictionStatus.textContent = "Saved responses could not be restored.";
+    orientStatus.textContent = "Saved responses could not be restored.";
   }
 }
 
@@ -1372,26 +1587,41 @@ educatorModeLink.addEventListener("click", () => {
 
 document.getElementById("restart-lesson").addEventListener("click", () => {
   try { localStorage.removeItem(storageKey); } catch (error) { /* Page state can still be reset. */ }
+  orientInput.value = "";
   predictionInput.value = "";
   explanationInput.value = "";
+  transferInput.value = "";
+  setOrientMode(false);
   setPredictionMode(false);
-  predictionStatus.textContent = "Your response is saved only in this browser.";
+  orientStatus.textContent = "Name what one row represents and what the coordinates describe.";
+  predictionStatus.textContent = "Complete Orient before saving a prediction.";
+  renderCriteria({point: false, axis: false, direction: false, limitation: false});
   explanationFeedback.dataset.state = "";
-  explanationFeedback.textContent = "Use the selected point and at least one axis as evidence.";
+  explanationFeedback.textContent = "Use the selected point, an axis and direction, and a limitation.";
   transferCard.hidden = true;
+  reproduceCard.hidden = true;
+  completionReceipt.hidden = true;
+  transferEvidence.textContent = "No second point selected yet.";
+  transferFeedback.dataset.state = "";
+  transferFeedback.textContent = "Completion requires a changed point and a written comparison.";
   completionFeedback.textContent = "";
   lessonStatus.dataset.state = "ready";
   statusText.textContent = "Browser preview ready";
+  orientationPassed = false;
+  evidenceSelected = false;
+  explanationAttempted = false;
   explanationPassed = false;
   explanationPointLabel = null;
   transferReady = false;
+  transferPointLabel = null;
+  lessonCompleted = false;
   completeLesson.disabled = true;
   aiPrompt.value = "";
   aiResultCard.hidden = true;
   aiGeneratedRCode = "";
   aiBrief = null;
   aiStatus.textContent = "The demo assistant is deterministic and keeps the R code visible.";
-  points = initialPoints.map(point => ({...point}));
+  points = initialPoints.map(normalizePointIdentity);
   rCodeEditor.value = defaultRCode();
   resetRResults();
   selectedIndex = Math.max(0, points.findIndex(point => point.label === "model"));
@@ -1400,24 +1630,66 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   zoom = 1;
   updatePointPanel(selectedIndex, false);
   buildTable();
-  setStep(2);
+  setStep(1);
   showView("scene");
   draw();
-  predictionInput.focus();
+  orientInput.focus();
 });
+
+function maxAvailableStep() {
+  if (!orientationPassed) return 1;
+  if (predictionCard.dataset.state !== "saved") return 2;
+  if (!rRunPassed) return 3;
+  if (!evidenceSelected) return 4;
+  if (!explanationPassed) return explanationAttempted ? 6 : 5;
+  if (!transferReady) return 7;
+  return 8;
+}
 
 document.querySelectorAll(".step-row").forEach(button => {
   button.addEventListener("click", () => {
-    if (button.dataset.view) showView(button.dataset.view);
-    const target = document.getElementById(button.dataset.target);
+    const requested = Number(button.dataset.step);
+    const allowed = Math.min(requested, maxAvailableStep());
+    const destination = document.querySelector('.step-row[data-step="' + allowed + '"]');
+    if (destination && destination.dataset.view) showView(destination.dataset.view);
+    const target = destination ? document.getElementById(destination.dataset.target) : null;
     if (!target) return;
     target.scrollIntoView({block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
     target.focus({preventScroll: true});
-    setStep(Number(button.dataset.step));
+    setStep(allowed);
   });
 });
 
+document.getElementById("save-orient").addEventListener("click", () => {
+  const response = orientInput.value.trim();
+  const hasObservation = /(row|observation|record|case|point)/i.test(response);
+  const hasCoordinate = /(^|\W)(x|y|z)(\W|$)|coordinate|axis|axes/i.test(response);
+  if (response.length < 20 || !hasObservation || !hasCoordinate) {
+    orientStatus.textContent = "Explain what one row represents and how x, y, or z locate it in the data space.";
+    orientInput.focus();
+    return;
+  }
+  setOrientMode(true);
+  orientStatus.textContent = "Orientation saved. Now predict what the R filter will retain.";
+  predictionStatus.textContent = "Write one testable prediction before running R.";
+  setStep(2);
+  saveState();
+  predictionInput.focus();
+});
+
+document.getElementById("edit-orient").addEventListener("click", () => {
+  setOrientMode(false);
+  orientStatus.textContent = "Update the data contract, then confirm it again.";
+  setStep(1);
+});
+
 document.getElementById("save-prediction").addEventListener("click", () => {
+  if (!orientationPassed) {
+    predictionStatus.textContent = "Confirm the Orient response before saving a prediction.";
+    setStep(1);
+    orientInput.focus();
+    return;
+  }
   const prediction = predictionInput.value.trim();
   if (prediction.length < 12) {
     predictionStatus.textContent = "Add one complete idea before exploring.";
@@ -1446,55 +1718,113 @@ document.getElementById("check-explanation").addEventListener("click", () => {
   }
   const explanation = explanationInput.value.trim();
   const selected = points[selectedIndex];
-  const hasAxis = /(^|\W)[xyz](\W|$)/i.test(explanation);
-  const hasDirection = /(positive|negative|above|below|higher|lower|increase|decrease|near|zero)/i.test(explanation);
-  if (explanation.length < 28) {
+  const result = explanationCriteria(explanation, selected);
+  const missing = Object.entries(result).filter(([, value]) => !value).map(([name]) => name);
+  renderCriteria(result, true);
+  explanationAttempted = true;
+  if (explanation.length < 28 || missing.length) {
     explanationPassed = false;
     explanationFeedback.dataset.state = "error";
-    explanationFeedback.textContent = "Add a fuller claim and cite one coordinate as evidence.";
+    explanationFeedback.textContent = "Revise your explanation. Missing: " + (missing.length ? missing.join(", ") : "a complete claim") + ".";
+    setStep(6);
     explanationInput.focus();
-    return;
-  }
-  if (!hasAxis || !hasDirection) {
-    explanationPassed = false;
-    explanationFeedback.dataset.state = "error";
-    explanationFeedback.textContent = "Name x, y, or z and explain whether the value is positive, negative, or near zero.";
-    explanationInput.focus();
+    saveState();
     return;
   }
   explanationPassed = true;
   explanationPointLabel = String(selected.label || "the selected point");
   transferReady = false;
+  transferPointLabel = null;
   completeLesson.disabled = true;
   explanationFeedback.dataset.state = "success";
-  explanationFeedback.textContent = "Evidence found. Your claim uses a coordinate direction for " + String(selected.label || "the selected point") + ".";
+  explanationFeedback.textContent = "All four criteria met for " + String(selected.label || "the selected point") + ": point, axis, direction, and limitation.";
   transferCard.hidden = false;
   document.getElementById("transfer-prompt").textContent = "Select another point and compare its x, y, or z coordinate with " + String(selected.label || "your current point") + ".";
-  completionFeedback.dataset.state = "";
-  completionFeedback.textContent = "Select a different point in the 3D view or accessible table to unlock completion.";
+  transferEvidence.textContent = "No second point selected yet. Choose a point other than " + explanationPointLabel + ".";
+  transferFeedback.dataset.state = "";
+  transferFeedback.textContent = "Completion requires a changed point and a written comparison.";
   saveState();
-  setStep(6);
+  setStep(7);
   transferCard.focus();
+});
+
+document.getElementById("check-transfer").addEventListener("click", () => {
+  const response = transferInput.value.trim();
+  const hasPoint = Boolean(transferPointLabel) && response.toLowerCase().includes(transferPointLabel.toLowerCase());
+  const hasAxis = /(^|\W)[xyz](\W|$)/i.test(response);
+  const hasComparison = /(compared|higher|lower|positive|negative|similar|same|differ|greater|less|near|zero|while|whereas)/i.test(response);
+  if (!transferPointLabel) {
+    transferFeedback.dataset.state = "error";
+    transferFeedback.textContent = "Select a different point in the 3D view or accessible table first.";
+    showView("scene", true);
+    return;
+  }
+  if (response.length < 28 || !hasPoint || !hasAxis || !hasComparison) {
+    transferReady = false;
+    reproduceCard.hidden = true;
+    transferFeedback.dataset.state = "error";
+    transferFeedback.textContent = "Name " + transferPointLabel + ", one axis, and how its value compares with " + explanationPointLabel + ".";
+    transferInput.focus();
+    saveState();
+    return;
+  }
+  transferReady = true;
+  transferFeedback.dataset.state = "success";
+  transferFeedback.textContent = "Transfer confirmed. Your comparison uses new evidence and a coordinate rule.";
+  reproduceCard.hidden = false;
+  completeLesson.disabled = false;
+  updateReproSummary();
+  setStep(8);
+  saveState();
+  reproduceCard.focus();
 });
 
 completeLesson.addEventListener("click", () => {
   if (!explanationPassed || !rRunPassed || !transferReady) return;
+  lessonCompleted = true;
   statusText.textContent = "Lesson complete";
+  lessonStatus.dataset.state = "success";
   completionFeedback.dataset.state = "success";
-  completionFeedback.textContent = "Complete. Your prediction and explanation remain saved in this browser.";
-  setStep(6);
+  completionFeedback.textContent = "Complete. Your evidence chain and reproducibility metadata are saved in this browser.";
+  completionReceipt.hidden = false;
+  syncCourseProgress(true);
+  completionReceipt.scrollIntoView({block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  completionReceipt.focus({preventScroll: true});
+  setStep(8);
   document.querySelectorAll(".step-row").forEach(button => {
     button.dataset.state = "done";
     button.removeAttribute("aria-current");
     const label = button.querySelector(".step-current");
     if (label) label.textContent = "DONE";
   });
-  stepCount.textContent = "COMPLETE · 6 OF 6";
+  stepCount.textContent = "COMPLETE \u00b7 8 OF 8";
   saveState();
 });
 
+orientInput.addEventListener("input", saveState);
 predictionInput.addEventListener("input", saveState);
-explanationInput.addEventListener("input", saveState);
+explanationInput.addEventListener("input", () => {
+  if (explanationPassed) {
+    explanationPassed = false;
+    transferReady = false;
+    transferCard.hidden = true;
+    reproduceCard.hidden = true;
+    completionReceipt.hidden = true;
+    completeLesson.disabled = true;
+    lessonCompleted = false;
+    explanationFeedback.dataset.state = "";
+    explanationFeedback.textContent = "Explanation changed. Check all four criteria again.";
+    renderCriteria(explanationCriteria(explanationInput.value, points[selectedIndex] || null));
+    setStep(5);
+  }
+  saveState();
+});
+transferInput.addEventListener("input", () => {
+  transferReady = false;
+  reproduceCard.hidden = true;
+  completeLesson.disabled = true;
+  saveState();
+});
 rCodeEditor.addEventListener("input", saveState);
 sceneTab.addEventListener("click", () => showView("scene"));
 rTab.addEventListener("click", () => showView("r"));
@@ -1530,6 +1860,18 @@ document.getElementById("reset-r-code").addEventListener("click", () => {
   lessonStatus.dataset.state = "ready";
   statusText.textContent = "Browser preview ready";
   resetRResults();
+  evidenceSelected = false;
+  explanationAttempted = false;
+  explanationPassed = false;
+  transferReady = false;
+  transferPointLabel = null;
+  lessonCompleted = false;
+  transferCard.hidden = true;
+  reproduceCard.hidden = true;
+  completionReceipt.hidden = true;
+  completeLesson.disabled = true;
+  renderCriteria({point: false, axis: false, direction: false, limitation: false});
+  setStep(3);
   showView("r");
   saveState();
   runRCode.focus();
@@ -1540,6 +1882,12 @@ document.getElementById("download-receipt").addEventListener("click", () => {
   downloadText("rlearnxr-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
   statusText.textContent = "Learning receipt downloaded locally";
 });
+document.getElementById("download-r-companion").addEventListener("click", () => downloadText("rlearnxr-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
+document.getElementById("download-qmd-companion").addEventListener("click", () => downloadText("rlearnxr-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
+document.getElementById("download-receipt-companion").addEventListener("click", () => {
+  downloadText("rlearnxr-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
+  completionFeedback.textContent = "Learning receipt downloaded locally.";
+});
 viewRResult.addEventListener("click", () => { showView("scene", true); setStep(4); });
 window.addEventListener("resize", resize);
 rCodeEditor.value = defaultRCode();
@@ -1547,6 +1895,7 @@ resetRResults();
 predictionCard.dataset.state = "editing";
 buildTable();
 restoreState();
+syncCourseProgress(lessonCompleted);
 updatePointPanel(selectedIndex, false);
 setStep(currentStep);
 resize();

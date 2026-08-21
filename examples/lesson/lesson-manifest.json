@@ -1,31 +1,63 @@
 {
-  "manifest_version": "1.0",
-  "lesson_id": "rlearnxr-reference-lesson",
-  "title": "R-LearnXR reference lesson",
+  "manifest_version": "2.0",
+  "lesson_id": "lesson",
+  "title": "R-LearnXR reference data space",
   "source_platform": "rlearnxr",
   "source_project": "rlearnxr",
+  "course_id": null,
+  "session_id": null,
+  "block_id": null,
+  "activity_id": null,
   "dataset": {
     "file": "data/learning_points.csv",
-    "source": "R-LearnXR reference data",
+    "source": "Synthetic contributor-training points bundled with R-LearnXR.",
     "license": "CC0"
   },
   "r_contract": {
     "required_columns": ["label", "x", "y", "z"],
-    "scene_columns": {"label": "label", "x": "x", "y": "y", "z": "z"}
+    "scene_columns": {
+      "label": "label",
+      "x": "x",
+      "y": "y",
+      "z": "z"
+    }
   },
-  "reproducibility": {"seed": 2026, "web_r_version": "0.6.0"},
-  "accessibility": {"semantic_table": true, "keyboard_path": true},
-  "privacy": {"storage": "browser-local", "export_consent_required": true, "research_use": "separate-consent"},
+  "reproducibility": {
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "web_r_version": "0.6.0"
+  },
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true
+  },
+  "privacy": {
+    "storage": "browser-local",
+    "export_consent_required": true,
+    "research_use": "separate-consent"
+  },
   "education": {
-    "audience": "beginner R and data-science learners",
-    "estimated_minutes": 10,
-    "prerequisites": ["basic R assignment syntax", "read a simple plot"],
-    "objectives": ["state a falsifiable data prediction", "run an R transformation that returns a scene data frame", "explain one coordinate as evidence and reproduce the result"],
-    "sequence": ["orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"],
-    "assessment": "Use the claim-evidence-limitation-transfer rubric.",
-    "instructor_materials": ["README.md", "../../docs/authoring-guide.md"],
+    "audience": "introductory data-science learners",
+    "estimated_minutes": 15,
+    "prerequisites": ["basic data-frame vocabulary", "read a simple plot"],
+    "objectives": ["state a data question and identify the evidence boundary", "run a reproducible R transformation", "explain one observation with coordinate or statistic evidence"],
+    "sequence": ["orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"],
+    "assessment": "Use a claim-evidence-limitation-transfer rubric.",
+    "instructor_materials": [],
     "accessibility_alternative": "semantic table and keyboard path",
-    "extension_activities": ["replace the sample data", "add a new coordinate mapping"]
+    "extension_activities": []
   },
-  "artifacts": {"lesson_entrypoint": "index.qmd", "scene": "scene/index.html", "points": "scene/points.json", "reproducibility_report": "checks/reproducibility-report.json"}
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "scene/evidence.json",
+    "artifact_hash": null
+  },
+  "artifacts": {
+    "lesson_entrypoint": "index.qmd",
+    "scene": "scene/index.html",
+    "points": "scene/points.json",
+    "evidence": "scene/evidence.json",
+    "reproducibility_report": "checks/reproducibility-report.json",
+    "learning_receipt": "checks/learning-receipt.json"
+  }
 }

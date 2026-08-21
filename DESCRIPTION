@@ -1,23 +1,26 @@
 Package: rlearnxr
 Type: Package
 Title: R-LearnXR: From R Code to Evidence
-Version: 1.1.0
+Version: 2.0.0.900
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]
 Maintainer: Jewoong Moon <Educatian@users.noreply.github.com>
-Description: Scaffolds Quarto lessons, generates self-contained browser-based
-    3D scenes from R data frames, and checks lesson projects for basic
-    reproducibility conditions.
+Description: Compiles R analysis objects into linked educational evidence for
+    tables, two-dimensional and three-dimensional representations, Quarto
+    lessons, explanation tasks, transfer tasks, and reproducibility receipts.
 Depends: R (>= 4.1.0)
 License: MIT + file LICENSE
-URL: https://github.com/Educatian/rlearnxr
+URL: https://educatian.github.io/rlearnxr/, https://github.com/Educatian/rlearnxr
 BugReports: https://github.com/Educatian/rlearnxr/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+Imports:
+    jsonlite (>= 1.8.0)
 Suggests:
     knitr,
     palmerpenguins,
-    jsonlite,
     rmarkdown,
+    shiny (>= 1.7.0),
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0

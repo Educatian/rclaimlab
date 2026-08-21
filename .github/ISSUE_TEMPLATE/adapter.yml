@@ -1,0 +1,30 @@
+name: Evidence adapter proposal
+description: Propose or implement an adapter for an existing R analysis object.
+title: "adapter: "
+labels: [adapter, good first issue]
+body:
+  - type: input
+    id: class
+    attributes:
+      label: R object class
+      description: Name the existing fitted-object class and its upstream package.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Educational evidence
+      description: List the observation-level values and method metadata learners need to inspect.
+    validations:
+      required: true
+  - type: checkboxes
+    id: contract
+    attributes:
+      label: Adapter contract
+      options:
+        - label: The adapter will not refit or reimplement the statistical method.
+          required: true
+        - label: The contribution will include JSON round-trip and deterministic-hash tests.
+          required: true
+        - label: The contribution will include a semantic-table fallback.
+          required: true

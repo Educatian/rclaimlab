@@ -1,21 +1,16 @@
-# R-LearnXR Roadmap
+# R-LearnXR 2.0 Roadmap
 
-## Grant milestone 1: reliable authoring core
+The roadmap is governed by one architectural commitment: R owns analytical truth, the Evidence Compiler preserves stable evidence identifiers, and browser components render and collect learning interactions.
 
-- Stabilize the package API and lesson schema, including explicit scene, manifest, and learning-receipt validators.
-- Publish three reference lessons and authoring documentation.
-- Run R package, Quarto render, accessibility, and browser checks in CI.
+| Window | Product milestone | Acceptance evidence |
+|---|---|---|
+| 2026 Aug-Sep | Freeze v1.1.0 and publish the v2 RFC | public branch, RFC, reviewer and pilot protocols |
+| 2027 Jan-Mar | Evidence Compiler core | S3 contracts, Evidence IR, data-frame/PCA adapters, canonical PCA vertical slice |
+| 2027 Apr-Jun | Education and extension API | lm/glm/kmeans adapters, three render modes, author and adapter vignettes, formative fixes |
+| 2027 Jul-Dec | CRAN and public ecosystem | 3-OS and 3-R-version checks, pkgdown, citation/DOI readiness, contributor onboarding |
+| 2028 Jan-Jun | Representation comparison | prior determination, preregistration, counterbalanced protocol, separate consented data store |
+| 2028 Jul-Aug | JOSS and sustainability | JOSS submission bundle, archive release, succession and schema governance |
 
-## Grant milestone 2: educator and learner validation
+Release 2.0 requires five clean reference lessons, no R CMD check errors/warnings/notes, deterministic evidence artifacts, table/2D/3D identity synchronization, keyboard and semantic-table paths, and a second-maintainer API or schema review.
 
-- Pilot with at least five novice learners and two instructors.
-- Publish anonymized task-completion and comprehension summaries.
-- Resolve high-impact accessibility and authoring issues.
-
-## Grant milestone 3: reusable community release
-
-- Release the package and templates under open licenses.
-- Run contributor onboarding with an R user group or educator community.
-- Publish maintenance roles, issue labels, release criteria, and a post-grant sustainability plan.
-
-Native headset support remains optional. Browser, keyboard, and static/table paths are the required infrastructure baseline.
+Native headset support and AI tutoring are outside the 2.0 core. They may integrate later through adapters without moving statistical logic into the browser.

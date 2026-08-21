@@ -2,6 +2,7 @@ root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
 source(file.path(root, "R", "lesson_bundle.R"))
+source(file.path(root, "R", "evidence_adapters.R"))
 source(file.path(root, "R", "scene_contract.R"))
 source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "render_scene.R"))
@@ -25,7 +26,7 @@ education <- function(minutes, objectives, materials) list(
   estimated_minutes = minutes,
   prerequisites = c("basic data-frame vocabulary", "read a simple plot"),
   objectives = objectives,
-  sequence = c("orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"),
+  sequence = c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"),
   assessment = "Use the reusable claim-evidence-limitation-transfer rubric.",
   instructor_materials = materials,
   accessibility_alternative = "semantic table and keyboard path",

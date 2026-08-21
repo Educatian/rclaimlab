@@ -11,6 +11,38 @@ permissions:
   contents: read
 
 jobs:
+  r-version-contract:
+    name: R contract (${{ matrix.r }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        r: [oldrel, release, devel]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r }}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck any::covr
+          needs: check
+      - uses: r-lib/actions/check-r-package@v2
+      - name: Evidence Compiler contract coverage
+        if: matrix.r == 'release'
+        shell: Rscript {0}
+        run: |
+          coverage <- covr::package_coverage(type = "tests", quiet = TRUE)
+          details <- as.data.frame(coverage)
+          core_files <- c("R/evidence_spec.R", "R/evidence_adapters.R", "R/compile_lesson.R", "R/lesson_manifest.R")
+          core <- details[details$filename %in% core_files, , drop = FALSE]
+          overall_percent <- covr::percent_coverage(coverage)
+          core_percent <- 100 * mean(core$value > 0)
+          message("Overall coverage: ", round(overall_percent, 2), "%")
+          message("Evidence Compiler coverage: ", round(core_percent, 2), "%")
+          if (overall_percent < 85) stop("Overall coverage is below 85%")
+          if (core_percent < 95) stop("Evidence Compiler contract coverage is below 95%")
+
   r-package-and-lessons:
     name: R package and lessons (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -50,7 +82,7 @@ jobs:
             examples/*/checks
 
   public-install:
-    name: Install current public main from GitHub
+    name: Preserve stable public v1.1.0 install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +102,28 @@ jobs:
           stopifnot(as.character(packageVersion("rlearnxr")) == "1.1.0")
           stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rlearnxr")))
           message("Public main clean-install rehearsal passed")
+
+  pkgdown:
+    name: Build pkgdown and check links
+    runs-on: ubuntu-latest
+    needs: r-version-contract
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown any::urlchecker
+          needs: website
+      - name: Build documentation site
+        run: Rscript -e "pkgdown::build_site(new_process = FALSE)"
+      - name: Check package URLs
+        run: Rscript -e "urlchecker::url_check()"
+      - name: Upload pkgdown site
+        uses: actions/upload-artifact@v4
+        with:
+          name: rlearnxr-pkgdown
+          path: site
 
   posit-cloud-persona-proxy:
     name: Posit Cloud clean-room persona proxy

@@ -1,0 +1,12 @@
+citHeader("To cite rlearnxr in publications use:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "R-LearnXR: From R Code to Evidence",
+  author = person("Jewoong", "Moon"),
+  year = "2026",
+  note = "R package development version 2.0.0.900",
+  url = "https://github.com/Educatian/rlearnxr",
+  textVersion = paste("Moon, J. (2026). R-LearnXR: From R Code to Evidence.",
+                      "R package development version 2.0.0.900.")
+)

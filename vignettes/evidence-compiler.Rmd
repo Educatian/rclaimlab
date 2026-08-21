@@ -1,0 +1,20 @@
+---
+title: "Evidence Compiler architecture"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Evidence Compiler architecture}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The Evidence Compiler separates analytical truth from presentation. R creates `rlearnxr-evidence-2`; renderers consume it and never estimate the underlying model.
+
+```{r}
+library(rlearnxr)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+evidence <- as_rlearnxr_evidence(model)
+summary(evidence)
+head(as.data.frame(evidence))
+```
+
+An observation has one stable `observation_id`. Every observation-dimension value has an `evidence_id`. The same identifiers appear in JSON, the semantic table, scene marks, explanation criteria, and the learner receipt. This is the contract that makes changes of representation inspectable and reproducible.

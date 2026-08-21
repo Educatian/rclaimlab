@@ -11,6 +11,11 @@ test_that("render_scene creates an accessible complete learning loop", {
   html <- paste(readLines(result$index, warn = FALSE), collapse = "\n")
 
   expect_true(file.exists(result$points))
+  point_artifact <- jsonlite::fromJSON(result$points, simplifyVector = FALSE)
+  expect_equal(point_artifact[[1]]$observation_id, "obs-0001")
+  expect_equal(unlist(point_artifact[[1]]$evidence_ids), c("ev-0001-001", "ev-0001-002", "ev-0001-003"))
+  expect_match(html, 'id="orient-input"', fixed = TRUE)
+  expect_match(html, 'id="save-orient"', fixed = TRUE)
   expect_match(html, 'id="prediction-input"', fixed = TRUE)
   expect_match(html, 'id="r-code-editor"', fixed = TRUE)
   expect_match(html, 'id="run-r-code"', fixed = TRUE)
@@ -19,6 +24,14 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="download-qmd"', fixed = TRUE)
   expect_match(html, 'id="download-receipt"', fixed = TRUE)
   expect_match(html, 'id="explanation-input"', fixed = TRUE)
+  expect_match(html, 'id="criterion-limitation"', fixed = TRUE)
+  expect_match(html, 'function explanationCriteria(text, selected)', fixed = TRUE)
+  expect_match(html, 'id="transfer-input"', fixed = TRUE)
+  expect_match(html, 'id="check-transfer"', fixed = TRUE)
+  expect_match(html, 'id="reproduce-card"', fixed = TRUE)
+  expect_match(html, 'id="completion-receipt"', fixed = TRUE)
+  expect_match(html, 'function syncCourseProgress(completed)', fixed = TRUE)
+  expect_match(html, 'COMPLETE \\u00b7 8 OF 8', fixed = TRUE)
   expect_match(html, 'id="points-table"', fixed = TRUE)
   expect_match(html, 'tabindex="0"', fixed = TRUE)
   expect_match(html, 'id="complete-lesson"', fixed = TRUE)
@@ -42,6 +55,8 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="download-ai-brief"', fixed = TRUE)
   expect_match(html, 'function localAIBrief(prompt)', fixed = TRUE)
   expect_match(html, 'function learningReceipt()', fixed = TRUE)
+  expect_match(html, 'schema_version: "rlearnxr-receipt-2"', fixed = TRUE)
+  expect_match(html, 'function normalizePointIdentity(point, index)', fixed = TRUE)
   expect_match(html, 'private_data_sent_to_ai: false', fixed = TRUE)
   expect_match(html, 'function aiProvenance()', fixed = TRUE)
   expect_match(html, 'response_format: "rlearnxr_visualization_brief"', fixed = TRUE)
@@ -66,6 +81,11 @@ test_that("render_scene rejects invalid data", {
     render_scene(data.frame(x = 1:3, y = 2:4, z = c(1, NA_real_, 3)), "x", "y", "z"),
     "cannot contain NA"
   )
+  expect_error(
+    render_scene(data.frame(x = 1:3, y = 2:4, z = 3:5), "x", "y", "z", evidence_ids = "bad"),
+    "must be a list"
+  )
+  expect_equal(rlearnxr:::json_number(Inf), "null")
 })
 
 test_that("validate_scene_data normalizes named axes and labels", {
@@ -78,7 +98,8 @@ test_that("validate_scene_data normalizes named axes and labels", {
   scene <- validate_scene_data(
     data, x = "horizontal", y = "vertical", z = "depth", labels = data$id
   )
-  expect_named(scene, c("label", "x", "y", "z"))
+  expect_named(scene, c("observation_id", "label", "x", "y", "z"))
+  expect_equal(scene$observation_id, c("obs-0001", "obs-0002", "obs-0003"))
   expect_equal(scene$label, c("a", "b", "c"))
   expect_equal(scene$x, c(-1, 0, 1))
   expect_error(validate_scene_data(data, "horizontal", "horizontal", "depth"), "three columns")

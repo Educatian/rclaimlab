@@ -2,6 +2,7 @@ root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
 source(file.path(root, "R", "lesson_bundle.R"))
+source(file.path(root, "R", "evidence_adapters.R"))
 source(file.path(root, "R", "scene_contract.R"))
 source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "render_scene.R"))
@@ -38,7 +39,7 @@ write_lesson_manifest(
       "distinguish association from a causal claim",
       "communicate one multivariate vehicle comparison with a limitation"
     ),
-    sequence = c("orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"),
+    sequence = c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"),
     assessment = "Use the reusable R-LearnXR claim-evidence-limitation-transfer rubric.",
     instructor_materials = c("README.md"),
     accessibility_alternative = "semantic table and keyboard path",

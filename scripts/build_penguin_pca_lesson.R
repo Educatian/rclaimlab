@@ -1,7 +1,10 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "zzz.R"))
+source(file.path(root, "R", "lesson_bundle.R"))
+source(file.path(root, "R", "evidence_adapters.R"))
 source(file.path(root, "R", "scene_contract.R"))
+source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "render_scene.R"))
 
 if (!requireNamespace("palmerpenguins", quietly = TRUE)) {
@@ -43,5 +46,18 @@ render_scene(
   output_dir = file.path(lesson_dir, "scene"),
   title = "Penguin morphology PCA data space",
   overwrite = TRUE
+)
+write_lesson_manifest(
+  lesson_dir, lesson_id = "penguin-pca", title = "Penguin morphology PCA",
+  dataset_file = "data/penguin_pca_points.csv", dataset_source = "palmerpenguins R package",
+  dataset_license = "CC0",
+  education = list(
+    audience = "introductory data-science learners", estimated_minutes = 20L,
+    prerequisites = c("mean and standard deviation", "read a two-dimensional scatterplot", "basic R assignment syntax"),
+    objectives = c("explain why variables are standardized before PCA", "interpret a PCA score as a multivariate coordinate", "compare PC1, PC2, and PC3 with an evidence-based limitation", "reproduce the scene from deterministic R code"),
+    sequence = c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"),
+    assessment = "assessment-rubric.md", instructor_materials = c("educator-guide.md", "answer-key.md"),
+    accessibility_alternative = "accessible-alternative.md", extension_activities = c("extension-activities.md")
+  ), overwrite = TRUE
 )
 cat("Built penguin PCA reference lesson.\n")

@@ -2,13 +2,18 @@
 
 **A reproducible R framework for interactive data learning.**
 
-R-LearnXR is a release-ready, open-source course infrastructure for reproducible, browser-based R laboratories built with Quarto, WebR, and interactive 3D scenes. The 3D/XR layer is optional evidence support. Learners edit and execute real R code in the browser, send the resulting data frame into the 3D view, explain coordinate evidence, and export the work as reproducible R or Quarto source.
+R-LearnXR is an R Evidence Compiler for reproducible data-science education. It converts existing R analysis objects into linked evidence that can be rendered as a semantic table, 2D plot, optional 3D scene, Quarto lesson, and learning receipt. Every representation uses the same observation, dimension, and evidence identifiers.
+
+```text
+R analysis object -> Evidence Adapter -> Evidence IR -> Lesson Compiler
+                  -> table / 2D / 3D / Quarto -> learning receipt
+```
 
 ## Grant demo
 
-[![R-LearnXR English narrated demo verification frames](output/demo/video-verification-contact-sheet.png)](output/demo/rlearnxr-demo-en.mp4)
+[![R-LearnXR English narrated demo verification frames](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.mp4)
 
-[Watch the 103-second direct-interaction, English narrated and captioned demo](output/demo/rlearnxr-demo-en.mp4) or download the [English captions](output/demo/rlearnxr-demo-en.srt). The narration is AI-generated with ElevenLabs using the voice `Alice — Clear, Engaging Educator`.
+[Watch the 103-second direct-interaction, English narrated and captioned demo](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.mp4) or download the [English captions](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.srt). The narration is AI-generated with ElevenLabs using the voice `Alice — Clear, Engaging Educator`.
 
 Grant preparation materials:
 
@@ -20,13 +25,18 @@ Grant preparation materials:
 - [Community validation status](community/validation-status.md)
 - [DataSandbox continuation bridge](docs/datasandbox-bridge.md)
 - [Optional LLM visualization adapter](docs/llm-adapter.md)
+- [Learner experience storyboard](docs/storyboards/learner-experience-v1.md)
 
 ## What works now
+
+- `as_rlearnxr_evidence()` supports `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` objects without reimplementing their statistical methods.
+- `lesson_spec()`, `task_spec()`, and `representation_spec()` define the public authoring contract.
+- `compile_lesson()` creates Evidence IR, a semantic evidence table, Quarto source, a synchronized browser scene, a v2 manifest, and reproducibility checks.
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
 - `write_lesson_manifest()` and `write_learning_receipt()` preserve course/session provenance, attempt number, consent, and reproducibility metadata.
 - `import_datasandbox_bundle()` and `export_lesson_bundle()` provide a portable handoff between DataSandbox activities and an R-LearnXR lesson folder or ZIP.
-- `render_scene()` creates `scene/index.html` and `scene/points.json` from three numeric columns.
+- `render_scene()` creates `scene/index.html`, `scene/points.json`, and `scene/evidence.json` from three numeric columns.
 - A pinned WebR 0.6.0 runtime executes learner-edited R without an application server.
 - The R lab shows the `scene` contract, explains the starter pipeline, reports transformation evidence, and gives beginner-friendly error recovery while retaining the technical R console.
 - Successful R output updates the scene, accessible table, selected-point evidence, artifact hash, and reproducibility record.
@@ -42,6 +52,7 @@ Grant preparation materials:
 - `docs/curriculum/r-foundations-micro-lessons.md` provides short beginner R activities; `examples/penguin-pca/` includes a full educator pack, answer key, rubric, accessible alternative, and extensions.
 - `docs/research/learning-analytics-edm-data-science-education.md` records the literature-to-design translation and primary references.
 - `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
+- `run_rlearnxr_shiny()` provides an optional local educator console; Shiny is not required for learners or static deployment.
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
 - GitHub Actions validates the package and all three reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.
 
@@ -55,19 +66,21 @@ Grant preparation materials:
 
 The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The no-local-GUI validation plan is in [External validation](docs/external-validation.md), and the latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
 
+The optional Shiny educator console is documented in [Optional Shiny educator shell](docs/shiny-educator-shell.md). It is a local authoring and release-review surface over the same R package contracts, not a replacement for the portable Quarto/WebR learner experience.
+
 ## Visual preview
 
-![R-LearnXR browser-based 3D demo](output/playwright/rlearnxr-3d-demo.png)
+![R-LearnXR browser-based 3D demo](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/playwright/rlearnxr-3d-demo.png)
 
 ## Figma UI reference
 
 The Explore lesson interface was refined in [Figma](https://www.figma.com/design/jZ0W2ieUoSRwZtrMUKru8g) before being translated back into the browser demo.
 
-![R-LearnXR Explore lesson UI](output/figma/rlearnxr-explore-screen.png)
+![R-LearnXR Explore lesson UI](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/figma/rlearnxr-explore-screen.png)
 
-## Run the release-ready v1
+## Run the v2 development branch
 
-### Install from the public release candidate
+### Install v1.1.0 or the v2 branch
 
 ```r
 install.packages("remotes")
@@ -78,6 +91,28 @@ remotes::install_github(
 )
 library(rlearnxr)
 packageVersion("rlearnxr")
+```
+
+The stable public release remains `v1.1.0` until every v2 release gate passes. To evaluate the Evidence Compiler branch, install `ref = "codex/v2-evidence-compiler"` after that branch is published.
+
+```r
+library(rlearnxr)
+
+fit <- prcomp(iris[, 1:4], scale. = TRUE)
+evidence <- as_rlearnxr_evidence(fit)
+
+stages <- c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce")
+tasks <- lapply(stages, function(stage) {
+  task_spec(paste0("pca-", stage), stage, paste("Complete the", stage, "stage"))
+})
+
+lesson <- lesson_spec(
+  "iris-pca", "Iris PCA evidence",
+  outcomes = c("Interpret a PCA score", "Explain linked evidence", "Transfer the interpretation"),
+  evidence = evidence,
+  tasks = tasks
+)
+compile_lesson(lesson, "iris-pca-lesson")
 ```
 
 The course home also includes a browser-local educator view: import learner-initiated R-LearnXR receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
@@ -122,7 +157,7 @@ quarto render examples/penguin-pca
 
 Contributor onboarding starts in [CONTRIBUTING.md](CONTRIBUTING.md). The authoring, accessibility, pilot, release, and roadmap documents make the v1 scope reusable community infrastructure rather than a one-off demonstration.
 
-## v1 scope boundary
+## v2 scope boundary
 
 The release-ready v1 intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, LLM training, or a general-purpose 3D grammar for every R plot. AI Visual Brief is optional, reviewable, and not a grant deliverable. The shipped scope is a complete static course shell, three executable reference lessons, a statistics-to-learning-analytics/EDM curriculum map, reusable authoring contracts, and independent CI evidence. Human learner pilots, physical screen-reader passes, and an authenticated Posit Cloud rehearsal remain external evidence gates.
 

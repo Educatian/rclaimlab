@@ -1,9 +1,13 @@
 {
-  "manifest_version": "1.0",
+  "manifest_version": "2.0",
   "lesson_id": "penguin-pca",
   "title": "Penguin morphology PCA",
   "source_platform": "rlearnxr",
   "source_project": "rlearnxr",
+  "course_id": null,
+  "session_id": null,
+  "block_id": null,
+  "activity_id": null,
   "dataset": {
     "file": "data/penguin_pca_points.csv",
     "source": "palmerpenguins R package",
@@ -11,21 +15,49 @@
   },
   "r_contract": {
     "required_columns": ["label", "x", "y", "z"],
-    "scene_columns": {"label": "label", "x": "x", "y": "y", "z": "z"}
+    "scene_columns": {
+      "label": "label",
+      "x": "x",
+      "y": "y",
+      "z": "z"
+    }
   },
-  "reproducibility": {"seed": 2026, "web_r_version": "0.6.0"},
-  "accessibility": {"semantic_table": true, "keyboard_path": true},
-  "privacy": {"storage": "browser-local", "export_consent_required": true, "research_use": "separate-consent"},
+  "reproducibility": {
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "web_r_version": "0.6.0"
+  },
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true
+  },
+  "privacy": {
+    "storage": "browser-local",
+    "export_consent_required": true,
+    "research_use": "separate-consent"
+  },
   "education": {
     "audience": "introductory data-science learners",
     "estimated_minutes": 20,
     "prerequisites": ["mean and standard deviation", "read a two-dimensional scatterplot", "basic R assignment syntax"],
     "objectives": ["explain why variables are standardized before PCA", "interpret a PCA score as a multivariate coordinate", "compare PC1, PC2, and PC3 with an evidence-based limitation", "reproduce the scene from deterministic R code"],
-    "sequence": ["orient", "predict", "run_r", "explore", "explain", "transfer", "reproduce"],
+    "sequence": ["orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"],
     "assessment": "assessment-rubric.md",
     "instructor_materials": ["educator-guide.md", "answer-key.md"],
     "accessibility_alternative": "accessible-alternative.md",
-    "extension_activities": ["extension-activities.md"]
+    "extension_activities": "extension-activities.md"
   },
-  "artifacts": {"lesson_entrypoint": "index.qmd", "scene": "scene/index.html", "points": "scene/points.json", "reproducibility_report": "checks/reproducibility-report.json"}
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "scene/evidence.json",
+    "artifact_hash": null
+  },
+  "artifacts": {
+    "lesson_entrypoint": "index.qmd",
+    "scene": "scene/index.html",
+    "points": "scene/points.json",
+    "evidence": "scene/evidence.json",
+    "reproducibility_report": "checks/reproducibility-report.json",
+    "learning_receipt": "checks/learning-receipt.json"
+  }
 }

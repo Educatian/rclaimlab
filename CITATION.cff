@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use R-LearnXR, please cite the software and the archived release used."
+title: "R-LearnXR: From R Code to Evidence"
+type: software
+version: 2.0.0.900
+license: MIT
+repository-code: "https://github.com/Educatian/rlearnxr"
+url: "https://educatian.github.io/rlearnxr/"
+authors:
+  - family-names: Moon
+    given-names: Jewoong
+    email: Educatian@users.noreply.github.com
+keywords:
+  - R
+  - reproducible research
+  - data science education
+  - learning analytics
+  - evidence visualization

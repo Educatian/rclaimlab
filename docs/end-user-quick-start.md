@@ -85,6 +85,18 @@ Run `Rscript scripts/diagnose_environment.R` before troubleshooting. It reports 
 
 To rehearse the network-failure path locally, run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer`. The same check runs on a GitHub-hosted Windows runner, so local GUI manipulation is not required. See [External validation](external-validation.md) for the remote workflow and artifacts.
 
+## Optional educator console
+
+The core learner experience does not require Shiny. Educators who prefer a local RStudio control surface can install the optional dependency and launch the authoring console:
+
+```r
+install.packages("shiny")
+library(rlearnxr)
+run_rlearnxr_shiny(lesson_dir = ".")
+```
+
+The console selects a reference module, validates the course catalog, opens the lesson, and runs the same strict `check_lesson()` contract used by release checks. See [Optional Shiny educator shell](shiny-educator-shell.md).
+
 ## Definition of a successful rehearsal
 
 A clean user environment is ready when a user can clone or install the current public version, see the expected package version, restore dependencies, render one lesson, run real R in the browser, inspect the table fallback, and produce a strict PASS report without editing project internals.

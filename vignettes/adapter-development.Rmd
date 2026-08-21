@@ -1,0 +1,14 @@
+---
+title: "Develop an Evidence Adapter"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Develop an Evidence Adapter}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+An adapter translates an existing fitted object; it does not fit a model. Implement `as_rlearnxr_evidence.your_class()` and return the common IR with stable observations, dimensions, values, provenance links, and method-specific metadata.
+
+Adapter review must cover finite-value behavior, missing or duplicate labels, source-call provenance, deterministic seed handling, artifact-hash stability, JSON round trips, and at least one runnable lesson. Copy `tests/testthat/test-evidence-compiler.R` as the contract test pattern.
+
+Keep large method packages in `Suggests`. The core package should depend only on the Evidence IR and validation machinery.

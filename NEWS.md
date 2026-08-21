@@ -1,7 +1,25 @@
+# rlearnxr 2.0.0.900
+
+## Evidence Compiler
+
+- Added public S3 contracts for lessons, evidence, builds, and learner receipts.
+- Added `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` evidence adapters.
+- Added stable observation, dimension, and evidence identifiers with provenance links and deterministic hashes.
+- Added `compile_lesson()` for synchronized Evidence IR, semantic data, Quarto, scene, manifest, and check artifacts.
+- Migrated manifests and learner receipts to version 2 contracts.
+- Migrated all five reference lessons to emit and validate Evidence IR.
+
+## Quality and sustainability
+
+- Added contract edge tests and coverage gates of 85% overall and 95% for Evidence Compiler core files.
+- Added four authoring vignettes, pkgdown configuration, citation files, JOSS scaffold, research protocols, security/support policies, and schema governance.
+- Preserved the previous public contract at the `v1.1.0` tag while v2 remains on its release-candidate branch.
+
 # rlearnxr 1.1.0
 
 ## Course flow and educator evidence
 
+- Added the optional `run_rlearnxr_shiny()` educator console for local module selection, catalog validation, lesson opening, and strict release checks without making Shiny a learner or static-hosting dependency.
 - Added a browser-local resume link that follows the learner's most recently completed or opened module.
 - Added an educator receipt summary that imports R-LearnXR JSON locally, aggregates completion and reproducibility coverage by lesson, and exports privacy-preserving CSV counts.
 - Added mobile-safe receipt tables, explicit local-only privacy copy, and a data-URI favicon to keep the course home console clean.

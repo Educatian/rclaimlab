@@ -1,0 +1,14 @@
+---
+title: "Accessibility and learning receipts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessibility and learning receipts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Every lesson requires a semantic table and keyboard path. The 3D scene is optional; failure of WebGL or WebR must not remove the evidence table, R source, Quarto source, or precompiled Evidence IR.
+
+Receipts are learner-controlled JSON. Version 2 can contain orientation state, prediction, selected observation and evidence IDs, explanation criteria, repair and transfer work, artifact hash, and local-only consent metadata. No telemetry is sent by the package.
+
+Automated accessibility tests detect structural regressions. They do not replace keyboard-only walkthroughs, 200% zoom checks, reduced-motion checks, or review with an actual screen reader.
