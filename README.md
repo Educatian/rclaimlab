@@ -32,6 +32,8 @@ Grant preparation materials:
 - `as_rlearnxr_evidence()` supports `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` objects without reimplementing their statistical methods.
 - `lesson_spec()`, `task_spec()`, and `representation_spec()` define the public authoring contract.
 - `compile_lesson()` creates Evidence IR, a semantic evidence table, Quarto source, a synchronized browser scene, a v2 manifest, and reproducibility checks.
+- `profile_learning_data()` and `lesson_from_data()` turn a learner- or educator-supplied data frame into an inspectable lesson plan without hiding the method, variables, missing-value rule, or provenance.
+- `run_lesson_wizard()` provides a local CSV workflow for approving an analysis and compiling the full Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce sequence.
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
 - `write_lesson_manifest()` and `write_learning_receipt()` preserve course/session provenance, attempt number, consent, and reproducibility metadata.
@@ -114,6 +116,21 @@ lesson <- lesson_spec(
 )
 compile_lesson(lesson, "iris-pca-lesson")
 ```
+
+To create a lesson from a local CSV with guided decisions, run:
+
+```r
+library(rlearnxr)
+run_lesson_wizard()
+
+# The same workflow is available without Shiny.
+learner_data <- read.csv("my-data.csv")
+profile_learning_data(learner_data)
+lesson <- lesson_from_data(learner_data, analysis = "auto")
+compile_lesson(lesson, "my-data-lesson")
+```
+
+The wizard makes deterministic recommendations, not autonomous statistical claims. The author still approves the outcome, dimensions, missing-value rule, learning stages, and adapter before compilation.
 
 The course home also includes a browser-local educator view: import learner-initiated R-LearnXR receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
 

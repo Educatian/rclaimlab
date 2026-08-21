@@ -1,0 +1,721 @@
+#' Profile learner-supplied data for lesson authoring
+#'
+#' `profile_learning_data()` inspects a local data frame without selecting a
+#' statistical method. The profile makes missingness, variable roles, possible
+#' identifiers, and supported Evidence Compiler adapters visible before a lesson
+#' is created.
+#'
+#' @param data A data frame supplied by a learner or educator.
+#' @param outcome Optional outcome column used to refine analysis recommendations.
+#' @return An object of class `rlearnxr_data_profile`.
+#' @export
+profile_learning_data <- function(data, outcome = NULL) {
+  if (!is.data.frame(data)) stop("data must be a data.frame", call. = FALSE)
+  if (nrow(data) < 2L || ncol(data) < 2L) {
+    stop("learning data must contain at least two rows and two columns", call. = FALSE)
+  }
+  if (!is.null(outcome) && (length(outcome) != 1L || is.na(outcome) || !(outcome %in% names(data)))) {
+    stop("outcome must name one column in data", call. = FALSE)
+  }
+
+  column_type <- vapply(data, learning_column_type, character(1))
+  missing <- vapply(data, function(value) sum(is.na(value)), integer(1))
+  distinct <- vapply(data, function(value) length(unique(value[!is.na(value)])), integer(1))
+  possible_identifier <- grepl(
+    "(^|_)(id|name|email|phone|address|ssn|student|learner)(_|$)",
+    tolower(names(data))
+  )
+  columns <- data.frame(
+    column = names(data),
+    type = column_type,
+    missing = missing,
+    missing_percent = round(100 * missing / nrow(data), 1),
+    distinct = distinct,
+    constant = distinct <= 1L,
+    possible_identifier = possible_identifier,
+    stringsAsFactors = FALSE
+  )
+  recommendations <- lesson_analysis_recommendations(data, outcome)
+  warnings <- character()
+  if (any(missing > 0L)) {
+    warnings <- c(warnings, "Missing values require an explicit fail or complete-case decision before compilation.")
+  }
+  if (any(possible_identifier)) {
+    warnings <- c(warnings, "Possible identifiers were detected. Use synthetic or de-identified data for a published lesson.")
+  }
+  if (any(columns$constant)) {
+    warnings <- c(warnings, "Constant columns cannot be used as analysis dimensions.")
+  }
+  value <- structure(
+    list(
+      schema_version = "rlearnxr-data-profile-1",
+      rows = nrow(data),
+      columns = columns,
+      outcome = outcome,
+      recommendations = recommendations,
+      warnings = unique(warnings),
+      data = data
+    ),
+    class = c("rlearnxr_data_profile", "list")
+  )
+  value
+}
+
+#' Recommend supported lesson analyses
+#'
+#' Recommendations are deterministic rules based on variable types and sample
+#' size. They do not claim that a statistically available method is appropriate
+#' for the author's research question.
+#'
+#' @param x A data frame or `rlearnxr_data_profile`.
+#' @param outcome Optional outcome column.
+#' @return A data frame of supported analysis choices and rationale.
+#' @export
+recommend_lesson_analysis <- function(x, outcome = NULL) {
+  if (inherits(x, "rlearnxr_data_profile")) {
+    data <- x$data
+    if (is.null(outcome)) outcome <- x$outcome
+  } else {
+    data <- x
+  }
+  if (!is.data.frame(data)) stop("x must be a data.frame or rlearnxr_data_profile", call. = FALSE)
+  lesson_analysis_recommendations(data, outcome)
+}
+
+#' Create a complete evidence-linked lesson from local data
+#'
+#' `lesson_from_data()` is the programmatic counterpart of the guided Lesson
+#' Wizard. It applies one existing R method, converts the result through an
+#' Evidence Adapter, and creates all eight default learning stages.
+#'
+#' @param data A local data frame.
+#' @param analysis One of `auto`, `data_view`, `prcomp`, `lm`, `glm`, or `kmeans`.
+#' @param dimensions Numeric columns used as dimensions or predictors.
+#' @param outcome Outcome column for `lm` or `glm`.
+#' @param id_column Optional unique observation-label column.
+#' @param title Lesson title.
+#' @param id Stable lesson identifier. By default it is derived from `title`.
+#' @param outcomes Optional measurable learning outcomes.
+#' @param stages Ordered learning stages to include.
+#' @param seed Deterministic seed recorded in Evidence IR.
+#' @param clusters Number of clusters for `kmeans`.
+#' @param na_action Either `fail` or `complete` for explicit complete-case use.
+#' @return An object of class `rlearnxr_lesson` ready for `compile_lesson()`.
+#' @export
+lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
+                             outcome = NULL, id_column = NULL,
+                             title = "My data evidence lesson", id = NULL,
+                             outcomes = NULL,
+                             stages = rlearnxr_learning_stages(), seed = 2026L,
+                             clusters = 3L, na_action = c("fail", "complete")) {
+  profile <- profile_learning_data(data, outcome = outcome)
+  analysis <- match.arg(analysis, c("auto", "data_view", "prcomp", "lm", "glm", "kmeans"))
+  na_action <- match.arg(na_action)
+  if (analysis == "auto") analysis <- recommended_analysis_id(profile$recommendations)
+  available <- profile$recommendations
+  row <- available[available$analysis == analysis, , drop = FALSE]
+  if (!nrow(row) || !isTRUE(row$available[[1]])) {
+    reason <- if (nrow(row)) row$reason[[1]] else "the method is not supported"
+    stop("analysis '", analysis, "' is not available: ", reason, call. = FALSE)
+  }
+
+  numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
+  numeric_columns <- setdiff(numeric_columns, c(outcome, id_column))
+  if (is.null(dimensions)) dimensions <- numeric_columns
+  dimensions <- unique(as.character(dimensions))
+  if (!length(dimensions) || any(!dimensions %in% names(data)) ||
+      any(!vapply(data[dimensions], is.numeric, logical(1)))) {
+    stop("dimensions must name numeric columns in data", call. = FALSE)
+  }
+  minimum_dimensions <- if (analysis %in% c("data_view", "prcomp", "kmeans")) 2L else 1L
+  if (length(dimensions) < minimum_dimensions) {
+    stop("analysis '", analysis, "' requires at least ", minimum_dimensions, " numeric dimension(s)", call. = FALSE)
+  }
+  if (analysis %in% c("lm", "glm") && (is.null(outcome) || !(outcome %in% names(data)))) {
+    stop("analysis '", analysis, "' requires an outcome column", call. = FALSE)
+  }
+  if (!is.null(id_column) && (length(id_column) != 1L || !(id_column %in% names(data)))) {
+    stop("id_column must name one column in data", call. = FALSE)
+  }
+
+  required_columns <- unique(c(dimensions, outcome, id_column))
+  keep <- stats::complete.cases(data[required_columns])
+  if (!all(keep) && na_action == "fail") {
+    stop(sum(!keep), " row(s) contain missing values in selected columns; set na_action = 'complete' to use complete cases", call. = FALSE)
+  }
+  source_rows <- which(keep)
+  prepared <- data[keep, , drop = FALSE]
+  if (nrow(prepared) < 2L) stop("fewer than two complete rows remain", call. = FALSE)
+  finite <- vapply(prepared[dimensions], function(value) all(is.finite(value)), logical(1))
+  if (!all(finite)) stop("selected numeric dimensions contain non-finite values", call. = FALSE)
+  variable <- vapply(prepared[dimensions], function(value) length(unique(value)) > 1L, logical(1))
+  if (!all(variable)) stop("selected dimensions must vary across observations", call. = FALSE)
+
+  labels <- wizard_observation_labels(prepared, id_column, source_rows)
+  model <- NULL
+  evidence <- switch(
+    analysis,
+    data_view = as_rlearnxr_evidence(
+      prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed,
+      analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters)
+    ),
+    prcomp = {
+      model <- stats::prcomp(prepared[dimensions], center = TRUE, scale. = TRUE)
+      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+    },
+    lm = {
+      model_data <- wizard_model_data(prepared, dimensions, outcome, binary = FALSE)
+      model <- stats::lm(outcome ~ ., data = model_data)
+      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+    },
+    glm = {
+      model_data <- wizard_model_data(prepared, dimensions, outcome, binary = TRUE)
+      model <- stats::glm(outcome ~ ., data = model_data, family = stats::binomial())
+      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+    },
+    kmeans = {
+      clusters <- as.integer(clusters)
+      if (length(clusters) != 1L || is.na(clusters) || clusters < 2L || clusters >= nrow(prepared)) {
+        stop("clusters must be at least 2 and smaller than the number of complete rows", call. = FALSE)
+      }
+      set.seed(as.integer(seed))
+      model <- stats::kmeans(prepared[dimensions], centers = clusters)
+      as_rlearnxr_evidence(model, data = prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed)
+    }
+  )
+
+  source_code <- wizard_analysis_source(analysis, dimensions, outcome, seed, clusters)
+  evidence$analysis$call <- paste(source_code, collapse = " ")
+  evidence$metadata$wizard <- list(
+    analysis = analysis,
+    source_columns = dimensions,
+    outcome = outcome,
+    id_column = id_column,
+    original_rows = nrow(data),
+    compiled_rows = nrow(prepared),
+    omitted_source_rows = setdiff(seq_len(nrow(data)), source_rows),
+    na_action = na_action,
+    generated_r_code = source_code
+  )
+  hash_payload <- unclass(evidence)
+  hash_payload$analysis$artifact_hash <- NULL
+  evidence$analysis$artifact_hash <- evidence_hash(hash_payload)
+  validate_rlearnxr_evidence(evidence)
+
+  if (is.null(id)) id <- lesson_id_from_title(title)
+  if (is.null(outcomes)) outcomes <- wizard_outcomes(analysis)
+  stages <- match.arg(stages, rlearnxr_learning_stages(), several.ok = TRUE)
+  stages <- rlearnxr_learning_stages()[rlearnxr_learning_stages() %in% stages]
+  tasks <- lapply(stages, wizard_task_spec, analysis = analysis)
+  lesson <- lesson_spec(
+    id = id,
+    title = title,
+    outcomes = outcomes,
+    evidence = evidence,
+    tasks = tasks
+  )
+  lesson$authoring <- list(
+    method = "lesson_wizard",
+    profile_schema = profile$schema_version,
+    analysis_recommendations = profile$recommendations,
+    warnings = profile$warnings
+  )
+  lesson
+}
+
+#' @export
+print.rlearnxr_data_profile <- function(x, ...) {
+  cat("<rlearnxr_data_profile>", x$rows, "rows x", nrow(x$columns), "columns\n")
+  cat("Available adapters:", paste(x$recommendations$analysis[x$recommendations$available], collapse = ", "), "\n")
+  cat("Warnings:", length(x$warnings), "\n")
+  invisible(x)
+}
+
+#' @export
+summary.rlearnxr_data_profile <- function(object, ...) {
+  list(
+    rows = object$rows,
+    columns = nrow(object$columns),
+    numeric_columns = sum(object$columns$type %in% c("integer", "numeric", "binary numeric")),
+    missing_cells = sum(object$columns$missing),
+    available_adapters = object$recommendations$analysis[object$recommendations$available],
+    recommended_adapter = recommended_analysis_id(object$recommendations),
+    warnings = object$warnings
+  )
+}
+
+#' @export
+as.data.frame.rlearnxr_data_profile <- function(x, row.names = NULL, optional = FALSE, ...) {
+  x$columns
+}
+
+#' Run the local Lesson Wizard
+#'
+#' The wizard reads data into the local R session, never sends data to an
+#' external service, and compiles a portable lesson through `lesson_from_data()`.
+#'
+#' @param data Optional data frame loaded when the app starts.
+#' @param output_dir Optional parent directory for compiled lessons.
+#' @param host,port,launch.browser,quiet Passed to `shiny::runApp()`.
+#' @return Runs a Shiny application. Called for its side effect.
+#' @export
+run_lesson_wizard <- function(data = NULL, output_dir = NULL,
+                              host = "127.0.0.1", port = getOption("shiny.port"),
+                              launch.browser = interactive(), quiet = FALSE) {
+  app <- build_lesson_wizard_app(data = data, output_dir = output_dir)
+  shiny::runApp(app, host = host, port = port, launch.browser = launch.browser, quiet = quiet)
+}
+
+build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
+  # The optional Shiny surface is exercised by browser_wizard_smoke_test.ps1.
+  # nocov start
+  if (!requireNamespace("shiny", quietly = TRUE)) {
+    stop("The optional Lesson Wizard requires the 'shiny' package. Install it with install.packages('shiny').", call. = FALSE)
+  }
+  if (!is.null(data) && !is.data.frame(data)) stop("data must be a data.frame", call. = FALSE)
+  if (!is.null(output_dir)) output_dir <- normalizePath(output_dir, winslash = "/", mustWork = FALSE)
+
+  app_ui <- shiny::fluidPage(
+    shiny::tags$head(
+      shiny::tags$title("R-LearnXR Lesson Wizard"),
+      shiny::tags$style(shiny::HTML(wizard_css()))
+    ),
+    shiny::tags$a(class = "wizard-skip", href = "#wizard-main", "Skip to lesson design"),
+    shiny::div(class = "wizard-shell",
+      shiny::tags$header(class = "wizard-header",
+        shiny::div(class = "wizard-brand", shiny::span(class = "wizard-mark", "R"), "R-LearnXR"),
+        shiny::h1("Turn a local dataset into an evidence lesson"),
+        shiny::p("Inspect the data, approve an analysis, and compile an eight-stage learning experience. Your data stays in this R session.")
+      ),
+      shiny::tags$main(id = "wizard-main",
+        shiny::div(class = "wizard-steps", role = "list", `aria-label` = "Lesson Wizard steps",
+          wizard_step("1", "Add data", "Local CSV or built-in example", "active"),
+          wizard_step("2", "Review fit", "Types, missingness, and method", ""),
+          wizard_step("3", "Design lesson", "Variables and learning stages", ""),
+          wizard_step("4", "Build", "Portable evidence artifacts", "")
+        ),
+        shiny::div(class = "wizard-layout",
+          shiny::tags$section(class = "wizard-card wizard-source", `aria-labelledby` = "source-title",
+            shiny::div(class = "wizard-card-heading", shiny::span(class = "eyebrow", "Step 1"), shiny::h2(id = "source-title", "Choose learner data")),
+            shiny::fileInput("data_file", "Upload a CSV", accept = c("text/csv", ".csv"), buttonLabel = "Choose CSV", placeholder = "No file selected"),
+            shiny::checkboxInput("header", "First row contains column names", TRUE),
+            shiny::actionButton("use_example", "Use iris example", class = "btn-default wizard-secondary"),
+            shiny::p(class = "wizard-privacy", shiny::strong("Local by design."), " The wizard does not call an external analytics or AI service."),
+            shiny::uiOutput("data_status")
+          ),
+          shiny::div(class = "wizard-workspace",
+            shiny::tags$section(class = "wizard-card", `aria-labelledby` = "profile-title",
+              shiny::div(class = "wizard-card-heading", shiny::span(class = "eyebrow", "Step 2"), shiny::h2(id = "profile-title", "Review the data fit")),
+              shiny::uiOutput("profile_summary"),
+              shiny::div(class = "wizard-table-wrap", shiny::tableOutput("column_profile")),
+              shiny::uiOutput("profile_warnings"),
+              shiny::div(class = "wizard-table-wrap", shiny::tableOutput("analysis_recommendations"))
+            ),
+            shiny::tags$section(class = "wizard-card", `aria-labelledby` = "design-title",
+              shiny::div(class = "wizard-card-heading", shiny::span(class = "eyebrow", "Step 3"), shiny::h2(id = "design-title", "Design the lesson")),
+              shiny::div(class = "wizard-form-grid",
+                shiny::textInput("lesson_title", "Lesson title", value = "My data evidence lesson"),
+                shiny::selectInput("outcome", "Outcome variable", choices = c("Add data first" = ""), selected = "", selectize = FALSE),
+                shiny::selectInput("analysis", "Analysis adapter", choices = c("Add data first" = ""), selected = "", selectize = FALSE),
+                shiny::selectInput("id_column", "Observation label", choices = c("Generated labels" = ""), selected = "", selectize = FALSE),
+                shiny::selectizeInput("dimensions", "Numeric dimensions or predictors", choices = character(), selected = character(), multiple = TRUE),
+                shiny::numericInput("seed", "Reproducibility seed", value = 2026, min = 1, step = 1),
+                shiny::conditionalPanel("input.analysis == 'kmeans'", shiny::numericInput("clusters", "Number of clusters", value = 3, min = 2, step = 1)),
+                shiny::selectInput("na_action", "Missing-value rule", choices = c("Stop and review" = "fail", "Use complete rows" = "complete"), selected = "fail")
+              ),
+              shiny::checkboxGroupInput(
+                "stages", "Learning stages",
+                choices = stats::setNames(rlearnxr_learning_stages(), wizard_stage_labels()),
+                selected = rlearnxr_learning_stages(), inline = TRUE
+              ),
+              shiny::actionButton("preview_lesson", "Review lesson plan", class = "btn-primary wizard-primary"),
+              shiny::uiOutput("lesson_preview")
+            ),
+            shiny::tags$section(class = "wizard-card wizard-build", `aria-labelledby` = "build-title",
+              shiny::div(class = "wizard-card-heading", shiny::span(class = "eyebrow", "Step 4"), shiny::h2(id = "build-title", "Compile and inspect")),
+              shiny::p(class = "wizard-muted", "The compiler writes Evidence IR, a semantic table, Quarto source, the interactive scene, and reproducibility checks from one R object."),
+              shiny::actionButton("build_lesson", "Build portable lesson", class = "btn-primary wizard-primary"),
+              shiny::uiOutput("build_result")
+            )
+          )
+        )
+      )
+    )
+  )
+
+  app_server <- function(input, output, session) {
+    current_data <- shiny::reactiveVal(data)
+    current_name <- shiny::reactiveVal(if (is.null(data)) NULL else "Provided R data frame")
+    preview_value <- shiny::reactiveVal(NULL)
+    build_value <- shiny::reactiveVal(NULL)
+    resource_alias <- paste0("rlearnxr-wizard-", gsub("[^A-Za-z0-9]", "", session$token))
+
+    session$onSessionEnded(function() {
+      try(shiny::removeResourcePath(resource_alias), silent = TRUE)
+    })
+
+    shiny::observeEvent(input$data_file, {
+      value <- tryCatch(
+        utils::read.csv(input$data_file$datapath, header = isTRUE(input$header), stringsAsFactors = FALSE, check.names = FALSE),
+        error = function(error) error
+      )
+      if (inherits(value, "error")) {
+        shiny::showNotification(conditionMessage(value), type = "error")
+      } else {
+        current_data(value)
+        current_name(input$data_file$name)
+        preview_value(NULL)
+        build_value(NULL)
+      }
+    })
+
+    shiny::observeEvent(input$use_example, {
+      current_data(datasets::iris)
+      current_name("iris built-in example")
+      preview_value(NULL)
+      build_value(NULL)
+    })
+
+    profile <- shiny::reactive({
+      shiny::req(current_data())
+      profile_learning_data(current_data(), outcome = NULL)
+    })
+
+    active_recommendations <- shiny::reactive({
+      shiny::req(current_data())
+      recommend_lesson_analysis(current_data(), outcome = null_if_empty(input$outcome))
+    })
+
+    output$data_status <- shiny::renderUI({
+      if (is.null(current_data())) return(shiny::div(class = "wizard-empty", "Add a CSV to begin. No analysis has been selected."))
+      shiny::div(class = "wizard-ready", shiny::span(`aria-hidden` = "true", "\u2713"), paste(current_name(), "is ready."))
+    })
+
+    output$profile_summary <- shiny::renderUI({
+      if (is.null(current_data())) return(shiny::p(class = "wizard-empty", "The variable profile will appear after data are added."))
+      value <- profile()
+      numeric_count <- sum(value$columns$type %in% c("integer", "numeric", "binary numeric"))
+      shiny::div(class = "wizard-metrics",
+        wizard_metric(format(value$rows, big.mark = ","), "Rows"),
+        wizard_metric(nrow(value$columns), "Columns"),
+        wizard_metric(numeric_count, "Numeric"),
+        wizard_metric(sum(value$columns$missing), "Missing cells")
+      )
+    })
+
+    output$column_profile <- shiny::renderTable({
+      shiny::req(current_data())
+      value <- profile()$columns
+      data.frame(
+        Variable = value$column,
+        Type = value$type,
+        Missing = paste0(value$missing, " (", value$missing_percent, "%)"),
+        Distinct = value$distinct,
+        Review = ifelse(value$possible_identifier, "Possible identifier", ifelse(value$constant, "Constant", "Ready")),
+        check.names = FALSE
+      )
+    }, striped = FALSE, bordered = FALSE, spacing = "s", rownames = FALSE)
+
+    output$profile_warnings <- shiny::renderUI({
+      shiny::req(current_data())
+      warnings <- profile()$warnings
+      if (!length(warnings)) return(shiny::div(class = "wizard-note wizard-note-success", "No structural data warnings detected."))
+      shiny::div(class = "wizard-note", shiny::strong("Review before building"), shiny::tags$ul(lapply(warnings, shiny::tags$li)))
+    })
+
+    output$analysis_recommendations <- shiny::renderTable({
+      shiny::req(current_data())
+      value <- active_recommendations()
+      data.frame(
+        Method = value$label,
+        Status = ifelse(value$available, ifelse(value$recommended, "Recommended", "Available"), "Unavailable"),
+        Why = value$reason,
+        check.names = FALSE
+      )
+    }, striped = FALSE, bordered = FALSE, spacing = "s", rownames = FALSE)
+
+    shiny::observeEvent(current_data(), {
+      shiny::req(current_data())
+      value <- current_data()
+      available <- profile()$recommendations
+      available <- available[available$available, , drop = FALSE]
+      numeric_columns <- names(value)[vapply(value, is.numeric, logical(1))]
+      title <- paste(tools::toTitleCase(gsub("[-_]", " ", tools::file_path_sans_ext(current_name() %||% "my data"))), "evidence lesson")
+      shiny::updateTextInput(session, "lesson_title", value = title)
+      shiny::updateSelectInput(session, "outcome", choices = c("None" = "", names(value)))
+      shiny::updateSelectInput(session, "id_column", choices = c("Generated labels" = "", names(value)), selected = "")
+      shiny::updateSelectInput(
+        session, "analysis", choices = stats::setNames(available$analysis, available$label),
+        selected = recommended_analysis_id(available)
+      )
+      shiny::updateSelectizeInput(
+        session, "dimensions", choices = numeric_columns,
+        selected = numeric_columns, server = FALSE
+      )
+    }, ignoreInit = FALSE)
+
+    shiny::observeEvent(list(current_data(), input$outcome), {
+      shiny::req(current_data(), !is.null(input$outcome), input$analysis, input$dimensions)
+      recommendations <- recommend_lesson_analysis(current_data(), outcome = null_if_empty(input$outcome))
+      available <- recommendations[recommendations$available, , drop = FALSE]
+      numeric_columns <- names(current_data())[vapply(current_data(), is.numeric, logical(1))]
+      numeric_columns <- setdiff(numeric_columns, null_if_empty(input$outcome))
+      shiny::updateSelectInput(
+        session, "analysis",
+        choices = stats::setNames(available$analysis, available$label),
+        selected = recommended_analysis_id(available)
+      )
+      shiny::updateSelectizeInput(
+        session, "dimensions", choices = numeric_columns,
+        selected = numeric_columns, server = FALSE
+      )
+    }, ignoreInit = FALSE)
+
+    create_lesson <- function() {
+      shiny::req(current_data(), input$analysis, input$lesson_title, input$dimensions, input$stages)
+      lesson_from_data(
+        current_data(), analysis = input$analysis, dimensions = input$dimensions,
+        outcome = null_if_empty(input$outcome), id_column = null_if_empty(input$id_column),
+        title = input$lesson_title, seed = input$seed,
+        clusters = input$clusters %||% 3L, na_action = input$na_action,
+        stages = input$stages
+      )
+    }
+
+    shiny::observeEvent(input$preview_lesson, {
+      value <- tryCatch(create_lesson(), error = function(error) error)
+      preview_value(value)
+      if (inherits(value, "error")) shiny::showNotification(conditionMessage(value), type = "error")
+    })
+
+    output$lesson_preview <- shiny::renderUI({
+      value <- preview_value()
+      if (is.null(value)) return(NULL)
+      if (inherits(value, "error")) return(shiny::div(class = "wizard-note wizard-note-error", conditionMessage(value)))
+      task_types <- vapply(value$tasks, `[[`, character(1), "type")
+      shiny::div(class = "wizard-preview",
+        shiny::div(class = "wizard-ready", shiny::span(`aria-hidden` = "true", "\u2713"), "Lesson contract is valid."),
+        shiny::h3(value$title),
+        shiny::p(shiny::strong("Evidence adapter: "), value$evidence$analysis$engine),
+        shiny::p(shiny::strong("Evidence hash: "), shiny::tags$code(value$evidence$analysis$artifact_hash)),
+        shiny::div(class = "wizard-stage-pills", lapply(wizard_stage_labels(task_types), function(label) shiny::span(label))),
+        shiny::tags$details(shiny::tags$summary("Inspect generated R code"), shiny::pre(paste(value$evidence$metadata$wizard$generated_r_code, collapse = "\n")))
+      )
+    })
+
+    shiny::observeEvent(input$build_lesson, {
+      lesson <- tryCatch(create_lesson(), error = function(error) error)
+      if (inherits(lesson, "error")) {
+        build_value(lesson)
+        shiny::showNotification(conditionMessage(lesson), type = "error")
+        return()
+      }
+      parent <- output_dir %||% file.path(tempdir(), "rlearnxr-wizard-builds")
+      path <- file.path(parent, lesson$id)
+      value <- tryCatch(compile_lesson(lesson, path, overwrite = TRUE), error = function(error) error)
+      if (!inherits(value, "error")) {
+        try(shiny::removeResourcePath(resource_alias), silent = TRUE)
+        shiny::addResourcePath(resource_alias, value$output_dir)
+      }
+      build_value(value)
+    })
+
+    output$build_result <- shiny::renderUI({
+      value <- build_value()
+      if (is.null(value)) return(shiny::div(class = "wizard-empty", "Review the lesson plan, then build the portable artifacts."))
+      if (inherits(value, "error")) return(shiny::div(class = "wizard-note wizard-note-error", conditionMessage(value)))
+      failed <- sum(value$checks$status == "FAIL")
+      shiny::div(class = "wizard-build-result",
+        shiny::div(class = if (failed) "wizard-note wizard-note-error" else "wizard-note wizard-note-success",
+          if (failed) paste(failed, "compiler checks need attention.") else "Build complete. All compiler checks passed."
+        ),
+        shiny::div(class = "wizard-metrics",
+          wizard_metric(length(value$files), "Artifacts"),
+          wizard_metric(sum(value$checks$status == "PASS"), "Checks passed"),
+          wizard_metric(sum(value$checks$status == "WARN"), "Warnings"),
+          wizard_metric(sum(value$checks$status == "FAIL"), "Failures")
+        ),
+        shiny::p(class = "wizard-path", value$output_dir),
+        shiny::tags$a(class = "btn btn-primary wizard-primary", href = paste0("/", resource_alias, "/scene/index.html"), target = "_blank", rel = "noopener", "Open learner lesson")
+      )
+    })
+  }
+
+  shiny::shinyApp(ui = app_ui, server = app_server)
+  # nocov end
+}
+
+learning_column_type <- function(value) {
+  distinct <- unique(value[!is.na(value)])
+  if (is.logical(value)) return("binary logical")
+  if (is.numeric(value) && length(distinct) == 2L) return("binary numeric")
+  if (is.integer(value)) return("integer")
+  if (is.numeric(value)) return("numeric")
+  if (inherits(value, c("Date", "POSIXct", "POSIXlt"))) return("date/time")
+  if (is.factor(value) || length(distinct) <= 12L) return("categorical")
+  "text"
+}
+
+lesson_analysis_recommendations <- function(data, outcome = NULL) {
+  numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
+  numeric_predictors <- setdiff(numeric_columns, outcome)
+  complete_numeric <- if (length(numeric_columns)) sum(stats::complete.cases(data[numeric_columns])) else 0L
+  variable_numeric <- numeric_columns[vapply(data[numeric_columns], function(value) length(unique(value[!is.na(value)])) > 1L, logical(1))]
+  outcome_exists <- !is.null(outcome) && outcome %in% names(data)
+  outcome_binary <- outcome_exists && length(unique(data[[outcome]][!is.na(data[[outcome]])])) == 2L
+  outcome_numeric <- outcome_exists && is.numeric(data[[outcome]]) && !outcome_binary
+
+  available <- c(
+    data_view = length(variable_numeric) >= 2L,
+    prcomp = length(setdiff(variable_numeric, outcome)) >= 2L && complete_numeric >= 3L,
+    lm = outcome_numeric && length(numeric_predictors) >= 1L,
+    glm = outcome_binary && length(numeric_predictors) >= 1L,
+    kmeans = length(setdiff(variable_numeric, outcome)) >= 2L && complete_numeric >= 4L
+  )
+  recommended <- rep(FALSE, length(available))
+  names(recommended) <- names(available)
+  recommended[[if (outcome_binary && available[["glm"]]) "glm" else if (outcome_numeric && available[["lm"]]) "lm" else if (available[["prcomp"]]) "prcomp" else if (available[["data_view"]]) "data_view" else "kmeans"]] <- TRUE
+  label <- c(data_view = "Explore numeric dimensions", prcomp = "Principal component analysis", lm = "Linear regression", glm = "Binary logistic regression", kmeans = "K-means clustering")
+  reason <- c(
+    data_view = if (available[["data_view"]]) "At least two varying numeric columns can be linked directly." else "Requires at least two varying numeric columns.",
+    prcomp = if (available[["prcomp"]]) "Numeric dimensions can be summarized into linked component scores." else "Requires at least two varying numeric columns and three complete rows.",
+    lm = if (available[["lm"]]) "The selected numeric outcome can be modeled from numeric predictors." else "Select a non-binary numeric outcome and at least one numeric predictor.",
+    glm = if (available[["glm"]]) "The selected two-level outcome can be modeled as a probability." else "Select a two-level outcome and at least one numeric predictor.",
+    kmeans = if (available[["kmeans"]]) "Numeric rows can be compared with deterministic cluster evidence." else "Requires at least two varying numeric columns and four complete rows."
+  )
+  data.frame(
+    analysis = names(available), label = unname(label[names(available)]),
+    available = unname(available), recommended = unname(recommended),
+    reason = unname(reason[names(available)]), stringsAsFactors = FALSE
+  )
+}
+
+recommended_analysis_id <- function(recommendations) {
+  available <- recommendations[recommendations$available, , drop = FALSE]
+  if (!nrow(available)) stop("no supported analysis is available for these data", call. = FALSE)
+  recommended <- available$analysis[available$recommended]
+  if (length(recommended)) recommended[[1]] else available$analysis[[1]]
+}
+
+wizard_observation_labels <- function(data, id_column, source_rows) {
+  if (is.null(id_column)) return(sprintf("observation-%04d", source_rows))
+  labels <- as.character(data[[id_column]])
+  if (anyNA(labels) || any(!nzchar(trimws(labels))) || anyDuplicated(labels)) {
+    stop("id_column values must be non-empty and unique", call. = FALSE)
+  }
+  labels
+}
+
+wizard_model_data <- function(data, dimensions, outcome, binary = FALSE) {
+  value <- data.frame(outcome = data[[outcome]], data[dimensions], check.names = TRUE)
+  names(value) <- make.names(c("outcome", dimensions), unique = TRUE)
+  names(value)[[1]] <- "outcome"
+  if (binary) {
+    levels <- sort(unique(as.character(value$outcome)))
+    value$outcome <- factor(as.character(value$outcome), levels = levels)
+  } else {
+    if (!is.numeric(value$outcome)) stop("linear regression requires a numeric outcome", call. = FALSE)
+    value$outcome <- as.numeric(value$outcome)
+  }
+  value
+}
+
+wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters) {
+  quoted_dimensions <- paste(sprintf('"%s"', gsub('"', '\\"', dimensions, fixed = TRUE)), collapse = ", ")
+  header <- c(paste0("set.seed(", as.integer(seed), ")"), "# learner_data is the local CSV data frame")
+  code <- switch(
+    analysis,
+    data_view = paste0("evidence <- as_rlearnxr_evidence(learner_data, dimensions = c(", quoted_dimensions, "))"),
+    prcomp = c(paste0("fit <- prcomp(learner_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rlearnxr_evidence(fit)"),
+    lm = c(paste0("fit <- lm(`", outcome, "` ~ ., data = learner_data[c(\"", outcome, "\", ", quoted_dimensions, ")])"), "evidence <- as_rlearnxr_evidence(fit)"),
+    glm = c(paste0("fit <- glm(`", outcome, "` ~ ., data = learner_data[c(\"", outcome, "\", ", quoted_dimensions, ")], family = binomial())"), "evidence <- as_rlearnxr_evidence(fit)"),
+    kmeans = c(paste0("fit <- kmeans(learner_data[c(", quoted_dimensions, ")], centers = ", as.integer(clusters), ")"), paste0("evidence <- as_rlearnxr_evidence(fit, data = learner_data[c(", quoted_dimensions, ")])"))
+  )
+  c(header, code)
+}
+
+rlearnxr_learning_stages <- function() {
+  c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce")
+}
+
+wizard_stage_labels <- function(stages = rlearnxr_learning_stages()) {
+  labels <- c(orient = "Orient", predict = "Predict", run_r = "Run R", explore = "Explore", explain = "Explain", repair = "Repair", transfer = "Transfer", reproduce = "Reproduce")
+  unname(labels[stages])
+}
+
+wizard_task_spec <- function(stage, analysis) {
+  prompts <- c(
+    orient = "Describe what one row and each selected variable represent.",
+    predict = paste0("Predict one pattern you expect before running the ", analysis, " analysis."),
+    run_r = "Run the generated R analysis and compare its provenance with the compiled evidence.",
+    explore = "Select an observation and compare its values across the table, 2D plot, and 3D scene.",
+    explain = "Make a claim about the selected observation, cite linked evidence, and state a limitation.",
+    repair = "Revise the explanation after checking it against the evidence table and analysis assumptions.",
+    transfer = "Apply the same reasoning to a different observation and identify what changes.",
+    reproduce = "Verify the seed, R call, artifact hash, and generated source needed to rebuild the lesson."
+  )
+  criteria <- switch(
+    stage,
+    orient = c(meaning = "Defines the unit of observation and variable roles"),
+    predict = c(prediction = "Records a falsifiable expectation before inspection"),
+    run_r = c(execution = "Connects R output to the compiled artifact"),
+    explore = c(selection = "Selects an observation using a stable evidence ID"),
+    explain = c(claim = "States a claim", evidence = "Cites linked evidence", limitation = "States a limitation"),
+    repair = c(revision = "Corrects or strengthens the evidence-based explanation"),
+    transfer = c(transfer = "Applies the reasoning to a new observation"),
+    reproduce = c(provenance = "Verifies source, seed, version, and artifact hash")
+  )
+  task_spec(
+    id = paste0("wizard-", stage), type = stage, prompt = prompts[[stage]],
+    criteria = criteria, evidence_required = stage %in% c("explore", "explain", "repair", "transfer")
+  )
+}
+
+wizard_outcomes <- function(analysis) {
+  c(
+    paste0("Interpret evidence produced by the ", analysis, " adapter"),
+    "Explain a claim using stable observation and evidence identifiers",
+    "Repair and transfer an interpretation while preserving reproducibility"
+  )
+}
+
+lesson_id_from_title <- function(title) {
+  assert_scalar_text(title, "title")
+  value <- tolower(trimws(title))
+  value <- gsub("[^a-z0-9]+", "-", value)
+  value <- gsub("(^-+|-+$)", "", value)
+  if (!nzchar(value)) value <- "wizard-lesson"
+  substr(value, 1L, 64L)
+}
+
+null_if_empty <- function(value) {
+  if (is.null(value) || length(value) != 1L || is.na(value) || !nzchar(value)) NULL else value
+}
+
+# Browser-only HTML helpers are covered by the Lesson Wizard E2E test.
+# nocov start
+wizard_step <- function(number, title, copy, state) {
+  shiny::div(class = paste("wizard-step", state), role = "listitem",
+    shiny::span(class = "wizard-step-number", number),
+    shiny::div(shiny::strong(title), shiny::span(copy))
+  )
+}
+
+wizard_metric <- function(value, label) {
+  shiny::div(class = "wizard-metric", shiny::strong(value), shiny::span(label))
+}
+
+wizard_css <- function() {
+  paste(readLines(wizard_template_path(), warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+}
+
+wizard_template_path <- function() {
+  roots <- unique(c(RLEARNXR_SOURCE_ROOT, normalizePath(".", winslash = "/", mustWork = TRUE)))
+  candidates <- file.path(roots, "inst", "templates", "wizard.css")
+  found <- candidates[file.exists(candidates)][1]
+  if (length(found) && !is.na(found)) return(found)
+  installed <- system.file("templates", "wizard.css", package = "rlearnxr")
+  if (nzchar(installed)) return(installed)
+  stop("R-LearnXR Lesson Wizard stylesheet was not found", call. = FALSE)
+}
+# nocov end

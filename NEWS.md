@@ -9,6 +9,13 @@
 - Migrated manifests and learner receipts to version 2 contracts.
 - Migrated all five reference lessons to emit and validate Evidence IR.
 
+## Guided Lesson Wizard
+
+- Added `profile_learning_data()` and `recommend_lesson_analysis()` to expose variable types, missingness, possible identifiers, method eligibility, and rationale before authoring.
+- Added `lesson_from_data()` to compile local data through direct exploration, principal component analysis, linear regression, binary logistic regression, or k-means while preserving generated R code and source-row accounting.
+- Added the optional local `run_lesson_wizard()` Shiny workflow for CSV upload, outcome-aware recommendations, explicit variable and missing-value decisions, eight-stage lesson preview, and portable artifact compilation.
+- Added desktop, mobile, and full-build browser validation for the local CSV workflow.
+
 ## Quality and sustainability
 
 - Added contract edge tests and coverage gates of 85% overall and 95% for Evidence Compiler core files.
