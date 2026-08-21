@@ -7,8 +7,8 @@ R-LearnXR can be validated outside the developer's current work window. The prim
 Every push, pull request, manual dispatch, and weekly scheduled run performs:
 
 1. R package checks on Ubuntu, Windows, and macOS.
-2. Rebuilds and strict-checks all three reference lessons.
-3. Renders all three Quarto lessons.
+2. Rebuilds and strict-checks all five reference lessons.
+3. Renders all five Quarto lessons.
 4. Clones and installs `Educatian/rlearnxr` from public `main` into a clean R library and verifies the exported API.
 5. Runs a real Chromium interaction smoke test for keyboard controls, mobile width, the AI brief, and the semantic table.
 6. Runs the network-blocked WebR fallback test on a hosted Windows runner.

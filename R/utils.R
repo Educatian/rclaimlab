@@ -54,11 +54,17 @@ scene_template_path <- function() {
   stop("R-LearnXR scene template was not found", call. = FALSE)
 }
 
-scene_html <- function(title, points_json) {
+scene_html <- function(title, points_json, learning_contract = NULL) {
   template <- paste(
     readLines(scene_template_path(), warn = FALSE, encoding = "UTF-8"),
     collapse = "\n"
   )
   template <- sub("{{TITLE}}", html_escape(title), template, fixed = TRUE)
-  sub("{{POINTS_JSON}}", points_json, template, fixed = TRUE)
+  template <- sub("{{POINTS_JSON}}", points_json, template, fixed = TRUE)
+  if (is.null(learning_contract)) learning_contract <- default_scene_contract(title)
+  contract_json <- jsonlite::toJSON(
+    learning_contract, auto_unbox = TRUE, null = "null", na = "null", digits = NA
+  )
+  contract_json <- gsub("<", "\\u003c", contract_json, fixed = TRUE)
+  sub("{{LESSON_JSON}}", contract_json, template, fixed = TRUE)
 }

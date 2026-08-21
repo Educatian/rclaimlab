@@ -1,33 +1,29 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "R", "utils.R"))
-source(file.path(root, "R", "zzz.R"))
-source(file.path(root, "R", "lesson_bundle.R"))
-source(file.path(root, "R", "evidence_adapters.R"))
-source(file.path(root, "R", "scene_contract.R"))
-source(file.path(root, "R", "lesson_manifest.R"))
-source(file.path(root, "R", "render_scene.R"))
+source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
 
 lesson_dir <- file.path(root, "examples", "mtcars-efficiency")
 dir.create(file.path(lesson_dir, "data"), recursive = TRUE, showWarnings = FALSE)
 cars <- mtcars
 set.seed(2026)
 cars$label <- rownames(cars)
-scene_data <- data.frame(
-  label = cars$label,
-  x = as.numeric(scale(cars$mpg)),
-  y = as.numeric(scale(cars$hp)),
-  z = as.numeric(scale(cars$wt)),
-  stringsAsFactors = FALSE
+utils::write.csv(cars, file.path(lesson_dir, "data", "mtcars_efficiency_source.csv"), row.names = FALSE)
+lesson <- lesson_from_data(
+  cars, analysis = "lm", dimensions = c("hp", "wt"), outcome = "mpg", id_column = "label",
+  question = "How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+  intent = "explain", unit_of_analysis = "one vehicle model in the built-in mtcars dataset",
+  decision_context = "learning to critique an association model, not making a causal vehicle-design claim",
+  title = "Vehicle efficiency model evidence", id = "mtcars-efficiency"
 )
-utils::write.csv(scene_data, file.path(lesson_dir, "data", "mtcars_efficiency_scene.csv"), row.names = FALSE)
-render_scene(
-  scene_data, x = "x", y = "y", z = "z", labels = scene_data$label,
-  output_dir = file.path(lesson_dir, "scene"),
-  title = "mtcars efficiency data space", overwrite = TRUE
+compile_lesson(lesson, lesson_dir, overwrite = TRUE)
+write_reference_data_license(
+  lesson_dir,
+  "The built-in mtcars dataset distributed with R.",
+  "R distribution licensing and attribution terms apply; see the R COPYING files."
 )
 write_lesson_manifest(
   lesson_dir, lesson_id = "mtcars-efficiency", title = "Vehicle efficiency data space",
-  dataset_file = "data/mtcars_efficiency_scene.csv",
+  evidence_file = "evidence.json", evidence_hash = lesson$evidence$analysis$artifact_hash,
+  dataset_file = "data/mtcars_efficiency_source.csv",
   dataset_source = "Derived from the built-in mtcars dataset distributed with R.",
   dataset_license = "R distribution licensing and attribution terms apply; see the R COPYING files.",
   education = list(

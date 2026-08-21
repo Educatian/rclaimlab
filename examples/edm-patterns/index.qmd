@@ -1,47 +1,108 @@
 ---
-title: "Educational data mining: discover patterns responsibly"
+title: "Educational data mining pattern evidence"
 format: html
 ---
 
 # Learning objectives
 
-By the end, learners can compare clustering with prediction, inspect a small feature space, explain a pattern without treating it as a diagnosis, and transfer the reasoning to a new synthetic cohort.
+- Use the kmeans adapter to address: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
 
-## Predict, explore, explain, transfer
+# Question and data structure
 
-**Predict:** Which synthetic profile will appear closest to the high-transfer pattern after the features are standardized?
+**Question:** What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?
 
-**Explore:** Run R and inspect the 3D evidence view or semantic table. The coordinates are standardized features, not a learner rank.
+**Unit of analysis:** one synthetic, de-identified learner profile
 
-**Explain:** Describe one cluster-like neighborhood with a feature coordinate and a limitation. A discovered pattern is a prompt for inquiry, not an automatic intervention.
+**Analytical intent:** Explore possible groups
 
-**Transfer:** Reconsider the same pattern after removing one feature. Explain how feature choice, missingness, or a proxy could change the conclusion.
+# Learning sequence
 
-## Discovery is not diagnosis
+## Orient
 
-Educational data mining can reveal recurring configurations in activity data. Clustering is exploratory, and prediction is conditional on the target, features, sample, and evaluation design. Neither one authorizes a deficit label, high-stakes decision, or intervention without human review and a documented fairness and validity argument.
+State why one synthetic, de-identified learner profile is the unit of observation, identify each variable role, and restate the question: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict a possible grouping pattern across standardized practice_minutes, revision_count, transfer_score.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Inspect scaling, seed, requested k, and multiple random starts before creating cluster evidence.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Select one observation and inspect its cluster and distance-to-centroid in the full compiled evidence table.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Explain the selected cluster assignment using centroid distance and state a stability or interpretation limitation.
+
+Completion evidence:
+- **point:** Names the selected observation
+- **cluster:** Names the assigned cluster
+- **distance:** Cites centroid distance
+- **limitation:** States a stability or interpretation limitation
+
+## Repair
+
+Check scaling, cluster size, initialization, and the requested k before revising the grouping claim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Compare a different observation's cluster and centroid distance without treating the label as an identity.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Input scaling:** standardized. K-means distances are computed after centering and scaling.
+- **Cluster sizes:** 2, 2, 2. Very small clusters may be unstable or idiosyncratic.
+- **Between-cluster variance ratio:** 0.924. Use this as descriptive evidence, not proof of natural groups.
+- **Random starts:** 25. Seed 2026 and multiple starts reduce initialization dependence.
+- **Sensitivity across k and seeds:** not yet evaluated. Compare plausible k values and additional seeds before treating a grouping as stable.
+
+# Interpretation cautions
+
+- K-means always returns the requested number of clusters.
+- Cluster labels are descriptive and should not be treated as learner identities.
 
 ```{r}
 #| echo: true
 set.seed(2026)
-features <- read.csv("data/edm_features.csv")
-scene_data <- transform(
-  features,
-  x = as.numeric(scale(practice_minutes)),
-  y = as.numeric(scale(revision_count)),
-  z = as.numeric(scale(transfer_score)),
-  label = profile
-)
-scene_data <- scene_data[, c("label", "x", "y", "z")]
-scene_data
 ```
 
-[Open the interactive R and evidence laboratory](scene/index.html)
+# Evidence compiler artifact
 
-## Evidence sentence
+This lesson was compiled from `kmeans` evidence with hash `4227f32fe327aa1b86065bfe3352ddde`.
 
-Use this frame: “The neighborhood around **___** is similar on **[features]**, but this pattern is limited because **___**. A responsible next check would be **___**.”
+[Open the synchronized browser laboratory](scene/index.html)
 
-## Reproducibility and ethics
-
-The data are synthetic and the browser stores work locally. Record the feature definition, scaling choice, missingness handling, evaluation boundary, and human review step in any adapted lesson. Do not convert this activity into an automated learner label.
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

@@ -12,27 +12,22 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(rlearnxr)
 ```
 
-R-LearnXR starts with an ordinary R result. The compiler preserves analytical evidence while lesson tasks ask learners to predict, inspect, explain, repair, transfer, and reproduce.
+R-LearnXR can start with an ordinary R result or a question-first local data workflow. The compiler preserves analytical evidence while lesson tasks ask learners to orient, predict, run R, inspect, explain, repair, transfer, and reproduce.
 
 ```{r}
-fit <- prcomp(iris[, 1:4], scale. = TRUE)
-evidence <- as_rlearnxr_evidence(fit)
-
-stages <- c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce")
-tasks <- lapply(stages, function(stage) {
-  task_spec(
-    id = paste0("iris-", stage), type = stage,
-    prompt = paste("Complete the", stage, "stage"),
-    criteria = c(evidence = "Use an evidence ID when the task requires analytical support")
-  )
-})
-
-lesson <- lesson_spec(
-  id = "iris-pca", title = "Iris PCA evidence",
-  outcomes = c("Interpret one PCA score", "Explain a linked observation", "Transfer the interpretation"),
-  evidence = evidence, tasks = tasks
+lesson <- lesson_from_data(
+  iris,
+  analysis = "auto",
+  dimensions = names(iris)[1:4],
+  question = "Which measurements vary together, and which flowers have contrasting PCA scores?",
+  intent = "reduce",
+  unit_of_analysis = "one iris flower",
+  decision_context = "learning to interpret multivariate variation",
+  title = "Iris PCA evidence"
 )
 lesson
 ```
 
-Use `compile_lesson(lesson, "iris-pca")` to write the portable project. The compiler is not executed in this vignette because package documentation builds must not modify the source tree.
+The generated contract includes method-specific PCA prompts, criteria, scaling and variance checks, misconceptions, visible R source, and reproducibility metadata. Use `compile_lesson(lesson, "iris-pca")` to write the portable project. The compiler is not executed in this vignette because package documentation builds must not modify the source tree.
+
+Authors who already have a fitted object can still call `as_rlearnxr_evidence()`, define tasks with `task_spec()`, and assemble a custom `lesson_spec()`.

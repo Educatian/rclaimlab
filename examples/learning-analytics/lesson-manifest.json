@@ -1,7 +1,7 @@
 {
   "manifest_version": "2.0",
   "lesson_id": "learning-analytics",
-  "title": "Learning analytics event-to-construct data space",
+  "title": "Learning analytics event-to-construct evidence",
   "source_platform": "rlearnxr",
   "source_project": "rlearnxr",
   "course_id": null,
@@ -10,7 +10,7 @@
   "activity_id": null,
   "dataset": {
     "file": "data/learning_events.csv",
-    "source": "Synthetic R-LearnXR activity profiles.",
+    "source": "Synthetic R-LearnXR repeated-session event summaries.",
     "license": "CC0-style synthetic instructional data; no real learner records."
   },
   "r_contract": {
@@ -38,25 +38,25 @@
   },
   "education": {
     "audience": "introductory learning analytics and data science learners",
-    "estimated_minutes": 25,
+    "estimated_minutes": 30,
     "prerequisites": ["basic data-frame vocabulary", "read a simple plot"],
-    "objectives": ["distinguish an event from a learning construct", "describe a synthetic learner-safe pattern", "state a privacy or validity limitation"],
+    "objectives": ["distinguish an event from a learning construct", "describe within- and between-learner patterns without ignoring repeated observations", "state a privacy, dependence, or construct-validity limitation"],
     "sequence": ["orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"],
-    "assessment": "Use the reusable claim-evidence-limitation-transfer rubric.",
-    "instructor_materials": ["README.md", "../docs/curriculum/learning-analytics-edm-lab.md"],
+    "assessment": "Use the method-specific claim, evidence, limitation, repair, and transfer criteria.",
+    "instructor_materials": ["README.md", "../../docs/curriculum/learning-analytics-edm-lab.md"],
     "accessibility_alternative": "semantic table and keyboard path",
     "extension_activities": ["change one feature", "document a validity or privacy limitation"]
   },
   "evidence": {
     "schema_version": "rlearnxr-evidence-2",
-    "artifact": "scene/evidence.json",
-    "artifact_hash": null
+    "artifact": "evidence.json",
+    "artifact_hash": "945d37d3fd2b6e5bbff1625593c2c0e4"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",
     "scene": "scene/index.html",
     "points": "scene/points.json",
-    "evidence": "scene/evidence.json",
+    "evidence": "evidence.json",
     "reproducibility_report": "checks/reproducibility-report.json",
     "learning_receipt": "checks/learning-receipt.json"
   }

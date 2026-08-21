@@ -4,10 +4,13 @@ This file distinguishes implemented evidence from external evidence that cannot 
 
 ## Implemented and internally verified
 
-- Reusable R package rendering API
-- Quarto lesson templates and three runnable reference lessons
+- Reusable R package rendering and question-first authoring API
+- Quarto lesson templates and five v2 contract reference lessons
 - Browser-only 3D interaction with an accessible table alternative
-- Predict–Explore–Explain–Transfer learning loop
+- Orient–Predict–Run R–Explore–Explain–Repair–Transfer–Reproduce learning loop with method-specific prompts and criteria
+- Method diagnostics and misconception cautions for data frames, PCA, linear regression, binary logistic regression, and k-means
+- Task IDs, criterion results, compiled evidence hash, and browser-run provenance in exported learning receipts
+- Synthetic repeated-session Learning Analytics vertical slice with explicit unit, learner grouping, time, privacy, and dependence warning
 - Reproducibility checks, `renv.lock`, CI workflow, and lesson reports
 - Contributor guide, authoring guide, code of conduct, pilot protocol, and usability form
 - Statistics concept pathway, R foundations micro-lessons, LA/EDM application modules, flagship PCA educator pack, answer key, rubric, and accessible alternative

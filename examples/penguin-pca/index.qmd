@@ -1,157 +1,107 @@
 ---
-title: "Penguin Morphology in Three Principal Components"
-description: "A 20-minute R and multivariate reasoning lesson using openly licensed penguin measurements."
-format:
-  html:
-    toc: true
+title: "Penguin morphology PCA"
+format: html
 ---
 
-# The question: does a third dimension change the story?
+# Learning objectives
 
-This lesson uses penguin measurements to practice a complete data-science workflow: ask a question, make a prediction, transform data with R, inspect evidence, explain a coordinate, and reproduce the result.
+- Use the prcomp adapter to address: Which morphology measurements vary together, and which penguins have contrasting principal-component scores?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
 
-::: {.callout-note}
-## At a glance
+# Question and data structure
 
-- **Audience:** introductory data-science learners who have seen a data frame and a basic plot
-- **Time:** 20 minutes
-- **Prerequisites:** mean, standard deviation, reading a two-dimensional scatterplot, and basic R assignment syntax
-- **Dataset:** 24 openly licensed, complete observations from `palmerpenguins`
-- **Accessibility:** the 3D scene is optional; the semantic table and keyboard path provide the evidence route
-:::
+**Question:** Which morphology measurements vary together, and which penguins have contrasting principal-component scores?
 
-## Learning objectives
+**Unit of analysis:** one penguin with complete morphology measurements
 
-By the end of this lesson, learners can:
+**Analytical intent:** Summarize several variables
 
-1. Explain why variables measured on different scales are standardized before PCA.
-2. Describe a PCA score as a coordinate whose direction is evidence, not a label or diagnosis.
-3. Use PC1, PC2, and PC3 to compare two penguins and state one limitation of the interpretation.
-4. Reproduce the scene from deterministic R code and identify the seed, runtime, returned rows, and artifact hash.
+# Learning sequence
 
-## Vocabulary in plain language
+## Orient
 
-- **Principal component:** a new direction through several correlated measurements.
-- **Score:** where one observation sits along that new direction.
-- **Loading:** how strongly an original measurement contributes to a component.
-- **Standardize:** put measurements on comparable units by centering and scaling them.
-- **Evidence boundary:** what the observed coordinates support, and what they do not support.
+State why one penguin with complete morphology measurements is the unit of observation, identify each variable role, and restate the question: Which morphology measurements vary together, and which penguins have contrasting principal-component scores?
 
-## 1. Orient: meet the data
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
 
-Each row represents one penguin. The original variables are bill length, bill depth, flipper length, and body mass. We use PCA to create three derived coordinates so that learners can inspect multivariate structure without pretending that the axes are original physical measurements.
+## Predict
 
-The lesson deliberately uses a small, deterministic sample so that the learner can inspect exact rows. The data source and reuse terms are documented in `DATA_LICENSE.md`.
+Predict which original variables may vary together and which observations may separate before running PCA.
 
-## 2. Predict before running R
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
 
-Before opening the scene, answer:
+## Run r
 
-> If two penguins look close on PC1 and PC2, will PC3 always tell the same story? Why or why not?
+Inspect centering and scaling, run PCA, and connect component scores to loadings and explained variance.
 
-Write a falsifiable prediction in the browser. A strong prediction names a relationship, such as “some points close on the first two coordinates will separate on PC3.”
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
 
-## 3. Run R: create comparable coordinates
+## Explore
 
-The core transformation is ordinary R. The browser scene is an evidence layer over this code, not a replacement for it.
+Select one observation and compare its component scores with the loading and variance evidence.
 
-```r
-metrics <- c("bill_length_mm", "bill_depth_mm",
-             "flipper_length_mm", "body_mass_g")
-penguins <- penguins[complete.cases(penguins), c("species", metrics)]
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
 
-set.seed(2026)
-pca <- prcomp(penguins[, metrics], center = TRUE, scale. = TRUE)
-scores <- pca$x[, 1:3]
-```
+## Explain
 
-Ask learners to identify the three decisions in this pipeline:
+Explain the selected observation's component position, cite a component and direction, and state a PCA limitation.
 
-1. Which variables were included?
-2. What did `scale. = TRUE` change?
-3. Why is `set.seed(2026)` part of the evidence?
+Completion evidence:
+- **point:** Names the selected observation
+- **component:** Names a principal component
+- **direction:** States the component direction
+- **limitation:** States a PCA limitation
 
-The executable block below builds the saved lesson scene from the same logic.
+## Repair
+
+Distinguish observation scores from variable loadings and verify the variance evidence before revising the claim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Compare a different observation on the same component and explain whether the interpretation transfers.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **PC1 variance explained:** 67.4%. This is variance summarized, not outcome importance.
+- **Components retained in evidence:** 3. Interpret scores together with loadings and explained variance.
+- **Input scaling:** centered and standardized. Scaling prevents large-unit variables from dominating PCA.
+- **Largest absolute PC1 loading:** flipper_length_mm = 0.591. The sign may reverse; interpret this variable together with the other loadings.
+
+# Interpretation cautions
+
+- Component signs are arbitrary and may reverse without changing the solution.
+- PCA summarizes variance; it does not identify causes or latent constructs by itself.
 
 ```{r}
-#| label: build-penguin-scene
 #| echo: true
-library(rlearnxr)
-
-metrics <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")
-penguins <- palmerpenguins::penguins[, c("species", metrics)]
-penguins <- penguins[complete.cases(penguins), ]
-row.names(penguins) <- NULL
-
 set.seed(2026)
-selected <- unlist(lapply(split(seq_len(nrow(penguins)), penguins$species), function(index) {
-  index[unique(round(seq(1, length(index), length.out = 8)))]
-}), use.names = FALSE)
-lesson_penguins <- penguins[selected, ]
-
-pca <- prcomp(lesson_penguins[, metrics], center = TRUE, scale. = TRUE)
-scores <- pca$x[, 1:3, drop = FALSE]
-scene_data <- data.frame(
-  x = scores[, 1] / max(abs(scores)),
-  y = scores[, 2] / max(abs(scores)),
-  z = scores[, 3] / max(abs(scores)),
-  label = paste(lesson_penguins$species, seq_len(nrow(lesson_penguins)))
-)
-
-render_scene(
-  scene_data,
-  x = "x", y = "y", z = "z",
-  labels = scene_data$label,
-  output_dir = "scene",
-  title = "Penguin morphology PCA data space",
-  overwrite = TRUE
-)
-
-round(summary(pca)$importance[2, 1:3], 3)
 ```
 
-## 4. Explore: use the scene or table
+# Evidence compiler artifact
 
-[Open the interactive PCA lesson](scene/index.html)
+This lesson was compiled from `prcomp` evidence with hash `5f42c382ea3a6ad84ccc5f35bad6bcaa`.
 
-Choose one point in the 3D view or in the accessible data table. Record:
+[Open the synchronized browser laboratory](scene/index.html)
 
-- its label,
-- the sign and approximate value of one coordinate,
-- which component you used,
-- and what the coordinate might mean in relation to the original measurements.
-
-Do not interpret a positive score as “good” or a negative score as “bad.” The sign depends on the orientation chosen by PCA and must be interpreted together with the loadings and the comparison set.
-
-## 5. Explain with evidence
-
-Use this sentence frame in the browser:
-
-> **[Penguin]** is **[positive/negative/near zero]** on **[PC1/PC2/PC3]** at approximately **[coordinate]**, so it differs from **[comparison]** in **[multivariate direction]**. This does not prove **[a limitation]**.
-
-Useful comparison pair: **Adelie 4** and **Chinstrap 13** are close on PC1 and PC2 but differ visibly on PC3. This creates a concrete test of the opening prediction.
-
-## 6. Transfer and exit ticket
-
-Select a different point and answer:
-
-1. Does the same explanation still work for the new point?
-2. Which coordinate changed your interpretation most?
-3. What additional information would you need before making a biological or causal claim?
-
-Completion evidence should contain a prediction, selected evidence, an explanation, a transfer comparison, and reproducibility metadata.
-
-## Assessment
-
-Use the reusable [assessment rubric](assessment-rubric.md). A satisfactory response has a coordinate-based claim, a comparison, a limitation, and a reproducible source path. It does not require a particular species label or one “correct” visual impression.
-
-## Further teaching support
-
-- [Educator guide](educator-guide.md)
-- [Answer key and misconception guide](answer-key.md)
-- [Accessible alternative](accessible-alternative.md)
-- [Extension activities](extension-activities.md)
-
-## Reproducibility
-
-The source data come from the `palmerpenguins` package. Selection and PCA are deterministic, the browser scene is generated from saved coordinates, and `rlearnxr::check_lesson()` records project checks and an artifact hash. The lesson manifest records the educational objectives, assessment materials, accessibility path, and privacy boundary.
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

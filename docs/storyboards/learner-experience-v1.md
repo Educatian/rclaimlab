@@ -471,4 +471,4 @@ reference_lesson: "examples/lesson"
 
 이 스토리보드는 현재 package manifest, course home, `inst/templates/scene.html`, reference lesson, curriculum map, accessibility baseline을 기준으로 작성했다. 표현 간 번역, self-explanation, virtual laboratory task design, learner-facing analytics sense-making에 관한 근거는 Ainsworth (1999, 2006), Potkonjak et al. (2016), Van Meter et al. (2017), Lachner et al. (2021), Makransky and Petersen (2021), Jivet et al. (2020), Paulsen and Lindsay (2024)을 사용했다.
 
-상세 문헌 스캔: `C:/Users/jewoo/Desktop/_research/2026-08-20_rlearnxr-learning-experience-storyboard.md`
+상세 문헌 스캔은 내부 연구 메모에 보관하며, 공개 문서에는 기기별 절대 경로를 기록하지 않는다.

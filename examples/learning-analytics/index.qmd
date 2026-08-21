@@ -1,47 +1,106 @@
 ---
-title: "Learning analytics: from event to construct"
+title: "Learning analytics event-to-construct evidence"
 format: html
 ---
 
 # Learning objectives
 
-By the end, learners can distinguish an event from a learning construct, identify missingness and privacy boundaries, and explain one learner-safe descriptive pattern with evidence.
+- Use the data_view adapter to address: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
 
-## Predict, explore, explain, transfer
+# Question and data structure
 
-**Predict:** Which learner profile will show the strongest combination of practice, revision, and transfer evidence? Write a falsifiable expectation before running R.
+**Question:** How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?
 
-**Explore:** Run the reproducible R code, then inspect the data space or the accessible table. Each point is a synthetic learner profile, not a person.
+**Unit of analysis:** one synthetic learner-session summary
 
-**Explain:** Name one profile and connect an axis to a descriptive claim. A click or event is not itself proof of learning.
+**Analytical intent:** Describe and compare observations
 
-**Transfer:** Compare a second profile and state one limitation, such as missing context, measurement error, or the risk of using a proxy as a score.
+# Learning sequence
 
-## The construct boundary
+## Orient
 
-Learning analytics begins with traces such as attempts, hints, revisions, and time-on-task. Those events can support a carefully defined construct, but they cannot justify a hidden claim about motivation, ability, or identity without additional evidence. Keep this boundary visible in the lesson and in any downstream intervention.
+State why one synthetic learner-session summary is the unit of observation, identify each variable role, and restate the question: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?
+
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict one descriptive pattern among revision_count, transfer_score, hint_rate before inspecting the evidence.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.
+
+Completion evidence:
+- **point:** Names the selected observation
+- **axis:** Cites a displayed variable or axis
+- **direction:** States the value or direction
+- **limitation:** States a descriptive limitation
+
+## Repair
+
+Check the exact value and scale, then remove any causal or population-level overclaim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply the same descriptive rule to a different observation and identify where the pattern changes.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Complete observations:** 18. The evidence describes the retained rows only.
+- **Compared variables:** revision_count, transfer_score, hint_rate. Variables remain on their original scales.
+
+# Interpretation cautions
+
+- Visible association is not evidence of causation.
+- Different variable scales can dominate spatial distance.
+- The data declare grouping by learner_id and time by session. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used.
 
 ```{r}
 #| echo: true
 set.seed(2026)
-events <- read.csv("data/learning_events.csv")
-scene_data <- transform(
-  events,
-  x = as.numeric(scale(revision_count)),
-  y = as.numeric(scale(transfer_score)),
-  z = as.numeric(scale(1 - hint_rate)),
-  label = profile
-)
-scene_data <- scene_data[, c("label", "x", "y", "z")]
-scene_data
 ```
 
-[Open the interactive R and evidence laboratory](scene/index.html)
+# Evidence compiler artifact
 
-## Evidence sentence
+This lesson was compiled from `data.frame` evidence with hash `945d37d3fd2b6e5bbff1625593c2c0e4`.
 
-Use this frame: “Profile **___** has a higher/lower **[axis]** coordinate, which describes **___** in this synthetic activity record. This does not establish **___** because **___**.”
+[Open the synchronized browser laboratory](scene/index.html)
 
-## Reproducibility and privacy
-
-The data are synthetic and the browser stores learner work locally. Do not upload identifiable event logs to the optional AI adapter. Keep the event-to-construct decision, missingness rule, and intervention boundary in the exported Quarto source.
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

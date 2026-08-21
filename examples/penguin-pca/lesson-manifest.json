@@ -9,7 +9,7 @@
   "block_id": null,
   "activity_id": null,
   "dataset": {
-    "file": "data/penguin_pca_points.csv",
+    "file": "data/penguin_pca_source.csv",
     "source": "palmerpenguins R package",
     "license": "CC0"
   },
@@ -49,14 +49,14 @@
   },
   "evidence": {
     "schema_version": "rlearnxr-evidence-2",
-    "artifact": "scene/evidence.json",
-    "artifact_hash": null
+    "artifact": "evidence.json",
+    "artifact_hash": "5f42c382ea3a6ad84ccc5f35bad6bcaa"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",
     "scene": "scene/index.html",
     "points": "scene/points.json",
-    "evidence": "scene/evidence.json",
+    "evidence": "evidence.json",
     "reproducibility_report": "checks/reproducibility-report.json",
     "learning_receipt": "checks/learning-receipt.json"
   }

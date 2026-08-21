@@ -32,7 +32,7 @@ Grant preparation materials:
 - `as_rlearnxr_evidence()` supports `data.frame`, `prcomp`, `lm`, `glm`, and `kmeans` objects without reimplementing their statistical methods.
 - `lesson_spec()`, `task_spec()`, and `representation_spec()` define the public authoring contract.
 - `compile_lesson()` creates Evidence IR, a semantic evidence table, Quarto source, a synchronized browser scene, a v2 manifest, and reproducibility checks.
-- `profile_learning_data()` and `lesson_from_data()` turn a learner- or educator-supplied data frame into an inspectable lesson plan without hiding the method, variables, missing-value rule, or provenance.
+- `profile_learning_data()` and `lesson_from_data()` turn a learner- or educator-supplied data frame into a question-first lesson plan without hiding the unit of analysis, outcome, grouping/time structure, method, variables, missing-value rule, diagnostics, cautions, or provenance.
 - `run_lesson_wizard()` provides a local CSV workflow for approving an analysis and compiling the full Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce sequence.
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
@@ -56,7 +56,7 @@ Grant preparation materials:
 - `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
 - `run_rlearnxr_shiny()` provides an optional local educator console; Shiny is not required for learners or static deployment.
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
-- GitHub Actions validates the package and all three reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.
+- GitHub Actions validates the package and all five reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.
 
 ## Choose your path
 
@@ -125,12 +125,18 @@ run_lesson_wizard()
 
 # The same workflow is available without Shiny.
 learner_data <- read.csv("my-data.csv")
-profile_learning_data(learner_data)
-lesson <- lesson_from_data(learner_data, analysis = "auto")
+profile_learning_data(learner_data, intent = "reduce")
+lesson <- lesson_from_data(
+  learner_data,
+  analysis = "auto",
+  question = "Which measured variables vary together, and which observations contrast?",
+  intent = "reduce",
+  unit_of_analysis = "one de-identified observation"
+)
 compile_lesson(lesson, "my-data-lesson")
 ```
 
-The wizard makes deterministic recommendations, not autonomous statistical claims. The author still approves the outcome, dimensions, missing-value rule, learning stages, and adapter before compilation.
+The wizard makes deterministic recommendations, not autonomous statistical claims. It starts with the analytical question and intended learning goal. The author still approves the unit of analysis, outcome, grouping/time structure, dimensions, missing-value rule, learning stages, and adapter before compilation. Declared grouping or repeated time prevents the simple `lm` and `glm` adapters from being automatically recommended.
 
 The course home also includes a browser-local educator view: import learner-initiated R-LearnXR receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
 
@@ -176,7 +182,7 @@ Contributor onboarding starts in [CONTRIBUTING.md](CONTRIBUTING.md). The authori
 
 ## v2 scope boundary
 
-The release-ready v1 intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, LLM training, or a general-purpose 3D grammar for every R plot. AI Visual Brief is optional, reviewable, and not a grant deliverable. The shipped scope is a complete static course shell, three executable reference lessons, a statistics-to-learning-analytics/EDM curriculum map, reusable authoring contracts, and independent CI evidence. Human learner pilots, physical screen-reader passes, and an authenticated Posit Cloud rehearsal remain external evidence gates.
+The v2 release candidate intentionally does not include a native headset application, multiplayer networking, an LMS, offline WebR vendoring, LLM training, grouped/longitudinal model adapters, or a general-purpose 3D grammar for every R plot. AI Visual Brief is optional, reviewable, and not a grant deliverable. The implemented scope is a static course shell, five v2 contract reference lessons, a statistics-to-learning-analytics/EDM curriculum map, reusable authoring contracts, and CI evidence. Human learner pilots, physical screen-reader passes, authenticated Posit Cloud rehearsal, external contributions, CRAN, DOI, and JOSS remain external release or research gates until linked evidence exists.
 
 ## License
 

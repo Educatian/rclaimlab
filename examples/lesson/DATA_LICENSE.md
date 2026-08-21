@@ -1,3 +1,10 @@
-# Data License
+# Data License and Provenance
 
-The six-point dataset in this lesson was created for R-LearnXR and is released under CC0. It contains no personal or restricted data.
+**Source:** Synthetic contributor-training points bundled with R-LearnXR.
+
+**Reuse terms:** CC0-style synthetic instructional data.
+
+**Privacy:** No real learner or participant records are included.
+
+The compiled Evidence IR records the source call, retained-row decision, seed, R and package versions, and artifact hash.
+R-LearnXR software is MIT licensed. Original lesson narrative is CC BY 4.0.

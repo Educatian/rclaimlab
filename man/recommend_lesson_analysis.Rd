@@ -4,18 +4,31 @@
 \alias{recommend_lesson_analysis}
 \title{Recommend supported lesson analyses}
 \usage{
-recommend_lesson_analysis(x, outcome = NULL)
+recommend_lesson_analysis(
+  x,
+  outcome = NULL,
+  intent = "explore",
+  grouping = NULL,
+  time = NULL
+)
 }
 \arguments{
 \item{x}{A data frame or `rlearnxr_data_profile`.}
 
 \item{outcome}{Optional outcome column.}
+
+\item{intent}{One of `explore`, `reduce`, `explain`, `classify`, or `cluster`.}
+
+\item{grouping}{Optional grouping or nesting column.}
+
+\item{time}{Optional time or sequence column.}
 }
 \value{
 A data frame of supported analysis choices and rationale.
 }
 \description{
-Recommendations are deterministic rules based on variable types and sample
-size. They do not claim that a statistically available method is appropriate
-for the author's research question.
+Recommendations are deterministic rules based on the author's analytical
+intent, declared data structure, variable types, and sample size. Availability
+is kept separate from recommendation so a runnable method is not presented as
+substantively appropriate by default.
 }

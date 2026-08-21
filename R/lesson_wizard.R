@@ -7,15 +7,26 @@
 #'
 #' @param data A data frame supplied by a learner or educator.
 #' @param outcome Optional outcome column used to refine analysis recommendations.
+#' @param intent Intended analytical learning goal. See `recommend_lesson_analysis()`.
+#' @param grouping Optional grouping or nesting column.
+#' @param time Optional time or sequence column.
 #' @return An object of class `rlearnxr_data_profile`.
 #' @export
-profile_learning_data <- function(data, outcome = NULL) {
+profile_learning_data <- function(data, outcome = NULL, intent = "explore",
+                                  grouping = NULL, time = NULL) {
   if (!is.data.frame(data)) stop("data must be a data.frame", call. = FALSE)
   if (nrow(data) < 2L || ncol(data) < 2L) {
     stop("learning data must contain at least two rows and two columns", call. = FALSE)
   }
   if (!is.null(outcome) && (length(outcome) != 1L || is.na(outcome) || !(outcome %in% names(data)))) {
     stop("outcome must name one column in data", call. = FALSE)
+  }
+  intent <- match.arg(intent, names(learning_intents()))
+  for (role in c("grouping", "time")) {
+    value <- get(role)
+    if (!is.null(value) && (length(value) != 1L || is.na(value) || !(value %in% names(data)))) {
+      stop(role, " must name one column in data", call. = FALSE)
+    }
   }
 
   column_type <- vapply(data, learning_column_type, character(1))
@@ -25,6 +36,10 @@ profile_learning_data <- function(data, outcome = NULL) {
     "(^|_)(id|name|email|phone|address|ssn|student|learner)(_|$)",
     tolower(names(data))
   )
+  role <- ifelse(possible_identifier, "possible identifier", "candidate variable")
+  if (!is.null(time)) role[names(data) == time] <- "time"
+  if (!is.null(grouping)) role[names(data) == grouping] <- "grouping"
+  if (!is.null(outcome)) role[names(data) == outcome] <- "outcome"
   columns <- data.frame(
     column = names(data),
     type = column_type,
@@ -33,9 +48,10 @@ profile_learning_data <- function(data, outcome = NULL) {
     distinct = distinct,
     constant = distinct <= 1L,
     possible_identifier = possible_identifier,
+    role = role,
     stringsAsFactors = FALSE
   )
-  recommendations <- lesson_analysis_recommendations(data, outcome)
+  recommendations <- lesson_analysis_recommendations(data, outcome, intent, grouping, time)
   warnings <- character()
   if (any(missing > 0L)) {
     warnings <- c(warnings, "Missing values require an explicit fail or complete-case decision before compilation.")
@@ -46,12 +62,18 @@ profile_learning_data <- function(data, outcome = NULL) {
   if (any(columns$constant)) {
     warnings <- c(warnings, "Constant columns cannot be used as analysis dimensions.")
   }
+  if (!is.null(grouping) || !is.null(time)) {
+    warnings <- c(warnings, "Grouped or repeated observations were declared. Core lm/glm adapters do not model dependence, so regression is not automatically recommended.")
+  }
   value <- structure(
     list(
-      schema_version = "rlearnxr-data-profile-1",
+      schema_version = "rlearnxr-data-profile-2",
       rows = nrow(data),
       columns = columns,
       outcome = outcome,
+      intent = intent,
+      grouping = grouping,
+      time = time,
       recommendations = recommendations,
       warnings = unique(warnings),
       data = data
@@ -63,23 +85,32 @@ profile_learning_data <- function(data, outcome = NULL) {
 
 #' Recommend supported lesson analyses
 #'
-#' Recommendations are deterministic rules based on variable types and sample
-#' size. They do not claim that a statistically available method is appropriate
-#' for the author's research question.
+#' Recommendations are deterministic rules based on the author's analytical
+#' intent, declared data structure, variable types, and sample size. Availability
+#' is kept separate from recommendation so a runnable method is not presented as
+#' substantively appropriate by default.
 #'
 #' @param x A data frame or `rlearnxr_data_profile`.
 #' @param outcome Optional outcome column.
+#' @param intent One of `explore`, `reduce`, `explain`, `classify`, or `cluster`.
+#' @param grouping Optional grouping or nesting column.
+#' @param time Optional time or sequence column.
 #' @return A data frame of supported analysis choices and rationale.
 #' @export
-recommend_lesson_analysis <- function(x, outcome = NULL) {
+recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
+                                      grouping = NULL, time = NULL) {
   if (inherits(x, "rlearnxr_data_profile")) {
     data <- x$data
     if (is.null(outcome)) outcome <- x$outcome
+    if (missing(intent)) intent <- x$intent %||% "explore"
+    if (is.null(grouping)) grouping <- x$grouping
+    if (is.null(time)) time <- x$time
   } else {
     data <- x
   }
   if (!is.data.frame(data)) stop("x must be a data.frame or rlearnxr_data_profile", call. = FALSE)
-  lesson_analysis_recommendations(data, outcome)
+  intent <- match.arg(intent, names(learning_intents()))
+  lesson_analysis_recommendations(data, outcome, intent, grouping, time)
 }
 
 #' Create a complete evidence-linked lesson from local data
@@ -93,6 +124,12 @@ recommend_lesson_analysis <- function(x, outcome = NULL) {
 #' @param dimensions Numeric columns used as dimensions or predictors.
 #' @param outcome Outcome column for `lm` or `glm`.
 #' @param id_column Optional unique observation-label column.
+#' @param question Required educational or analytical question that the lesson addresses.
+#' @param intent Intended analytical learning goal.
+#' @param unit_of_analysis Plain-language definition of what one row represents.
+#' @param grouping Optional grouping or nesting column.
+#' @param time Optional time or sequence column.
+#' @param decision_context Intended educational use of the evidence.
 #' @param title Lesson title.
 #' @param id Stable lesson identifier. By default it is derived from `title`.
 #' @param outcomes Optional measurable learning outcomes.
@@ -104,11 +141,24 @@ recommend_lesson_analysis <- function(x, outcome = NULL) {
 #' @export
 lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
                              outcome = NULL, id_column = NULL,
+                             question = NULL, intent = "explore",
+                             unit_of_analysis = "one row in the supplied data",
+                             grouping = NULL, time = NULL,
+                             decision_context = "learning and interpretation",
                              title = "My data evidence lesson", id = NULL,
                              outcomes = NULL,
                              stages = rlearnxr_learning_stages(), seed = 2026L,
                              clusters = 3L, na_action = c("fail", "complete")) {
-  profile <- profile_learning_data(data, outcome = outcome)
+  context <- normalize_learning_context(
+    data, question = question, intent = intent,
+    unit_of_analysis = unit_of_analysis, outcome = outcome,
+    id_column = id_column, grouping = grouping, time = time,
+    decision_context = decision_context
+  )
+  profile <- profile_learning_data(
+    data, outcome = outcome, intent = context$intent,
+    grouping = grouping, time = time
+  )
   analysis <- match.arg(analysis, c("auto", "data_view", "prcomp", "lm", "glm", "kmeans"))
   na_action <- match.arg(na_action)
   if (analysis == "auto") analysis <- recommended_analysis_id(profile$recommendations)
@@ -120,7 +170,7 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
   }
 
   numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
-  numeric_columns <- setdiff(numeric_columns, c(outcome, id_column))
+  numeric_columns <- setdiff(numeric_columns, c(outcome, id_column, grouping, time))
   if (is.null(dimensions)) dimensions <- numeric_columns
   dimensions <- unique(as.character(dimensions))
   if (!length(dimensions) || any(!dimensions %in% names(data)) ||
@@ -138,7 +188,7 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     stop("id_column must name one column in data", call. = FALSE)
   }
 
-  required_columns <- unique(c(dimensions, outcome, id_column))
+  required_columns <- unique(c(dimensions, outcome, id_column, grouping, time))
   keep <- stats::complete.cases(data[required_columns])
   if (!all(keep) && na_action == "fail") {
     stop(sum(!keep), " row(s) contain missing values in selected columns; set na_action = 'complete' to use complete cases", call. = FALSE)
@@ -157,7 +207,7 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     analysis,
     data_view = as_rlearnxr_evidence(
       prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed,
-      analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters)
+      analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column)
     ),
     prcomp = {
       model <- stats::prcomp(prepared[dimensions], center = TRUE, scale. = TRUE)
@@ -179,12 +229,18 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
         stop("clusters must be at least 2 and smaller than the number of complete rows", call. = FALSE)
       }
       set.seed(as.integer(seed))
-      model <- stats::kmeans(prepared[dimensions], centers = clusters)
-      as_rlearnxr_evidence(model, data = prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed)
+      scaled_data <- as.data.frame(scale(prepared[dimensions]))
+      names(scaled_data) <- dimensions
+      model <- stats::kmeans(scaled_data, centers = clusters, nstart = 25L)
+      as_rlearnxr_evidence(model, data = scaled_data, dimensions = dimensions, labels = labels, seed = seed)
     }
   )
 
-  source_code <- wizard_analysis_source(analysis, dimensions, outcome, seed, clusters)
+  source_code <- wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column)
+  pedagogy <- analysis_teaching_contract(
+    analysis, context, evidence, model, prepared, dimensions,
+    outcome, seed, clusters
+  )
   evidence$analysis$call <- paste(source_code, collapse = " ")
   evidence$metadata$wizard <- list(
     analysis = analysis,
@@ -195,18 +251,21 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     compiled_rows = nrow(prepared),
     omitted_source_rows = setdiff(seq_len(nrow(data)), source_rows),
     na_action = na_action,
+    context = context,
     generated_r_code = source_code
   )
+  evidence$metadata$pedagogy <- pedagogy
   hash_payload <- unclass(evidence)
   hash_payload$analysis$artifact_hash <- NULL
   evidence$analysis$artifact_hash <- evidence_hash(hash_payload)
   validate_rlearnxr_evidence(evidence)
 
   if (is.null(id)) id <- lesson_id_from_title(title)
-  if (is.null(outcomes)) outcomes <- wizard_outcomes(analysis)
+  if (is.null(outcomes)) outcomes <- pedagogy$outcomes
   stages <- match.arg(stages, rlearnxr_learning_stages(), several.ok = TRUE)
   stages <- rlearnxr_learning_stages()[rlearnxr_learning_stages() %in% stages]
-  tasks <- lapply(stages, wizard_task_spec, analysis = analysis)
+  tasks <- lapply(stages, wizard_task_spec, analysis = analysis,
+                  context = context, pedagogy = pedagogy)
   lesson <- lesson_spec(
     id = id,
     title = title,
@@ -218,7 +277,11 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
     method = "lesson_wizard",
     profile_schema = profile$schema_version,
     analysis_recommendations = profile$recommendations,
-    warnings = profile$warnings
+    warnings = profile$warnings,
+    context = context,
+    diagnostics = pedagogy$diagnostics,
+    cautions = pedagogy$cautions,
+    misconceptions = pedagogy$misconceptions
   )
   lesson
 }
@@ -233,13 +296,14 @@ print.rlearnxr_data_profile <- function(x, ...) {
 
 #' @export
 summary.rlearnxr_data_profile <- function(object, ...) {
+  available <- object$recommendations[object$recommendations$available, , drop = FALSE]
   list(
     rows = object$rows,
     columns = nrow(object$columns),
     numeric_columns = sum(object$columns$type %in% c("integer", "numeric", "binary numeric")),
     missing_cells = sum(object$columns$missing),
     available_adapters = object$recommendations$analysis[object$recommendations$available],
-    recommended_adapter = recommended_analysis_id(object$recommendations),
+    recommended_adapter = if (nrow(available)) recommended_analysis_id(object$recommendations) else NA_character_,
     warnings = object$warnings
   )
 }
@@ -314,14 +378,33 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
             shiny::tags$section(class = "wizard-card", `aria-labelledby` = "design-title",
               shiny::div(class = "wizard-card-heading", shiny::span(class = "eyebrow", "Step 3"), shiny::h2(id = "design-title", "Design the lesson")),
               shiny::div(class = "wizard-form-grid",
-                shiny::textInput("lesson_title", "Lesson title", value = "My data evidence lesson"),
+                shiny::textInput("lesson_title", "Lesson title", value = "My data evidence lesson", width = "100%"),
+                shiny::selectInput(
+                  "intent", "Analytical learning goal",
+                  choices = stats::setNames(names(learning_intents()), unname(learning_intents())),
+                  selected = "explore", selectize = FALSE
+                ),
+                shiny::div(class = "wizard-form-wide", shiny::textAreaInput(
+                  "question", "Educational or analytical question",
+                  value = "What pattern in these data is worth explaining?", rows = 2, width = "100%"
+                )),
+                shiny::div(class = "wizard-form-wide", shiny::textInput(
+                  "unit_of_analysis", "What does one row represent?",
+                  value = "one observation in the supplied data", width = "100%"
+                )),
                 shiny::selectInput("outcome", "Outcome variable", choices = c("Add data first" = ""), selected = "", selectize = FALSE),
+                shiny::selectInput("grouping", "Grouping or nesting variable", choices = c("None" = ""), selected = "", selectize = FALSE),
+                shiny::selectInput("time", "Time or sequence variable", choices = c("None" = ""), selected = "", selectize = FALSE),
                 shiny::selectInput("analysis", "Analysis adapter", choices = c("Add data first" = ""), selected = "", selectize = FALSE),
                 shiny::selectInput("id_column", "Observation label", choices = c("Generated labels" = ""), selected = "", selectize = FALSE),
                 shiny::selectizeInput("dimensions", "Numeric dimensions or predictors", choices = character(), selected = character(), multiple = TRUE),
                 shiny::numericInput("seed", "Reproducibility seed", value = 2026, min = 1, step = 1),
                 shiny::conditionalPanel("input.analysis == 'kmeans'", shiny::numericInput("clusters", "Number of clusters", value = 3, min = 2, step = 1)),
-                shiny::selectInput("na_action", "Missing-value rule", choices = c("Stop and review" = "fail", "Use complete rows" = "complete"), selected = "fail")
+                shiny::selectInput("na_action", "Missing-value rule", choices = c("Stop and review" = "fail", "Use complete rows" = "complete"), selected = "fail"),
+                shiny::div(class = "wizard-form-wide", shiny::textAreaInput(
+                  "decision_context", "How will this evidence be used?",
+                  value = "learning and interpretation, not automated decisions", rows = 2, width = "100%"
+                ))
               ),
               shiny::checkboxGroupInput(
                 "stages", "Learning stages",
@@ -378,12 +461,20 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
 
     profile <- shiny::reactive({
       shiny::req(current_data())
-      profile_learning_data(current_data(), outcome = NULL)
+      profile_learning_data(
+        current_data(), outcome = null_if_empty(input$outcome),
+        intent = null_if_empty(input$intent) %||% "explore",
+        grouping = null_if_empty(input$grouping), time = null_if_empty(input$time)
+      )
     })
 
     active_recommendations <- shiny::reactive({
       shiny::req(current_data())
-      recommend_lesson_analysis(current_data(), outcome = null_if_empty(input$outcome))
+      recommend_lesson_analysis(
+        current_data(), outcome = null_if_empty(input$outcome),
+        intent = null_if_empty(input$intent) %||% "explore",
+        grouping = null_if_empty(input$grouping), time = null_if_empty(input$time)
+      )
     })
 
     output$data_status <- shiny::renderUI({
@@ -411,6 +502,7 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
         Type = value$type,
         Missing = paste0(value$missing, " (", value$missing_percent, "%)"),
         Distinct = value$distinct,
+        Role = value$role,
         Review = ifelse(value$possible_identifier, "Possible identifier", ifelse(value$constant, "Constant", "Ready")),
         check.names = FALSE
       )
@@ -430,6 +522,7 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
         Method = value$label,
         Status = ifelse(value$available, ifelse(value$recommended, "Recommended", "Available"), "Unavailable"),
         Why = value$reason,
+        Check = value$caution,
         check.names = FALSE
       )
     }, striped = FALSE, bordered = FALSE, spacing = "s", rownames = FALSE)
@@ -443,6 +536,8 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
       title <- paste(tools::toTitleCase(gsub("[-_]", " ", tools::file_path_sans_ext(current_name() %||% "my data"))), "evidence lesson")
       shiny::updateTextInput(session, "lesson_title", value = title)
       shiny::updateSelectInput(session, "outcome", choices = c("None" = "", names(value)))
+      shiny::updateSelectInput(session, "grouping", choices = c("None" = "", names(value)), selected = "")
+      shiny::updateSelectInput(session, "time", choices = c("None" = "", names(value)), selected = "")
       shiny::updateSelectInput(session, "id_column", choices = c("Generated labels" = "", names(value)), selected = "")
       shiny::updateSelectInput(
         session, "analysis", choices = stats::setNames(available$analysis, available$label),
@@ -454,12 +549,17 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
       )
     }, ignoreInit = FALSE)
 
-    shiny::observeEvent(list(current_data(), input$outcome), {
-      shiny::req(current_data(), !is.null(input$outcome), input$analysis, input$dimensions)
-      recommendations <- recommend_lesson_analysis(current_data(), outcome = null_if_empty(input$outcome))
+    shiny::observeEvent(list(current_data(), input$outcome, input$intent, input$grouping, input$time), {
+      shiny::req(current_data(), !is.null(input$outcome), input$analysis, input$dimensions, input$intent)
+      recommendations <- recommend_lesson_analysis(
+        current_data(), outcome = null_if_empty(input$outcome), intent = input$intent,
+        grouping = null_if_empty(input$grouping), time = null_if_empty(input$time)
+      )
       available <- recommendations[recommendations$available, , drop = FALSE]
       numeric_columns <- names(current_data())[vapply(current_data(), is.numeric, logical(1))]
-      numeric_columns <- setdiff(numeric_columns, null_if_empty(input$outcome))
+      numeric_columns <- setdiff(numeric_columns, c(
+        null_if_empty(input$outcome), null_if_empty(input$grouping), null_if_empty(input$time)
+      ))
       shiny::updateSelectInput(
         session, "analysis",
         choices = stats::setNames(available$analysis, available$label),
@@ -472,10 +572,15 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
     }, ignoreInit = FALSE)
 
     create_lesson <- function() {
-      shiny::req(current_data(), input$analysis, input$lesson_title, input$dimensions, input$stages)
+      shiny::req(current_data(), input$analysis, input$lesson_title, input$question,
+                 input$unit_of_analysis, input$dimensions, input$stages)
       lesson_from_data(
         current_data(), analysis = input$analysis, dimensions = input$dimensions,
         outcome = null_if_empty(input$outcome), id_column = null_if_empty(input$id_column),
+        question = input$question, intent = input$intent,
+        unit_of_analysis = input$unit_of_analysis,
+        grouping = null_if_empty(input$grouping), time = null_if_empty(input$time),
+        decision_context = input$decision_context,
         title = input$lesson_title, seed = input$seed,
         clusters = input$clusters %||% 3L, na_action = input$na_action,
         stages = input$stages
@@ -496,9 +601,17 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
       shiny::div(class = "wizard-preview",
         shiny::div(class = "wizard-ready", shiny::span(`aria-hidden` = "true", "\u2713"), "Lesson contract is valid."),
         shiny::h3(value$title),
+        shiny::p(shiny::strong("Question: "), value$evidence$metadata$pedagogy$question),
         shiny::p(shiny::strong("Evidence adapter: "), value$evidence$analysis$engine),
         shiny::p(shiny::strong("Evidence hash: "), shiny::tags$code(value$evidence$analysis$artifact_hash)),
         shiny::div(class = "wizard-stage-pills", lapply(wizard_stage_labels(task_types), function(label) shiny::span(label))),
+        shiny::tags$details(
+          shiny::tags$summary("Inspect method-specific diagnostics and cautions"),
+          shiny::tags$ul(lapply(value$evidence$metadata$pedagogy$diagnostics, function(item) {
+            shiny::tags$li(shiny::strong(paste0(item$label, ": ")), item$value, " ", item$interpretation)
+          })),
+          shiny::tags$ul(lapply(value$evidence$metadata$pedagogy$cautions, shiny::tags$li))
+        ),
         shiny::tags$details(shiny::tags$summary("Inspect generated R code"), shiny::pre(paste(value$evidence$metadata$wizard$generated_r_code, collapse = "\n")))
       )
     })
@@ -556,37 +669,61 @@ learning_column_type <- function(value) {
   "text"
 }
 
-lesson_analysis_recommendations <- function(data, outcome = NULL) {
+lesson_analysis_recommendations <- function(data, outcome = NULL,
+                                            intent = "explore",
+                                            grouping = NULL, time = NULL) {
+  intent <- match.arg(intent, names(learning_intents()))
   numeric_columns <- names(data)[vapply(data, is.numeric, logical(1))]
-  numeric_predictors <- setdiff(numeric_columns, outcome)
-  complete_numeric <- if (length(numeric_columns)) sum(stats::complete.cases(data[numeric_columns])) else 0L
+  numeric_predictors <- setdiff(numeric_columns, c(outcome, grouping, time))
   variable_numeric <- numeric_columns[vapply(data[numeric_columns], function(value) length(unique(value[!is.na(value)])) > 1L, logical(1))]
+  variable_predictors <- setdiff(variable_numeric, c(outcome, grouping, time))
+  complete_numeric <- if (length(variable_predictors)) sum(stats::complete.cases(data[variable_predictors])) else 0L
   outcome_exists <- !is.null(outcome) && outcome %in% names(data)
   outcome_binary <- outcome_exists && length(unique(data[[outcome]][!is.na(data[[outcome]])])) == 2L
   outcome_numeric <- outcome_exists && is.numeric(data[[outcome]]) && !outcome_binary
 
   available <- c(
-    data_view = length(variable_numeric) >= 2L,
-    prcomp = length(setdiff(variable_numeric, outcome)) >= 2L && complete_numeric >= 3L,
+    data_view = length(variable_predictors) >= 2L,
+    prcomp = length(variable_predictors) >= 2L && complete_numeric >= 3L,
     lm = outcome_numeric && length(numeric_predictors) >= 1L,
     glm = outcome_binary && length(numeric_predictors) >= 1L,
-    kmeans = length(setdiff(variable_numeric, outcome)) >= 2L && complete_numeric >= 4L
+    kmeans = length(variable_predictors) >= 2L && complete_numeric >= 4L
   )
   recommended <- rep(FALSE, length(available))
   names(recommended) <- names(available)
-  recommended[[if (outcome_binary && available[["glm"]]) "glm" else if (outcome_numeric && available[["lm"]]) "lm" else if (available[["prcomp"]]) "prcomp" else if (available[["data_view"]]) "data_view" else "kmeans"]] <- TRUE
+  dependence <- !is.null(grouping) || !is.null(time)
+  target <- switch(
+    intent,
+    explore = "data_view",
+    reduce = "prcomp",
+    explain = if (outcome_numeric && !dependence) "lm" else "data_view",
+    classify = if (outcome_binary && !dependence) "glm" else "data_view",
+    cluster = "kmeans"
+  )
+  if (isTRUE(available[[target]])) recommended[[target]] <- TRUE
+  if (!any(recommended) && isTRUE(available[["data_view"]])) recommended[["data_view"]] <- TRUE
   label <- c(data_view = "Explore numeric dimensions", prcomp = "Principal component analysis", lm = "Linear regression", glm = "Binary logistic regression", kmeans = "K-means clustering")
   reason <- c(
-    data_view = if (available[["data_view"]]) "At least two varying numeric columns can be linked directly." else "Requires at least two varying numeric columns.",
-    prcomp = if (available[["prcomp"]]) "Numeric dimensions can be summarized into linked component scores." else "Requires at least two varying numeric columns and three complete rows.",
-    lm = if (available[["lm"]]) "The selected numeric outcome can be modeled from numeric predictors." else "Select a non-binary numeric outcome and at least one numeric predictor.",
-    glm = if (available[["glm"]]) "The selected two-level outcome can be modeled as a probability." else "Select a two-level outcome and at least one numeric predictor.",
-    kmeans = if (available[["kmeans"]]) "Numeric rows can be compared with deterministic cluster evidence." else "Requires at least two varying numeric columns and four complete rows."
+    data_view = if (available[["data_view"]]) "Safest starting point for describing observations without adding a model." else "Requires at least two varying numeric columns.",
+    prcomp = if (available[["prcomp"]]) "Available when the question is about summarizing shared variation across numeric variables." else "Requires at least two varying numeric columns and three complete rows.",
+    lm = if (available[["lm"]]) paste0("Available for a numeric outcome", if (dependence) "; not recommended because grouped or repeated observations were declared." else ".") else "Select a non-binary numeric outcome and at least one numeric predictor.",
+    glm = if (available[["glm"]]) paste0("Available for a two-level outcome", if (dependence) "; not recommended because grouped or repeated observations were declared." else ".") else "Select a two-level outcome and at least one numeric predictor.",
+    kmeans = if (available[["kmeans"]]) "Available when the question is explicitly about tentative groups in standardized numeric data." else "Requires at least two varying numeric columns and four complete rows."
+  )
+  caution <- c(
+    data_view = "Describe patterns only; visible proximity does not establish causation.",
+    prcomp = "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+    lm = if (dependence) "Use a grouped or longitudinal model for inferential work." else "Check residuals, influence, independence, and uncertainty.",
+    glm = if (dependence) "Use a grouped or longitudinal model for inferential work." else "Declare the modeled event, reference level, class balance, and threshold.",
+    kmeans = "Scale variables, use multiple starts, and check whether conclusions change across k or seed."
   )
   data.frame(
     analysis = names(available), label = unname(label[names(available)]),
     available = unname(available), recommended = unname(recommended),
-    reason = unname(reason[names(available)]), stringsAsFactors = FALSE
+    reason = unname(reason[names(available)]),
+    caution = unname(caution[names(available)]),
+    intent = intent,
+    stringsAsFactors = FALSE
   )
 }
 
@@ -620,16 +757,42 @@ wizard_model_data <- function(data, dimensions, outcome, binary = FALSE) {
   value
 }
 
-wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters) {
+wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters,
+                                   id_column = NULL) {
   quoted_dimensions <- paste(sprintf('"%s"', gsub('"', '\\"', dimensions, fixed = TRUE)), collapse = ", ")
-  header <- c(paste0("set.seed(", as.integer(seed), ")"), "# learner_data is the local CSV data frame")
+  analysis_columns <- unique(c(dimensions, outcome, id_column))
+  quoted_columns <- paste(sprintf('"%s"', gsub('"', '\\"', analysis_columns, fixed = TRUE)), collapse = ", ")
+  header <- c(
+    paste0("set.seed(", as.integer(seed), ")"),
+    "# learner_data is the local CSV data frame",
+    paste0("analysis_columns <- c(", quoted_columns, ")"),
+    "source_rows <- which(complete.cases(learner_data[analysis_columns]))",
+    "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]",
+    if (is.null(id_column)) {
+      'labels <- sprintf("observation-%04d", source_rows)'
+    } else {
+      paste0('labels <- as.character(analysis_data[["', gsub('"', '\\"', id_column, fixed = TRUE), '"]])')
+    }
+  )
+  quoted_outcome <- if (is.null(outcome)) "" else gsub('"', '\\"', outcome, fixed = TRUE)
   code <- switch(
     analysis,
-    data_view = paste0("evidence <- as_rlearnxr_evidence(learner_data, dimensions = c(", quoted_dimensions, "))"),
-    prcomp = c(paste0("fit <- prcomp(learner_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rlearnxr_evidence(fit)"),
-    lm = c(paste0("fit <- lm(`", outcome, "` ~ ., data = learner_data[c(\"", outcome, "\", ", quoted_dimensions, ")])"), "evidence <- as_rlearnxr_evidence(fit)"),
-    glm = c(paste0("fit <- glm(`", outcome, "` ~ ., data = learner_data[c(\"", outcome, "\", ", quoted_dimensions, ")], family = binomial())"), "evidence <- as_rlearnxr_evidence(fit)"),
-    kmeans = c(paste0("fit <- kmeans(learner_data[c(", quoted_dimensions, ")], centers = ", as.integer(clusters), ")"), paste0("evidence <- as_rlearnxr_evidence(fit, data = learner_data[c(", quoted_dimensions, ")])"))
+    data_view = paste0("evidence <- as_rlearnxr_evidence(analysis_data[c(", quoted_dimensions, ")], dimensions = c(", quoted_dimensions, "), labels = labels)"),
+    prcomp = c(paste0("fit <- prcomp(analysis_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rlearnxr_evidence(fit, labels = labels)"),
+    lm = c(
+      paste0('fit <- lm(reformulate(c(', quoted_dimensions, '), response = "', quoted_outcome, '"), data = analysis_data)'),
+      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+    ),
+    glm = c(
+      paste0('analysis_data[["', quoted_outcome, '"]] <- factor(as.character(analysis_data[["', quoted_outcome, '"]]), levels = sort(unique(as.character(analysis_data[["', quoted_outcome, '"]]))) )'),
+      paste0('fit <- glm(reformulate(c(', quoted_dimensions, '), response = "', quoted_outcome, '"), data = analysis_data, family = binomial())'),
+      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+    ),
+    kmeans = c(
+      paste0("scaled_data <- as.data.frame(scale(analysis_data[c(", quoted_dimensions, ")]))"),
+      paste0("fit <- kmeans(scaled_data, centers = ", as.integer(clusters), ", nstart = 25)"),
+      "evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)"
+    )
   )
   c(header, code)
 }
@@ -643,28 +806,9 @@ wizard_stage_labels <- function(stages = rlearnxr_learning_stages()) {
   unname(labels[stages])
 }
 
-wizard_task_spec <- function(stage, analysis) {
-  prompts <- c(
-    orient = "Describe what one row and each selected variable represent.",
-    predict = paste0("Predict one pattern you expect before running the ", analysis, " analysis."),
-    run_r = "Run the generated R analysis and compare its provenance with the compiled evidence.",
-    explore = "Select an observation and compare its values across the table, 2D plot, and 3D scene.",
-    explain = "Make a claim about the selected observation, cite linked evidence, and state a limitation.",
-    repair = "Revise the explanation after checking it against the evidence table and analysis assumptions.",
-    transfer = "Apply the same reasoning to a different observation and identify what changes.",
-    reproduce = "Verify the seed, R call, artifact hash, and generated source needed to rebuild the lesson."
-  )
-  criteria <- switch(
-    stage,
-    orient = c(meaning = "Defines the unit of observation and variable roles"),
-    predict = c(prediction = "Records a falsifiable expectation before inspection"),
-    run_r = c(execution = "Connects R output to the compiled artifact"),
-    explore = c(selection = "Selects an observation using a stable evidence ID"),
-    explain = c(claim = "States a claim", evidence = "Cites linked evidence", limitation = "States a limitation"),
-    repair = c(revision = "Corrects or strengthens the evidence-based explanation"),
-    transfer = c(transfer = "Applies the reasoning to a new observation"),
-    reproduce = c(provenance = "Verifies source, seed, version, and artifact hash")
-  )
+wizard_task_spec <- function(stage, analysis, context, pedagogy) {
+  prompts <- pedagogy$prompts
+  criteria <- pedagogy$criteria[[stage]] %||% character()
   task_spec(
     id = paste0("wizard-", stage), type = stage, prompt = prompts[[stage]],
     criteria = criteria, evidence_required = stage %in% c("explore", "explain", "repair", "transfer")

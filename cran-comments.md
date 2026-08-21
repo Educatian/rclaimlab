@@ -6,7 +6,7 @@
 
 ## R CMD check results
 
-The release gate requires 0 errors, 0 warnings, and 0 notes. Update this file with the final matrix URLs before submission.
+The release gate requires 0 errors and 0 warnings. The local `--as-cran` check may report the expected informational `New submission` note until the package has a CRAN history. Any other note must be resolved or explained here. Update this file with the final matrix URLs before submission.
 
 ## Downstream dependencies
 

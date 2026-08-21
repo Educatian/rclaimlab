@@ -1,3 +1,10 @@
-# Data license and provenance
+# Data License and Provenance
 
-`data/learning_events.csv` is a synthetic dataset created for R-LearnXR under CC0-style terms. It contains no real learner records, identifiers, or institutional event logs. The fields illustrate event-derived features only; educators must document provenance, consent, minimization, and permitted use before adapting the lesson to real data.
+**Source:** Synthetic R-LearnXR repeated-session event summaries.
+
+**Reuse terms:** CC0-style synthetic instructional data.
+
+**Privacy:** No real learner records are included, and the IDs are fictional.
+
+The compiled Evidence IR records the source call, retained-row decision, seed, R and package versions, and artifact hash.
+R-LearnXR software is MIT licensed. Original lesson narrative is CC BY 4.0.

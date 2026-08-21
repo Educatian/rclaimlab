@@ -53,6 +53,16 @@ test_that("invalid analytical evidence fails early", {
   expect_error(as_rlearnxr_evidence(data.frame(a = 1:3, text = letters[1:3])), "two")
 })
 
+test_that("adapter builder normalizes default roles and named units", {
+  evidence <- rlearnxr:::build_rlearnxr_evidence(
+    data.frame(a = 1:3, b = 4:6), labels = c("a", "b", "c"),
+    engine = "fixture", analysis_call = "fixture()", seed = 2026,
+    roles = NULL, units = c(b = "seconds", a = "count")
+  )
+  expect_equal(evidence$dimensions$role, c("variable", "variable"))
+  expect_equal(evidence$dimensions$unit, c("count", "seconds"))
+})
+
 test_that("lesson compiler creates a complete canonical vertical slice", {
   evidence <- as_rlearnxr_evidence(
     stats::prcomp(iris[1:15, 1:4], scale. = TRUE),

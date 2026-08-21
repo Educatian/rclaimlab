@@ -1,11 +1,5 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "R", "utils.R"))
-source(file.path(root, "R", "zzz.R"))
-source(file.path(root, "R", "lesson_bundle.R"))
-source(file.path(root, "R", "evidence_adapters.R"))
-source(file.path(root, "R", "scene_contract.R"))
-source(file.path(root, "R", "lesson_manifest.R"))
-source(file.path(root, "R", "render_scene.R"))
+source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
 
 if (!requireNamespace("palmerpenguins", quietly = TRUE)) {
   stop("Install palmerpenguins before building the reference lesson", call. = FALSE)
@@ -22,34 +16,28 @@ selected <- unlist(lapply(split(seq_len(nrow(penguins)), penguins$species), func
 }), use.names = FALSE)
 lesson_penguins <- penguins[selected, ]
 
-pca <- stats::prcomp(lesson_penguins[, metrics], center = TRUE, scale. = TRUE)
-scores <- pca$x[, 1:3, drop = FALSE]
-scale_factor <- max(abs(scores))
-scene_data <- data.frame(
-  x = scores[, 1] / scale_factor,
-  y = scores[, 2] / scale_factor,
-  z = scores[, 3] / scale_factor,
-  label = paste(lesson_penguins$species, seq_len(nrow(lesson_penguins))),
-  species = lesson_penguins$species,
-  stringsAsFactors = FALSE
-)
+lesson_penguins$label <- paste(lesson_penguins$species, seq_len(nrow(lesson_penguins)))
 
 lesson_dir <- file.path(root, "examples", "penguin-pca")
 dir.create(file.path(lesson_dir, "data"), recursive = TRUE, showWarnings = FALSE)
-utils::write.csv(scene_data, file.path(lesson_dir, "data", "penguin_pca_points.csv"), row.names = FALSE)
-render_scene(
-  scene_data,
-  x = "x",
-  y = "y",
-  z = "z",
-  labels = scene_data$label,
-  output_dir = file.path(lesson_dir, "scene"),
-  title = "Penguin morphology PCA data space",
-  overwrite = TRUE
+utils::write.csv(lesson_penguins, file.path(lesson_dir, "data", "penguin_pca_source.csv"), row.names = FALSE)
+lesson <- lesson_from_data(
+  lesson_penguins, analysis = "prcomp", dimensions = metrics, id_column = "label",
+  question = "Which morphology measurements vary together, and which penguins have contrasting principal-component scores?",
+  intent = "reduce", unit_of_analysis = "one penguin with complete morphology measurements",
+  decision_context = "learning to interpret multivariate variation without treating PCA as a species classifier",
+  title = "Penguin morphology PCA", id = "penguin-pca"
+)
+compile_lesson(lesson, lesson_dir, overwrite = TRUE)
+write_reference_data_license(
+  lesson_dir,
+  "palmerpenguins R package; the instructional subset contains complete morphology records.",
+  "CC0, following the palmerpenguins dataset documentation."
 )
 write_lesson_manifest(
   lesson_dir, lesson_id = "penguin-pca", title = "Penguin morphology PCA",
-  dataset_file = "data/penguin_pca_points.csv", dataset_source = "palmerpenguins R package",
+  evidence_file = "evidence.json", evidence_hash = lesson$evidence$analysis$artifact_hash,
+  dataset_file = "data/penguin_pca_source.csv", dataset_source = "palmerpenguins R package",
   dataset_license = "CC0",
   education = list(
     audience = "introductory data-science learners", estimated_minutes = 20L,

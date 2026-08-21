@@ -10,6 +10,12 @@ lesson_from_data(
   dimensions = NULL,
   outcome = NULL,
   id_column = NULL,
+  question = NULL,
+  intent = "explore",
+  unit_of_analysis = "one row in the supplied data",
+  grouping = NULL,
+  time = NULL,
+  decision_context = "learning and interpretation",
   title = "My data evidence lesson",
   id = NULL,
   outcomes = NULL,
@@ -29,6 +35,18 @@ lesson_from_data(
 \item{outcome}{Outcome column for `lm` or `glm`.}
 
 \item{id_column}{Optional unique observation-label column.}
+
+\item{question}{Required educational or analytical question that the lesson addresses.}
+
+\item{intent}{Intended analytical learning goal.}
+
+\item{unit_of_analysis}{Plain-language definition of what one row represents.}
+
+\item{grouping}{Optional grouping or nesting column.}
+
+\item{time}{Optional time or sequence column.}
+
+\item{decision_context}{Intended educational use of the evidence.}
 
 \item{title}{Lesson title.}
 

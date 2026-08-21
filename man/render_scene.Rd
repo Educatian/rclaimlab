@@ -6,7 +6,8 @@
 render_scene(
   data, x, y, z, labels = NULL, observation_ids = NULL,
   evidence_ids = NULL, output_dir = "scene",
-  title = "R-LearnXR 3D Scene", overwrite = FALSE
+  title = "R-LearnXR 3D Scene", learning_contract = NULL,
+  overwrite = FALSE
 )
 }
 \arguments{
@@ -17,7 +18,8 @@ render_scene(
   \item{evidence_ids}{Optional list of evidence identifiers keyed by observation.}
   \item{output_dir}{Directory in which to write the scene files.}
   \item{title}{Scene title.}
-\item{overwrite}{Logical; replace existing scene files when \code{TRUE}.}
+  \item{learning_contract}{Optional \code{rlearnxr_lesson} or browser-contract list used to render method-specific prompts, criteria, diagnostics, and provenance.}
+  \item{overwrite}{Logical; replace existing scene files when \code{TRUE}.}
 }
 \value{Invisibly, a list containing paths to the generated HTML, point JSON, and Evidence IR files.}
 \examples{

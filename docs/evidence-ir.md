@@ -7,10 +7,15 @@
 - `observation_id` identifies an analytical case across table, 2D, 3D, explanation, transfer, and receipt artifacts.
 - `dimension_id` identifies a score, variable, residual, probability, interval, class, cluster, or distance.
 - `evidence_id` identifies exactly one observation-dimension value and links it to provenance.
+- `task_id` and named criteria connect the R-authored lesson sequence to browser validation and learning receipts.
 
 ## Required provenance
 
-Each artifact records the analysis engine and call, deterministic seed, R version, package versions, and artifact hash. Adapters may include method-specific metadata such as PCA loadings, regression coefficients, GLM threshold, or k-means centers.
+Each artifact records the analysis engine and complete generated source, retained-row decision, deterministic seed, R version, package versions, and artifact hash. Adapters may include method-specific metadata such as PCA loadings and variance, regression coefficients and intervals, GLM event and threshold, or k-means centers and distances. Browser receipts preserve both the compiled evidence hash and the browser-run hash.
+
+## Question and pedagogy contract
+
+The authoring layer records the analytical question, intent, unit of analysis, outcome, identifier, grouping, time, and decision context. Method-specific diagnostics, cautions, misconceptions, prompts, and criteria are serialized with the lesson. Renderers display that contract; they do not maintain a second set of statistical or assessment rules.
 
 ## Extension contract
 

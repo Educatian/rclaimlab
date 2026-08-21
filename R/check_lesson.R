@@ -151,7 +151,7 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
 
   quarto_env <- Sys.getenv("QUARTO_PATH", unset = "")
   quarto <- if (nzchar(quarto_env) && file.exists(quarto_env)) quarto_env else Sys.which("quarto")
-  if (nzchar(quarto)) add("quarto_available", "PASS", paste0("Quarto found at ", normalizePath(quarto, winslash = "/")))
+  if (nzchar(quarto)) add("quarto_available", "PASS", "Quarto CLI found")
   else add("quarto_available", "WARN", "Quarto CLI was not found; CI must render the lesson before release")
 
   if (isTRUE(strict) && any(results$status == "WARN")) {
@@ -185,7 +185,7 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
       report_json <- c(
         "{",
         paste0("  \"report_version\": \"1\",\n"),
-        paste0("  \"path\": ", quote_json(path), ",\n"),
+        paste0("  \"path\": ", quote_json("."), ",\n"),
         paste0("  \"strict\": ", if (isTRUE(strict)) "true" else "false", ",\n"),
         paste0("  \"checks\": [", paste(check_json, collapse = ","), "]\n"),
         "}"

@@ -9,7 +9,7 @@
   "block_id": null,
   "activity_id": null,
   "dataset": {
-    "file": "data/mtcars_efficiency_scene.csv",
+    "file": "data/mtcars_efficiency_source.csv",
     "source": "Derived from the built-in mtcars dataset distributed with R.",
     "license": "R distribution licensing and attribution terms apply; see the R COPYING files."
   },
@@ -49,14 +49,14 @@
   },
   "evidence": {
     "schema_version": "rlearnxr-evidence-2",
-    "artifact": "scene/evidence.json",
-    "artifact_hash": null
+    "artifact": "evidence.json",
+    "artifact_hash": "7a879e28a6bc29b722ecc5f19fb6eb50"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",
     "scene": "scene/index.html",
     "points": "scene/points.json",
-    "evidence": "scene/evidence.json",
+    "evidence": "evidence.json",
     "reproducibility_report": "checks/reproducibility-report.json",
     "learning_receipt": "checks/learning-receipt.json"
   }

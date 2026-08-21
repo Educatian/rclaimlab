@@ -1,73 +1,105 @@
 ---
-title: "R-LearnXR Reference Lesson: From Data Frame to Evidence"
-description: "A 10-minute beginner R lesson for the reusable R-LearnXR learning loop."
-format:
-  html:
-    toc: true
+title: "R-LearnXR reference data space"
+format: html
 ---
 
-# From a data frame to an evidence-based explanation
+# Learning objectives
 
-This contributor-training lesson introduces the R-LearnXR pattern. Learners work with a small synthetic dataset so they can focus on the workflow: identify a row, make a prediction, run R, inspect exact coordinates, explain a claim, and reproduce the result.
+- Use the data_view adapter to address: How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
 
-::: {.callout-note}
-## Learning objectives
+# Question and data structure
 
-By the end, learners can:
+**Question:** How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?
 
-1. Identify `label`, `x`, `y`, and `z` as a simple scene data contract.
-2. Predict what a filter or transformation will retain.
-3. Use one coordinate as evidence while naming a limitation.
-4. Export a reproducible source path and learning receipt.
-:::
+**Unit of analysis:** one synthetic contributor-training observation
 
-## R01 warm-up: what is one row?
+**Analytical intent:** Describe and compare observations
 
-Open `data/learning_points.csv` and answer: “What does one row represent, and which columns identify the observation versus its coordinates?” This is the same question used in the [R Foundations micro-lessons](../../docs/curriculum/r-foundations-micro-lessons.md).
+# Learning sequence
 
-## Make a prediction
+## Orient
 
-Before running code, predict which labels will remain after a transformation that keeps points with positive `x` and negative `y`. Write the rule in plain language, not only as code.
+State why one synthetic contributor-training observation is the unit of observation, identify each variable role, and restate the question: How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?
 
-## Run the reproducible R pipeline
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict one descriptive pattern among x, y, z before inspecting the evidence.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.
+
+Completion evidence:
+- **point:** Names the selected observation
+- **axis:** Cites a displayed variable or axis
+- **direction:** States the value or direction
+- **limitation:** States a descriptive limitation
+
+## Repair
+
+Check the exact value and scale, then remove any causal or population-level overclaim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply the same descriptive rule to a different observation and identify where the pattern changes.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **Complete observations:** 6. The evidence describes the retained rows only.
+- **Compared variables:** x, y, z. Variables remain on their original scales.
+
+# Interpretation cautions
+
+- Visible association is not evidence of causation.
+- Different variable scales can dominate spatial distance.
 
 ```{r}
 #| echo: true
-library(rlearnxr)
-
-demo <- read.csv("data/learning_points.csv", stringsAsFactors = FALSE)
 set.seed(2026)
-render_scene(
-  demo,
-  x = "x",
-  y = "y",
-  z = "z",
-  labels = demo$label,
-  output_dir = "scene",
-  title = "R-LearnXR reference data space",
-  overwrite = TRUE
-)
-summary(demo[, c("x", "y", "z")])
 ```
 
-Ask learners to identify the three reproducibility decisions: the input file, the coordinate mapping, and the seed. The scene is a visual evidence layer over this ordinary R code.
+# Evidence compiler artifact
 
-[Open the interactive 3D scene](scene/index.html)
+This lesson was compiled from `data.frame` evidence with hash `c64474c79fac8a45d585421b61b2bdbd`.
 
-## Explore and explain
+[Open the synchronized browser laboratory](scene/index.html)
 
-Use the 3D scene or the accessible table to select one point. Complete this sentence:
-
-> Point ___ is ___ on the ___ axis at approximately ___, so I infer ___. This does not prove ___ because ___.
-
-Then select a second point and compare one coordinate. The explanation should use a point, an axis, and an interpretation—not a color or visual impression alone.
-
-## Transfer and reproduce
-
-Change the filter rule, rerun the code, and predict how the returned rows will change. Export the R or Quarto source and inspect the receipt for prediction, explanation, selected evidence, runtime, seed, row count, and artifact hash.
-
-## Teaching support
-
-Use this lesson before the [Penguin PCA flagship lesson](../penguin-pca/index.qmd). For the full statistics pathway, see [statistics modules](../../docs/curriculum/statistics-modules.md) and [R foundations micro-lessons](../../docs/curriculum/r-foundations-micro-lessons.md).
-
-The browser scene is not dependent on a headset. A future version may expose WebXR when a compatible device is available.
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

@@ -1,0 +1,192 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "penguin-pca",
+  "title": "Penguin morphology PCA",
+  "outcomes": ["Use the prcomp adapter to address: Which morphology measurements vary together, and which penguins have contrasting principal-component scores?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "5f42c382ea3a6ad84ccc5f35bad6bcaa"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one penguin with complete morphology measurements is the unit of observation, identify each variable role, and restate the question: Which morphology measurements vary together, and which penguins have contrasting principal-component scores?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict which original variables may vary together and which observations may separate before running PCA.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Inspect centering and scaling, run PCA, and connect component scores to loadings and explained variance.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Select one observation and compare its component scores with the loading and variance evidence.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Explain the selected observation's component position, cite a component and direction, and state a PCA limitation.",
+      "criteria": ["Names the selected observation", "Names a principal component", "States the component direction", "States a PCA limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Distinguish observation scores from variable loadings and verify the variance evidence before revising the claim.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Compare a different observation on the same component and explain whether the interpretation transfers.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": false,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "reduce"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": true,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "reduce"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a non-binary numeric outcome and at least one numeric predictor.",
+        "caution": "Check residuals, influence, independence, and uncertainty.",
+        "intent": "reduce"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Declare the modeled event, reference level, class balance, and threshold.",
+        "intent": "reduce"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "reduce"
+      }
+    ],
+    "warnings": [],
+    "context": {
+      "question": "Which morphology measurements vary together, and which penguins have contrasting principal-component scores?",
+      "intent": "reduce",
+      "intent_label": "Summarize several variables",
+      "unit_of_analysis": "one penguin with complete morphology measurements",
+      "outcome": null,
+      "id_column": "label",
+      "grouping": null,
+      "time": null,
+      "decision_context": "learning to interpret multivariate variation without treating PCA as a species classifier",
+      "dependence_warning": false
+    },
+    "diagnostics": [
+      {
+        "id": "pc1-variance",
+        "label": "PC1 variance explained",
+        "value": "67.4%",
+        "status": "ready",
+        "interpretation": "This is variance summarized, not outcome importance."
+      },
+      {
+        "id": "components",
+        "label": "Components retained in evidence",
+        "value": "3",
+        "status": "review",
+        "interpretation": "Interpret scores together with loadings and explained variance."
+      },
+      {
+        "id": "scaling",
+        "label": "Input scaling",
+        "value": "centered and standardized",
+        "status": "ready",
+        "interpretation": "Scaling prevents large-unit variables from dominating PCA."
+      },
+      {
+        "id": "pc1-loading",
+        "label": "Largest absolute PC1 loading",
+        "value": "flipper_length_mm = 0.591",
+        "status": "review",
+        "interpretation": "The sign may reverse; interpret this variable together with the other loadings."
+      }
+    ],
+    "cautions": ["Component signs are arbitrary and may reverse without changing the solution.", "PCA summarizes variance; it does not identify causes or latent constructs by itself."],
+    "misconceptions": ["A high component score is not the same as a high value on every original variable.", "A loading describes a variable; a score describes an observation."]
+  }
+}

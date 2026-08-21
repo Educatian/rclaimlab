@@ -4,12 +4,24 @@
 \alias{profile_learning_data}
 \title{Profile learner-supplied data for lesson authoring}
 \usage{
-profile_learning_data(data, outcome = NULL)
+profile_learning_data(
+  data,
+  outcome = NULL,
+  intent = "explore",
+  grouping = NULL,
+  time = NULL
+)
 }
 \arguments{
 \item{data}{A data frame supplied by a learner or educator.}
 
 \item{outcome}{Optional outcome column used to refine analysis recommendations.}
+
+\item{intent}{Intended analytical learning goal. See `recommend_lesson_analysis()`.}
+
+\item{grouping}{Optional grouping or nesting column.}
+
+\item{time}{Optional time or sequence column.}
 }
 \value{
 An object of class `rlearnxr_data_profile`.

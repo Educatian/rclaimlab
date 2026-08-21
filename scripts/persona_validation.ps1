@@ -67,7 +67,7 @@ try {
   Invoke-PwCli run-code "async page => { await page.waitForFunction(() => !document.querySelector('#transfer-card').hidden && document.querySelector('#explanation-feedback').dataset.state === 'success'); }" | Out-Null
   Invoke-PwCli screenshot --filename="$artifactDir/04-learner-explain.png" | Out-Null
   Invoke-PwCli eval "() => { const button = document.querySelector('#points-table tr:nth-child(2) button.inspect-button'); if (!button) throw new Error('second point selector missing'); button.click(); return button.textContent; }" | Out-Null
-  Invoke-PwCli fill "#transfer-input" "Compared with inspect, point clean has a higher x value while remaining negative."
+  Invoke-PwCli fill "#transfer-input" "Compared with inspect, point clean has a higher x value while remaining negative. This descriptive comparison may not generalize."
   Invoke-PwCli click "#check-transfer" | Out-Null
   Invoke-PwCli run-code "async page => { await page.waitForFunction(() => !document.querySelector('#reproduce-card').hidden && document.querySelector('#transfer-feedback').dataset.state === 'success'); }" | Out-Null
   Invoke-PwCli click "#complete-lesson" | Out-Null

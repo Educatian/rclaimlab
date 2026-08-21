@@ -1,3 +1,8 @@
 # Data License and Provenance
 
-Source: the built-in `mtcars` dataset distributed with the R software distribution. This lesson stores derived standardized coordinates and vehicle labels for educational use. R distribution licensing and attribution terms apply; consult the R `COPYING` files when redistributing the source dataset. No private or personally identifying data are included.
+**Source:** The built-in mtcars dataset distributed with R.
+
+**Reuse terms:** R distribution licensing and attribution terms apply; see the R COPYING files.
+
+The compiled Evidence IR records the source call, retained-row decision, seed, R and package versions, and artifact hash.
+R-LearnXR software is MIT licensed. Original lesson narrative is CC BY 4.0.

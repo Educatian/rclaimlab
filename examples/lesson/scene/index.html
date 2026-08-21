@@ -136,6 +136,7 @@ canvas:active { cursor: grabbing; }
 .table-scroll { overflow-x: auto; padding: 0 18px 18px; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th, td { padding: 10px 12px; border-bottom: 1px solid var(--color-border); text-align: left; white-space: nowrap; }
+.compiled-evidence-table th, .compiled-evidence-table td { padding: 8px; font-size: 10px; white-space: normal; overflow-wrap: anywhere; }
 th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase; }
 .inspect-button { min-height: 36px; padding: 7px 12px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: #fff; color: var(--color-primary); font-size: 11px; font-weight: 800; }
 .r-lab { padding: 20px 24px 24px; }
@@ -291,6 +292,15 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 .feedback[data-state="error"] { color: var(--color-danger); }
 .feedback[data-state="success"] { color: var(--color-success); font-weight: 750; }
 .criteria-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+.task-prompt { margin: 0 0 10px; color: var(--color-text-muted); font-size: 12px; line-height: 1.45; }
+.repair-prompt { margin-top: 10px; padding: 9px 10px; border-left: 3px solid var(--color-warning); background: #fff8ed; }
+.method-card details { margin-top: 9px; }
+.method-card summary { cursor: pointer; color: var(--color-primary); font-size: 11px; font-weight: 750; }
+.method-card ul { margin: 7px 0 0; padding-left: 18px; color: var(--color-text-muted); font-size: 11px; line-height: 1.45; }
+.diagnostic-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--color-border); font-size: 11px; }
+.diagnostic-row:last-child { border-bottom: 0; }
+.diagnostic-row span { color: var(--color-text-muted); }
+.diagnostic-row strong { text-align: right; overflow-wrap: anywhere; }
 .criterion { display: flex; align-items: center; gap: 6px; min-height: 34px; padding: 6px 8px; border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text-muted); background: var(--color-surface-subtle); font-size: 10px; font-weight: 800; }
 .criterion::before { content: "○"; color: var(--color-text-muted); }
 .criterion[data-state="pass"] { border-color: #a9d6bd; color: var(--color-success); background: #edf8f2; }
@@ -433,28 +443,35 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
       <button class="step-row" type="button" data-step="7" data-target="transfer-input"><span class="step-index">7</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
       <button class="step-row" type="button" data-step="8" data-target="reproduce-card" data-view="r"><span class="step-index">8</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
     </div>
-    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p>Run an R transformation, inspect the updated 3D result, and explain one coordinate as evidence.</p><small>Estimated time: 10 minutes</small></section>
+    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p id="learning-goal-text">Run an R transformation, inspect the updated result, and explain linked evidence.</p><small id="learning-goal-time">Estimated time: 20 minutes</small></section>
   </nav>
 
   <section class="main" id="lesson-main">
-    <div class="title-row"><div><h1>Learn R through a data space</h1><p>Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
+    <div class="title-row"><div><h1 id="lesson-title">Learn R through a data space</h1><p id="lesson-question">Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
     <div class="scene-card">
-      <div class="scene-header"><div><strong>R-powered laboratory</strong><span>Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
+      <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then examine the resulting coordinates in three dimensions.</span></div><div class="keyboard-hint">WebR runs locally in this tab. No R server or headset is required. The table and source exports remain available as a static fallback.</div></div>
       <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">3D DATA SPACE</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
       <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
         <div class="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
         <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
         <div class="scene-tools"><div class="controls"><div class="control-item"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
-        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible data table and point selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted points and their x, y, and z coordinates</caption><thead><tr><th scope="col">Point</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details></div>
+        <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible 3D-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All plotted observations and their three displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
+        <details class="data-alternative" id="compiled-evidence-alternative"><summary>Full compiled evidence table</summary><div class="table-scroll"><table class="compiled-evidence-table"><caption>All Evidence IR dimensions, including method evidence not mapped to the three axes</caption><thead><tr id="compiled-evidence-head"></tr></thead><tbody id="compiled-evidence-body"></tbody></table></div></details></div>
       </section>
       <section class="view-panel r-lab" id="r-panel" role="tabpanel" aria-labelledby="r-tab" aria-hidden="true" inert hidden>
-        <div class="lab-heading"><div><h2>Transform the scene with R</h2><p>Run the starter pipeline, then change the filter threshold and compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
+        <div class="lab-heading"><div><h2>Transform compiled evidence with R</h2><p id="run-r-prompt">Run the browser evidence transformation, then compare the resulting points.</p></div><div class="engine-status" id="r-engine-status" data-state="idle" aria-live="polite">R engine · load on first run</div></div>
         <div class="r-teaching-guide">
           <section class="guide-card" aria-labelledby="scene-contract-title">
             <div class="guide-kicker" id="scene-contract-title">R → 3D contract</div>
             <code class="guide-schema">scene &lt;- data.frame(label, x, y, z)</code>
             <p>The lesson reads one data frame. <strong>label</strong> names a point; <strong>x</strong>, <strong>y</strong>, and <strong>z</strong> become its coordinates.</p>
-            <details class="code-explain"><summary>Explain this R pipeline</summary><ol><li>Create a small data frame with labels and numeric axes.</li><li>Use <code>scale()</code> to put each axis on a comparable scale.</li><li>Use <code>subset()</code> to keep points that meet the filter rule.</li></ol></details>
+            <details class="code-explain"><summary>Explain every compiled R command</summary><ol id="analysis-command-explanations"><li>The compiled method source and command explanations will appear here.</li></ol></details>
+          </section>
+          <section class="reuse-card" aria-labelledby="source-analysis-title">
+            <div class="guide-kicker">Compiled analysis source</div>
+            <h3 id="source-analysis-title">Inspect the method that produced this evidence</h3>
+            <p id="source-analysis-note">The model was computed in local R before this portable lesson was compiled. The browser lab transforms the linked evidence without pretending to refit the model.</p>
+            <pre id="source-analysis-code">No source pipeline was supplied for this scene.</pre>
           </section>
           <section class="reuse-card" aria-labelledby="reuse-title">
             <div class="guide-kicker" id="reuse-title">From R to lesson</div>
@@ -507,18 +524,29 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     </div>
   </section>
 
-  <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2>Build an evidence-backed explanation</h2>
-    <section class="companion-card orient-card" id="orient-card" data-state="editing"><div class="card-label">00 ORIENT</div><h3>How does R become a data space?</h3><div class="orient-edit" id="orient-edit"><label class="field-label" for="orient-input">Complete the data contract in your own words</label><textarea class="field" id="orient-input" placeholder="One row represents… label identifies… and x, y, z describe…"></textarea><div class="button-row"><button class="secondary-button" id="save-orient" type="button">Confirm orientation</button></div></div><div class="orient-summary" id="orient-summary" hidden><p id="orient-summary-text"></p><button class="link-button" id="edit-orient" type="button">Edit</button></div><div class="field-status" id="orient-status" aria-live="polite">Name what one row represents and what the coordinates describe.</div></section>
-    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3>What pattern should the R filter retain?</h3><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write a short prediction using x, y, or z."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Complete Orient before saving a prediction.</div></section>
-    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3>Selected point</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
-    <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN + REPAIR</div><h3>Why might this point matter for the analysis?</h3><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Name the point, an axis and direction, then state what this evidence cannot prove."></textarea><div class="criteria-grid" aria-label="Explanation criteria"><div class="criterion" id="criterion-point">Point</div><div class="criterion" id="criterion-axis">Axis</div><div class="criterion" id="criterion-direction">Direction</div><div class="criterion" id="criterion-limitation">Limitation</div></div><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" tabindex="-1" aria-live="polite">Use the selected point, an axis and direction, and a limitation.</div></section>
-    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3>Apply the reasoning to a different point.</h3><p id="transfer-prompt">Select a different point, then compare one coordinate with your original evidence.</p><div class="transfer-evidence" id="transfer-evidence">No second point selected yet.</div><label class="field-label" for="transfer-input">Transfer response</label><textarea class="field" id="transfer-input" placeholder="Compared with the first point, this point has… This means…"></textarea><div class="button-row"><button class="check-button" id="check-transfer" type="button">Check transfer</button></div><div class="feedback" id="transfer-feedback" aria-live="polite">Completion requires a changed point and a written comparison.</div></section>
-    <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p>Download the editable R analysis, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button" id="download-r-companion" type="button">Download .R</button><button class="link-button" id="download-qmd-companion" type="button">Download .qmd</button><button class="link-button" id="download-receipt-companion" type="button">Download receipt</button></div><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
-    <div class="tip">A strong explanation names a point, an axis and direction, and what the evidence cannot prove.</div>
+  <aside class="companion" aria-label="Learning companion"><div class="eyebrow">Learning companion</div><h2 id="companion-title">Build an evidence-backed explanation</h2>
+    <section class="companion-card orient-card" id="orient-card" data-state="editing"><div class="card-label">00 ORIENT</div><h3 id="orient-title">Connect the question to the data structure</h3><p class="task-prompt" id="orient-prompt"></p><div class="orient-edit" id="orient-edit"><label class="field-label" id="orient-label" for="orient-input">Describe the unit and variable roles</label><textarea class="field" id="orient-input" placeholder="One row represents… the variables represent… and the question asks…"></textarea><div class="button-row"><button class="secondary-button" id="save-orient" type="button">Confirm orientation</button></div></div><div class="orient-summary" id="orient-summary" hidden><p id="orient-summary-text"></p><button class="link-button" id="edit-orient" type="button">Edit</button></div><div class="field-status" id="orient-status" aria-live="polite">Name what one row represents and connect the variables to the question.</div></section>
+    <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3 id="prediction-title">Make a method-specific prediction</h3><p class="task-prompt" id="prediction-prompt"></p><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write one falsifiable expectation before inspecting the evidence."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Complete Orient before saving a prediction.</div></section>
+    <section class="companion-card method-card" id="method-card"><div class="card-label">METHOD CHECK</div><div class="selected-row"><h3 id="method-title">Evidence diagnostics</h3><span class="selected-tag" id="method-name">data</span></div><div id="method-diagnostics"></div><details><summary>Interpretation cautions</summary><ul id="method-cautions"></ul></details></section>
+    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3>Selected observation</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
+    <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN + REPAIR</div><h3 id="explanation-title">Explain the selected analytical evidence</h3><p class="task-prompt" id="explanation-prompt"></p><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Name the observation, cite the method-specific evidence, and state a limitation."></textarea><div class="criteria-grid" id="criteria-grid" aria-label="Explanation criteria"></div><p class="task-prompt repair-prompt" id="repair-prompt" hidden></p><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" tabindex="-1" aria-live="polite">Use the visible criteria to keep the claim connected to evidence.</div></section>
+    <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3 id="transfer-title">Apply the reasoning to a different observation</h3><p id="transfer-prompt">Select a different observation, then compare its analytical evidence with your original evidence.</p><div class="transfer-evidence" id="transfer-evidence">No second observation selected yet.</div><label class="field-label" for="transfer-input">Transfer response</label><textarea class="field" id="transfer-input" placeholder="Compared with the first observation… This evidence suggests… The limitation is…"></textarea><div class="button-row"><button class="check-button" id="check-transfer" type="button">Check transfer</button></div><div class="feedback" id="transfer-feedback" aria-live="polite">Completion requires a changed observation and a written comparison.</div></section>
+    <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p id="reproduce-prompt">Download the editable R evidence transformation, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button" id="download-r-companion" type="button">Download .R</button><button class="link-button" id="download-qmd-companion" type="button">Download .qmd</button><button class="link-button" id="download-receipt-companion" type="button">Download receipt</button></div><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
+    <div class="tip" id="method-tip">A strong explanation uses the method-specific criteria and states what the evidence cannot establish.</div>
   </aside>
 </main>
 <script>
 const initialPoints = [{"observation_id":"obs-0001","evidence_ids":["ev-0001-001","ev-0001-002","ev-0001-003"],"x":-0.90000000,"y":0.60000000,"z":-0.40000000,"label":"inspect"},{"observation_id":"obs-0002","evidence_ids":["ev-0002-001","ev-0002-002","ev-0002-003"],"x":-0.40000000,"y":-0.20000000,"z":0.40000000,"label":"clean"},{"observation_id":"obs-0003","evidence_ids":["ev-0003-001","ev-0003-002","ev-0003-003"],"x":0.10000000,"y":0.50000000,"z":0.80000000,"label":"join"},{"observation_id":"obs-0004","evidence_ids":["ev-0004-001","ev-0004-002","ev-0004-003"],"x":0.50000000,"y":-0.70000000,"z":-0.10000000,"label":"model"},{"observation_id":"obs-0005","evidence_ids":["ev-0005-001","ev-0005-002","ev-0005-003"],"x":0.90000000,"y":0.10000000,"z":0.50000000,"label":"diagnose"},{"observation_id":"obs-0006","evidence_ids":["ev-0006-001","ev-0006-002","ev-0006-003"],"x":0.25000000,"y":0.85000000,"z":-0.65000000,"label":"share"}];
+const lessonSpec = {"schema_version":"rlearnxr-browser-contract-1","lesson_id":"lesson","title":"R-LearnXR reference data space","outcomes":["Use the data_view adapter to address: How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?","Explain one observation with linked analytical evidence and an explicit limitation","Repair and transfer the interpretation while preserving reproducibility"],"question":"How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?","analysis":"data.frame","axis_labels":{"x":"x","y":"y","z":"z"},"seed":2026,"evidence_hash":"c64474c79fac8a45d585421b61b2bdbd","tasks":{"orient":{"id":"wizard-orient","type":"orient","prompt":"State why one synthetic contributor-training observation is the unit of observation, identify each variable role, and restate the question: How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?","criteria":{"meaning":"Defines the unit of observation and variable roles","question":"Connects the data to the stated question"},"evidence_required":false},"predict":{"id":"wizard-predict","type":"predict","prompt":"Predict one descriptive pattern among x, y, z before inspecting the evidence.","criteria":{"prediction":"Records a falsifiable expectation before inspection"},"evidence_required":false},"run_r":{"id":"wizard-run_r","type":"run_r","prompt":"Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.","criteria":{"execution":"Connects visible R source to the compiled artifact"},"evidence_required":false},"explore":{"id":"wizard-explore","type":"explore","prompt":"Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.","criteria":{"selection":"Selects an observation using a stable evidence ID"},"evidence_required":true},"explain":{"id":"wizard-explain","type":"explain","prompt":"Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.","criteria":{"point":"Names the selected observation","axis":"Cites a displayed variable or axis","direction":"States the value or direction","limitation":"States a descriptive limitation"},"evidence_required":true},"repair":{"id":"wizard-repair","type":"repair","prompt":"Check the exact value and scale, then remove any causal or population-level overclaim.","criteria":{"revision":"Corrects the identified evidence or assumption problem"},"evidence_required":true},"transfer":{"id":"wizard-transfer","type":"transfer","prompt":"Apply the same descriptive rule to a different observation and identify where the pattern changes.","criteria":{"point":"Uses a different observation","comparison":"Compares the method-specific evidence","limitation":"Keeps the interpretation within its evidence boundary"},"evidence_required":true},"reproduce":{"id":"wizard-reproduce","type":"reproduce","prompt":"Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.","criteria":{"provenance":"Verifies source, seed, version, retained rows, and artifact hash"},"evidence_required":false}},"diagnostics":[{"id":"rows","label":"Complete observations","value":"6","status":"ready","interpretation":"The evidence describes the retained rows only."},{"id":"dimensions","label":"Compared variables","value":"x, y, z","status":"review","interpretation":"Variables remain on their original scales."}],"cautions":["Visible association is not evidence of causation.","Different variable scales can dominate spatial distance."],"misconceptions":"A point that looks distant is not automatically unusual in the original construct.","context":{"question":"How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?","intent":"explore","intent_label":"Describe and compare observations","unit_of_analysis":"one synthetic contributor-training observation","outcome":null,"id_column":"label","grouping":null,"time":null,"decision_context":"learning and interpretation","dependence_warning":false},"analysis_source":["set.seed(2026)","# learner_data is the local CSV data frame","analysis_columns \u003c- c(\"x\", \"y\", \"z\", \"label\")","source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","labels \u003c- as.character(analysis_data[[\"label\"]])","evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)"],"evidence_table":{"columns":["observation_id","label","x","y","z"],"rows":[{"observation_id":"obs-0001","label":"inspect","x":-0.9,"y":0.6,"z":-0.4},{"observation_id":"obs-0002","label":"clean","x":-0.4,"y":-0.2,"z":0.4},{"observation_id":"obs-0003","label":"join","x":0.1,"y":0.5,"z":0.8},{"observation_id":"obs-0004","label":"model","x":0.5,"y":-0.7,"z":-0.1},{"observation_id":"obs-0005","label":"diagnose","x":0.9,"y":0.1,"z":0.5},{"observation_id":"obs-0006","label":"share","x":0.25,"y":0.85,"z":-0.65}]},"command_explanations":[{"code":"set.seed(2026)","explanation":"Fixes the random seed so stochastic methods and downstream artifacts can be reproduced."},{"code":"# learner_data is the local CSV data frame","explanation":"Names the local input data object used by the generated analysis."},{"code":"analysis_columns \u003c- c(\"x\", \"y\", \"z\", \"label\")","explanation":"Declares the exact variables needed for the analysis, outcome, and stable labels."},{"code":"source_rows \u003c- which(complete.cases(learner_data[analysis_columns]))","explanation":"Records the retained source-row positions after the explicit complete-case rule."},{"code":"analysis_data \u003c- learner_data[source_rows, analysis_columns, drop = FALSE]","explanation":"Creates the analysis data from the retained source rows and approved columns."},{"code":"labels \u003c- as.character(analysis_data[[\"label\"]])","explanation":"Creates stable observation labels from the approved ID column or original source-row position."},{"code":"evidence \u003c- as_rlearnxr_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)","explanation":"Converts the existing data.frame result into linked Evidence IR without reimplementing the statistical method."}]};
+function taskFor(type) {
+  return lessonSpec && lessonSpec.tasks && lessonSpec.tasks[type]
+    ? lessonSpec.tasks[type]
+    : {id: "scene-" + type, type, prompt: "", criteria: {}};
+}
+function criterionEntries(type) {
+  const value = taskFor(type).criteria || {};
+  return Object.entries(value);
+}
 function normalizePointIdentity(point, index) {
   const baseline = initialPoints.find(candidate => String(candidate.label) === String(point.label));
   return {
@@ -547,12 +575,17 @@ const predictionSummary = document.getElementById("prediction-summary");
 const predictionSummaryText = document.getElementById("prediction-summary-text");
 const explanationInput = document.getElementById("explanation-input");
 const explanationFeedback = document.getElementById("explanation-feedback");
-const criteria = {
-  point: document.getElementById("criterion-point"),
-  axis: document.getElementById("criterion-axis"),
-  direction: document.getElementById("criterion-direction"),
-  limitation: document.getElementById("criterion-limitation")
-};
+const criteriaGrid = document.getElementById("criteria-grid");
+const criteria = {};
+criterionEntries("explain").forEach(([id, description]) => {
+  const element = document.createElement("div");
+  element.className = "criterion";
+  element.id = "criterion-" + id;
+  element.dataset.criterionId = id;
+  element.textContent = description;
+  criteriaGrid.appendChild(element);
+  criteria[id] = element;
+});
 const transferCard = document.getElementById("transfer-card");
 const transferInput = document.getElementById("transfer-input");
 const transferEvidence = document.getElementById("transfer-evidence");
@@ -626,6 +659,107 @@ let rRunPassed = false;
 let lastSuccessfulCode = "";
 let aiGeneratedRCode = "";
 let aiBrief = null;
+const contractSeed = Number(lessonSpec.seed || 2026);
+
+function applyLessonContract() {
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element && value) element.textContent = String(value);
+  };
+  setText("lesson-title", lessonSpec.title);
+  setText("lesson-question", lessonSpec.question);
+  setText("learning-goal-text", (lessonSpec.outcomes || []).join(" "));
+  setText("orient-prompt", taskFor("orient").prompt);
+  setText("prediction-prompt", taskFor("predict").prompt);
+  setText("run-r-prompt", taskFor("run_r").prompt);
+  setText("explore-prompt", taskFor("explore").prompt);
+  setText("explanation-prompt", taskFor("explain").prompt);
+  setText("repair-prompt", taskFor("repair").prompt);
+  setText("transfer-prompt", taskFor("transfer").prompt);
+  setText("reproduce-prompt", taskFor("reproduce").prompt);
+  setText("method-name", lessonSpec.analysis || "data");
+  setText("method-title", (lessonSpec.analysis || "Data") + " evidence checks");
+  setText("provenance-seed", contractSeed);
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+  ["x", "y", "z"].forEach(axis => setText("axis-" + axis + "-label", axisLabels[axis] || axis));
+  setText("scene-legend", [axisLabels.x || "x", axisLabels.y || "y", axisLabels.z || "z"].join(" / ") + " · linked evidence from R");
+  const source = Array.isArray(lessonSpec.analysis_source) ? lessonSpec.analysis_source.join("\n") : String(lessonSpec.analysis_source || "");
+  setText("source-analysis-code", source || "No source pipeline was supplied for this scene.");
+  const commandList = document.getElementById("analysis-command-explanations");
+  if (commandList) {
+    commandList.replaceChildren();
+    (lessonSpec.command_explanations || []).forEach(step => {
+      const item = document.createElement("li");
+      const code = document.createElement("code");
+      code.textContent = step.code;
+      const explanation = document.createElement("span");
+      explanation.textContent = " " + step.explanation;
+      item.append(code, explanation);
+      commandList.appendChild(item);
+    });
+    if (!(lessonSpec.command_explanations || []).length) {
+      const item = document.createElement("li");
+      item.textContent = "No compiled analysis source was supplied for this standalone scene.";
+      commandList.appendChild(item);
+    }
+  }
+  const diagnostics = document.getElementById("method-diagnostics");
+  (lessonSpec.diagnostics || []).forEach(item => {
+    const row = document.createElement("div");
+    row.className = "diagnostic-row";
+    const label = document.createElement("span");
+    label.textContent = item.label;
+    const value = document.createElement("strong");
+    value.textContent = item.value;
+    row.title = item.interpretation || "";
+    row.append(label, value);
+    diagnostics.appendChild(row);
+  });
+  if (!(lessonSpec.diagnostics || []).length) diagnostics.textContent = "No method-specific diagnostics were supplied.";
+  const cautions = document.getElementById("method-cautions");
+  (lessonSpec.cautions || []).forEach(value => {
+    const item = document.createElement("li");
+    item.textContent = value;
+    cautions.appendChild(item);
+  });
+  const tip = (lessonSpec.misconceptions || [])[0] || (lessonSpec.cautions || [])[0];
+  if (tip) setText("method-tip", tip);
+  buildCompiledEvidenceTable();
+  canvas.setAttribute("aria-label", "Interactive three-dimensional evidence scene for " + (lessonSpec.question || lessonSpec.title));
+}
+
+function buildCompiledEvidenceTable() {
+  const head = document.getElementById("compiled-evidence-head");
+  const body = document.getElementById("compiled-evidence-body");
+  const table = lessonSpec.evidence_table || {columns: [], rows: []};
+  head.replaceChildren();
+  body.replaceChildren();
+  (table.columns || []).forEach(column => {
+    const cell = document.createElement("th");
+    cell.scope = "col";
+    cell.textContent = String(column);
+    head.appendChild(cell);
+  });
+  (table.rows || []).forEach(row => {
+    const tr = document.createElement("tr");
+    (table.columns || []).forEach((column, index) => {
+      const cell = document.createElement(index === 0 ? "th" : "td");
+      if (index === 0) cell.scope = "row";
+      cell.dataset.label = String(column);
+      const value = row[column];
+      cell.textContent = typeof value === "number" && Number.isFinite(value) ? Number(value).toFixed(3) : String(value ?? "");
+      tr.appendChild(cell);
+    });
+    body.appendChild(tr);
+  });
+  const details = document.getElementById("compiled-evidence-alternative");
+  details.hidden = !(table.columns || []).length;
+}
+
+function hasContractSeed(code) {
+  const pattern = new RegExp("set\\.seed\\s*\\(\\s*" + String(contractSeed) + "\\s*\\)");
+  return pattern.test(code);
+}
 
 function rString(value) {
   return '"' + String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
@@ -654,11 +788,41 @@ function setOrientMode(saved) {
 
 function explanationCriteria(text, selected) {
   const label = String(selected && selected.label ? selected.label : "").trim();
+  const lower = text.toLowerCase();
+  const axisLabels = Object.values(lessonSpec.axis_labels || {}).filter(Boolean).map(value => String(value).toLowerCase());
+  const rules = {
+    point: () => Boolean(label) && lower.includes(label.toLowerCase()),
+    observation: () => Boolean(label) && lower.includes(label.toLowerCase()),
+    axis: () => /(^|\W)[xyz](\W|$)/i.test(text) || axisLabels.some(value => lower.includes(value)),
+    component: () => /(^|\W)(pc\s*[123]|component\s*[123]|principal component)(\W|$)/i.test(text),
+    direction: () => /(positive|negative|above|below|higher|lower|increase|decrease|near|zero|greater|less)/i.test(text),
+    fitted: () => /(fitted|predicted|estimate|expected)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    residual: () => /(residual|interval|observed|difference|error)/i.test(text),
+    probability: () => /(probability|chance|odds|percent|%)/i.test(text) && /[-+]?\d*\.?\d+/.test(text),
+    threshold: () => /(threshold|cutoff|event|class|0\.5|50%|reference)/i.test(text),
+    cluster: () => /(cluster|group)\s*[-#]?\s*\d+/i.test(text),
+    distance: () => /(centroid|distance|within-cluster|within cluster)/i.test(text),
+    limitation: () => /(cannot|can not|does not|doesn't|not prove|single point|one point|limited|limitation|uncertain|uncertainty|association|causal|may not|might not|stability|depends|descriptive)/i.test(text)
+  };
+  return Object.fromEntries(criterionEntries("explain").map(([id]) => [id, rules[id] ? rules[id]() : text.trim().length >= 20]));
+}
+
+function transferCriteria(text, selectedLabel) {
+  const lower = text.toLowerCase();
+  const analysis = String(lessonSpec.analysis || "data").toLowerCase();
+  const metric = analysis.includes("prcomp")
+    ? /(pc\s*[123]|component|score|loading|variance)/i.test(text)
+    : analysis === "lm"
+      ? /(fitted|residual|interval|observed|estimate)/i.test(text)
+      : analysis === "glm"
+        ? /(probability|threshold|event|class|odds|percent|%)/i.test(text)
+        : analysis === "kmeans"
+          ? /(cluster|centroid|distance|group)/i.test(text)
+          : /(^|\W)[xyz](\W|$)/i.test(text) || Object.values(lessonSpec.axis_labels || {}).some(value => lower.includes(String(value).toLowerCase()));
   return {
-    point: Boolean(label) && text.toLowerCase().includes(label.toLowerCase()),
-    axis: /(^|\W)[xyz](\W|$)/i.test(text),
-    direction: /(positive|negative|above|below|higher|lower|increase|decrease|near|zero|greater|less)/i.test(text),
-    limitation: /(cannot|can not|does not|doesn't|not prove|single point|one point|limited|limitation|uncertain|uncertainty|association|causal|may not|might not)/i.test(text)
+    point: Boolean(selectedLabel) && lower.includes(String(selectedLabel).toLowerCase()),
+    comparison: metric && /(compared|higher|lower|positive|negative|similar|same|differ|greater|less|near|zero|while|whereas|than)/i.test(text),
+    limitation: /(cannot|can not|does not|doesn't|limited|limitation|uncertain|association|causal|descriptive|may not|might not|depends)/i.test(text)
   };
 }
 
@@ -672,7 +836,7 @@ function renderCriteria(result, markMissing = false) {
 
 function updateReproSummary() {
   document.getElementById("receipt-runtime").textContent = webRVersion || "WebR 0.6.0";
-  document.getElementById("receipt-seed").textContent = /set\.seed\s*\(\s*2026\s*\)/.test(rCodeEditor.value) ? "2026" : "Missing";
+  document.getElementById("receipt-seed").textContent = hasContractSeed(rCodeEditor.value) ? String(contractSeed) : "Missing";
   document.getElementById("receipt-rows").textContent = rRunPassed ? points.length + " returned" : "Pending";
   document.getElementById("receipt-hash").textContent = rRunPassed ? document.getElementById("artifact-hash").textContent : "Pending";
 }
@@ -699,7 +863,7 @@ function defaultRCode() {
   const labels = vectorLines(initialPoints.map(point => rString(point.label || "point")));
   const axis = name => vectorLines(initialPoints.map(point => Number(point[name]).toFixed(3)));
   return [
-    "set.seed(2026)",
+    "set.seed(" + String(contractSeed) + ")",
     "",
     "data <- data.frame(",
     "  label = c(\n" + labels + "\n  ),",
@@ -811,7 +975,7 @@ async function requestAIBrief(prompt) {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       prompt,
-      data_schema: {required: ["label", "x", "y", "z"], runtime: "WebR 0.6.0", seed: 2026},
+      data_schema: {required: ["label", "x", "y", "z"], runtime: "WebR 0.6.0", seed: contractSeed},
       response_format: "rlearnxr_visualization_brief"
     })
   });
@@ -843,7 +1007,7 @@ function aiProvenance() {
     mode: aiBrief ? aiBrief.mode : "",
     r_code: aiGeneratedRCode,
     runtime: webRVersion || "WebR 0.6.0",
-    seed: 2026,
+    seed: contractSeed,
     scene_rows: rRunPassed ? points.length : null,
     artifact_hash: document.getElementById("artifact-hash").textContent === "Not generated" ? null : document.getElementById("artifact-hash").textContent
   };
@@ -853,26 +1017,53 @@ function learningReceipt() {
   const selected = points[selectedIndex] || null;
   const evidence = points.find(point => String(point.label) === explanationPointLabel) || null;
   const context = lessonContext();
+  const explanationResult = explanationCriteria(explanationInput.value.trim(), evidence || selected);
+  const transferResult = transferCriteria(transferInput.value.trim(), transferPointLabel);
+  const taskContract = Object.fromEntries(Object.entries(lessonSpec.tasks || {}).map(([type, task]) => [type, {
+    task_id: task.id || null,
+    prompt: task.prompt || "",
+    criteria: task.criteria || {},
+    evidence_required: Boolean(task.evidence_required)
+  }]));
   return {
-      receipt_version: "2.0",
-      schema_version: "rlearnxr-receipt-2",
+    receipt_version: "2.0",
+    schema_version: "rlearnxr-receipt-2",
     generated_at: new Date().toISOString(),
     lesson: document.title,
+    lesson_id: lessonSpec.lesson_id || context.id,
+    question: lessonSpec.question || "",
+    analysis: lessonSpec.analysis || "data",
+    context: lessonSpec.context || {},
     course_id: "rlearnxr-foundations",
     module_id: context.id,
     outcome: lessonCompleted ? "complete" : rRunPassed ? "r_verified" : "in_progress",
+    task_contract: taskContract,
+    compiled_analysis_source: lessonSpec.analysis_source || [],
+    command_explanations: lessonSpec.command_explanations || [],
+    evidence_table_columns: (lessonSpec.evidence_table || {}).columns || [],
+    task_results: {
+      orient: {task_id: taskFor("orient").id || null, response: orientInput.value.trim(), passed: orientationPassed},
+      predict: {task_id: taskFor("predict").id || null, response: predictionInput.value.trim(), passed: predictionInput.value.trim().length >= 12},
+      run_r: {task_id: taskFor("run_r").id || null, passed: rRunPassed},
+      explore: {task_id: taskFor("explore").id || null, observation_id: selected ? selected.observation_id : null, passed: evidenceSelected},
+      explain: {task_id: taskFor("explain").id || null, response: explanationInput.value.trim(), criteria: explanationResult, passed: explanationPassed},
+      repair: {task_id: taskFor("repair").id || null, attempted: explanationAttempted, passed: explanationPassed},
+      transfer: {task_id: taskFor("transfer").id || null, response: transferInput.value.trim(), criteria: transferResult, passed: transferReady},
+      reproduce: {task_id: taskFor("reproduce").id || null, passed: lessonCompleted && rRunPassed}
+    },
     orientation: orientInput.value.trim(),
     prediction: predictionInput.value.trim(),
     explanation: explanationInput.value.trim(),
-    explanation_criteria: explanationCriteria(explanationInput.value.trim(), evidence || selected),
+    explanation_criteria: explanationResult,
     evidence_point: evidence ? {observation_id: evidence.observation_id, evidence_ids: evidence.evidence_ids, label: String(evidence.label), x: Number(evidence.x), y: Number(evidence.y), z: Number(evidence.z)} : null,
     transfer_response: transferInput.value.trim(),
     transfer_point: selected ? {observation_id: selected.observation_id, evidence_ids: selected.evidence_ids, label: String(selected.label), x: Number(selected.x), y: Number(selected.y), z: Number(selected.z)} : null,
     reproducibility: {
       runtime: webRVersion || "WebR 0.6.0",
-      seed: /set\.seed\s*\(\s*2026\s*\)/.test(rCodeEditor.value) ? 2026 : null,
+      seed: hasContractSeed(rCodeEditor.value) ? contractSeed : null,
       rows: rRunPassed ? points.length : null,
-      artifact_hash: rRunPassed ? document.getElementById("artifact-hash").textContent : null
+      artifact_hash: rRunPassed ? document.getElementById("artifact-hash").textContent : null,
+      compiled_evidence_hash: lessonSpec.evidence_hash || null
     },
     code: rCodeEditor.value.trim(),
     privacy: {storage: "browser-local", export: "learner-initiated local download", private_data_sent_to_ai: false}
@@ -918,14 +1109,16 @@ function relation(value) {
 
 function observationFor(point) {
   const label = String(point.label || "This point");
-  return label + " is " + relation(point.x) + " on x, " + relation(point.y) + " on y, and " + relation(point.z) + " on z.";
+  const axes = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+  return label + " is " + relation(point.x) + " on " + (axes.x || "x") + ", " + relation(point.y) + " on " + (axes.y || "y") + ", and " + relation(point.z) + " on " + (axes.z || "z") + ".";
 }
 
 function updateClaimEvidence() {
   if (!evidencePoint || !rRunPassed || !points[selectedIndex]) return;
   const point = points[selectedIndex];
   const axis = ["x", "y", "z"].sort((a, b) => Math.abs(Number(point[b])) - Math.abs(Number(point[a])))[0];
-  evidencePoint.textContent = String(point.label || "point") + " · " + axis + " " + Number(point[axis]).toFixed(2) + " supports the selected comparison.";
+  const axisLabel = (lessonSpec.axis_labels || {})[axis] || axis;
+  evidencePoint.textContent = String(point.label || "point") + " · " + axisLabel + " " + Number(point[axis]).toFixed(2) + " supports the selected comparison.";
   if (lastSuccessfulCode) {
     const line = lastSuccessfulCode.split(/\r?\n/).find(value => /subset|scale|transform/.test(value)) || lastSuccessfulCode;
     evidenceCode.textContent = line.trim();
@@ -949,7 +1142,7 @@ function updateEvidenceReveal(code, resultPoints) {
   evidenceReveal.hidden = false;
   provenanceRibbon.hidden = false;
   provenanceRuntime.textContent = webRVersion || "WebR";
-  provenanceSeed.textContent = /set\.seed\s*\(\s*2026\s*\)/.test(code) ? "2026" : "missing";
+  provenanceSeed.textContent = hasContractSeed(code) ? String(contractSeed) : "missing";
   provenanceRows.textContent = after + " returned";
   provenanceHash.textContent = document.getElementById("artifact-hash").textContent;
   updateClaimEvidence();
@@ -972,9 +1165,10 @@ function updatePointPanel(index, announce) {
   if (!point) return;
   pointName.textContent = String(point.label || ("point " + (index + 1)));
   pointCoords.replaceChildren();
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
   ["x", "y", "z"].forEach(axis => {
     const item = document.createElement("span");
-    item.textContent = axis + " " + Number(point[axis]).toFixed(2);
+    item.textContent = (axisLabels[axis] || axis) + " " + Number(point[axis]).toFixed(2);
     pointCoords.appendChild(item);
   });
   pointObservation.textContent = observationFor(point);
@@ -994,7 +1188,7 @@ function setSelectedPoint(index, options = {}) {
       transferPointLabel = String(points[index].label);
       transferReady = false;
       reproduceCard.hidden = true;
-      transferEvidence.textContent = transferPointLabel + " selected. Compare one of its x, y, or z coordinates with " + explanationPointLabel + ".";
+      transferEvidence.textContent = transferPointLabel + " selected. Compare its method-specific evidence with " + explanationPointLabel + ".";
       transferFeedback.dataset.state = "";
       transferFeedback.textContent = "Write the comparison, then check the transfer response.";
     } else {
@@ -1240,7 +1434,8 @@ function resetRResults() {
   document.getElementById("r-seed").textContent = "Not checked";
   document.getElementById("artifact-hash").textContent = "None yet";
   document.getElementById("scene-rows").textContent = "Baseline preview";
-  document.getElementById("scene-legend").textContent = "x / y / z axes · generated from R";
+  const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+  document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y", axisLabels.z || "z"].join(" / ") + " · generated from R";
   rEngineStatus.dataset.state = webRInstance ? "ready" : "idle";
   rEngineStatus.textContent = webRInstance ? "R engine · ready in browser" : "R engine · load on first run";
   rConsole.textContent = "Ready. Run the starter code to initialize WebR.";
@@ -1299,7 +1494,7 @@ async function executeRCode() {
   rTransformSummary.textContent = "Transformation preview: " + transformationSummary(code);
   updateCheck("check-seed", /set\.seed\s*\(/.test(code) ? "pass" : "fail");
   ["check-frame", "check-axes", "check-sync"].forEach(id => updateCheck(id, "pending"));
-  document.getElementById("r-seed").textContent = /set\.seed\s*\(\s*2026\s*\)/.test(code) ? "2026" : "Missing";
+  document.getElementById("r-seed").textContent = hasContractSeed(code) ? String(contractSeed) : "Missing";
   rEngineStatus.dataset.state = "running";
   rEngineStatus.textContent = webRInstance ? "R engine · running code" : "Loading real R runtime…";
   try {
@@ -1337,7 +1532,8 @@ async function executeRCode() {
     document.getElementById("scene-rows").textContent = points.length + " from R";
     updateEvidenceReveal(code, points);
     rTransformSummary.textContent = "Transformation evidence: " + transformationSummary(code, points.length);
-    document.getElementById("scene-legend").textContent = "x / y / z axes · " + points.length + " points returned by WebR";
+    const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
+    document.getElementById("scene-legend").textContent = [axisLabels.x || "x", axisLabels.y || "y", axisLabels.z || "z"].join(" / ") + " · " + points.length + " points returned by WebR";
     rConsole.textContent = "> R pipeline completed\n" + points.length + " rows returned\n3D scene synchronized successfully";
     rEngineStatus.dataset.state = "ready";
     rEngineStatus.textContent = "R engine · execution passed";
@@ -1382,36 +1578,66 @@ function downloadText(filename, content, type) {
 }
 
 function qmdDocument() {
+  const source = Array.isArray(lessonSpec.analysis_source) ? lessonSpec.analysis_source.join("\n") : String(lessonSpec.analysis_source || "");
+  const taskSections = Object.entries(lessonSpec.tasks || {}).flatMap(([type, task]) => {
+    const response = type === "orient" ? orientInput.value.trim()
+      : type === "predict" ? predictionInput.value.trim()
+        : type === "explain" ? explanationInput.value.trim()
+          : type === "transfer" ? transferInput.value.trim()
+            : "";
+    const criteria = Object.entries(task.criteria || {}).map(([id, description]) => "- **" + id + ":** " + description);
+    return [
+      "## " + type.replace(/_/g, " ").replace(/\b\w/g, value => value.toUpperCase()),
+      "",
+      task.prompt || "",
+      "",
+      ...(criteria.length ? ["Completion evidence:", "", ...criteria, ""] : []),
+      ...(response ? ["Learner response:", "", response, ""] : [])
+    ];
+  });
+  const diagnosticLines = (lessonSpec.diagnostics || []).map(item => "- **" + item.label + ":** " + item.value + ". " + (item.interpretation || ""));
+  const cautionLines = (lessonSpec.cautions || []).map(value => "- " + value);
   return [
     "---",
-    'title: "My reproducible R-LearnXR analysis"',
+    'title: "' + String(lessonSpec.title || "My reproducible R-LearnXR analysis").replace(/"/g, '\\"') + '"',
     "format: html",
     "---",
     "",
     "<!-- Generated by the R-LearnXR browser preview. Copy this file into a scaffolded lesson and edit the narrative before publishing. -->",
     "<!-- Release path: render_scene(..., overwrite = TRUE) -> check_lesson(..., strict = TRUE) -> quarto render. -->",
     "",
+    "# Question and data structure",
+    "",
+    "**Question:** " + (lessonSpec.question || "Not supplied"),
+    "",
+    "**Unit of analysis:** " + ((lessonSpec.context || {}).unit_of_analysis || "one compiled observation"),
+    "",
+    "**Analytical method:** " + (lessonSpec.analysis || "data"),
+    "",
+    "# Compiled analysis source",
+    "",
+    "```{r}",
+    source || "# No compiled source was supplied.",
+    "```",
+    "",
+    "# Browser evidence transformation",
+    "",
     "```{r}",
     rCodeEditor.value.trim(),
     "```",
     "",
-    "## Interpretation",
+    "# Learning sequence",
     "",
-    "### Orientation",
+    ...taskSections,
+    "# Method diagnostics",
     "",
-    orientInput.value.trim() || "Describe how one row, label, and x/y/z coordinates form the scene.",
+    ...(diagnosticLines.length ? diagnosticLines : ["- No method-specific diagnostics were supplied."]),
     "",
-    "### Prediction",
+    "# Interpretation cautions",
     "",
-    predictionInput.value.trim() || "Add your prediction here.",
+    ...(cautionLines.length ? cautionLines : ["- Keep claims within the compiled evidence boundary."]),
     "",
-    "### Evidence-based explanation",
-    "",
-    explanationInput.value.trim() || "Add your coordinate-based explanation and limitation here.",
-    "",
-    "### Transfer",
-    "",
-    transferInput.value.trim() || "Compare the evidence with a second point or changed rule."
+    "Compiled evidence hash: `" + (lessonSpec.evidence_hash || "not supplied") + "`."
   ].join("\n");
 }
 
@@ -1483,7 +1709,7 @@ function restoreState() {
       const evidence = points.find(point => String(point.label) === explanationPointLabel) || points[selectedIndex];
       renderCriteria(explanationCriteria(explanationInput.value, evidence), true);
       explanationFeedback.dataset.state = "success";
-      explanationFeedback.textContent = "Saved explanation and all four criteria restored.";
+      explanationFeedback.textContent = "Saved explanation and all method-specific criteria restored.";
       transferCard.hidden = false;
     }
     transferReady = Boolean(saved.transferReady);
@@ -1593,9 +1819,10 @@ document.getElementById("restart-lesson").addEventListener("click", () => {
   transferInput.value = "";
   setOrientMode(false);
   setPredictionMode(false);
-  orientStatus.textContent = "Name what one row represents and what the coordinates describe.";
+  orientStatus.textContent = "Name what one row represents and connect the variable roles to the stated question.";
   predictionStatus.textContent = "Complete Orient before saving a prediction.";
-  renderCriteria({point: false, axis: false, direction: false, limitation: false});
+  renderCriteria(Object.fromEntries(criterionEntries("explain").map(([id]) => [id, false])));
+  document.getElementById("repair-prompt").hidden = true;
   explanationFeedback.dataset.state = "";
   explanationFeedback.textContent = "Use the selected point, an axis and direction, and a limitation.";
   transferCard.hidden = true;
@@ -1662,15 +1889,15 @@ document.querySelectorAll(".step-row").forEach(button => {
 
 document.getElementById("save-orient").addEventListener("click", () => {
   const response = orientInput.value.trim();
-  const hasObservation = /(row|observation|record|case|point)/i.test(response);
-  const hasCoordinate = /(^|\W)(x|y|z)(\W|$)|coordinate|axis|axes/i.test(response);
-  if (response.length < 20 || !hasObservation || !hasCoordinate) {
-    orientStatus.textContent = "Explain what one row represents and how x, y, or z locate it in the data space.";
+  const hasObservation = /(row|observation|record|case|point|event|student|learner|session|school|class)/i.test(response);
+  const hasVariableRole = /(variable|outcome|predictor|measure|column|score|component|dimension|feature|coordinate|axis|time|group)/i.test(response);
+  if (response.length < 24 || !hasObservation || !hasVariableRole) {
+    orientStatus.textContent = "Explain what one row represents and connect the selected variables to the stated question.";
     orientInput.focus();
     return;
   }
   setOrientMode(true);
-  orientStatus.textContent = "Orientation saved. Now predict what the R filter will retain.";
+  orientStatus.textContent = "Orientation saved. Now record a method-specific prediction before inspecting the evidence.";
   predictionStatus.textContent = "Write one testable prediction before running R.";
   setStep(2);
   saveState();
@@ -1724,6 +1951,7 @@ document.getElementById("check-explanation").addEventListener("click", () => {
   explanationAttempted = true;
   if (explanation.length < 28 || missing.length) {
     explanationPassed = false;
+    document.getElementById("repair-prompt").hidden = false;
     explanationFeedback.dataset.state = "error";
     explanationFeedback.textContent = "Revise your explanation. Missing: " + (missing.length ? missing.join(", ") : "a complete claim") + ".";
     setStep(6);
@@ -1732,14 +1960,15 @@ document.getElementById("check-explanation").addEventListener("click", () => {
     return;
   }
   explanationPassed = true;
+  document.getElementById("repair-prompt").hidden = true;
   explanationPointLabel = String(selected.label || "the selected point");
   transferReady = false;
   transferPointLabel = null;
   completeLesson.disabled = true;
   explanationFeedback.dataset.state = "success";
-  explanationFeedback.textContent = "All four criteria met for " + String(selected.label || "the selected point") + ": point, axis, direction, and limitation.";
+  explanationFeedback.textContent = "All method-specific criteria met for " + String(selected.label || "the selected observation") + ": " + criterionEntries("explain").map(([id]) => id).join(", ") + ".";
   transferCard.hidden = false;
-  document.getElementById("transfer-prompt").textContent = "Select another point and compare its x, y, or z coordinate with " + String(selected.label || "your current point") + ".";
+  document.getElementById("transfer-prompt").textContent = taskFor("transfer").prompt + " Start by selecting an observation other than " + String(selected.label || "the current observation") + ".";
   transferEvidence.textContent = "No second point selected yet. Choose a point other than " + explanationPointLabel + ".";
   transferFeedback.dataset.state = "";
   transferFeedback.textContent = "Completion requires a changed point and a written comparison.";
@@ -1750,27 +1979,26 @@ document.getElementById("check-explanation").addEventListener("click", () => {
 
 document.getElementById("check-transfer").addEventListener("click", () => {
   const response = transferInput.value.trim();
-  const hasPoint = Boolean(transferPointLabel) && response.toLowerCase().includes(transferPointLabel.toLowerCase());
-  const hasAxis = /(^|\W)[xyz](\W|$)/i.test(response);
-  const hasComparison = /(compared|higher|lower|positive|negative|similar|same|differ|greater|less|near|zero|while|whereas)/i.test(response);
+  const result = transferCriteria(response, transferPointLabel);
+  const missing = Object.entries(result).filter(([, value]) => !value).map(([name]) => name);
   if (!transferPointLabel) {
     transferFeedback.dataset.state = "error";
     transferFeedback.textContent = "Select a different point in the 3D view or accessible table first.";
     showView("scene", true);
     return;
   }
-  if (response.length < 28 || !hasPoint || !hasAxis || !hasComparison) {
+  if (response.length < 32 || missing.length) {
     transferReady = false;
     reproduceCard.hidden = true;
     transferFeedback.dataset.state = "error";
-    transferFeedback.textContent = "Name " + transferPointLabel + ", one axis, and how its value compares with " + explanationPointLabel + ".";
+    transferFeedback.textContent = "Revise the transfer response. Missing: " + missing.join(", ") + ". Use " + transferPointLabel + " and the method-specific evidence.";
     transferInput.focus();
     saveState();
     return;
   }
   transferReady = true;
   transferFeedback.dataset.state = "success";
-  transferFeedback.textContent = "Transfer confirmed. Your comparison uses new evidence and a coordinate rule.";
+  transferFeedback.textContent = "Transfer confirmed. The response uses a different observation, method-specific evidence, comparison, and limitation.";
   reproduceCard.hidden = false;
   completeLesson.disabled = false;
   updateReproSummary();
@@ -1813,7 +2041,7 @@ explanationInput.addEventListener("input", () => {
     completeLesson.disabled = true;
     lessonCompleted = false;
     explanationFeedback.dataset.state = "";
-    explanationFeedback.textContent = "Explanation changed. Check all four criteria again.";
+    explanationFeedback.textContent = "Explanation changed. Check the method-specific criteria again.";
     renderCriteria(explanationCriteria(explanationInput.value, points[selectedIndex] || null));
     setStep(5);
   }
@@ -1870,7 +2098,7 @@ document.getElementById("reset-r-code").addEventListener("click", () => {
   reproduceCard.hidden = true;
   completionReceipt.hidden = true;
   completeLesson.disabled = true;
-  renderCriteria({point: false, axis: false, direction: false, limitation: false});
+  renderCriteria(Object.fromEntries(criterionEntries("explain").map(([id]) => [id, false])));
   setStep(3);
   showView("r");
   saveState();
@@ -1890,6 +2118,7 @@ document.getElementById("download-receipt-companion").addEventListener("click", 
 });
 viewRResult.addEventListener("click", () => { showView("scene", true); setStep(4); });
 window.addEventListener("resize", resize);
+applyLessonContract();
 rCodeEditor.value = defaultRCode();
 resetRResults();
 predictionCard.dataset.state = "editing";

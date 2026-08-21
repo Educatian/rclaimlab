@@ -1,0 +1,23 @@
+{
+  "R": {
+    "Version": "4.6.1",
+    "Repositories": [
+      {
+        "Name": "CRAN",
+        "URL": "https://cloud.r-project.org"
+      }
+    ]
+  },
+  "Packages": {
+    "rlearnxr": {
+      "Package": "rlearnxr",
+      "Version": "2.0.0.900",
+      "Source": "Local"
+    },
+    "jsonlite": {
+      "Package": "jsonlite",
+      "Version": "2.0.0",
+      "Source": "Repository"
+    }
+  }
+}

@@ -8,7 +8,7 @@
     "packages": {
       "rlearnxr": "2.0.0.900"
     },
-    "artifact_hash": "d3e494b42980fc35f66b512349caff3c"
+    "artifact_hash": "846c3612165e3353e6ba2e7355623d18"
   },
   "observations": [
     {
@@ -154,433 +154,433 @@
       "evidence_id": "ev-0001-001",
       "observation_id": "obs-0001",
       "dimension_id": "dim-001",
-      "value": -0.6423
+      "value": -1.9465
     },
     {
       "evidence_id": "ev-0002-001",
       "observation_id": "obs-0002",
       "dimension_id": "dim-001",
-      "value": -0.6322
+      "value": -1.9159
     },
     {
       "evidence_id": "ev-0003-001",
       "observation_id": "obs-0003",
       "dimension_id": "dim-001",
-      "value": -0.6548
+      "value": -1.9845
     },
     {
       "evidence_id": "ev-0004-001",
       "observation_id": "obs-0004",
       "dimension_id": "dim-001",
-      "value": -0.3179
+      "value": -0.9634
     },
     {
       "evidence_id": "ev-0005-001",
       "observation_id": "obs-0005",
       "dimension_id": "dim-001",
-      "value": -0.6218
+      "value": -1.8844
     },
     {
       "evidence_id": "ev-0006-001",
       "observation_id": "obs-0006",
       "dimension_id": "dim-001",
-      "value": -0.6587
+      "value": -1.9963
     },
     {
       "evidence_id": "ev-0007-001",
       "observation_id": "obs-0007",
       "dimension_id": "dim-001",
-      "value": -0.548
+      "value": -1.6606
     },
     {
       "evidence_id": "ev-0008-001",
       "observation_id": "obs-0008",
       "dimension_id": "dim-001",
-      "value": -0.2109
+      "value": -0.6391
     },
     {
       "evidence_id": "ev-0009-001",
       "observation_id": "obs-0009",
       "dimension_id": "dim-001",
-      "value": -0.2716
+      "value": -0.8231
     },
     {
       "evidence_id": "ev-0010-001",
       "observation_id": "obs-0010",
       "dimension_id": "dim-001",
-      "value": -0.1862
+      "value": -0.5644
     },
     {
       "evidence_id": "ev-0011-001",
       "observation_id": "obs-0011",
       "dimension_id": "dim-001",
-      "value": 0.0035
+      "value": 0.0107
     },
     {
       "evidence_id": "ev-0012-001",
       "observation_id": "obs-0012",
       "dimension_id": "dim-001",
-      "value": 0.1475
+      "value": 0.4471
     },
     {
       "evidence_id": "ev-0013-001",
       "observation_id": "obs-0013",
       "dimension_id": "dim-001",
-      "value": -0.3257
+      "value": -0.9871
     },
     {
       "evidence_id": "ev-0014-001",
       "observation_id": "obs-0014",
       "dimension_id": "dim-001",
-      "value": -0.3247
+      "value": -0.984
     },
     {
       "evidence_id": "ev-0015-001",
       "observation_id": "obs-0015",
       "dimension_id": "dim-001",
-      "value": -0.068
+      "value": -0.2062
     },
     {
       "evidence_id": "ev-0016-001",
       "observation_id": "obs-0016",
       "dimension_id": "dim-001",
-      "value": -0.0868
+      "value": -0.2632
     },
     {
       "evidence_id": "ev-0017-001",
       "observation_id": "obs-0017",
       "dimension_id": "dim-001",
-      "value": 0.5529
+      "value": 1.6757
     },
     {
       "evidence_id": "ev-0018-001",
       "observation_id": "obs-0018",
       "dimension_id": "dim-001",
-      "value": 1
+      "value": 3.0306
     },
     {
       "evidence_id": "ev-0019-001",
       "observation_id": "obs-0019",
       "dimension_id": "dim-001",
-      "value": 0.7021
+      "value": 2.1279
     },
     {
       "evidence_id": "ev-0020-001",
       "observation_id": "obs-0020",
       "dimension_id": "dim-001",
-      "value": 0.4029
+      "value": 1.221
     },
     {
       "evidence_id": "ev-0021-001",
       "observation_id": "obs-0021",
       "dimension_id": "dim-001",
-      "value": 0.5884
+      "value": 1.7833
     },
     {
       "evidence_id": "ev-0022-001",
       "observation_id": "obs-0022",
       "dimension_id": "dim-001",
-      "value": 0.883
+      "value": 2.6759
     },
     {
       "evidence_id": "ev-0023-001",
       "observation_id": "obs-0023",
       "dimension_id": "dim-001",
-      "value": 0.6189
+      "value": 1.8757
     },
     {
       "evidence_id": "ev-0024-001",
       "observation_id": "obs-0024",
       "dimension_id": "dim-001",
-      "value": 0.6503
+      "value": 1.9707
     },
     {
       "evidence_id": "ev-0001-002",
       "observation_id": "obs-0001",
       "dimension_id": "dim-002",
-      "value": -0.0715
+      "value": -0.2166
     },
     {
       "evidence_id": "ev-0002-002",
       "observation_id": "obs-0002",
       "dimension_id": "dim-002",
-      "value": -0.1459
+      "value": -0.4423
     },
     {
       "evidence_id": "ev-0003-002",
       "observation_id": "obs-0003",
       "dimension_id": "dim-002",
-      "value": -0.4032
+      "value": -1.222
     },
     {
       "evidence_id": "ev-0004-002",
       "observation_id": "obs-0004",
       "dimension_id": "dim-002",
-      "value": -0.0554
+      "value": -0.1679
     },
     {
       "evidence_id": "ev-0005-002",
       "observation_id": "obs-0005",
       "dimension_id": "dim-002",
-      "value": -0.1833
+      "value": -0.5556
     },
     {
       "evidence_id": "ev-0006-002",
       "observation_id": "obs-0006",
       "dimension_id": "dim-002",
-      "value": -0.3404
+      "value": -1.0316
     },
     {
       "evidence_id": "ev-0007-002",
       "observation_id": "obs-0007",
       "dimension_id": "dim-002",
-      "value": -0.207
+      "value": -0.6273
     },
     {
       "evidence_id": "ev-0008-002",
       "observation_id": "obs-0008",
       "dimension_id": "dim-002",
-      "value": 0.0036
+      "value": 0.011
     },
     {
       "evidence_id": "ev-0009-002",
       "observation_id": "obs-0009",
       "dimension_id": "dim-002",
-      "value": 0.1391
+      "value": 0.4215
     },
     {
       "evidence_id": "ev-0010-002",
       "observation_id": "obs-0010",
       "dimension_id": "dim-002",
-      "value": 0.1328
+      "value": 0.4023
     },
     {
       "evidence_id": "ev-0011-002",
       "observation_id": "obs-0011",
       "dimension_id": "dim-002",
-      "value": 0.3015
+      "value": 0.9138
     },
     {
       "evidence_id": "ev-0012-002",
       "observation_id": "obs-0012",
       "dimension_id": "dim-002",
-      "value": 0.6896
+      "value": 2.09
     },
     {
       "evidence_id": "ev-0013-002",
       "observation_id": "obs-0013",
       "dimension_id": "dim-002",
-      "value": -0.0194
+      "value": -0.0588
     },
     {
       "evidence_id": "ev-0014-002",
       "observation_id": "obs-0014",
       "dimension_id": "dim-002",
-      "value": 0.4576
+      "value": 1.3869
     },
     {
       "evidence_id": "ev-0015-002",
       "observation_id": "obs-0015",
       "dimension_id": "dim-002",
-      "value": 0.5219
+      "value": 1.5816
     },
     {
       "evidence_id": "ev-0016-002",
       "observation_id": "obs-0016",
       "dimension_id": "dim-002",
-      "value": 0.4036
+      "value": 1.2231
     },
     {
       "evidence_id": "ev-0017-002",
       "observation_id": "obs-0017",
       "dimension_id": "dim-002",
-      "value": -0.4845
+      "value": -1.4682
     },
     {
       "evidence_id": "ev-0018-002",
       "observation_id": "obs-0018",
       "dimension_id": "dim-002",
-      "value": -0.0778
+      "value": -0.2358
     },
     {
       "evidence_id": "ev-0019-002",
       "observation_id": "obs-0019",
       "dimension_id": "dim-002",
-      "value": 0.0231
+      "value": 0.07
     },
     {
       "evidence_id": "ev-0020-002",
       "observation_id": "obs-0020",
       "dimension_id": "dim-002",
-      "value": -0.3723
+      "value": -1.1284
     },
     {
       "evidence_id": "ev-0021-002",
       "observation_id": "obs-0021",
       "dimension_id": "dim-002",
-      "value": -0.1806
+      "value": -0.5474
     },
     {
       "evidence_id": "ev-0022-002",
       "observation_id": "obs-0022",
       "dimension_id": "dim-002",
-      "value": -0.125
+      "value": -0.3789
     },
     {
       "evidence_id": "ev-0023-002",
       "observation_id": "obs-0023",
       "dimension_id": "dim-002",
-      "value": -0.0699
+      "value": -0.2118
     },
     {
       "evidence_id": "ev-0024-002",
       "observation_id": "obs-0024",
       "dimension_id": "dim-002",
-      "value": 0.0634
+      "value": 0.1922
     },
     {
       "evidence_id": "ev-0001-003",
       "observation_id": "obs-0001",
       "dimension_id": "dim-003",
-      "value": -0.1718
+      "value": -0.5208
     },
     {
       "evidence_id": "ev-0002-003",
       "observation_id": "obs-0002",
       "dimension_id": "dim-003",
-      "value": -0.3798
+      "value": -1.151
     },
     {
       "evidence_id": "ev-0003-003",
       "observation_id": "obs-0003",
       "dimension_id": "dim-003",
-      "value": 0.0707
+      "value": 0.2142
     },
     {
       "evidence_id": "ev-0004-003",
       "observation_id": "obs-0004",
       "dimension_id": "dim-003",
-      "value": -0.1154
+      "value": -0.3498
     },
     {
       "evidence_id": "ev-0005-003",
       "observation_id": "obs-0005",
       "dimension_id": "dim-003",
-      "value": -0.2215
+      "value": -0.6714
     },
     {
       "evidence_id": "ev-0006-003",
       "observation_id": "obs-0006",
       "dimension_id": "dim-003",
-      "value": 0.0797
+      "value": 0.2414
     },
     {
       "evidence_id": "ev-0007-003",
       "observation_id": "obs-0007",
       "dimension_id": "dim-003",
-      "value": -0.0657
+      "value": -0.199
     },
     {
       "evidence_id": "ev-0008-003",
       "observation_id": "obs-0008",
       "dimension_id": "dim-003",
-      "value": -0.2188
+      "value": -0.6632
     },
     {
       "evidence_id": "ev-0009-003",
       "observation_id": "obs-0009",
       "dimension_id": "dim-003",
-      "value": 0.1676
+      "value": 0.5079
     },
     {
       "evidence_id": "ev-0010-003",
       "observation_id": "obs-0010",
       "dimension_id": "dim-003",
-      "value": 0.1083
+      "value": 0.3283
     },
     {
       "evidence_id": "ev-0011-003",
       "observation_id": "obs-0011",
       "dimension_id": "dim-003",
-      "value": 0.0187
+      "value": 0.0567
     },
     {
       "evidence_id": "ev-0012-003",
       "observation_id": "obs-0012",
       "dimension_id": "dim-003",
-      "value": -0.102
+      "value": -0.309
     },
     {
       "evidence_id": "ev-0013-003",
       "observation_id": "obs-0013",
       "dimension_id": "dim-003",
-      "value": 0.4819
+      "value": 1.4604
     },
     {
       "evidence_id": "ev-0014-003",
       "observation_id": "obs-0014",
       "dimension_id": "dim-003",
-      "value": 0.3493
+      "value": 1.0586
     },
     {
       "evidence_id": "ev-0015-003",
       "observation_id": "obs-0015",
       "dimension_id": "dim-003",
-      "value": -0.0944
+      "value": -0.2859
     },
     {
       "evidence_id": "ev-0016-003",
       "observation_id": "obs-0016",
       "dimension_id": "dim-003",
-      "value": 0.1339
+      "value": 0.4057
     },
     {
       "evidence_id": "ev-0017-003",
       "observation_id": "obs-0017",
       "dimension_id": "dim-003",
-      "value": 0.2754
+      "value": 0.8346
     },
     {
       "evidence_id": "ev-0018-003",
       "observation_id": "obs-0018",
       "dimension_id": "dim-003",
-      "value": -0.252
+      "value": -0.7638
     },
     {
       "evidence_id": "ev-0019-003",
       "observation_id": "obs-0019",
       "dimension_id": "dim-003",
-      "value": -0.1754
+      "value": -0.5315
     },
     {
       "evidence_id": "ev-0020-003",
       "observation_id": "obs-0020",
       "dimension_id": "dim-003",
-      "value": 0.156
+      "value": 0.4729
     },
     {
       "evidence_id": "ev-0021-003",
       "observation_id": "obs-0021",
       "dimension_id": "dim-003",
-      "value": 0.0852
+      "value": 0.2583
     },
     {
       "evidence_id": "ev-0022-003",
       "observation_id": "obs-0022",
       "dimension_id": "dim-003",
-      "value": 0.1534
+      "value": 0.4648
     },
     {
       "evidence_id": "ev-0023-003",
       "observation_id": "obs-0023",
       "dimension_id": "dim-003",
-      "value": -0.2122
+      "value": -0.6431
     },
     {
       "evidence_id": "ev-0024-003",
       "observation_id": "obs-0024",
       "dimension_id": "dim-003",
-      "value": -0.0711
+      "value": -0.2154
     }
   ],
   "links": [

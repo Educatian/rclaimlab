@@ -1,0 +1,178 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "learning-analytics",
+  "title": "Learning analytics event-to-construct evidence",
+  "outcomes": ["Use the data_view adapter to address: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "945d37d3fd2b6e5bbff1625593c2c0e4"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one synthetic learner-session summary is the unit of observation, identify each variable role, and restate the question: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict one descriptive pattern among revision_count, transfer_score, hint_rate before inspecting the evidence.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Run the visible R evidence transformation and confirm that row identities and selected variables remain linked.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Select one observation and compare its original-scale values across the semantic table, 2D view, and 3D scene.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Make a descriptive claim about the selected observation, cite a variable and direction, and state what the pattern cannot establish.",
+      "criteria": ["Names the selected observation", "Cites a displayed variable or axis", "States the value or direction", "States a descriptive limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Check the exact value and scale, then remove any causal or population-level overclaim.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Apply the same descriptive rule to a different observation and identify where the pattern changes.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": true,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a non-binary numeric outcome and at least one numeric predictor.",
+        "caution": "Use a grouped or longitudinal model for inferential work.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Use a grouped or longitudinal model for inferential work.",
+        "intent": "explore"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "explore"
+      }
+    ],
+    "warnings": ["Possible identifiers were detected. Use synthetic or de-identified data for a published lesson.", "Grouped or repeated observations were declared. Core lm/glm adapters do not model dependence, so regression is not automatically recommended."],
+    "context": {
+      "question": "How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?",
+      "intent": "explore",
+      "intent_label": "Describe and compare observations",
+      "unit_of_analysis": "one synthetic learner-session summary",
+      "outcome": null,
+      "id_column": "event_id",
+      "grouping": "learner_id",
+      "time": "session",
+      "decision_context": "choosing a reversible instructional support or deciding that the evidence is insufficient",
+      "dependence_warning": true
+    },
+    "diagnostics": [
+      {
+        "id": "rows",
+        "label": "Complete observations",
+        "value": "18",
+        "status": "ready",
+        "interpretation": "The evidence describes the retained rows only."
+      },
+      {
+        "id": "dimensions",
+        "label": "Compared variables",
+        "value": "revision_count, transfer_score, hint_rate",
+        "status": "review",
+        "interpretation": "Variables remain on their original scales."
+      }
+    ],
+    "cautions": ["Visible association is not evidence of causation.", "Different variable scales can dominate spatial distance.", "The data declare grouping by learner_id and time by session. Core lm/glm adapters do not model this dependence; treat inferential results as instructional until an appropriate grouped or longitudinal model is used."],
+    "misconceptions": "A point that looks distant is not automatically unusual in the original construct."
+  }
+}

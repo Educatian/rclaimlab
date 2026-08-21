@@ -1,0 +1,199 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "edm-patterns",
+  "title": "Educational data mining pattern evidence",
+  "outcomes": ["Use the kmeans adapter to address: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "4227f32fe327aa1b86065bfe3352ddde"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one synthetic, de-identified learner profile is the unit of observation, identify each variable role, and restate the question: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict a possible grouping pattern across standardized practice_minutes, revision_count, transfer_score.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Inspect scaling, seed, requested k, and multiple random starts before creating cluster evidence.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Select one observation and inspect its cluster and distance-to-centroid in the full compiled evidence table.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Explain the selected cluster assignment using centroid distance and state a stability or interpretation limitation.",
+      "criteria": ["Names the selected observation", "Names the assigned cluster", "Cites centroid distance", "States a stability or interpretation limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Check scaling, cluster size, initialization, and the requested k before revising the grouping claim.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Compare a different observation's cluster and centroid distance without treating the label as an identity.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": false,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "cluster"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "cluster"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a non-binary numeric outcome and at least one numeric predictor.",
+        "caution": "Check residuals, influence, independence, and uncertainty.",
+        "intent": "cluster"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Declare the modeled event, reference level, class balance, and threshold.",
+        "intent": "cluster"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": true,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "cluster"
+      }
+    ],
+    "warnings": [],
+    "context": {
+      "question": "What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?",
+      "intent": "cluster",
+      "intent_label": "Explore possible groups",
+      "unit_of_analysis": "one synthetic, de-identified learner profile",
+      "outcome": null,
+      "id_column": "profile",
+      "grouping": null,
+      "time": null,
+      "decision_context": "method critique and reversible support design, never automatic learner classification",
+      "dependence_warning": false
+    },
+    "diagnostics": [
+      {
+        "id": "scaling",
+        "label": "Input scaling",
+        "value": "standardized",
+        "status": "ready",
+        "interpretation": "K-means distances are computed after centering and scaling."
+      },
+      {
+        "id": "cluster-size",
+        "label": "Cluster sizes",
+        "value": "2, 2, 2",
+        "status": "review",
+        "interpretation": "Very small clusters may be unstable or idiosyncratic."
+      },
+      {
+        "id": "separation",
+        "label": "Between-cluster variance ratio",
+        "value": "0.924",
+        "status": "review",
+        "interpretation": "Use this as descriptive evidence, not proof of natural groups."
+      },
+      {
+        "id": "initialization",
+        "label": "Random starts",
+        "value": "25",
+        "status": "ready",
+        "interpretation": "Seed 2026 and multiple starts reduce initialization dependence."
+      },
+      {
+        "id": "stability",
+        "label": "Sensitivity across k and seeds",
+        "value": "not yet evaluated",
+        "status": "review",
+        "interpretation": "Compare plausible k values and additional seeds before treating a grouping as stable."
+      }
+    ],
+    "cautions": ["K-means always returns the requested number of clusters.", "Cluster labels are descriptive and should not be treated as learner identities."],
+    "misconceptions": "A cluster is not automatically a real population or an instructional diagnosis."
+  }
+}

@@ -7,12 +7,15 @@
 #' @param evidence_ids Optional list of evidence identifiers keyed by observation.
 #' @param output_dir Destination scene directory.
 #' @param title Scene title.
+#' @param learning_contract Optional `rlearnxr_lesson` or browser-contract list
+#'   used to render method-specific prompts, criteria, diagnostics, and provenance.
 #' @param overwrite Whether compiler-owned scene files may be replaced.
 #' @return Invisibly returns paths to HTML, point JSON, and Evidence IR artifacts.
 #' @export
 render_scene <- function(data, x, y, z, labels = NULL, observation_ids = NULL,
                          evidence_ids = NULL, output_dir = "scene",
-                         title = "R-LearnXR 3D Scene", overwrite = FALSE) {
+                         title = "R-LearnXR 3D Scene", learning_contract = NULL,
+                         overwrite = FALSE) {
   scene_data <- validate_scene_data(data, x, y, z, labels, observation_ids = observation_ids)
   if (!is.character(title) || length(title) != 1L || is.na(title) || !nzchar(trimws(title))) {
     stop("title must be one non-empty character string", call. = FALSE)
@@ -53,7 +56,14 @@ render_scene <- function(data, x, y, z, labels = NULL, observation_ids = NULL,
   points_json <- paste0("[", paste(points, collapse = ","), "]")
   writeLines(points_json, file.path(output_dir, "points.json"), useBytes = TRUE)
   write_rlearnxr_evidence(scene_evidence, file.path(output_dir, "evidence.json"), overwrite = TRUE)
-  writeLines(scene_html(title, points_json), file.path(output_dir, "index.html"), useBytes = TRUE)
+  browser_contract <- if (inherits(learning_contract, "rlearnxr_lesson")) {
+    lesson_scene_contract(learning_contract)
+  } else if (is.list(learning_contract)) {
+    learning_contract
+  } else {
+    default_scene_contract(title)
+  }
+  writeLines(scene_html(title, points_json, browser_contract), file.path(output_dir, "index.html"), useBytes = TRUE)
   invisible(list(
     index = file.path(output_dir, "index.html"),
     points = file.path(output_dir, "points.json"),

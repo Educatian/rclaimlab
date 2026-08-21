@@ -1,77 +1,106 @@
 ---
-title: "Vehicle Efficiency: Association in Three Coordinates"
-description: "A 15-minute applied lesson on standardization, association, and responsible multivariate communication."
-format:
-  html:
-    toc: true
+title: "Vehicle efficiency model evidence"
+format: html
 ---
 
-# Can one vehicle be “better” on every measure?
+# Learning objectives
 
-This lesson uses the built-in `mtcars` dataset to ask how fuel efficiency, horsepower, and vehicle weight relate. The coordinates are standardized for comparison; the browser scene is an evidence layer for the R transformation, not a replacement for the analysis.
+- Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?
+- Explain one observation with linked analytical evidence and an explicit limitation
+- Repair and transfer the interpretation while preserving reproducibility
 
-::: {.callout-note}
-## Learning objectives
+# Question and data structure
 
-By the end, learners can:
+**Question:** How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?
 
-1. Explain why `mpg`, `hp`, and `wt` are standardized before a multivariate comparison.
-2. Describe association without turning it into a causal claim.
-3. Compare two vehicles using coordinate evidence and a limitation.
-4. Reproduce the result from ordinary R code and a fixed seed.
-:::
+**Unit of analysis:** one vehicle model in the built-in mtcars dataset
 
-## Orient and predict
+**Analytical intent:** Explain variation in a numeric outcome
 
-Choose one vehicle you expect to have high `mpg` and low `wt`. Predict whether high fuel efficiency will always occur with low horsepower. State what evidence would change your mind.
+# Learning sequence
 
-## R concepts: center, spread, and scale
+## Orient
 
-```r
-cars <- mtcars
-cars$label <- rownames(cars)
-scene <- data.frame(
-  label = cars$label,
-  x = as.numeric(scale(cars$mpg)),
-  y = as.numeric(scale(cars$hp)),
-  z = as.numeric(scale(cars$wt))
-)
-```
+State why one vehicle model in the built-in mtcars dataset is the unit of observation, identify each variable role, and restate the question: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?
 
-Here `x`, `y`, and `z` are standardized values. A value near zero is near the sample mean; a positive value is above the sample mean; a negative value is below it. The coordinates do not mean that one vehicle is globally better.
+Completion evidence:
+- **meaning:** Defines the unit of observation and variable roles
+- **question:** Connects the data to the stated question
+
+## Predict
+
+Predict the direction of association between hp, wt and mpg.
+
+Completion evidence:
+- **prediction:** Records a falsifiable expectation before inspection
+
+## Run r
+
+Inspect the model formula, run the linear model, and connect fitted values, residuals, intervals, and provenance.
+
+Completion evidence:
+- **execution:** Connects visible R source to the compiled artifact
+
+## Explore
+
+Select one observation and compare its fitted value, residual, and interval evidence in the full compiled evidence table.
+
+Completion evidence:
+- **selection:** Selects an observation using a stable evidence ID
+
+## Explain
+
+Explain the selected observation using its fitted value and residual, then state an uncertainty or causal limitation.
+
+Completion evidence:
+- **point:** Names the selected observation
+- **fitted:** Cites a fitted value
+- **residual:** Interprets a residual or interval
+- **limitation:** States an uncertainty or causal limitation
+
+## Repair
+
+Check residual, influence, independence, and interval evidence before revising the association claim.
+
+Completion evidence:
+- **revision:** Corrects the identified evidence or assumption problem
+
+## Transfer
+
+Apply the fitted-versus-observed reasoning to a different observation and compare uncertainty.
+
+Completion evidence:
+- **point:** Uses a different observation
+- **comparison:** Compares the method-specific evidence
+- **limitation:** Keeps the interpretation within its evidence boundary
+
+## Reproduce
+
+Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.
+
+Completion evidence:
+- **provenance:** Verifies source, seed, version, retained rows, and artifact hash
+
+# Method checks
+
+- **R-squared:** 0.827. Report fit together with residual and uncertainty evidence.
+- **Residual standard error:** 2.593. Residuals show where observed outcomes differ from fitted values.
+- **Largest Cook's distance:** 0.424. Compare with the teaching flag 4/n = 0.125; this is a review cue, not an automatic deletion rule.
+- **Uncertainty representation:** 95% fitted-mean interval. An interval communicates uncertainty; it does not guarantee a future individual outcome.
+
+# Interpretation cautions
+
+- Regression coefficients describe conditional association unless the design supports a causal claim.
 
 ```{r}
 #| echo: true
-library(rlearnxr)
 set.seed(2026)
-cars <- mtcars
-cars$label <- rownames(cars)
-scene <- data.frame(
-  label = cars$label,
-  x = as.numeric(scale(cars$mpg)),
-  y = as.numeric(scale(cars$hp)),
-  z = as.numeric(scale(cars$wt))
-)
-render_scene(scene, "x", "y", "z", labels = scene$label,
-  output_dir = "scene", title = "mtcars efficiency data space", overwrite = TRUE)
-round(cor(cars[, c("mpg", "hp", "wt")]), 2)
 ```
 
-[Open the interactive R and 3D laboratory](scene/index.html)
+# Evidence compiler artifact
 
-## Explore, explain, and transfer
+This lesson was compiled from `lm` evidence with hash `7a879e28a6bc29b722ecc5f19fb6eb50`.
 
-Select two vehicles using the scene or the semantic table. Cite one coordinate and explain:
+[Open the synchronized browser laboratory](scene/index.html)
 
-> Vehicle ___ is ___ on ___ at approximately ___, compared with ___. This shows an association in this sample, but it does not prove ___ because ___
-
-Now change your comparison to a vehicle that creates a trade-off. The goal is to communicate variation rather than produce a single winner.
-
-## Extension
-
-- Compare the scene with a 2D `mpg`–`hp` plot.
-- Fit `lm(mpg ~ hp + wt, data = mtcars)` and inspect residuals.
-- Ask whether the conclusion changes if one variable is omitted.
-- Use the [statistics module map](../../docs/curriculum/statistics-modules.md) to connect this activity to association, regression, and communication of variation.
-
-The data are built into R and contain no learner records. Reproducibility metadata and the accessible table remain available in the browser lesson.
+The semantic evidence artifact is available at [`evidence.json`](evidence.json).

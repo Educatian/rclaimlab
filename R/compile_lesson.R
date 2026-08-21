@@ -46,7 +46,8 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
     scene, "x", "y", "z", labels = scene$label,
     observation_ids = scene$observation_id,
     evidence_ids = evidence_ids_by_observation(lesson$evidence),
-    output_dir = file.path(output_dir, "scene"), title = lesson$title, overwrite = TRUE
+    output_dir = file.path(output_dir, "scene"), title = lesson$title,
+    learning_contract = lesson, overwrite = TRUE
   )
   writeLines(c(
     "project:", "  type: website", "  output-dir: _site",
@@ -58,16 +59,45 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
     "Original lesson content is CC BY 4.0. Source data retain their original license and must be documented by the lesson author before publication.",
     "The artifact hash, source call, seed, R version, and package versions provide transformation provenance."
   ), file.path(output_dir, "DATA_LICENSE.md"), useBytes = TRUE)
-  writeLines(c(
-    "{", '  "R": {', paste0('    "Version": "', paste(R.version$major, R.version$minor, sep = "."), '",'),
-    '    "Repositories": [{"Name": "CRAN", "URL": "https://cloud.r-project.org"}]',
-    "  },", '  "Packages": {}', "}"
-  ), file.path(output_dir, "renv.lock"), useBytes = TRUE)
+  package_record <- function(package) {
+    version <- tryCatch(as.character(utils::packageVersion(package)), error = function(error) NA_character_)
+    if (is.na(version)) return(NULL)
+    list(Package = package, Version = version, Source = if (package == "rlearnxr") "Local" else "Repository")
+  }
+  package_records <- Filter(Negate(is.null), lapply(c("rlearnxr", "jsonlite"), package_record))
+  names(package_records) <- vapply(package_records, `[[`, character(1), "Package")
+  jsonlite::write_json(
+    list(
+      R = list(
+        Version = paste(R.version$major, R.version$minor, sep = "."),
+        Repositories = list(list(Name = "CRAN", URL = "https://cloud.r-project.org"))
+      ),
+      Packages = package_records
+    ),
+    file.path(output_dir, "renv.lock"), auto_unbox = TRUE, pretty = TRUE
+  )
+  pedagogy <- lesson$evidence$metadata$pedagogy %||% list()
+  task_qmd <- unlist(lapply(lesson$tasks, function(task) {
+    c(
+      paste0("## ", tools::toTitleCase(gsub("_", " ", task$type))), "",
+      task$prompt, "",
+      if (length(task$criteria)) c("Completion evidence:", paste0("- **", names(task$criteria), ":** ", unname(task$criteria)), "") else character()
+    )
+  }), use.names = FALSE)
+  diagnostic_qmd <- if (length(pedagogy$diagnostics)) unlist(lapply(pedagogy$diagnostics, function(item) {
+    paste0("- **", item$label, ":** ", item$value, ". ", item$interpretation)
+  }), use.names = FALSE) else "- No method-specific diagnostics were recorded."
+  caution_qmd <- if (length(pedagogy$cautions)) paste0("- ", pedagogy$cautions) else "- Keep claims within the compiled evidence boundary."
   qmd <- c(
     "---", paste0('title: "', gsub('"', '\\"', lesson$title), '"'), "format: html", "---", "",
     "# Learning objectives", "", paste0("- ", lesson$outcomes), "",
-    "# Predict, explore, explain, repair, and transfer", "",
-    "Predict before inspecting the evidence. Explore the linked table or scene, explain a claim with evidence, repair the explanation, and transfer it to a new observation.", "",
+    "# Question and data structure", "",
+    paste0("**Question:** ", pedagogy$question %||% lesson$title), "",
+    paste0("**Unit of analysis:** ", pedagogy$context$unit_of_analysis %||% "one compiled observation"), "",
+    paste0("**Analytical intent:** ", pedagogy$context$intent_label %||% "evidence exploration"), "",
+    "# Learning sequence", "", task_qmd,
+    "# Method checks", "", diagnostic_qmd, "",
+    "# Interpretation cautions", "", caution_qmd, "",
     "```{r}", "#| echo: true", paste0("set.seed(", lesson$evidence$analysis$seed, ")"), "```", "",
     "# Evidence compiler artifact", "",
     paste0("This lesson was compiled from `", lesson$evidence$analysis$engine, "` evidence with hash `", lesson$evidence$analysis$artifact_hash, "`."), "",

@@ -1,0 +1,570 @@
+{
+  "schema_version": "rlearnxr-evidence-2",
+  "analysis": {
+    "engine": "kmeans",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"profile\"]]) scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")])) fit <- kmeans(scaled_data, centers = 3, nstart = 25) evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)",
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "packages": {
+      "rlearnxr": "2.0.0.900"
+    },
+    "artifact_hash": "4227f32fe327aa1b86065bfe3352ddde"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-0001",
+      "label": "pattern-a",
+      "source_row": 1
+    },
+    {
+      "observation_id": "obs-0002",
+      "label": "pattern-b",
+      "source_row": 2
+    },
+    {
+      "observation_id": "obs-0003",
+      "label": "pattern-c",
+      "source_row": 3
+    },
+    {
+      "observation_id": "obs-0004",
+      "label": "pattern-d",
+      "source_row": 4
+    },
+    {
+      "observation_id": "obs-0005",
+      "label": "pattern-e",
+      "source_row": 5
+    },
+    {
+      "observation_id": "obs-0006",
+      "label": "pattern-f",
+      "source_row": 6
+    }
+  ],
+  "dimensions": [
+    {
+      "dimension_id": "dim-001",
+      "label": "practice_minutes",
+      "role": "feature",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-002",
+      "label": "revision_count",
+      "role": "feature",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-003",
+      "label": "transfer_score",
+      "role": "feature",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-004",
+      "label": "cluster",
+      "role": "cluster",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-005",
+      "label": "distance_to_centroid",
+      "role": "distance",
+      "unit": null
+    }
+  ],
+  "values": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "value": -1.00312881000934
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "value": 0.41305303941561
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "value": -1.35717427236558
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "value": 1.18015154118746
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "value": 0
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "value": 0.767098501771847
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "value": -0.935276002487051
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "value": 0.359721539418096
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "value": -1.36694184978877
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "value": 1.22305323402153
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "value": -0.0719443078836194
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "value": 0.791387386719812
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "value": -0.905775793085484
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "value": 0.748249568201051
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "value": -1.47287020266944
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "value": 1.12631250792369
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "value": 0.0866394236864374
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "value": 0.417444495943744
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "value": 2
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "value": 1
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "value": 2
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "value": 3
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "value": 1
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "value": 3
+    },
+    {
+      "evidence_id": "ev-0001-005",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-005",
+      "value": 0.397894352348436
+    },
+    {
+      "evidence_id": "ev-0002-005",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-005",
+      "value": 0.445723064363353
+    },
+    {
+      "evidence_id": "ev-0003-005",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-005",
+      "value": 0.397894352348436
+    },
+    {
+      "evidence_id": "ev-0004-005",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-005",
+      "value": 0.46353049400918
+    },
+    {
+      "evidence_id": "ev-0005-005",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-005",
+      "value": 0.445723064363353
+    },
+    {
+      "evidence_id": "ev-0006-005",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-005",
+      "value": 0.46353049400918
+    }
+  ],
+  "links": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0001:dim-001"
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0002:dim-001"
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0003:dim-001"
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0004:dim-001"
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0005:dim-001"
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0006:dim-001"
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0001:dim-002"
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0002:dim-002"
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0003:dim-002"
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0004:dim-002"
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0005:dim-002"
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0006:dim-002"
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0001:dim-003"
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0002:dim-003"
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0003:dim-003"
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0004:dim-003"
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0005:dim-003"
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0006:dim-003"
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0001:dim-004"
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0002:dim-004"
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0003:dim-004"
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0004:dim-004"
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0005:dim-004"
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0006:dim-004"
+    },
+    {
+      "evidence_id": "ev-0001-005",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0001:dim-005"
+    },
+    {
+      "evidence_id": "ev-0002-005",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0002:dim-005"
+    },
+    {
+      "evidence_id": "ev-0003-005",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0003:dim-005"
+    },
+    {
+      "evidence_id": "ev-0004-005",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0004:dim-005"
+    },
+    {
+      "evidence_id": "ev-0005-005",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0005:dim-005"
+    },
+    {
+      "evidence_id": "ev-0006-005",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "kmeans:obs-0006:dim-005"
+    }
+  ],
+  "metadata": {
+    "centers": [
+      [0.206526519707805, 0.143888615767238, 0.417444495943744],
+      [-1.18015154118746, -1.15110892613791, -1.18932299787746],
+      [0.973625021479652, 1.00722031037067, 0.771878501933716]
+    ],
+    "size": [2, 2, 2],
+    "tot_withinss": 1.14369896922527,
+    "wizard": {
+      "analysis": "kmeans",
+      "source_columns": ["practice_minutes", "revision_count", "transfer_score"],
+      "outcome": null,
+      "id_column": "profile",
+      "original_rows": 6,
+      "compiled_rows": 6,
+      "omitted_source_rows": [],
+      "na_action": "fail",
+      "context": {
+        "question": "What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?",
+        "intent": "cluster",
+        "intent_label": "Explore possible groups",
+        "unit_of_analysis": "one synthetic, de-identified learner profile",
+        "outcome": null,
+        "id_column": "profile",
+        "grouping": null,
+        "time": null,
+        "decision_context": "method critique and reversible support design, never automatic learner classification",
+        "dependence_warning": false
+      },
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"profile\"]])", "scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")]))", "fit <- kmeans(scaled_data, centers = 3, nstart = 25)", "evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)"]
+    },
+    "pedagogy": {
+      "analysis": "kmeans",
+      "question": "What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?",
+      "context": {
+        "question": "What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?",
+        "intent": "cluster",
+        "intent_label": "Explore possible groups",
+        "unit_of_analysis": "one synthetic, de-identified learner profile",
+        "outcome": null,
+        "id_column": "profile",
+        "grouping": null,
+        "time": null,
+        "decision_context": "method critique and reversible support design, never automatic learner classification",
+        "dependence_warning": false
+      },
+      "diagnostics": [
+        {
+          "id": "scaling",
+          "label": "Input scaling",
+          "value": "standardized",
+          "status": "ready",
+          "interpretation": "K-means distances are computed after centering and scaling."
+        },
+        {
+          "id": "cluster-size",
+          "label": "Cluster sizes",
+          "value": "2, 2, 2",
+          "status": "review",
+          "interpretation": "Very small clusters may be unstable or idiosyncratic."
+        },
+        {
+          "id": "separation",
+          "label": "Between-cluster variance ratio",
+          "value": "0.924",
+          "status": "review",
+          "interpretation": "Use this as descriptive evidence, not proof of natural groups."
+        },
+        {
+          "id": "initialization",
+          "label": "Random starts",
+          "value": "25",
+          "status": "ready",
+          "interpretation": "Seed 2026 and multiple starts reduce initialization dependence."
+        },
+        {
+          "id": "stability",
+          "label": "Sensitivity across k and seeds",
+          "value": "not yet evaluated",
+          "status": "review",
+          "interpretation": "Compare plausible k values and additional seeds before treating a grouping as stable."
+        }
+      ],
+      "cautions": ["K-means always returns the requested number of clusters.", "Cluster labels are descriptive and should not be treated as learner identities."],
+      "misconceptions": "A cluster is not automatically a real population or an instructional diagnosis.",
+      "prompts": ["State why one synthetic, de-identified learner profile is the unit of observation, identify each variable role, and restate the question: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?", "Predict a possible grouping pattern across standardized practice_minutes, revision_count, transfer_score.", "Inspect scaling, seed, requested k, and multiple random starts before creating cluster evidence.", "Select one observation and inspect its cluster and distance-to-centroid in the full compiled evidence table.", "Explain the selected cluster assignment using centroid distance and state a stability or interpretation limitation.", "Check scaling, cluster size, initialization, and the requested k before revising the grouping claim.", "Compare a different observation's cluster and centroid distance without treating the label as an identity.", "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson."],
+      "criteria": {
+        "orient": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+        "predict": "Records a falsifiable expectation before inspection",
+        "run_r": "Connects visible R source to the compiled artifact",
+        "explore": "Selects an observation using a stable evidence ID",
+        "explain": ["Names the selected observation", "Names the assigned cluster", "Cites centroid distance", "States a stability or interpretation limitation"],
+        "repair": "Corrects the identified evidence or assumption problem",
+        "transfer": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+        "reproduce": "Verifies source, seed, version, retained rows, and artifact hash"
+      },
+      "outcomes": ["Use the kmeans adapter to address: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"]
+    }
+  }
+}

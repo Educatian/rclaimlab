@@ -23,4 +23,4 @@ If an additional core team member is added, use these selection criteria:
 - The four rows describe work packages, not four separate payments; contract terms govern disbursement
 - No indirect costs or excluded expense categories
 
-The four proposal deliverable packages describe scope and partial-funding priorities. All requested funds support work performed during the grant period: package hardening, a community-authored lesson adaptation, strict/browser checks, external validation, contributor onboarding, release, and maintenance documentation. Existing prototype work and the three current reference lessons are in-kind evidence of feasibility and are not charged retroactively.
+The four proposal deliverable packages describe scope and partial-funding priorities. All requested funds support work performed during the grant period: package hardening, a community-authored lesson or adapter, strict/browser checks, external validation, contributor onboarding, release, and maintenance documentation. Existing v2 compiler work and the five current reference lessons are in-kind evidence of feasibility and are not charged retroactively.

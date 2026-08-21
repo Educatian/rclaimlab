@@ -8,6 +8,7 @@ rlearnxr.Rcheck/
 *.tar.gz
 output/demo/.video-parts/
 output/demo/verify-*.png
+output/playwright/*server*.log
 grant/isc-submission/_output/
 tmp/
 site/

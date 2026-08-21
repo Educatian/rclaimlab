@@ -1,10 +1,8 @@
 # Data License and Provenance
 
-The lesson derives measurements from the `penguins` dataset in the `palmerpenguins` R package.
+**Source:** palmerpenguins R package; the instructional subset contains complete morphology records.
 
-- Source: https://allisonhorst.github.io/palmerpenguins/
-- Dataset license: CC0
-- Lesson subset: selected deterministically by species after removing rows with missing analysis variables
-- Generated coordinates: standardized PCA scores scaled to the interval required by the browser scene
+**Reuse terms:** CC0, following the palmerpenguins dataset documentation.
 
-The generated lesson coordinates and educational text in this repository are released under CC0 unless another file states otherwise.
+The compiled Evidence IR records the source call, retained-row decision, seed, R and package versions, and artifact hash.
+R-LearnXR software is MIT licensed. Original lesson narrative is CC BY 4.0.

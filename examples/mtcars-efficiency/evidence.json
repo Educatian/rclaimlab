@@ -1,0 +1,2378 @@
+{
+  "schema_version": "rlearnxr-evidence-2",
+  "analysis": {
+    "engine": "lm",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data) evidence <- as_rlearnxr_evidence(fit, labels = labels)",
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "packages": {
+      "rlearnxr": "2.0.0.900"
+    },
+    "artifact_hash": "7a879e28a6bc29b722ecc5f19fb6eb50"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-0001",
+      "label": "Mazda RX4",
+      "source_row": 1
+    },
+    {
+      "observation_id": "obs-0002",
+      "label": "Mazda RX4 Wag",
+      "source_row": 2
+    },
+    {
+      "observation_id": "obs-0003",
+      "label": "Datsun 710",
+      "source_row": 3
+    },
+    {
+      "observation_id": "obs-0004",
+      "label": "Hornet 4 Drive",
+      "source_row": 4
+    },
+    {
+      "observation_id": "obs-0005",
+      "label": "Hornet Sportabout",
+      "source_row": 5
+    },
+    {
+      "observation_id": "obs-0006",
+      "label": "Valiant",
+      "source_row": 6
+    },
+    {
+      "observation_id": "obs-0007",
+      "label": "Duster 360",
+      "source_row": 7
+    },
+    {
+      "observation_id": "obs-0008",
+      "label": "Merc 240D",
+      "source_row": 8
+    },
+    {
+      "observation_id": "obs-0009",
+      "label": "Merc 230",
+      "source_row": 9
+    },
+    {
+      "observation_id": "obs-0010",
+      "label": "Merc 280",
+      "source_row": 10
+    },
+    {
+      "observation_id": "obs-0011",
+      "label": "Merc 280C",
+      "source_row": 11
+    },
+    {
+      "observation_id": "obs-0012",
+      "label": "Merc 450SE",
+      "source_row": 12
+    },
+    {
+      "observation_id": "obs-0013",
+      "label": "Merc 450SL",
+      "source_row": 13
+    },
+    {
+      "observation_id": "obs-0014",
+      "label": "Merc 450SLC",
+      "source_row": 14
+    },
+    {
+      "observation_id": "obs-0015",
+      "label": "Cadillac Fleetwood",
+      "source_row": 15
+    },
+    {
+      "observation_id": "obs-0016",
+      "label": "Lincoln Continental",
+      "source_row": 16
+    },
+    {
+      "observation_id": "obs-0017",
+      "label": "Chrysler Imperial",
+      "source_row": 17
+    },
+    {
+      "observation_id": "obs-0018",
+      "label": "Fiat 128",
+      "source_row": 18
+    },
+    {
+      "observation_id": "obs-0019",
+      "label": "Honda Civic",
+      "source_row": 19
+    },
+    {
+      "observation_id": "obs-0020",
+      "label": "Toyota Corolla",
+      "source_row": 20
+    },
+    {
+      "observation_id": "obs-0021",
+      "label": "Toyota Corona",
+      "source_row": 21
+    },
+    {
+      "observation_id": "obs-0022",
+      "label": "Dodge Challenger",
+      "source_row": 22
+    },
+    {
+      "observation_id": "obs-0023",
+      "label": "AMC Javelin",
+      "source_row": 23
+    },
+    {
+      "observation_id": "obs-0024",
+      "label": "Camaro Z28",
+      "source_row": 24
+    },
+    {
+      "observation_id": "obs-0025",
+      "label": "Pontiac Firebird",
+      "source_row": 25
+    },
+    {
+      "observation_id": "obs-0026",
+      "label": "Fiat X1-9",
+      "source_row": 26
+    },
+    {
+      "observation_id": "obs-0027",
+      "label": "Porsche 914-2",
+      "source_row": 27
+    },
+    {
+      "observation_id": "obs-0028",
+      "label": "Lotus Europa",
+      "source_row": 28
+    },
+    {
+      "observation_id": "obs-0029",
+      "label": "Ford Pantera L",
+      "source_row": 29
+    },
+    {
+      "observation_id": "obs-0030",
+      "label": "Ferrari Dino",
+      "source_row": 30
+    },
+    {
+      "observation_id": "obs-0031",
+      "label": "Maserati Bora",
+      "source_row": 31
+    },
+    {
+      "observation_id": "obs-0032",
+      "label": "Volvo 142E",
+      "source_row": 32
+    }
+  ],
+  "dimensions": [
+    {
+      "dimension_id": "dim-001",
+      "label": "observed",
+      "role": "outcome",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-002",
+      "label": "fitted",
+      "role": "fitted",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-003",
+      "label": "residual",
+      "role": "residual",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-004",
+      "label": "interval_low",
+      "role": "uncertainty",
+      "unit": null
+    },
+    {
+      "dimension_id": "dim-005",
+      "label": "interval_high",
+      "role": "uncertainty",
+      "unit": null
+    }
+  ],
+  "values": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "value": 21
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "value": 21
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "value": 22.8
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "value": 21.4
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "value": 18.7
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "value": 18.1
+    },
+    {
+      "evidence_id": "ev-0007-001",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-001",
+      "value": 14.3
+    },
+    {
+      "evidence_id": "ev-0008-001",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-001",
+      "value": 24.4
+    },
+    {
+      "evidence_id": "ev-0009-001",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-001",
+      "value": 22.8
+    },
+    {
+      "evidence_id": "ev-0010-001",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-001",
+      "value": 19.2
+    },
+    {
+      "evidence_id": "ev-0011-001",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-001",
+      "value": 17.8
+    },
+    {
+      "evidence_id": "ev-0012-001",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-001",
+      "value": 16.4
+    },
+    {
+      "evidence_id": "ev-0013-001",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-001",
+      "value": 17.3
+    },
+    {
+      "evidence_id": "ev-0014-001",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-001",
+      "value": 15.2
+    },
+    {
+      "evidence_id": "ev-0015-001",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-001",
+      "value": 10.4
+    },
+    {
+      "evidence_id": "ev-0016-001",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-001",
+      "value": 10.4
+    },
+    {
+      "evidence_id": "ev-0017-001",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-001",
+      "value": 14.7
+    },
+    {
+      "evidence_id": "ev-0018-001",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-001",
+      "value": 32.4
+    },
+    {
+      "evidence_id": "ev-0019-001",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-001",
+      "value": 30.4
+    },
+    {
+      "evidence_id": "ev-0020-001",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-001",
+      "value": 33.9
+    },
+    {
+      "evidence_id": "ev-0021-001",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-001",
+      "value": 21.5
+    },
+    {
+      "evidence_id": "ev-0022-001",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-001",
+      "value": 15.5
+    },
+    {
+      "evidence_id": "ev-0023-001",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-001",
+      "value": 15.2
+    },
+    {
+      "evidence_id": "ev-0024-001",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-001",
+      "value": 13.3
+    },
+    {
+      "evidence_id": "ev-0025-001",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-001",
+      "value": 19.2
+    },
+    {
+      "evidence_id": "ev-0026-001",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-001",
+      "value": 27.3
+    },
+    {
+      "evidence_id": "ev-0027-001",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-001",
+      "value": 26
+    },
+    {
+      "evidence_id": "ev-0028-001",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-001",
+      "value": 30.4
+    },
+    {
+      "evidence_id": "ev-0029-001",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-001",
+      "value": 15.8
+    },
+    {
+      "evidence_id": "ev-0030-001",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-001",
+      "value": 19.7
+    },
+    {
+      "evidence_id": "ev-0031-001",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-001",
+      "value": 15
+    },
+    {
+      "evidence_id": "ev-0032-001",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-001",
+      "value": 21.4
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "value": 23.5723294033093
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "value": 22.583482563996
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "value": 25.2758187247274
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "value": 21.2650201115784
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "value": 18.3272666406969
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "value": 20.4738163146001
+    },
+    {
+      "evidence_id": "ev-0007-002",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-002",
+      "value": 15.599042355433
+    },
+    {
+      "evidence_id": "ev-0008-002",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-002",
+      "value": 22.8870673352823
+    },
+    {
+      "evidence_id": "ev-0009-002",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-002",
+      "value": 21.9936733145672
+    },
+    {
+      "evidence_id": "ev-0010-002",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-002",
+      "value": 19.9794598837693
+    },
+    {
+      "evidence_id": "ev-0011-002",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-002",
+      "value": 19.9794598837693
+    },
+    {
+      "evidence_id": "ev-0012-002",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-002",
+      "value": 15.7253685380712
+    },
+    {
+      "evidence_id": "ev-0013-002",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-002",
+      "value": 17.0438309904888
+    },
+    {
+      "evidence_id": "ev-0014-002",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-002",
+      "value": 16.8499394533685
+    },
+    {
+      "evidence_id": "ev-0015-002",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-002",
+      "value": 10.3552045874796
+    },
+    {
+      "evidence_id": "ev-0016-002",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-002",
+      "value": 9.3627325684796
+    },
+    {
+      "evidence_id": "ev-0017-002",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-002",
+      "value": 9.19248699239715
+    },
+    {
+      "evidence_id": "ev-0018-002",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-002",
+      "value": 26.5990279823343
+    },
+    {
+      "evidence_id": "ev-0019-002",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-002",
+      "value": 29.3123802243913
+    },
+    {
+      "evidence_id": "ev-0020-002",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-002",
+      "value": 28.0462091502941
+    },
+    {
+      "evidence_id": "ev-0021-002",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-002",
+      "value": 24.58644147915
+    },
+    {
+      "evidence_id": "ev-0022-002",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-002",
+      "value": 18.8113638558586
+    },
+    {
+      "evidence_id": "ev-0023-002",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-002",
+      "value": 19.140979468963
+    },
+    {
+      "evidence_id": "ev-0024-002",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-002",
+      "value": 14.5520280549838
+    },
+    {
+      "evidence_id": "ev-0025-002",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-002",
+      "value": 16.756745190023
+    },
+    {
+      "evidence_id": "ev-0026-002",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-002",
+      "value": 27.6266531290715
+    },
+    {
+      "evidence_id": "ev-0027-002",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-002",
+      "value": 26.0373741523245
+    },
+    {
+      "evidence_id": "ev-0028-002",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-002",
+      "value": 27.7697691942047
+    },
+    {
+      "evidence_id": "ev-0029-002",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-002",
+      "value": 16.5464886597339
+    },
+    {
+      "evidence_id": "ev-0030-002",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-002",
+      "value": 20.9254132381081
+    },
+    {
+      "evidence_id": "ev-0031-002",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-002",
+      "value": 12.7394771270386
+    },
+    {
+      "evidence_id": "ev-0032-002",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-002",
+      "value": 22.9836494315066
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "value": -2.57232940330929
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "value": -1.58348256399603
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "value": -2.47581872472737
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "value": 0.134979888421558
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "value": 0.372733359303077
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "value": -2.3738163146001
+    },
+    {
+      "evidence_id": "ev-0007-003",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-003",
+      "value": -1.29904235543304
+    },
+    {
+      "evidence_id": "ev-0008-003",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-003",
+      "value": 1.51293266471771
+    },
+    {
+      "evidence_id": "ev-0009-003",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-003",
+      "value": 0.806326685432842
+    },
+    {
+      "evidence_id": "ev-0010-003",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-003",
+      "value": -0.779459883769295
+    },
+    {
+      "evidence_id": "ev-0011-003",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-003",
+      "value": -2.17945988376929
+    },
+    {
+      "evidence_id": "ev-0012-003",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-003",
+      "value": 0.674631461928831
+    },
+    {
+      "evidence_id": "ev-0013-003",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-003",
+      "value": 0.256169009511241
+    },
+    {
+      "evidence_id": "ev-0014-003",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-003",
+      "value": -1.64993945336853
+    },
+    {
+      "evidence_id": "ev-0015-003",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-003",
+      "value": 0.0447954125203775
+    },
+    {
+      "evidence_id": "ev-0016-003",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-003",
+      "value": 1.0372674315204
+    },
+    {
+      "evidence_id": "ev-0017-003",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-003",
+      "value": 5.50751300760284
+    },
+    {
+      "evidence_id": "ev-0018-003",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-003",
+      "value": 5.80097201766573
+    },
+    {
+      "evidence_id": "ev-0019-003",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-003",
+      "value": 1.08761977560873
+    },
+    {
+      "evidence_id": "ev-0020-003",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-003",
+      "value": 5.85379084970586
+    },
+    {
+      "evidence_id": "ev-0021-003",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-003",
+      "value": -3.08644147915004
+    },
+    {
+      "evidence_id": "ev-0022-003",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-003",
+      "value": -3.31136385585857
+    },
+    {
+      "evidence_id": "ev-0023-003",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-003",
+      "value": -3.94097946896297
+    },
+    {
+      "evidence_id": "ev-0024-003",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-003",
+      "value": -1.25202805498378
+    },
+    {
+      "evidence_id": "ev-0025-003",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-003",
+      "value": 2.44325480997697
+    },
+    {
+      "evidence_id": "ev-0026-003",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-003",
+      "value": -0.326653129071512
+    },
+    {
+      "evidence_id": "ev-0027-003",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-003",
+      "value": -0.037374152324528
+    },
+    {
+      "evidence_id": "ev-0028-003",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-003",
+      "value": 2.63023080579528
+    },
+    {
+      "evidence_id": "ev-0029-003",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-003",
+      "value": -0.746488659733857
+    },
+    {
+      "evidence_id": "ev-0030-003",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-003",
+      "value": -1.22541323810806
+    },
+    {
+      "evidence_id": "ev-0031-003",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-003",
+      "value": 2.26052287296144
+    },
+    {
+      "evidence_id": "ev-0032-003",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-003",
+      "value": -1.58364943150664
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "value": 22.5027421316469
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "value": 21.5606991708738
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "value": 24.0286382494973
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "value": 20.1574792782644
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "value": 17.3513287503628
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "value": 19.1566096202684
+    },
+    {
+      "evidence_id": "ev-0007-004",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-004",
+      "value": 13.8602445256616
+    },
+    {
+      "evidence_id": "ev-0008-004",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-004",
+      "value": 21.1583980427324
+    },
+    {
+      "evidence_id": "ev-0009-004",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-004",
+      "value": 20.7484070929423
+    },
+    {
+      "evidence_id": "ev-0010-004",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-004",
+      "value": 18.8785187801883
+    },
+    {
+      "evidence_id": "ev-0011-004",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-004",
+      "value": 18.8785187801883
+    },
+    {
+      "evidence_id": "ev-0012-004",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-004",
+      "value": 14.5203917751667
+    },
+    {
+      "evidence_id": "ev-0013-004",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-004",
+      "value": 16.0116250198068
+    },
+    {
+      "evidence_id": "ev-0014-004",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-004",
+      "value": 15.8011356354697
+    },
+    {
+      "evidence_id": "ev-0015-004",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-004",
+      "value": 8.16433439582432
+    },
+    {
+      "evidence_id": "ev-0016-004",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-004",
+      "value": 7.03904234107133
+    },
+    {
+      "evidence_id": "ev-0017-004",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-004",
+      "value": 6.99739828975243
+    },
+    {
+      "evidence_id": "ev-0018-004",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-004",
+      "value": 25.1621236018789
+    },
+    {
+      "evidence_id": "ev-0019-004",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-004",
+      "value": 27.5299760724091
+    },
+    {
+      "evidence_id": "ev-0020-004",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-004",
+      "value": 26.442792488359
+    },
+    {
+      "evidence_id": "ev-0021-004",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-004",
+      "value": 23.4158818635085
+    },
+    {
+      "evidence_id": "ev-0022-004",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-004",
+      "value": 17.8507203108298
+    },
+    {
+      "evidence_id": "ev-0023-004",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-004",
+      "value": 18.2120373564387
+    },
+    {
+      "evidence_id": "ev-0024-004",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-004",
+      "value": 12.9207975080484
+    },
+    {
+      "evidence_id": "ev-0025-004",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-004",
+      "value": 15.6840668035557
+    },
+    {
+      "evidence_id": "ev-0026-004",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-004",
+      "value": 26.0827673516843
+    },
+    {
+      "evidence_id": "ev-0027-004",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-004",
+      "value": 24.6850263766076
+    },
+    {
+      "evidence_id": "ev-0028-004",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-004",
+      "value": 25.7773459290999
+    },
+    {
+      "evidence_id": "ev-0029-004",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-004",
+      "value": 14.2482594628233
+    },
+    {
+      "evidence_id": "ev-0030-004",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-004",
+      "value": 19.6092321820195
+    },
+    {
+      "evidence_id": "ev-0031-004",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-004",
+      "value": 9.54801015974263
+    },
+    {
+      "evidence_id": "ev-0032-004",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-004",
+      "value": 21.9493164215725
+    },
+    {
+      "evidence_id": "ev-0001-005",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-005",
+      "value": 24.6419166749715
+    },
+    {
+      "evidence_id": "ev-0002-005",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-005",
+      "value": 23.6062659571183
+    },
+    {
+      "evidence_id": "ev-0003-005",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-005",
+      "value": 26.5229991999574
+    },
+    {
+      "evidence_id": "ev-0004-005",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-005",
+      "value": 22.3725609448924
+    },
+    {
+      "evidence_id": "ev-0005-005",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-005",
+      "value": 19.303204531031
+    },
+    {
+      "evidence_id": "ev-0006-005",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-005",
+      "value": 21.7910230089317
+    },
+    {
+      "evidence_id": "ev-0007-005",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-005",
+      "value": 17.3378401852045
+    },
+    {
+      "evidence_id": "ev-0008-005",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-005",
+      "value": 24.6157366278321
+    },
+    {
+      "evidence_id": "ev-0009-005",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-005",
+      "value": 23.238939536192
+    },
+    {
+      "evidence_id": "ev-0010-005",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-005",
+      "value": 21.0804009873503
+    },
+    {
+      "evidence_id": "ev-0011-005",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-005",
+      "value": 21.0804009873503
+    },
+    {
+      "evidence_id": "ev-0012-005",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-005",
+      "value": 16.9303453009756
+    },
+    {
+      "evidence_id": "ev-0013-005",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-005",
+      "value": 18.0760369611708
+    },
+    {
+      "evidence_id": "ev-0014-005",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-005",
+      "value": 17.8987432712674
+    },
+    {
+      "evidence_id": "ev-0015-005",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-005",
+      "value": 12.5460747791349
+    },
+    {
+      "evidence_id": "ev-0016-005",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-005",
+      "value": 11.6864227958879
+    },
+    {
+      "evidence_id": "ev-0017-005",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-005",
+      "value": 11.3875756950419
+    },
+    {
+      "evidence_id": "ev-0018-005",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-005",
+      "value": 28.0359323627896
+    },
+    {
+      "evidence_id": "ev-0019-005",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-005",
+      "value": 31.0947843763735
+    },
+    {
+      "evidence_id": "ev-0020-005",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-005",
+      "value": 29.6496258122293
+    },
+    {
+      "evidence_id": "ev-0021-005",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-005",
+      "value": 25.7570010947916
+    },
+    {
+      "evidence_id": "ev-0022-005",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-005",
+      "value": 19.7720074008873
+    },
+    {
+      "evidence_id": "ev-0023-005",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-005",
+      "value": 20.0699215814873
+    },
+    {
+      "evidence_id": "ev-0024-005",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-005",
+      "value": 16.1832586019192
+    },
+    {
+      "evidence_id": "ev-0025-005",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-005",
+      "value": 17.8294235764904
+    },
+    {
+      "evidence_id": "ev-0026-005",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-005",
+      "value": 29.1705389064588
+    },
+    {
+      "evidence_id": "ev-0027-005",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-005",
+      "value": 27.3897219280414
+    },
+    {
+      "evidence_id": "ev-0028-005",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-005",
+      "value": 29.7621924593095
+    },
+    {
+      "evidence_id": "ev-0029-005",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-005",
+      "value": 18.8447178566444
+    },
+    {
+      "evidence_id": "ev-0030-005",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-005",
+      "value": 22.2415942941966
+    },
+    {
+      "evidence_id": "ev-0031-005",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-005",
+      "value": 15.9309440943345
+    },
+    {
+      "evidence_id": "ev-0032-005",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-005",
+      "value": 24.0179824414407
+    }
+  ],
+  "links": [
+    {
+      "evidence_id": "ev-0001-001",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0001:dim-001"
+    },
+    {
+      "evidence_id": "ev-0002-001",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0002:dim-001"
+    },
+    {
+      "evidence_id": "ev-0003-001",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0003:dim-001"
+    },
+    {
+      "evidence_id": "ev-0004-001",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0004:dim-001"
+    },
+    {
+      "evidence_id": "ev-0005-001",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0005:dim-001"
+    },
+    {
+      "evidence_id": "ev-0006-001",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0006:dim-001"
+    },
+    {
+      "evidence_id": "ev-0007-001",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0007:dim-001"
+    },
+    {
+      "evidence_id": "ev-0008-001",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0008:dim-001"
+    },
+    {
+      "evidence_id": "ev-0009-001",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0009:dim-001"
+    },
+    {
+      "evidence_id": "ev-0010-001",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0010:dim-001"
+    },
+    {
+      "evidence_id": "ev-0011-001",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0011:dim-001"
+    },
+    {
+      "evidence_id": "ev-0012-001",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0012:dim-001"
+    },
+    {
+      "evidence_id": "ev-0013-001",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0013:dim-001"
+    },
+    {
+      "evidence_id": "ev-0014-001",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0014:dim-001"
+    },
+    {
+      "evidence_id": "ev-0015-001",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0015:dim-001"
+    },
+    {
+      "evidence_id": "ev-0016-001",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0016:dim-001"
+    },
+    {
+      "evidence_id": "ev-0017-001",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0017:dim-001"
+    },
+    {
+      "evidence_id": "ev-0018-001",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0018:dim-001"
+    },
+    {
+      "evidence_id": "ev-0019-001",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0019:dim-001"
+    },
+    {
+      "evidence_id": "ev-0020-001",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0020:dim-001"
+    },
+    {
+      "evidence_id": "ev-0021-001",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0021:dim-001"
+    },
+    {
+      "evidence_id": "ev-0022-001",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0022:dim-001"
+    },
+    {
+      "evidence_id": "ev-0023-001",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0023:dim-001"
+    },
+    {
+      "evidence_id": "ev-0024-001",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0024:dim-001"
+    },
+    {
+      "evidence_id": "ev-0025-001",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0025:dim-001"
+    },
+    {
+      "evidence_id": "ev-0026-001",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0026:dim-001"
+    },
+    {
+      "evidence_id": "ev-0027-001",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0027:dim-001"
+    },
+    {
+      "evidence_id": "ev-0028-001",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0028:dim-001"
+    },
+    {
+      "evidence_id": "ev-0029-001",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0029:dim-001"
+    },
+    {
+      "evidence_id": "ev-0030-001",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0030:dim-001"
+    },
+    {
+      "evidence_id": "ev-0031-001",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0031:dim-001"
+    },
+    {
+      "evidence_id": "ev-0032-001",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-001",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0032:dim-001"
+    },
+    {
+      "evidence_id": "ev-0001-002",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0001:dim-002"
+    },
+    {
+      "evidence_id": "ev-0002-002",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0002:dim-002"
+    },
+    {
+      "evidence_id": "ev-0003-002",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0003:dim-002"
+    },
+    {
+      "evidence_id": "ev-0004-002",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0004:dim-002"
+    },
+    {
+      "evidence_id": "ev-0005-002",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0005:dim-002"
+    },
+    {
+      "evidence_id": "ev-0006-002",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0006:dim-002"
+    },
+    {
+      "evidence_id": "ev-0007-002",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0007:dim-002"
+    },
+    {
+      "evidence_id": "ev-0008-002",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0008:dim-002"
+    },
+    {
+      "evidence_id": "ev-0009-002",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0009:dim-002"
+    },
+    {
+      "evidence_id": "ev-0010-002",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0010:dim-002"
+    },
+    {
+      "evidence_id": "ev-0011-002",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0011:dim-002"
+    },
+    {
+      "evidence_id": "ev-0012-002",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0012:dim-002"
+    },
+    {
+      "evidence_id": "ev-0013-002",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0013:dim-002"
+    },
+    {
+      "evidence_id": "ev-0014-002",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0014:dim-002"
+    },
+    {
+      "evidence_id": "ev-0015-002",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0015:dim-002"
+    },
+    {
+      "evidence_id": "ev-0016-002",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0016:dim-002"
+    },
+    {
+      "evidence_id": "ev-0017-002",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0017:dim-002"
+    },
+    {
+      "evidence_id": "ev-0018-002",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0018:dim-002"
+    },
+    {
+      "evidence_id": "ev-0019-002",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0019:dim-002"
+    },
+    {
+      "evidence_id": "ev-0020-002",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0020:dim-002"
+    },
+    {
+      "evidence_id": "ev-0021-002",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0021:dim-002"
+    },
+    {
+      "evidence_id": "ev-0022-002",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0022:dim-002"
+    },
+    {
+      "evidence_id": "ev-0023-002",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0023:dim-002"
+    },
+    {
+      "evidence_id": "ev-0024-002",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0024:dim-002"
+    },
+    {
+      "evidence_id": "ev-0025-002",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0025:dim-002"
+    },
+    {
+      "evidence_id": "ev-0026-002",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0026:dim-002"
+    },
+    {
+      "evidence_id": "ev-0027-002",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0027:dim-002"
+    },
+    {
+      "evidence_id": "ev-0028-002",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0028:dim-002"
+    },
+    {
+      "evidence_id": "ev-0029-002",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0029:dim-002"
+    },
+    {
+      "evidence_id": "ev-0030-002",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0030:dim-002"
+    },
+    {
+      "evidence_id": "ev-0031-002",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0031:dim-002"
+    },
+    {
+      "evidence_id": "ev-0032-002",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-002",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0032:dim-002"
+    },
+    {
+      "evidence_id": "ev-0001-003",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0001:dim-003"
+    },
+    {
+      "evidence_id": "ev-0002-003",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0002:dim-003"
+    },
+    {
+      "evidence_id": "ev-0003-003",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0003:dim-003"
+    },
+    {
+      "evidence_id": "ev-0004-003",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0004:dim-003"
+    },
+    {
+      "evidence_id": "ev-0005-003",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0005:dim-003"
+    },
+    {
+      "evidence_id": "ev-0006-003",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0006:dim-003"
+    },
+    {
+      "evidence_id": "ev-0007-003",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0007:dim-003"
+    },
+    {
+      "evidence_id": "ev-0008-003",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0008:dim-003"
+    },
+    {
+      "evidence_id": "ev-0009-003",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0009:dim-003"
+    },
+    {
+      "evidence_id": "ev-0010-003",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0010:dim-003"
+    },
+    {
+      "evidence_id": "ev-0011-003",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0011:dim-003"
+    },
+    {
+      "evidence_id": "ev-0012-003",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0012:dim-003"
+    },
+    {
+      "evidence_id": "ev-0013-003",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0013:dim-003"
+    },
+    {
+      "evidence_id": "ev-0014-003",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0014:dim-003"
+    },
+    {
+      "evidence_id": "ev-0015-003",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0015:dim-003"
+    },
+    {
+      "evidence_id": "ev-0016-003",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0016:dim-003"
+    },
+    {
+      "evidence_id": "ev-0017-003",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0017:dim-003"
+    },
+    {
+      "evidence_id": "ev-0018-003",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0018:dim-003"
+    },
+    {
+      "evidence_id": "ev-0019-003",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0019:dim-003"
+    },
+    {
+      "evidence_id": "ev-0020-003",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0020:dim-003"
+    },
+    {
+      "evidence_id": "ev-0021-003",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0021:dim-003"
+    },
+    {
+      "evidence_id": "ev-0022-003",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0022:dim-003"
+    },
+    {
+      "evidence_id": "ev-0023-003",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0023:dim-003"
+    },
+    {
+      "evidence_id": "ev-0024-003",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0024:dim-003"
+    },
+    {
+      "evidence_id": "ev-0025-003",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0025:dim-003"
+    },
+    {
+      "evidence_id": "ev-0026-003",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0026:dim-003"
+    },
+    {
+      "evidence_id": "ev-0027-003",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0027:dim-003"
+    },
+    {
+      "evidence_id": "ev-0028-003",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0028:dim-003"
+    },
+    {
+      "evidence_id": "ev-0029-003",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0029:dim-003"
+    },
+    {
+      "evidence_id": "ev-0030-003",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0030:dim-003"
+    },
+    {
+      "evidence_id": "ev-0031-003",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0031:dim-003"
+    },
+    {
+      "evidence_id": "ev-0032-003",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-003",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0032:dim-003"
+    },
+    {
+      "evidence_id": "ev-0001-004",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0001:dim-004"
+    },
+    {
+      "evidence_id": "ev-0002-004",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0002:dim-004"
+    },
+    {
+      "evidence_id": "ev-0003-004",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0003:dim-004"
+    },
+    {
+      "evidence_id": "ev-0004-004",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0004:dim-004"
+    },
+    {
+      "evidence_id": "ev-0005-004",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0005:dim-004"
+    },
+    {
+      "evidence_id": "ev-0006-004",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0006:dim-004"
+    },
+    {
+      "evidence_id": "ev-0007-004",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0007:dim-004"
+    },
+    {
+      "evidence_id": "ev-0008-004",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0008:dim-004"
+    },
+    {
+      "evidence_id": "ev-0009-004",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0009:dim-004"
+    },
+    {
+      "evidence_id": "ev-0010-004",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0010:dim-004"
+    },
+    {
+      "evidence_id": "ev-0011-004",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0011:dim-004"
+    },
+    {
+      "evidence_id": "ev-0012-004",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0012:dim-004"
+    },
+    {
+      "evidence_id": "ev-0013-004",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0013:dim-004"
+    },
+    {
+      "evidence_id": "ev-0014-004",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0014:dim-004"
+    },
+    {
+      "evidence_id": "ev-0015-004",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0015:dim-004"
+    },
+    {
+      "evidence_id": "ev-0016-004",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0016:dim-004"
+    },
+    {
+      "evidence_id": "ev-0017-004",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0017:dim-004"
+    },
+    {
+      "evidence_id": "ev-0018-004",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0018:dim-004"
+    },
+    {
+      "evidence_id": "ev-0019-004",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0019:dim-004"
+    },
+    {
+      "evidence_id": "ev-0020-004",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0020:dim-004"
+    },
+    {
+      "evidence_id": "ev-0021-004",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0021:dim-004"
+    },
+    {
+      "evidence_id": "ev-0022-004",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0022:dim-004"
+    },
+    {
+      "evidence_id": "ev-0023-004",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0023:dim-004"
+    },
+    {
+      "evidence_id": "ev-0024-004",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0024:dim-004"
+    },
+    {
+      "evidence_id": "ev-0025-004",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0025:dim-004"
+    },
+    {
+      "evidence_id": "ev-0026-004",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0026:dim-004"
+    },
+    {
+      "evidence_id": "ev-0027-004",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0027:dim-004"
+    },
+    {
+      "evidence_id": "ev-0028-004",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0028:dim-004"
+    },
+    {
+      "evidence_id": "ev-0029-004",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0029:dim-004"
+    },
+    {
+      "evidence_id": "ev-0030-004",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0030:dim-004"
+    },
+    {
+      "evidence_id": "ev-0031-004",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0031:dim-004"
+    },
+    {
+      "evidence_id": "ev-0032-004",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-004",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0032:dim-004"
+    },
+    {
+      "evidence_id": "ev-0001-005",
+      "observation_id": "obs-0001",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0001:dim-005"
+    },
+    {
+      "evidence_id": "ev-0002-005",
+      "observation_id": "obs-0002",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0002:dim-005"
+    },
+    {
+      "evidence_id": "ev-0003-005",
+      "observation_id": "obs-0003",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0003:dim-005"
+    },
+    {
+      "evidence_id": "ev-0004-005",
+      "observation_id": "obs-0004",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0004:dim-005"
+    },
+    {
+      "evidence_id": "ev-0005-005",
+      "observation_id": "obs-0005",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0005:dim-005"
+    },
+    {
+      "evidence_id": "ev-0006-005",
+      "observation_id": "obs-0006",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0006:dim-005"
+    },
+    {
+      "evidence_id": "ev-0007-005",
+      "observation_id": "obs-0007",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0007:dim-005"
+    },
+    {
+      "evidence_id": "ev-0008-005",
+      "observation_id": "obs-0008",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0008:dim-005"
+    },
+    {
+      "evidence_id": "ev-0009-005",
+      "observation_id": "obs-0009",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0009:dim-005"
+    },
+    {
+      "evidence_id": "ev-0010-005",
+      "observation_id": "obs-0010",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0010:dim-005"
+    },
+    {
+      "evidence_id": "ev-0011-005",
+      "observation_id": "obs-0011",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0011:dim-005"
+    },
+    {
+      "evidence_id": "ev-0012-005",
+      "observation_id": "obs-0012",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0012:dim-005"
+    },
+    {
+      "evidence_id": "ev-0013-005",
+      "observation_id": "obs-0013",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0013:dim-005"
+    },
+    {
+      "evidence_id": "ev-0014-005",
+      "observation_id": "obs-0014",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0014:dim-005"
+    },
+    {
+      "evidence_id": "ev-0015-005",
+      "observation_id": "obs-0015",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0015:dim-005"
+    },
+    {
+      "evidence_id": "ev-0016-005",
+      "observation_id": "obs-0016",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0016:dim-005"
+    },
+    {
+      "evidence_id": "ev-0017-005",
+      "observation_id": "obs-0017",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0017:dim-005"
+    },
+    {
+      "evidence_id": "ev-0018-005",
+      "observation_id": "obs-0018",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0018:dim-005"
+    },
+    {
+      "evidence_id": "ev-0019-005",
+      "observation_id": "obs-0019",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0019:dim-005"
+    },
+    {
+      "evidence_id": "ev-0020-005",
+      "observation_id": "obs-0020",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0020:dim-005"
+    },
+    {
+      "evidence_id": "ev-0021-005",
+      "observation_id": "obs-0021",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0021:dim-005"
+    },
+    {
+      "evidence_id": "ev-0022-005",
+      "observation_id": "obs-0022",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0022:dim-005"
+    },
+    {
+      "evidence_id": "ev-0023-005",
+      "observation_id": "obs-0023",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0023:dim-005"
+    },
+    {
+      "evidence_id": "ev-0024-005",
+      "observation_id": "obs-0024",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0024:dim-005"
+    },
+    {
+      "evidence_id": "ev-0025-005",
+      "observation_id": "obs-0025",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0025:dim-005"
+    },
+    {
+      "evidence_id": "ev-0026-005",
+      "observation_id": "obs-0026",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0026:dim-005"
+    },
+    {
+      "evidence_id": "ev-0027-005",
+      "observation_id": "obs-0027",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0027:dim-005"
+    },
+    {
+      "evidence_id": "ev-0028-005",
+      "observation_id": "obs-0028",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0028:dim-005"
+    },
+    {
+      "evidence_id": "ev-0029-005",
+      "observation_id": "obs-0029",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0029:dim-005"
+    },
+    {
+      "evidence_id": "ev-0030-005",
+      "observation_id": "obs-0030",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0030:dim-005"
+    },
+    {
+      "evidence_id": "ev-0031-005",
+      "observation_id": "obs-0031",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0031:dim-005"
+    },
+    {
+      "evidence_id": "ev-0032-005",
+      "observation_id": "obs-0032",
+      "dimension_id": "dim-005",
+      "source_type": "analysis_result",
+      "source_ref": "lm:obs-0032:dim-005"
+    }
+  ],
+  "metadata": {
+    "coefficients": [37.2272701164472, -0.031772946982161, -3.87783074240468],
+    "sigma": 2.59341177722657,
+    "wizard": {
+      "analysis": "lm",
+      "source_columns": ["hp", "wt"],
+      "outcome": "mpg",
+      "id_column": "label",
+      "original_rows": 32,
+      "compiled_rows": 32,
+      "omitted_source_rows": [],
+      "na_action": "fail",
+      "context": {
+        "question": "How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+        "intent": "explain",
+        "intent_label": "Explain variation in a numeric outcome",
+        "unit_of_analysis": "one vehicle model in the built-in mtcars dataset",
+        "outcome": "mpg",
+        "id_column": "label",
+        "grouping": null,
+        "time": null,
+        "decision_context": "learning to critique an association model, not making a causal vehicle-design claim",
+        "dependence_warning": false
+      },
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)", "evidence <- as_rlearnxr_evidence(fit, labels = labels)"]
+    },
+    "pedagogy": {
+      "analysis": "lm",
+      "question": "How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+      "context": {
+        "question": "How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+        "intent": "explain",
+        "intent_label": "Explain variation in a numeric outcome",
+        "unit_of_analysis": "one vehicle model in the built-in mtcars dataset",
+        "outcome": "mpg",
+        "id_column": "label",
+        "grouping": null,
+        "time": null,
+        "decision_context": "learning to critique an association model, not making a causal vehicle-design claim",
+        "dependence_warning": false
+      },
+      "diagnostics": [
+        {
+          "id": "r-squared",
+          "label": "R-squared",
+          "value": "0.827",
+          "status": "review",
+          "interpretation": "Report fit together with residual and uncertainty evidence."
+        },
+        {
+          "id": "residual",
+          "label": "Residual standard error",
+          "value": "2.593",
+          "status": "review",
+          "interpretation": "Residuals show where observed outcomes differ from fitted values."
+        },
+        {
+          "id": "influence",
+          "label": "Largest Cook's distance",
+          "value": "0.424",
+          "status": "review",
+          "interpretation": "Compare with the teaching flag 4/n = 0.125; this is a review cue, not an automatic deletion rule."
+        },
+        {
+          "id": "interval",
+          "label": "Uncertainty representation",
+          "value": "95% fitted-mean interval",
+          "status": "review",
+          "interpretation": "An interval communicates uncertainty; it does not guarantee a future individual outcome."
+        }
+      ],
+      "cautions": "Regression coefficients describe conditional association unless the design supports a causal claim.",
+      "misconceptions": ["A fitted value is not the observed outcome.", "A small residual does not validate every model assumption."],
+      "prompts": ["State why one vehicle model in the built-in mtcars dataset is the unit of observation, identify each variable role, and restate the question: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?", "Predict the direction of association between hp, wt and mpg.", "Inspect the model formula, run the linear model, and connect fitted values, residuals, intervals, and provenance.", "Select one observation and compare its fitted value, residual, and interval evidence in the full compiled evidence table.", "Explain the selected observation using its fitted value and residual, then state an uncertainty or causal limitation.", "Check residual, influence, independence, and interval evidence before revising the association claim.", "Apply the fitted-versus-observed reasoning to a different observation and compare uncertainty.", "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson."],
+      "criteria": {
+        "orient": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+        "predict": "Records a falsifiable expectation before inspection",
+        "run_r": "Connects visible R source to the compiled artifact",
+        "explore": "Selects an observation using a stable evidence ID",
+        "explain": ["Names the selected observation", "Cites a fitted value", "Interprets a residual or interval", "States an uncertainty or causal limitation"],
+        "repair": "Corrects the identified evidence or assumption problem",
+        "transfer": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+        "reproduce": "Verifies source, seed, version, retained rows, and artifact hash"
+      },
+      "outcomes": ["Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"]
+    }
+  }
+}

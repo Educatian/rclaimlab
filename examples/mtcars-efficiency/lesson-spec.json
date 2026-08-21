@@ -1,0 +1,192 @@
+{
+  "schema_version": "rlearnxr-lesson-2",
+  "id": "mtcars-efficiency",
+  "title": "Vehicle efficiency model evidence",
+  "outcomes": ["Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
+  "evidence": {
+    "schema_version": "rlearnxr-evidence-2",
+    "artifact": "evidence.json",
+    "artifact_hash": "7a879e28a6bc29b722ecc5f19fb6eb50"
+  },
+  "tasks": [
+    {
+      "id": "wizard-orient",
+      "type": "orient",
+      "prompt": "State why one vehicle model in the built-in mtcars dataset is the unit of observation, identify each variable role, and restate the question: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+      "criteria": ["Defines the unit of observation and variable roles", "Connects the data to the stated question"],
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-predict",
+      "type": "predict",
+      "prompt": "Predict the direction of association between hp, wt and mpg.",
+      "criteria": "Records a falsifiable expectation before inspection",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-run_r",
+      "type": "run_r",
+      "prompt": "Inspect the model formula, run the linear model, and connect fitted values, residuals, intervals, and provenance.",
+      "criteria": "Connects visible R source to the compiled artifact",
+      "evidence_required": false
+    },
+    {
+      "id": "wizard-explore",
+      "type": "explore",
+      "prompt": "Select one observation and compare its fitted value, residual, and interval evidence in the full compiled evidence table.",
+      "criteria": "Selects an observation using a stable evidence ID",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-explain",
+      "type": "explain",
+      "prompt": "Explain the selected observation using its fitted value and residual, then state an uncertainty or causal limitation.",
+      "criteria": ["Names the selected observation", "Cites a fitted value", "Interprets a residual or interval", "States an uncertainty or causal limitation"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-repair",
+      "type": "repair",
+      "prompt": "Check residual, influence, independence, and interval evidence before revising the association claim.",
+      "criteria": "Corrects the identified evidence or assumption problem",
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-transfer",
+      "type": "transfer",
+      "prompt": "Apply the fitted-versus-observed reasoning to a different observation and compare uncertainty.",
+      "criteria": ["Uses a different observation", "Compares the method-specific evidence", "Keeps the interpretation within its evidence boundary"],
+      "evidence_required": true
+    },
+    {
+      "id": "wizard-reproduce",
+      "type": "reproduce",
+      "prompt": "Verify the analysis source, seed, R and package versions, evidence hash, and retained-row decision before sharing the lesson.",
+      "criteria": "Verifies source, seed, version, retained rows, and artifact hash",
+      "evidence_required": false
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "accessibility": {
+    "semantic_table": true,
+    "keyboard_path": true,
+    "text_alternative": true,
+    "reduced_motion": true
+  },
+  "content_license": "CC BY 4.0",
+  "authoring": {
+    "method": "lesson_wizard",
+    "profile_schema": "rlearnxr-data-profile-2",
+    "analysis_recommendations": [
+      {
+        "analysis": "data_view",
+        "label": "Explore numeric dimensions",
+        "available": true,
+        "recommended": false,
+        "reason": "Safest starting point for describing observations without adding a model.",
+        "caution": "Describe patterns only; visible proximity does not establish causation.",
+        "intent": "explain"
+      },
+      {
+        "analysis": "prcomp",
+        "label": "Principal component analysis",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is about summarizing shared variation across numeric variables.",
+        "caution": "PCA summarizes variance and requires score, loading, scaling, and variance evidence.",
+        "intent": "explain"
+      },
+      {
+        "analysis": "lm",
+        "label": "Linear regression",
+        "available": true,
+        "recommended": true,
+        "reason": "Available for a numeric outcome.",
+        "caution": "Check residuals, influence, independence, and uncertainty.",
+        "intent": "explain"
+      },
+      {
+        "analysis": "glm",
+        "label": "Binary logistic regression",
+        "available": false,
+        "recommended": false,
+        "reason": "Select a two-level outcome and at least one numeric predictor.",
+        "caution": "Declare the modeled event, reference level, class balance, and threshold.",
+        "intent": "explain"
+      },
+      {
+        "analysis": "kmeans",
+        "label": "K-means clustering",
+        "available": true,
+        "recommended": false,
+        "reason": "Available when the question is explicitly about tentative groups in standardized numeric data.",
+        "caution": "Scale variables, use multiple starts, and check whether conclusions change across k or seed.",
+        "intent": "explain"
+      }
+    ],
+    "warnings": [],
+    "context": {
+      "question": "How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?",
+      "intent": "explain",
+      "intent_label": "Explain variation in a numeric outcome",
+      "unit_of_analysis": "one vehicle model in the built-in mtcars dataset",
+      "outcome": "mpg",
+      "id_column": "label",
+      "grouping": null,
+      "time": null,
+      "decision_context": "learning to critique an association model, not making a causal vehicle-design claim",
+      "dependence_warning": false
+    },
+    "diagnostics": [
+      {
+        "id": "r-squared",
+        "label": "R-squared",
+        "value": "0.827",
+        "status": "review",
+        "interpretation": "Report fit together with residual and uncertainty evidence."
+      },
+      {
+        "id": "residual",
+        "label": "Residual standard error",
+        "value": "2.593",
+        "status": "review",
+        "interpretation": "Residuals show where observed outcomes differ from fitted values."
+      },
+      {
+        "id": "influence",
+        "label": "Largest Cook's distance",
+        "value": "0.424",
+        "status": "review",
+        "interpretation": "Compare with the teaching flag 4/n = 0.125; this is a review cue, not an automatic deletion rule."
+      },
+      {
+        "id": "interval",
+        "label": "Uncertainty representation",
+        "value": "95% fitted-mean interval",
+        "status": "review",
+        "interpretation": "An interval communicates uncertainty; it does not guarantee a future individual outcome."
+      }
+    ],
+    "cautions": "Regression coefficients describe conditional association unless the design supports a causal claim.",
+    "misconceptions": ["A fitted value is not the observed outcome.", "A small residual does not validate every model assumption."]
+  }
+}
