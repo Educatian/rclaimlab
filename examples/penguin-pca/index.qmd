@@ -76,10 +76,7 @@ The executable block below builds the saved lesson scene from the same logic.
 ```{r}
 #| label: build-penguin-scene
 #| echo: true
-source("../../R/utils.R")
-source("../../R/zzz.R")
-source("../../R/scene_contract.R")
-source("../../R/render_scene.R")
+library(rlearnxr)
 
 metrics <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")
 penguins <- palmerpenguins::penguins[, c("species", metrics)]

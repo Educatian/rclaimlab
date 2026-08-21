@@ -33,10 +33,7 @@ Before running code, predict which labels will remain after a transformation tha
 
 ```{r}
 #| echo: true
-source("../../R/utils.R")
-source("../../R/zzz.R")
-source("../../R/scene_contract.R")
-source("../../R/render_scene.R")
+library(rlearnxr)
 
 demo <- read.csv("data/learning_points.csv", stringsAsFactors = FALSE)
 set.seed(2026)
