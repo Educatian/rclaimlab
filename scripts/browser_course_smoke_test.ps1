@@ -37,8 +37,7 @@ try {
   Invoke-PwCli screenshot --filename="output/playwright/rlearnxr-course-home-desktop.png" | Out-Null
   Invoke-PwCli click "button[data-filter='Statistics']" | Out-Null
   Invoke-PwCli eval "() => { const visible = [...document.querySelectorAll('.module')].filter(x => x.dataset.hidden !== 'true'); if (visible.length !== 2) throw new Error('statistics filter failed'); return 'filter-ok'; }" | Out-Null
-  Invoke-PwCli click "[data-module-complete='statistics-pca']" | Out-Null
-  Invoke-PwCli eval "() => { if (!document.querySelector('[data-module-complete=statistics-pca]').textContent.includes('Completed')) throw new Error('progress did not persist'); return 'progress-ok'; }" | Out-Null
+  Invoke-PwCli eval "() => { const catalog = window.RLEARNXR_CATALOG; const key = 'rlearnxr:' + catalog.course_id + ':progress:v1'; localStorage.setItem(key, JSON.stringify({last:'statistics-pca','statistics-pca':true})); window.dispatchEvent(new Event('pageshow')); const module = document.querySelector('[data-module=statistics-pca]').closest('.module'); if (!module.querySelector('.module-status').textContent.includes('Completed')) throw new Error('receipt-backed progress did not persist'); return 'progress-ok'; }" | Out-Null
   Invoke-PwCli eval "() => { const resume = document.querySelector('#resume-link'); if (!resume || resume.hidden || !resume.href.includes('penguin-pca/scene/index.html')) throw new Error('resume link did not appear'); return 'resume-link-ok'; }" | Out-Null
   Invoke-PwCli resize 390 844 | Out-Null
   Invoke-PwCli eval "() => { if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) throw new Error('course home horizontal overflow'); return 'mobile-width-ok'; }" | Out-Null

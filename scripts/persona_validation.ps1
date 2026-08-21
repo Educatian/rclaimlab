@@ -47,6 +47,9 @@ try {
   Invoke-PwCli click "#restart-lesson" | Out-Null
   Invoke-PwCli screenshot --filename="$artifactDir/01-learner-orient.png" | Out-Null
 
+  Invoke-PwCli fill "#orient-input" "One row represents one observation, the label identifies it, and x, y, and z coordinates locate it in the data space."
+  Invoke-PwCli click "#save-orient" | Out-Null
+  Invoke-PwCli run-code "async page => { await page.waitForFunction(() => document.querySelector('#orient-card').dataset.state === 'saved'); }" | Out-Null
   Invoke-PwCli fill "#prediction-input" "Positive x values will remain after the R filter."
   Invoke-PwCli click "#save-prediction" | Out-Null
   Invoke-PwCli run-code "async page => { await page.waitForFunction(() => !document.querySelector('#r-panel').hidden); }" | Out-Null
@@ -59,11 +62,14 @@ try {
   Invoke-PwCli click "#scene-tab" | Out-Null
   Invoke-PwCli eval "() => { const details = document.querySelector('#data-alternative'); details.open = true; const buttons = details.querySelectorAll('button.inspect-button').length; if (!buttons) throw new Error('accessible table has no point selectors'); return JSON.stringify({open: details.open, pointSelectors: buttons}); }" | Out-Null
   Invoke-PwCli eval "() => { const button = document.querySelector('#points-table button.inspect-button'); if (!button) throw new Error('first point selector missing'); button.click(); return button.textContent; }" | Out-Null
-  Invoke-PwCli fill "#explanation-input" "The selected point has positive x and higher y, which supports the predicted pattern."
+  Invoke-PwCli fill "#explanation-input" "Point inspect has a negative x value, but one point does not prove a general pattern."
   Invoke-PwCli click "#check-explanation" | Out-Null
   Invoke-PwCli run-code "async page => { await page.waitForFunction(() => !document.querySelector('#transfer-card').hidden && document.querySelector('#explanation-feedback').dataset.state === 'success'); }" | Out-Null
   Invoke-PwCli screenshot --filename="$artifactDir/04-learner-explain.png" | Out-Null
   Invoke-PwCli eval "() => { const button = document.querySelector('#points-table tr:nth-child(2) button.inspect-button'); if (!button) throw new Error('second point selector missing'); button.click(); return button.textContent; }" | Out-Null
+  Invoke-PwCli fill "#transfer-input" "Compared with inspect, point clean has a higher x value while remaining negative."
+  Invoke-PwCli click "#check-transfer" | Out-Null
+  Invoke-PwCli run-code "async page => { await page.waitForFunction(() => !document.querySelector('#reproduce-card').hidden && document.querySelector('#transfer-feedback').dataset.state === 'success'); }" | Out-Null
   Invoke-PwCli click "#complete-lesson" | Out-Null
   Invoke-PwCli eval "() => { const status = document.querySelector('#lesson-status-text').textContent; if (status !== 'Lesson complete') throw new Error('learner completion did not unlock'); return status; }" | Out-Null
   Invoke-PwCli screenshot --filename="$artifactDir/05-learner-complete.png" | Out-Null
