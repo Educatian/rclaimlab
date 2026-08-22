@@ -1,4 +1,4 @@
-# R-LearnXR Reference Lesson
+# R-ClaimLab Reference Lesson
 
 This lesson is the first end-to-end example for the v1 course. It uses a six-point openly created toy dataset so that the artifact can be rendered and inspected without credentials or external services.
 
@@ -11,4 +11,4 @@ See [educator-guide.md](educator-guide.md) for facilitation prompts and connect 
 1. Install R and Quarto.
 2. From the repository root, run `Rscript scripts/build_demo.R` if the scene needs to be regenerated.
 3. Run `quarto render examples/lesson`.
-4. Run `Rscript scripts/check_lesson.R` or call `rlearnxr::check_lesson()` after installing the package.
+4. Run `Rscript scripts/check_lesson.R` or call `rclaimlab::check_lesson()` after installing the package.

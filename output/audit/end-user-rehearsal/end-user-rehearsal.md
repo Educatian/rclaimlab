@@ -1,8 +1,8 @@
-# R-LearnXR end-user rehearsal audit
+# R-ClaimLab end-user rehearsal audit
 
 Date: 2026-08-14
 Public commit: `cfa47ea`
-Public tag: [`v0.1.0-rc.4`](https://github.com/Educatian/rlearnxr/tree/v0.1.0-rc.4)
+Public tag: [`v0.1.0-rc.4`](https://github.com/Educatian/rclaimlab/tree/v0.1.0-rc.4)
 
 ## Verdict
 
@@ -15,9 +15,9 @@ The RStudio Desktop GUI itself was not run because it is not installed in this e
 | Step | User action | Result |
 |---:|---|---|
 | 1 | Run `scripts/diagnose_environment.R --strict` | PASS: R 4.6.1, Git, repository-local Quarto, remotes, renv, and palmerpenguins detected |
-| 2 | Clone `https://github.com/Educatian/rlearnxr.git` from public `main` | PASS: public `main` resolves to `cfa47ea` |
+| 2 | Clone `https://github.com/Educatian/rclaimlab.git` from public `main` | PASS: public `main` resolves to `cfa47ea` |
 | 3 | Build and install the cloned package into an empty library | PASS: package version `0.1.0` and all public validators load |
-| 4 | Run `remotes::install_github("Educatian/rlearnxr")` without `ref` | PASS: default `main` now installs the current package |
+| 4 | Run `remotes::install_github("Educatian/rclaimlab")` without `ref` | PASS: default `main` now installs the current package |
 | 5 | Run package smoke and testthat checks | PASS |
 | 6 | Run strict checks for `lesson`, `penguin-pca`, and `mtcars-efficiency` | PASS for every check |
 | 7 | Render all three Quarto lessons | PASS |
@@ -26,28 +26,28 @@ The RStudio Desktop GUI itself was not run because it is not installed in this e
 
 The remote counterpart is defined in [`docs/external-validation.md`](../../../docs/external-validation.md). It runs the package and lesson checks on GitHub-hosted Linux, Windows, and macOS runners, tests a clean public-main installation, and archives browser evidence. It does not claim human or assistive-technology validation.
 
-The latest hosted validation run [`31824543142`](https://github.com/Educatian/rlearnxr/actions/runs/31824543142) completed successfully for commit `cfa47ea`. All seven jobs passed: public clean install, Linux/Windows/macOS package and lesson checks, browser interaction smoke, and Windows offline fallback smoke.
+The latest hosted validation run [`31824543142`](https://github.com/Educatian/rclaimlab/actions/runs/31824543142) completed successfully for commit `cfa47ea`. All seven jobs passed: public clean install, Linux/Windows/macOS package and lesson checks, browser interaction smoke, and Windows offline fallback smoke.
 
 ## Browser evidence
 
-![Desktop browser smoke](../../playwright/rlearnxr-browser-smoke-desktop.png)
+![Desktop browser smoke](../../playwright/rclaimlab-browser-smoke-desktop.png)
 
-![Mobile browser smoke](../../playwright/rlearnxr-browser-smoke-mobile.png)
+![Mobile browser smoke](../../playwright/rclaimlab-browser-smoke-mobile.png)
 
-![Offline fallback before WebR](../../playwright/rlearnxr-browser-offline-fallback.png)
+![Offline fallback before WebR](../../playwright/rclaimlab-browser-offline-fallback.png)
 
-The screenshots show the updated R-LearnXR brand line, the R-powered laboratory, the optional AI brief, and the mobile layout. Screenshot evidence does not establish full WCAG conformance or learning effectiveness.
+The screenshots show the updated R-ClaimLab brand line, the R-powered laboratory, the optional AI brief, and the mobile layout. Screenshot evidence does not establish full WCAG conformance or learning effectiveness.
 
 ## Rehearsal commands
 
 ```r
 install.packages("remotes")
-remotes::install_github("Educatian/rlearnxr", upgrade = "never")
-library(rlearnxr)
-packageVersion("rlearnxr")
+remotes::install_github("Educatian/rclaimlab", upgrade = "never")
+library(rclaimlab)
+packageVersion("rclaimlab")
 ```
 
-For authoring, clone the repository in RStudio with **File > New Project > Version Control > Git**, open `rlearnxr.Rproj`, run `renv::restore(prompt = FALSE)`, and then run `remotes::install_local(".")`. The complete path is documented in [`docs/end-user-quick-start.md`](../../../docs/end-user-quick-start.md).
+For authoring, clone the repository in RStudio with **File > New Project > Version Control > Git**, open `rclaimlab.Rproj`, run `renv::restore(prompt = FALSE)`, and then run `remotes::install_local(".")`. The complete path is documented in [`docs/end-user-quick-start.md`](../../../docs/end-user-quick-start.md).
 
 ## Remaining external gates
 

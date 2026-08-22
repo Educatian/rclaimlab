@@ -1,5 +1,5 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
+source(file.path(root, "scripts", "load_rclaimlab_source.R"), chdir = FALSE)
 
 lesson_dir <- file.path(root, "examples", "mtcars-efficiency")
 dir.create(file.path(lesson_dir, "data"), recursive = TRUE, showWarnings = FALSE)
@@ -36,7 +36,7 @@ write_lesson_manifest(
       "communicate one multivariate vehicle comparison with a limitation"
     ),
     sequence = c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"),
-    assessment = "Use the reusable R-LearnXR claim-evidence-limitation-transfer rubric.",
+    assessment = "Use the reusable R-ClaimLab claim-evidence-limitation-transfer rubric.",
     instructor_materials = c("README.md"),
     accessibility_alternative = "semantic table and keyboard path",
     extension_activities = c("compare scaling choices", "fit a simple regression")

@@ -1,4 +1,4 @@
 library(testthat)
-library(rlearnxr)
+library(rclaimlab)
 
-test_check("rlearnxr")
+test_check("rclaimlab")

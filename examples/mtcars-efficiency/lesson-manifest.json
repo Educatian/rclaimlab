@@ -2,8 +2,8 @@
   "manifest_version": "2.0",
   "lesson_id": "mtcars-efficiency",
   "title": "Vehicle efficiency data space",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
@@ -42,15 +42,15 @@
     "prerequisites": ["mean and standard deviation", "read a scatterplot"],
     "objectives": ["interpret standardized mpg, horsepower, and weight coordinates", "distinguish association from a causal claim", "communicate one multivariate vehicle comparison with a limitation"],
     "sequence": ["orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"],
-    "assessment": "Use the reusable R-LearnXR claim-evidence-limitation-transfer rubric.",
+    "assessment": "Use the reusable R-ClaimLab claim-evidence-limitation-transfer rubric.",
     "instructor_materials": "README.md",
     "accessibility_alternative": "semantic table and keyboard path",
     "extension_activities": ["compare scaling choices", "fit a simple regression"]
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "b4ab0b94e4983adfedf67009f0a73e2e"
+    "artifact_hash": "d89a8f215e3188d8a118fb8bc3fbddeb"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

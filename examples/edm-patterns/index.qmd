@@ -101,7 +101,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `kmeans` evidence with hash `d899f780fc03080ca82e4131e3696a56`.
+This lesson was compiled from `kmeans` evidence with hash `6cd379f453d08f1b1b1a5aafc4580cfc`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

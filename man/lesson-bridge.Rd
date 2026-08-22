@@ -10,7 +10,7 @@
 export_lesson_bundle(path = ".", output = NULL, zip = FALSE,
   include_receipt = TRUE, overwrite = FALSE)
 
-import_datasandbox_bundle(bundle, output = "rlearnxr-imported-lesson",
+import_datasandbox_bundle(bundle, output = "rclaimlab-imported-lesson",
   overwrite = FALSE)
 }
 \arguments{
@@ -28,7 +28,7 @@ import_datasandbox_bundle(bundle, output = "rlearnxr-imported-lesson",
 \value{The path to the written or imported artifact, invisibly.}
 \examples{
 if (FALSE) {
-  import_datasandbox_bundle("datasandbox-demo.rlearnxr.bundle.json", "lesson")
+  import_datasandbox_bundle("datasandbox-demo.rclaimlab.bundle.json", "lesson")
   export_lesson_bundle("lesson", zip = TRUE)
 }
 }

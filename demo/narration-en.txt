@@ -1,11 +1,11 @@
-R-LearnXR is an open-source framework for building reproducible virtual data laboratories with R and Quarto. It turns an R data frame into a portable, browser-based three-dimensional lesson, without requiring a headset or an application server.
+R-ClaimLab is an open-source Evidence Compiler for reproducible data-science education with R and Quarto. It turns an existing R analysis into a portable lesson whose code, values, visual marks, explanations, and receipts remain linked.
 
-Every lesson follows a clear learning cycle. The learner first predicts a pattern, then rotates the data space, zooms, and selects evidence. The same data are available in a semantic table, so keyboard users can inspect an exact point without relying on the canvas.
+The learner starts with a question and records a prediction before inspecting the result. Next, the browser runs real R through WebR and displays the source command, returned rows, seed, package versions, and artifact hash.
 
-The learning companion keeps reasoning visible. A selected point generates a coordinate-based observation. The learner must connect an axis and its direction to a claim before moving to the transfer task. Responses remain in the browser, and the lesson can be restarted at any time.
+Stable evidence identifiers connect the same observation across a semantic table, a two-dimensional plot, and an optional three-dimensional scene. Keyboard users can select exact evidence without depending on pointer interaction, motion, or WebGL.
 
-Authors work in R and Quarto. They can scaffold a lesson, render a scene, and run strict release checks for deterministic seeds, locked environments, data licenses, structural accessibility markers, and complete learning-loop controls.
+The learning companion asks the learner to cite an observation, axis, direction, and limitation. Weak reasoning can be repaired, then transferred to changed data. The final receipt preserves the prediction, evidence choice, explanation, transfer response, and reproducibility checks.
 
-The repository includes a reference lesson and a real PCA example built with the palmerpenguins data. Both lessons are tested, rendered in continuous integration, and designed for reuse by R educators and contributors.
+Ten reference lessons cover foundational statistics, data visualization, principal component analysis, regression, clustering, learning analytics, and educational data mining. Authors can adapt data frames and established R analysis objects without reimplementing the statistical methods.
 
-This MVP demonstrates the core grant value: focused technical infrastructure, open educational practice, and a low-risk path from working prototype to a community-ready R package.
+R-ClaimLab keeps R as the analytical source of truth. Its table and precompiled artifacts remain available when WebR or three-dimensional rendering is unavailable. This demonstration shows a practical path from an R result to inspectable learning evidence that educators and contributors can reuse.

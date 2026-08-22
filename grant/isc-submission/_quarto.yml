@@ -1,5 +1,5 @@
 project:
-  title: "R-LearnXR: From R Code to Evidence"
+  title: "R-ClaimLab: From R Code to Evidence"
   output-dir: "_output"
   render:
     - "isc-proposal.qmd"

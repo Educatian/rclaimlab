@@ -7,14 +7,14 @@
 compile_lesson(lesson, output_dir, overwrite = FALSE)
 }
 \arguments{
-\item{lesson}{An `rlearnxr_lesson` containing linked evidence.}
+\item{lesson}{An `rclaimlab_lesson` containing linked evidence.}
 
 \item{output_dir}{Destination lesson directory.}
 
 \item{overwrite}{Whether compiler-owned files may be replaced.}
 }
 \value{
-An object of class `rlearnxr_build`.
+An object of class `rclaimlab_build`.
 }
 \description{
 Compile an analysis object into a portable evidence lesson

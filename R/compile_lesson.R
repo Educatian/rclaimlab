@@ -1,14 +1,14 @@
 #' Compile an analysis object into a portable evidence lesson
 #'
-#' @param lesson An `rlearnxr_lesson` containing linked evidence.
+#' @param lesson An `rclaimlab_lesson` containing linked evidence.
 #' @param output_dir Destination lesson directory.
 #' @param overwrite Whether compiler-owned files may be replaced.
-#' @return An object of class `rlearnxr_build`.
+#' @return An object of class `rclaimlab_build`.
 #' @export
 compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
   validate_lesson_spec(lesson)
   if (is.null(lesson$evidence)) stop("lesson evidence is required before compilation", call. = FALSE)
-  validate_rlearnxr_evidence(lesson$evidence)
+  validate_rclaimlab_evidence(lesson$evidence)
   output_dir <- normalizePath(output_dir, winslash = "/", mustWork = FALSE)
   owned <- c("evidence.json", "lesson-spec.json", "lesson-manifest.json", "index.qmd", "_quarto.yml")
   if (!isTRUE(overwrite) && any(file.exists(file.path(output_dir, owned)))) {
@@ -65,9 +65,9 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
   package_record <- function(package) {
     version <- tryCatch(as.character(utils::packageVersion(package)), error = function(error) NA_character_)
     if (is.na(version)) return(NULL)
-    list(Package = package, Version = version, Source = if (package == "rlearnxr") "Local" else "Repository")
+    list(Package = package, Version = version, Source = if (package == "rclaimlab") "Local" else "Repository")
   }
-  package_records <- Filter(Negate(is.null), lapply(c("rlearnxr", "jsonlite"), package_record))
+  package_records <- Filter(Negate(is.null), lapply(c("rclaimlab", "jsonlite"), package_record))
   names(package_records) <- vapply(package_records, `[[`, character(1), "Package")
   jsonlite::write_json(
     list(
@@ -130,21 +130,21 @@ compile_lesson <- function(lesson, output_dir, overwrite = FALSE) {
   files <- file.path(output_dir, c("evidence.json", "lesson-spec.json", "lesson-manifest.json", "index.qmd", "_quarto.yml", "DATA_LICENSE.md", "renv.lock", "data/evidence-table.csv", "scene/index.html", "scene/points.json", "scene/evidence.json"))
   value <- structure(
     list(
-      schema_version = "rlearnxr-build-2",
+      schema_version = "rclaimlab-build-2",
       lesson_id = lesson$id,
       output_dir = output_dir,
       evidence_hash = lesson$evidence$analysis$artifact_hash,
       files = files,
       checks = check_lesson(output_dir, write_report = TRUE, strict = FALSE)
     ),
-    class = c("rlearnxr_build", "list")
+    class = c("rclaimlab_build", "list")
   )
   value
 }
 
 #' @export
-print.rlearnxr_build <- function(x, ...) {
-  cat("<rlearnxr_build>", x$lesson_id, "\n")
+print.rclaimlab_build <- function(x, ...) {
+  cat("<rclaimlab_build>", x$lesson_id, "\n")
   cat("Output:", x$output_dir, "\n")
   cat("Evidence hash:", x$evidence_hash, "\n")
   cat("Checks:", sum(x$checks$status == "PASS"), "PASS,", sum(x$checks$status == "FAIL"), "FAIL\n")
@@ -152,7 +152,7 @@ print.rlearnxr_build <- function(x, ...) {
 }
 
 #' @export
-summary.rlearnxr_build <- function(object, ...) {
+summary.rclaimlab_build <- function(object, ...) {
   list(
     lesson_id = object$lesson_id,
     output_dir = object$output_dir,
@@ -163,7 +163,7 @@ summary.rlearnxr_build <- function(object, ...) {
 }
 
 #' @export
-as.data.frame.rlearnxr_build <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.rclaimlab_build <- function(x, row.names = NULL, optional = FALSE, ...) {
   data.frame(
     artifact = basename(x$files),
     path = x$files,

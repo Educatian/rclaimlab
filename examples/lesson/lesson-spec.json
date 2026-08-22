@@ -1,12 +1,12 @@
 {
-  "schema_version": "rlearnxr-lesson-2",
+  "schema_version": "rclaimlab-lesson-2",
   "id": "lesson",
-  "title": "R-LearnXR reference data space",
+  "title": "R-ClaimLab reference data space",
   "outcomes": ["Use the data_view adapter to address: How does one stable observation stay linked across the table, 2D view, 3D scene, explanation, and receipt?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "c64474c79fac8a45d585421b61b2bdbd"
+    "artifact_hash": "3fb7a52274d4f54acedcc9700e052d2a"
   },
   "tasks": [
     {
@@ -95,7 +95,7 @@
   "content_license": "CC BY 4.0",
   "authoring": {
     "method": "lesson_wizard",
-    "profile_schema": "rlearnxr-data-profile-2",
+    "profile_schema": "rclaimlab-data-profile-2",
     "analysis_recommendations": [
       {
         "analysis": "describe",

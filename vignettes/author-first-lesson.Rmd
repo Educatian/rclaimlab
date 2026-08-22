@@ -9,10 +9,10 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-library(rlearnxr)
+library(rclaimlab)
 ```
 
-R-LearnXR can start with an ordinary R result or a question-first local data workflow. The compiler preserves analytical evidence while lesson tasks ask learners to orient, predict, run R, inspect, explain, repair, transfer, and reproduce.
+R-ClaimLab can start with an ordinary R result or a question-first local data workflow. The compiler preserves analytical evidence while lesson tasks ask learners to orient, predict, run R, inspect, explain, repair, transfer, and reproduce.
 
 ```{r}
 lesson <- lesson_from_data(
@@ -30,4 +30,4 @@ lesson
 
 The generated contract includes method-specific PCA prompts, criteria, scaling and variance checks, misconceptions, visible R source, and reproducibility metadata. Use `compile_lesson(lesson, "iris-pca")` to write the portable project. The compiler is not executed in this vignette because package documentation builds must not modify the source tree.
 
-Authors who already have a fitted object can still call `as_rlearnxr_evidence()`, define tasks with `task_spec()`, and assemble a custom `lesson_spec()`.
+Authors who already have a fitted object can still call `as_rclaimlab_evidence()`, define tasks with `task_spec()`, and assemble a custom `lesson_spec()`.

@@ -2,8 +2,8 @@
   "manifest_version": "2.0",
   "lesson_id": "statistics-groups",
   "title": "Compare groups with analysis-of-variance evidence",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
@@ -48,9 +48,9 @@
     "extension_activities": ["change one analytical choice", "compare the resulting receipt"]
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "9dbf1f8e1361fd08a2ebf0347b9837fd"
+    "artifact_hash": "d2db195923307c5adb5317a3648e4aba"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

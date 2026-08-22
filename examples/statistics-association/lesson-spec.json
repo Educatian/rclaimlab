@@ -1,12 +1,12 @@
 {
-  "schema_version": "rlearnxr-lesson-2",
+  "schema_version": "rclaimlab-lesson-2",
   "id": "statistics-association",
   "title": "Reason about correlation with paired evidence",
   "outcomes": ["Use the correlation adapter to address: How are vehicle weight and fuel efficiency associated, and which paired observations constrain that claim?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "75056f0fc15a53acf97137ed191ed274"
+    "artifact_hash": "92c5d8d0a70d4f0492dc825c4c761ddf"
   },
   "tasks": [
     {
@@ -95,7 +95,7 @@
   "content_license": "CC BY 4.0",
   "authoring": {
     "method": "lesson_wizard",
-    "profile_schema": "rlearnxr-data-profile-2",
+    "profile_schema": "rclaimlab-data-profile-2",
     "analysis_recommendations": [
       {
         "analysis": "describe",

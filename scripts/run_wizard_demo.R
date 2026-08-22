@@ -9,7 +9,7 @@ root <- normalizePath(file.path(dirname(script_path), ".."), winslash = "/", mus
 if (requireNamespace("pkgload", quietly = TRUE)) {
   pkgload::load_all(root, quiet = TRUE)
 } else {
-  library(rlearnxr)
+  library(rclaimlab)
 }
 
 run_lesson_wizard(

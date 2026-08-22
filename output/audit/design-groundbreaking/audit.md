@@ -1,4 +1,4 @@
-# R-LearnXR design audit: making the learning moment distinctive
+# R-ClaimLab design audit: making the learning moment distinctive
 
 Date: 2026-08-13
 Surface: `examples/lesson/scene/index.html`

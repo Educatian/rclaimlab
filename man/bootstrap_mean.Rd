@@ -14,7 +14,7 @@ bootstrap_mean(x, times = 1000L, seed = 2026L)
 \item{seed}{Reproducibility seed.}
 }
 \value{
-An object that can be passed to `as_rlearnxr_evidence()`.
+An object that can be passed to `as_rclaimlab_evidence()`.
 }
 \description{
 Bootstrap a sample mean for an uncertainty lesson

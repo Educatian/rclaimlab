@@ -99,7 +99,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `cor.test` evidence with hash `75056f0fc15a53acf97137ed191ed274`.
+This lesson was compiled from `cor.test` evidence with hash `92c5d8d0a70d4f0492dc825c4c761ddf`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

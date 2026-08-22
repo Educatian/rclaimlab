@@ -6,7 +6,7 @@
 #'
 #' @return A data frame with one row per curriculum capability.
 #' @export
-rlearnxr_concept_registry <- function() {
+rclaimlab_concept_registry <- function() {
   data.frame(
     concept_id = c(
       "question-provenance", "learning-event-preparation", "numeric-description",

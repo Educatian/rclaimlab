@@ -1,5 +1,5 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
+source(file.path(root, "scripts", "load_rclaimlab_source.R"), chdir = FALSE)
 
 build_foundational_lesson <- function(id, title, data, analysis, question, intent,
                                       concepts, objectives, dimensions = NULL,
@@ -34,7 +34,7 @@ build_foundational_lesson <- function(id, title, data, analysis, question, inten
       estimated_minutes = as.integer(minutes),
       prerequisites = c("read a data table", "identify variables and observations"),
       objectives = objectives,
-      sequence = rlearnxr_learning_stages(),
+      sequence = rclaimlab_learning_stages(),
       assessment = "Use the method-specific claim, evidence, limitation, repair, and transfer criteria.",
       instructor_materials = c("README.md", "../../docs/curriculum/statistics-modules.md"),
       accessibility_alternative = "semantic table and keyboard path",

@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "data.frame",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"event_id\"]]) evidence <- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"event_id\"]]) evidence <- as_rclaimlab_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "9e0680e78eb9a94efe2f6077176e1288"
+    "artifact_hash": "3f33cf7d211edfea5c72c937c14097d4"
   },
   "observations": [
     {
@@ -851,7 +851,7 @@
         "decision_context": "choosing a reversible instructional support or deciding that the evidence is insufficient",
         "dependence_warning": true
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"event_id\"]])", "evidence <- as_rlearnxr_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"revision_count\", \"transfer_score\", \"hint_rate\", \"event_id\", \"learner_id\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"event_id\"]])", "evidence <- as_rclaimlab_evidence(analysis_data[c(\"revision_count\", \"transfer_score\", \"hint_rate\")], dimensions = c(\"revision_count\", \"transfer_score\", \"hint_rate\"), labels = labels)"]
     },
     "pedagogy": {
       "analysis": "data_view",

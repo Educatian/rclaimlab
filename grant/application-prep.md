@@ -2,7 +2,7 @@
 
 Status checked: 2026-08-14.
 
-Project title: **R-LearnXR: From R Code to Evidence**
+Project title: **R-ClaimLab: From R Code to Evidence**
 
 Grant subtitle: *A Reproducible R Framework for Interactive Data Learning*
 
@@ -23,7 +23,7 @@ Official sources:
 
 - [ISC Grant Program and submission form](https://r-consortium.org/all-projects/callforproposals.html)
 - [Required proposal template](https://github.com/RConsortium/isc-proposal)
-- [Current rendered final PDF](../output/pdf/rlearnxr-isc-proposal-final.pdf)
+- [Current rendered final PDF](../output/pdf/rclaimlab-isc-proposal-final.pdf)
 - [Standard individual consultant agreement](https://r-consortium.org/rc-docs/Individual-Consultant-Agreement-for-R-Consortium-ISC-Projects-20170622.pdf)
 
 ## Files to prepare
@@ -85,7 +85,7 @@ Separate deliverable completion from adoption evidence:
 - Measuring success: pilot completion, reuse, contributors, issues, and accessibility outcomes
 - Future work: what can be extended by the R community after the grant
 
-## R-LearnXR evidence already available
+## R-ClaimLab evidence already available
 
 - Working R package API for scaffolding, rendering, and checking lessons
 - Reusable Quarto lesson structure
@@ -110,10 +110,10 @@ Separate deliverable completion from adoption evidence:
 
 Public tracking:
 
-- [Community reviewers](https://github.com/Educatian/rlearnxr/issues/2)
-- [Learner and instructor pilot](https://github.com/Educatian/rlearnxr/issues/3)
-- [Prototype release and stable demo URL](https://github.com/Educatian/rlearnxr/issues/4)
-- [September 1 live-form audit](https://github.com/Educatian/rlearnxr/issues/5)
+- [Community reviewers](https://github.com/Educatian/rclaimlab/issues/2)
+- [Learner and instructor pilot](https://github.com/Educatian/rclaimlab/issues/3)
+- [Prototype release and stable demo URL](https://github.com/Educatian/rclaimlab/issues/4)
+- [September 1 live-form audit](https://github.com/Educatian/rclaimlab/issues/5)
 
 ## Recommended preparation schedule
 

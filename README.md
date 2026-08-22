@@ -1,8 +1,8 @@
-# R-LearnXR — From R Code to Evidence
+# R-ClaimLab — From R Code to Evidence
 
 **A reproducible R framework for interactive data learning.**
 
-R-LearnXR is an R Evidence Compiler for reproducible data-science education. It converts existing R analysis objects into linked evidence that can be rendered as a semantic table, 2D plot, optional 3D scene, Quarto lesson, and learning receipt. Every representation uses the same observation, dimension, and evidence identifiers.
+R-ClaimLab is an R Evidence Compiler for reproducible data-science education. It converts existing R analysis objects into linked evidence that can be rendered as a semantic table, 2D plot, optional 3D scene, Quarto lesson, and learning receipt. Every representation uses the same observation, dimension, and evidence identifiers.
 
 ```text
 R analysis object -> Evidence Adapter -> Evidence IR -> Lesson Compiler
@@ -11,15 +11,15 @@ R analysis object -> Evidence Adapter -> Evidence IR -> Lesson Compiler
 
 ## Grant demo
 
-[![R-LearnXR English narrated demo verification frames](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.mp4)
+[![R-ClaimLab direct-interaction demo verification frames](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4)
 
-[Watch the 103-second direct-interaction, English narrated and captioned demo](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.mp4) or download the [English captions](https://github.com/Educatian/rlearnxr/blob/main/output/demo/rlearnxr-demo-en.srt). The narration is AI-generated with ElevenLabs using the voice `Alice — Clear, Engaging Educator`.
+[Watch the 103-second direct-interaction, English-captioned review video](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4) or download the [English captions](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-en.srt). The reproducible build script is configured for ElevenLabs' American voice `Matilda — Knowledgeable, Professional`; the narrated release is published only after a fresh current-brand synthesis succeeds.
 
 Grant preparation materials:
 
 - [Application preparation checklist](grant/application-prep.md)
 - [ISC proposal draft](grant/isc-proposal-draft.md)
-- [Rendered working-draft PDF](output/pdf/rlearnxr-isc-proposal-working-draft.pdf)
+- [Rendered working-draft PDF](output/pdf/rclaimlab-isc-proposal-working-draft.pdf)
 - [Team and budget decisions](grant/team-budget-checklist.md)
 - [Grant-readiness scorecard](GRANT_READINESS.md)
 - [Community validation status](community/validation-status.md)
@@ -29,11 +29,11 @@ Grant preparation materials:
 
 ## What works now
 
-- `as_rlearnxr_evidence()` supports numeric summaries, frequency tables,
+- `as_rclaimlab_evidence()` supports numeric summaries, frequency tables,
   correlation, bootstrap means, t tests, ANOVA, chi-square, `data.frame`,
   `prcomp`, `lm`, `glm`, and `kmeans` evidence without reimplementing the
   underlying statistical methods.
-- `rlearnxr_concept_registry()` reports which curriculum capabilities are
+- `rclaimlab_concept_registry()` reports which curriculum capabilities are
   tested and which remain planned.
 - `prepare_learning_events()` converts repeated event rows into auditable
   learner-level features before modeling.
@@ -45,7 +45,7 @@ Grant preparation materials:
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
 - `write_lesson_manifest()` and `write_learning_receipt()` preserve course/session provenance, attempt number, consent, and reproducibility metadata.
-- `import_datasandbox_bundle()` and `export_lesson_bundle()` provide a portable handoff between DataSandbox activities and an R-LearnXR lesson folder or ZIP.
+- `import_datasandbox_bundle()` and `export_lesson_bundle()` provide a portable handoff between DataSandbox activities and an R-ClaimLab lesson folder or ZIP.
 - `render_scene()` creates `scene/index.html`, `scene/points.json`, and `scene/evidence.json` from three numeric columns.
 - A pinned WebR 0.6.0 runtime executes learner-edited R without an application server.
 - The R lab shows the `scene` contract, explains the starter pipeline, reports transformation evidence, and gives beginner-friendly error recovery while retaining the technical R console.
@@ -66,7 +66,7 @@ Grant preparation materials:
 - `docs/curriculum/r-foundations-micro-lessons.md` provides short beginner R activities; `examples/penguin-pca/` includes a full educator pack, answer key, rubric, accessible alternative, and extensions.
 - `docs/research/learning-analytics-edm-data-science-education.md` records the literature-to-design translation and primary references.
 - `validate_scene_data()`, `validate_lesson_manifest()`, and `validate_learning_receipt()` expose the package contracts so authors and CI can fail early with actionable errors.
-- `run_rlearnxr_shiny()` provides an optional local educator console; Shiny is not required for learners or static deployment.
+- `run_rclaimlab_shiny()` provides an optional local educator console; Shiny is not required for learners or static deployment.
 - Learners can download a local JSON learning receipt containing their evidence and reproducibility metadata; the optional AI adapter sends only the public scene schema and prompt.
 - GitHub Actions validates the package and all ten reference lessons on Linux, Windows, and macOS, rehearses a clean public-main install, and runs real-browser interaction plus offline WebR fallback smoke tests.
 
@@ -85,13 +85,13 @@ The optional Shiny educator console is documented in [Optional Shiny educator sh
 
 ## Visual preview
 
-![R-LearnXR browser-based 3D demo](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/playwright/rlearnxr-3d-demo.png)
+![R-ClaimLab browser-based 3D demo](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/playwright/rclaimlab-3d-demo.png)
 
 ## Figma UI reference
 
-The Explore lesson interface was refined in [Figma](https://www.figma.com/design/jZ0W2ieUoSRwZtrMUKru8g) before being translated back into the browser demo.
+The Explore lesson interface was refined in [Figma](https://www.figma.com/design/jZ0W2ieUoSRwZtrMUKru8g) before being translated back into the browser demo. The image below is the current tested implementation, not a static design promise.
 
-![R-LearnXR Explore lesson UI](https://raw.githubusercontent.com/Educatian/rlearnxr/main/output/figma/rlearnxr-explore-screen.png)
+![R-ClaimLab Explore lesson UI](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/figma/rclaimlab-explore-screen.png)
 
 ## Run the v2 development branch
 
@@ -100,21 +100,21 @@ The Explore lesson interface was refined in [Figma](https://www.figma.com/design
 ```r
 install.packages("remotes")
 remotes::install_github(
-  "Educatian/rlearnxr",
+  "Educatian/rclaimlab",
   ref = "v1.1.0",
   upgrade = "never"
 )
-library(rlearnxr)
-packageVersion("rlearnxr")
+library(rclaimlab)
+packageVersion("rclaimlab")
 ```
 
 The stable public release remains `v1.1.0` until every v2 release gate passes. To evaluate the Evidence Compiler branch, install `ref = "codex/v2-evidence-compiler"` after that branch is published.
 
 ```r
-library(rlearnxr)
+library(rclaimlab)
 
 fit <- prcomp(iris[, 1:4], scale. = TRUE)
-evidence <- as_rlearnxr_evidence(fit)
+evidence <- as_rclaimlab_evidence(fit)
 
 stages <- c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce")
 tasks <- lapply(stages, function(stage) {
@@ -133,7 +133,7 @@ compile_lesson(lesson, "iris-pca-lesson")
 To create a lesson from a local CSV with guided decisions, run:
 
 ```r
-library(rlearnxr)
+library(rclaimlab)
 run_lesson_wizard()
 
 # The same workflow is available without Shiny.
@@ -151,11 +151,11 @@ compile_lesson(lesson, "my-data-lesson")
 
 The wizard makes deterministic recommendations, not autonomous statistical claims. It starts with the analytical question and intended learning goal. The author still approves the unit of analysis, outcome, grouping/time structure, dimensions, missing-value rule, learning stages, and adapter before compilation. Declared grouping or repeated time prevents the simple `lm` and `glm` adapters from being automatically recommended.
 
-The course home also includes a browser-local educator view: import learner-initiated R-LearnXR receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
+The course home also includes a browser-local educator view: import learner-initiated R-ClaimLab receipt JSON files to inspect lesson-level completion and reproducibility counts without uploading raw learner responses.
 
 ### Clone for RStudio authoring
 
-Use **File > New Project > Version Control > Git** and enter `https://github.com/Educatian/rlearnxr.git`. Open the resulting `rlearnxr.Rproj`, then run:
+Use **File > New Project > Version Control > Git** and enter `https://github.com/Educatian/rclaimlab.git`. Open the resulting `rclaimlab.Rproj`, then run:
 
 ```r
 source("scripts/diagnose_environment.R")
@@ -175,7 +175,7 @@ source("R/check_lesson.R")
 check_lesson("examples/lesson")
 
 # Import a local DataSandbox handoff, then release it as a lesson bundle
-import_datasandbox_bundle("datasandbox-demo.rlearnxr.bundle.json", "imported-lesson")
+import_datasandbox_bundle("datasandbox-demo.rclaimlab.bundle.json", "imported-lesson")
 check_lesson("imported-lesson", strict = TRUE)
 export_lesson_bundle("imported-lesson", zip = TRUE)
 ```

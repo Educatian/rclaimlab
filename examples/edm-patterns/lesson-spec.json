@@ -1,12 +1,12 @@
 {
-  "schema_version": "rlearnxr-lesson-2",
+  "schema_version": "rclaimlab-lesson-2",
   "id": "edm-patterns",
   "title": "Educational data mining pattern evidence",
   "outcomes": ["Use the kmeans adapter to address: What tentative patterns appear after standardizing these synthetic learning features, and how sensitive is the interpretation?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "d899f780fc03080ca82e4131e3696a56"
+    "artifact_hash": "6cd379f453d08f1b1b1a5aafc4580cfc"
   },
   "tasks": [
     {
@@ -95,7 +95,7 @@
   "content_license": "CC BY 4.0",
   "authoring": {
     "method": "lesson_wizard",
-    "profile_schema": "rlearnxr-data-profile-2",
+    "profile_schema": "rclaimlab-data-profile-2",
     "analysis_recommendations": [
       {
         "analysis": "describe",

@@ -1,5 +1,5 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
+source(file.path(root, "scripts", "load_rclaimlab_source.R"), chdir = FALSE)
 
 if (!requireNamespace("palmerpenguins", quietly = TRUE)) {
   stop("Install palmerpenguins before building the reference lesson", call. = FALSE)

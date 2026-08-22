@@ -2,11 +2,11 @@
 
 ## Scope
 
-- Surface: reference R-LearnXR lesson
+- Surface: reference R-ClaimLab lesson
 - Flow: learning path → 3D data space → R code lab → accessible point selector
 - Widths tested: 1440, 1200, 1120, 1025, 1024, 1000, 960, 900, 800, 760, 600, 480, 390, 360, and 320 px
-- Evidence: `output/responsive-audit-current/` and `output/responsive-audit-final/`
-- Before/after sheet: `output/responsive-audit-final/08-before-after-contact-sheet.png`
+- Evidence: `output/playwright/rclaimlab-browser-smoke-desktop.png` and `output/playwright/rclaimlab-browser-smoke-mobile.png`
+- Method-specific mobile evidence: `output/playwright/rclaimlab-browser-smoke-method-contract-mobile.png`
 
 ## Findings and fixes
 
@@ -37,8 +37,8 @@
 - R editor horizontal overflow: 0 px at every tested width.
 - Mobile accessible data card overflow: 0 px at 320 px.
 - Long unbroken learner prediction overflow: 0 px at 320 px.
-- Automated package tests: 25 passed.
-- Smoke test: passed.
+- Automated package tests: full `testthat` suite passed, with the optional Shiny runtime test skipped when Shiny is unavailable.
+- Browser, offline, course-home, beginner-guide, and persona smoke tests: passed.
 
 ## Evidence limits
 

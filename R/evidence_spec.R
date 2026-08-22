@@ -1,11 +1,11 @@
 #' Define one learning task
 #'
 #' @param id Stable task identifier.
-#' @param type One stage in the R-LearnXR evidence-building sequence.
+#' @param type One stage in the R-ClaimLab evidence-building sequence.
 #' @param prompt Learner-facing instruction.
 #' @param criteria Named character vector describing completion criteria.
 #' @param evidence_required Whether the task must cite evidence from the compiled analysis.
-#' @return An object of class `rlearnxr_task`.
+#' @return An object of class `rclaimlab_task`.
 #' @export
 task_spec <- function(id, type, prompt, criteria = character(), evidence_required = TRUE) {
   type <- match.arg(
@@ -28,7 +28,7 @@ task_spec <- function(id, type, prompt, criteria = character(), evidence_require
       criteria = criteria,
       evidence_required = isTRUE(evidence_required)
     ),
-    class = c("rlearnxr_task", "list")
+    class = c("rclaimlab_task", "list")
   )
 }
 
@@ -38,7 +38,7 @@ task_spec <- function(id, type, prompt, criteria = character(), evidence_require
 #' @param dimensions Optional evidence dimension identifiers used by the representation.
 #' @param fallback Required non-spatial fallback representation.
 #' @param title Human-readable representation title.
-#' @return An object of class `rlearnxr_representation`.
+#' @return An object of class `rclaimlab_representation`.
 #' @export
 representation_spec <- function(type = c("table", "plot2d", "scene3d"), dimensions = NULL,
                                 fallback = "table", title = NULL) {
@@ -54,21 +54,21 @@ representation_spec <- function(type = c("table", "plot2d", "scene3d"), dimensio
   assert_scalar_text(title, "title")
   structure(
     list(type = type, dimensions = dimensions, fallback = fallback, title = title),
-    class = c("rlearnxr_representation", "list")
+    class = c("rclaimlab_representation", "list")
   )
 }
 
-#' Define a compilable R-LearnXR lesson
+#' Define a compilable R-ClaimLab lesson
 #'
 #' @param id Stable lesson identifier.
 #' @param title Human-readable lesson title.
 #' @param outcomes Character vector of measurable learning outcomes.
-#' @param evidence An `rlearnxr_evidence` object.
+#' @param evidence An `rclaimlab_evidence` object.
 #' @param tasks List of `task_spec()` objects.
 #' @param representations List of `representation_spec()` objects.
 #' @param accessibility Accessibility contract for generated representations.
 #' @param content_license Reuse license for original lesson content.
-#' @return An object of class `rlearnxr_lesson`.
+#' @return An object of class `rclaimlab_lesson`.
 #' @export
 lesson_spec <- function(id, title, outcomes, evidence = NULL, tasks = list(),
                         representations = list(
@@ -89,13 +89,13 @@ lesson_spec <- function(id, title, outcomes, evidence = NULL, tasks = list(),
   if (!length(outcomes) || anyNA(outcomes) || any(!nzchar(trimws(outcomes)))) {
     stop("outcomes must contain at least one non-empty learning outcome", call. = FALSE)
   }
-  if (!is.null(evidence) && !inherits(evidence, "rlearnxr_evidence")) {
-    stop("evidence must be an rlearnxr_evidence object", call. = FALSE)
+  if (!is.null(evidence) && !inherits(evidence, "rclaimlab_evidence")) {
+    stop("evidence must be an rclaimlab_evidence object", call. = FALSE)
   }
-  if (length(tasks) && any(!vapply(tasks, inherits, logical(1), what = "rlearnxr_task"))) {
+  if (length(tasks) && any(!vapply(tasks, inherits, logical(1), what = "rclaimlab_task"))) {
     stop("tasks must contain task_spec() objects", call. = FALSE)
   }
-  if (!length(representations) || any(!vapply(representations, inherits, logical(1), what = "rlearnxr_representation"))) {
+  if (!length(representations) || any(!vapply(representations, inherits, logical(1), what = "rclaimlab_representation"))) {
     stop("representations must contain representation_spec() objects", call. = FALSE)
   }
   if (!is.list(accessibility) || !isTRUE(accessibility$semantic_table) || !isTRUE(accessibility$keyboard_path)) {
@@ -104,7 +104,7 @@ lesson_spec <- function(id, title, outcomes, evidence = NULL, tasks = list(),
   assert_scalar_text(content_license, "content_license")
   value <- structure(
     list(
-      schema_version = "rlearnxr-lesson-2",
+      schema_version = "rclaimlab-lesson-2",
       id = id,
       title = title,
       outcomes = outcomes,
@@ -114,20 +114,20 @@ lesson_spec <- function(id, title, outcomes, evidence = NULL, tasks = list(),
       accessibility = accessibility,
       content_license = content_license
     ),
-    class = c("rlearnxr_lesson", "list")
+    class = c("rclaimlab_lesson", "list")
   )
   validate_lesson_spec(value)
   value
 }
 
-#' Validate an R-LearnXR lesson specification
+#' Validate an R-ClaimLab lesson specification
 #'
 #' @param x A lesson specification.
 #' @return Invisibly returns `TRUE` when valid.
 #' @export
 validate_lesson_spec <- function(x) {
-  if (!inherits(x, "rlearnxr_lesson")) stop("x must be an rlearnxr_lesson", call. = FALSE)
-  if (!identical(x$schema_version, "rlearnxr-lesson-2")) stop("unsupported lesson specification schema", call. = FALSE)
+  if (!inherits(x, "rclaimlab_lesson")) stop("x must be an rclaimlab_lesson", call. = FALSE)
+  if (!identical(x$schema_version, "rclaimlab-lesson-2")) stop("unsupported lesson specification schema", call. = FALSE)
   task_ids <- vapply(x$tasks, `[[`, character(1), "id")
   if (anyDuplicated(task_ids)) stop("lesson task ids must be unique", call. = FALSE)
   task_types <- vapply(x$tasks, `[[`, character(1), "type")
@@ -139,15 +139,15 @@ validate_lesson_spec <- function(x) {
 }
 
 #' @export
-print.rlearnxr_lesson <- function(x, ...) {
-  cat("<rlearnxr_lesson>", x$id, "\n")
+print.rclaimlab_lesson <- function(x, ...) {
+  cat("<rclaimlab_lesson>", x$id, "\n")
   cat("Title:", x$title, "\n")
   cat("Outcomes:", length(x$outcomes), " Tasks:", length(x$tasks), " Representations:", length(x$representations), "\n")
   invisible(x)
 }
 
 #' @export
-summary.rlearnxr_lesson <- function(object, ...) {
+summary.rclaimlab_lesson <- function(object, ...) {
   list(
     id = object$id,
     title = object$title,
@@ -159,7 +159,7 @@ summary.rlearnxr_lesson <- function(object, ...) {
 }
 
 #' @export
-as.data.frame.rlearnxr_lesson <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.rclaimlab_lesson <- function(x, row.names = NULL, optional = FALSE, ...) {
   data.frame(
     task_id = vapply(x$tasks, `[[`, character(1), "id"),
     task_type = vapply(x$tasks, `[[`, character(1), "type"),

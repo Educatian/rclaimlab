@@ -1,7 +1,7 @@
 default_course_catalog <- function() {
   list(
-    schema_version = "rlearnxr-course-1",
-    course_id = "rlearnxr-foundations",
+    schema_version = "rclaimlab-course-1",
+    course_id = "rclaimlab-foundations",
     title = "From R code to evidence",
     subtitle = "A reproducible pathway through statistics, learning analytics, and educational data mining.",
     outcomes = c(
@@ -12,7 +12,7 @@ default_course_catalog <- function() {
     ),
     modules = list(
       list(id = "r-foundations", track = "R foundations", level = "Beginner", title = "Make a data claim", minutes = 10L,
-           description = "Learn the R-LearnXR loop: predict, run a real R transformation, select evidence, and explain a limitation.",
+           description = "Learn the R-ClaimLab loop: predict, run a real R transformation, select evidence, and explain a limitation.",
            concepts = c("data frames", "filtering", "evidence sentences"), lesson_path = "lesson/scene/index.html", status = "ready"),
       list(id = "statistics-distribution", track = "Statistics", level = "Beginner", title = "Describe a distribution", minutes = 15L,
            description = "Connect center, spread, distribution shape, and individual observations without overstating the sample.",
@@ -50,8 +50,8 @@ validate_course_catalog <- function(catalog) {
   required <- c("schema_version", "course_id", "title", "subtitle", "outcomes", "modules")
   missing <- setdiff(required, names(catalog))
   if (length(missing)) stop("course catalog is missing: ", paste(missing, collapse = ", "), call. = FALSE)
-  if (!identical(as.character(catalog$schema_version), "rlearnxr-course-1")) {
-    stop("unsupported course catalog schema; expected rlearnxr-course-1", call. = FALSE)
+  if (!identical(as.character(catalog$schema_version), "rclaimlab-course-1")) {
+    stop("unsupported course catalog schema; expected rclaimlab-course-1", call. = FALSE)
   }
   if (!length(catalog$outcomes) || length(catalog$modules) < 1L) {
     stop("course catalog must include outcomes and at least one module", call. = FALSE)
@@ -76,16 +76,16 @@ validate_course_catalog <- function(catalog) {
 
 course_template_path <- function() {
   search_roots <- unique(c(
-    RLEARNXR_SOURCE_ROOT,
+    RCLAIMLAB_SOURCE_ROOT,
     normalizePath(".", winslash = "/", mustWork = TRUE),
     dirname(normalizePath(".", winslash = "/", mustWork = TRUE))
   ))
   source_candidates <- file.path(search_roots, "inst", "templates", "course.html")
   source_path <- source_candidates[file.exists(source_candidates)][1]
   if (length(source_path) && !is.na(source_path)) return(source_path)
-  installed <- system.file("templates", "course.html", package = "rlearnxr")
+  installed <- system.file("templates", "course.html", package = "rclaimlab")
   if (nzchar(installed) && file.exists(installed)) return(installed)
-  stop("R-LearnXR course template was not found", call. = FALSE)
+  stop("R-ClaimLab course template was not found", call. = FALSE)
 }
 
 render_course_catalog <- function(catalog = default_course_catalog(), output_dir = "course",

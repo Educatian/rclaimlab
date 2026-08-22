@@ -1,4 +1,4 @@
-# R-LearnXR v2 Evidence Compiler quality summary
+# R-ClaimLab v2 Evidence Compiler quality summary
 
 Date: 2026-08-20 Pacific / 2026-08-21 UTC
 
@@ -17,7 +17,7 @@ Date: 2026-08-20 Pacific / 2026-08-21 UTC
 - Five lesson source builds: PASS.
 - Five strict lesson checks: PASS for all 18 checks per lesson.
 - Five Quarto renders: PASS.
-- Each lesson includes `lesson-manifest.json` version 2.0 and `scene/evidence.json` schema `rlearnxr-evidence-2`.
+- Each lesson includes `lesson-manifest.json` version 2.0 and `scene/evidence.json` schema `rclaimlab-evidence-2`.
 
 ## Browser interaction
 
@@ -27,7 +27,7 @@ Date: 2026-08-20 Pacific / 2026-08-21 UTC
 - First table/scene observation: `obs-0001`.
 - Linked values: `ev-0001-001`, `ev-0001-002`, and `ev-0001-003`.
 - Explanation rubric: point, axis, direction, and limitation all PASS.
-- Browser receipt markers: `receipt_version` 2.0 and `schema_version` `rlearnxr-receipt-2`.
+- Browser receipt markers: `receipt_version` 2.0 and `schema_version` `rclaimlab-receipt-2`.
 
 ## Screenshots
 

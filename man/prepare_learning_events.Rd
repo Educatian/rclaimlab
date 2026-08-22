@@ -31,7 +31,7 @@ prepare_learning_events(
 }
 \value{
 A data frame of auditable learner-level features with an aggregation
-  recipe stored in the `rlearnxr_recipe` attribute.
+  recipe stored in the `rclaimlab_recipe` attribute.
 }
 \description{
 Aggregates event-level rows to one row per learner without silently treating

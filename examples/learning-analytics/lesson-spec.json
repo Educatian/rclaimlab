@@ -1,12 +1,12 @@
 {
-  "schema_version": "rlearnxr-lesson-2",
+  "schema_version": "rclaimlab-lesson-2",
   "id": "learning-analytics",
   "title": "Learning analytics event-to-construct evidence",
   "outcomes": ["Use the data_view adapter to address: How do revision activity, transfer performance, and hint use vary across repeated synthetic learner sessions?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "9e0680e78eb9a94efe2f6077176e1288"
+    "artifact_hash": "3f33cf7d211edfea5c72c937c14097d4"
   },
   "tasks": [
     {
@@ -95,7 +95,7 @@
   "content_license": "CC BY 4.0",
   "authoring": {
     "method": "lesson_wizard",
-    "profile_schema": "rlearnxr-data-profile-2",
+    "profile_schema": "rclaimlab-data-profile-2",
     "analysis_recommendations": [
       {
         "analysis": "describe",

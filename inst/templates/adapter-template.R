@@ -1,5 +1,5 @@
 # Replace `example_model` with the S3 class produced by an existing R method.
-as_rlearnxr_evidence.example_model <- function(x, labels = NULL, seed = 2026L, ...) {
+as_rclaimlab_evidence.example_model <- function(x, labels = NULL, seed = 2026L, ...) {
   # Extract existing model results. Do not refit or reimplement the method here.
   values <- data.frame(
     dimension_one = as.numeric(x$result_one),
@@ -7,7 +7,7 @@ as_rlearnxr_evidence.example_model <- function(x, labels = NULL, seed = 2026L, .
   )
   if (is.null(labels)) labels <- rownames(values)
 
-  rlearnxr:::build_rlearnxr_evidence(
+  rclaimlab:::build_rclaimlab_evidence(
     values = values,
     labels = labels,
     engine = "example_model",

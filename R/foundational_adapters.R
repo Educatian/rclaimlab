@@ -3,7 +3,7 @@
 #' @param x Finite numeric observations.
 #' @param times Number of bootstrap samples.
 #' @param seed Reproducibility seed.
-#' @return An object that can be passed to `as_rlearnxr_evidence()`.
+#' @return An object that can be passed to `as_rclaimlab_evidence()`.
 #' @export
 bootstrap_mean <- function(x, times = 1000L, seed = 2026L) {
   x <- as.numeric(x)
@@ -24,13 +24,13 @@ bootstrap_mean <- function(x, times = 1000L, seed = 2026L) {
       interval = unname(stats::quantile(estimates, c(0.025, 0.975), names = FALSE)),
       sample_size = length(x), times = times, seed = seed
     ),
-    class = c("rlearnxr_bootstrap", "list")
+    class = c("rclaimlab_bootstrap", "list")
   )
 }
 
 #' @param variable Learner-facing variable name.
 #' @export
-as_rlearnxr_evidence.numeric <- function(x, labels = NULL, variable = "value",
+as_rclaimlab_evidence.numeric <- function(x, labels = NULL, variable = "value",
                                          seed = 2026L, ...) {
   x <- as.numeric(x)
   if (length(x) < 2L || any(!is.finite(x))) {
@@ -48,7 +48,7 @@ as_rlearnxr_evidence.numeric <- function(x, labels = NULL, variable = "value",
     percentile = (rank(x, ties.method = "average") - 0.5) / length(x)
   )
   names(values)[[1]] <- variable
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values, labels, "numeric_summary", paste0("summary(", variable, ")"), seed,
     roles = c("value", "centered_value", "percentile"),
     metadata = list(
@@ -67,7 +67,7 @@ as_rlearnxr_evidence.numeric <- function(x, labels = NULL, variable = "value",
 }
 
 #' @export
-as_rlearnxr_evidence.table <- function(x, seed = 2026L, ...) {
+as_rclaimlab_evidence.table <- function(x, seed = 2026L, ...) {
   if (!length(x) || any(!is.finite(as.numeric(x))) || any(as.numeric(x) < 0) || sum(x) <= 0) {
     stop("table evidence requires finite non-negative counts with a positive total", call. = FALSE)
   }
@@ -90,7 +90,7 @@ as_rlearnxr_evidence.table <- function(x, seed = 2026L, ...) {
     )
     roles <- c("count", "proportion", "cumulative_proportion")
   }
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values, make.unique(labels), "table", "table(data)", seed, roles = roles,
     metadata = list(
       table_dimensions = dim(x), table_levels = dimnames(x), total = total,
@@ -100,7 +100,7 @@ as_rlearnxr_evidence.table <- function(x, seed = 2026L, ...) {
 }
 
 #' @export
-as_rlearnxr_evidence.aov <- function(x, labels = NULL, seed = 2026L, ...) {
+as_rclaimlab_evidence.aov <- function(x, labels = NULL, seed = 2026L, ...) {
   frame <- stats::model.frame(x)
   observed <- stats::model.response(frame)
   if (!is.numeric(observed)) stop("aov evidence requires a numeric response", call. = FALSE)
@@ -112,7 +112,7 @@ as_rlearnxr_evidence.aov <- function(x, labels = NULL, seed = 2026L, ...) {
   table <- as.data.frame(summary(x)[[1]], check.names = FALSE)
   table$term <- rownames(table)
   rownames(table) <- NULL
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     data.frame(observed, group_mean = fitted, residual, standardized_residual = standardized),
     labels, "aov", deparse_analysis_call(x$call, "stats::aov"), seed,
     roles = c("outcome", "group_mean", "residual", "standardized_residual"),
@@ -126,13 +126,13 @@ as_rlearnxr_evidence.aov <- function(x, labels = NULL, seed = 2026L, ...) {
 #'   numeric outcome column used by a t test.
 #' @param group Optional two-level group column used by a two-sample t test.
 #' @export
-as_rlearnxr_evidence.htest <- function(x, data = NULL, x_column = NULL,
+as_rclaimlab_evidence.htest <- function(x, data = NULL, x_column = NULL,
                                        y_column = NULL, group = NULL,
                                        labels = NULL, seed = 2026L, ...) {
   method <- tolower(x$method %||% "")
   test <- compact_test_metadata(x)
   if (grepl("chi-squared", method, fixed = TRUE) && !is.null(x$observed)) {
-    evidence <- as_rlearnxr_evidence(as.table(x$observed), seed = seed)
+    evidence <- as_rclaimlab_evidence(as.table(x$observed), seed = seed)
   } else if (grepl("correlation", method, fixed = TRUE)) {
     if (!is.data.frame(data) || is.null(x_column) || is.null(y_column) ||
         any(!c(x_column, y_column) %in% names(data))) {
@@ -146,7 +146,7 @@ as_rlearnxr_evidence.htest <- function(x, data = NULL, x_column = NULL,
     }
     values$standardized_product <- as.numeric(scale(values[[1]])) * as.numeric(scale(values[[2]]))
     if (is.null(labels)) labels <- rownames(data)[complete]
-    evidence <- build_rlearnxr_evidence(
+    evidence <- build_rclaimlab_evidence(
       values, foundational_labels(labels, nrow(values)), "cor.test",
       deparse_analysis_call(x$call, "stats::cor.test"), seed,
       roles = c("variable", "variable", "association_contribution")
@@ -172,7 +172,7 @@ as_rlearnxr_evidence.htest <- function(x, data = NULL, x_column = NULL,
       centered <- outcome - mean(outcome)
       group_code <- outcome - null
     }
-    evidence <- build_rlearnxr_evidence(
+    evidence <- build_rclaimlab_evidence(
       data.frame(value = outcome, centered_value = centered, comparison = group_code),
       foundational_labels(labels %||% rownames(data)[complete], length(outcome)),
       "t.test", deparse_analysis_call(x$call, "stats::t.test"), seed,
@@ -187,9 +187,9 @@ as_rlearnxr_evidence.htest <- function(x, data = NULL, x_column = NULL,
 }
 
 #' @export
-as_rlearnxr_evidence.rlearnxr_bootstrap <- function(x, ...) {
+as_rclaimlab_evidence.rclaimlab_bootstrap <- function(x, ...) {
   estimates <- as.numeric(x$estimates)
-  evidence <- build_rlearnxr_evidence(
+  evidence <- build_rclaimlab_evidence(
     data.frame(
       bootstrap_mean = estimates,
       deviation = estimates - x$observed,
@@ -231,6 +231,6 @@ refresh_evidence_hash <- function(evidence) {
   payload <- unclass(evidence)
   payload$analysis$artifact_hash <- NULL
   evidence$analysis$artifact_hash <- evidence_hash(payload)
-  validate_rlearnxr_evidence(evidence)
+  validate_rclaimlab_evidence(evidence)
   evidence
 }

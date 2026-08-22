@@ -1,4 +1,4 @@
-default_rlearnxr_education <- function(education = NULL) {
+default_rclaimlab_education <- function(education = NULL) {
   if (!is.null(education)) return(education)
   list(
     audience = "introductory data-science learners",
@@ -17,8 +17,8 @@ default_rlearnxr_education <- function(education = NULL) {
   )
 }
 
-default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
-                                       source_platform = "rlearnxr",
+default_rclaimlab_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
+                                       source_platform = "rclaimlab",
                                        source_project = NULL, course_id = NULL,
                                        session_id = NULL, block_id = NULL,
                                        activity_id = NULL, dataset_file = NULL,
@@ -68,9 +68,9 @@ default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL
       export_consent_required = isTRUE(export_consent_required),
       research_use = as.character(research_use)
     ),
-    education = default_rlearnxr_education(education),
+    education = default_rclaimlab_education(education),
     evidence = list(
-      schema_version = "rlearnxr-evidence-2",
+      schema_version = "rclaimlab-evidence-2",
       artifact = as.character(evidence_file),
       artifact_hash = evidence_hash
     ),
@@ -101,7 +101,7 @@ default_rlearnxr_manifest <- function(path = ".", lesson_id = NULL, title = NULL
 #' @return Invisibly returns the manifest path.
 #' @export
 write_lesson_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
-                                  source_platform = "rlearnxr",
+                                  source_platform = "rclaimlab",
                                   source_project = NULL, course_id = NULL,
                                   session_id = NULL, block_id = NULL,
                                   activity_id = NULL, dataset_file = NULL,
@@ -121,7 +121,7 @@ write_lesson_manifest <- function(path = ".", lesson_id = NULL, title = NULL,
   if (file.exists(output) && !isTRUE(overwrite)) {
     stop("lesson-manifest.json already exists; use overwrite = TRUE to replace it", call. = FALSE)
   }
-  manifest <- default_rlearnxr_manifest(
+  manifest <- default_rclaimlab_manifest(
     path = path, lesson_id = lesson_id, title = title,
     source_platform = source_platform, source_project = source_project,
     course_id = course_id, session_id = session_id, block_id = block_id,
@@ -151,7 +151,7 @@ read_lesson_manifest <- function(path = ".") {
   jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
 }
 
-#' Validate an R-LearnXR lesson manifest
+#' Validate an R-ClaimLab lesson manifest
 #'
 #' @param manifest A manifest list or a lesson directory/manifest JSON path.
 #' @return Invisibly returns TRUE when the manifest satisfies the version 2 contract.
@@ -179,7 +179,7 @@ validate_lesson_manifest <- function(manifest = ".") {
     stop("lesson manifest privacy must declare storage and export consent", call. = FALSE)
   }
   evidence <- value$evidence
-  if (!is.list(evidence) || !identical(as.character(evidence$schema_version), "rlearnxr-evidence-2") ||
+  if (!is.list(evidence) || !identical(as.character(evidence$schema_version), "rclaimlab-evidence-2") ||
       is.null(evidence$artifact) || !nzchar(as.character(evidence$artifact))) {
     stop("lesson manifest evidence must declare the v2 schema and artifact", call. = FALSE)
   }
@@ -218,13 +218,13 @@ validate_lesson_manifest <- function(manifest = ".") {
 #' @param outcome Completion state.
 #' @param consent Receipt storage and consent state.
 #' @param overwrite Whether an existing receipt may be replaced.
-#' @return Invisibly returns an `rlearnxr_receipt` with its file path attribute.
+#' @return Invisibly returns an `rclaimlab_receipt` with its file path attribute.
 #' @export
 write_learning_receipt <- function(path = ".", attempt_number = 1,
                                    orientation = list(), prediction = "", explanation = "",
                                    explanation_criteria = list(), evidence_point = NULL,
                                    transfer_response = "", transfer_point = NULL,
-                                   source_platform = "rlearnxr",
+                                   source_platform = "rclaimlab",
                                    course_id = NULL, session_id = NULL,
                                    block_id = NULL, activity_id = NULL,
                                    seed = 2026, input_data = NULL,
@@ -249,7 +249,7 @@ write_learning_receipt <- function(path = ".", attempt_number = 1,
   }
   receipt <- list(
     receipt_version = "2.0",
-    schema_version = "rlearnxr-receipt-2",
+    schema_version = "rclaimlab-receipt-2",
     generated_at = format(Sys.time(), tz = "UTC", usetz = TRUE),
     source_platform = as.character(source_platform),
     course_id = course_id, session_id = session_id,
@@ -274,28 +274,28 @@ write_learning_receipt <- function(path = ".", attempt_number = 1,
     privacy = list(consent = as.character(consent), storage = "browser-local")
   )
   write_json_object(receipt, output)
-  receipt <- structure(receipt, class = c("rlearnxr_receipt", "list"))
+  receipt <- structure(receipt, class = c("rclaimlab_receipt", "list"))
   attr(receipt, "path") <- output
   invisible(receipt)
 }
 
-#' Read an R-LearnXR learning receipt
+#' Read an R-ClaimLab learning receipt
 #'
 #' @param path Path to a receipt JSON file or a lesson directory.
-#' @return An object of class `rlearnxr_receipt`.
+#' @return An object of class `rclaimlab_receipt`.
 #' @export
 read_learning_receipt <- function(path = ".") {
   receipt_path <- if (dir.exists(path)) file.path(path, "checks", "learning-receipt.json") else path
   if (!file.exists(receipt_path)) stop("learning receipt was not found", call. = FALSE)
   if (!requireNamespace("jsonlite", quietly = TRUE)) stop("reading a learning receipt requires jsonlite", call. = FALSE)
   value <- jsonlite::fromJSON(receipt_path, simplifyVector = FALSE)
-  value <- structure(value, class = c("rlearnxr_receipt", "list"))
+  value <- structure(value, class = c("rclaimlab_receipt", "list"))
   attr(value, "path") <- normalizePath(receipt_path, winslash = "/")
   validate_learning_receipt(value)
   value
 }
 
-#' Validate an R-LearnXR learning receipt
+#' Validate an R-ClaimLab learning receipt
 #'
 #' @param receipt A receipt list or a JSON file path.
 #' @return Invisibly returns TRUE when the receipt satisfies the version 2 contract.
@@ -312,8 +312,8 @@ validate_learning_receipt <- function(receipt) {
   missing <- setdiff(required, names(value))
   if (length(missing)) stop("learning receipt is missing: ", paste(missing, collapse = ", "), call. = FALSE)
   if (!identical(as.character(value$receipt_version), "2.0") ||
-      !identical(as.character(value$schema_version), "rlearnxr-receipt-2")) {
-    stop("unsupported learning receipt schema; expected rlearnxr-receipt-2", call. = FALSE)
+      !identical(as.character(value$schema_version), "rclaimlab-receipt-2")) {
+    stop("unsupported learning receipt schema; expected rclaimlab-receipt-2", call. = FALSE)
   }
   if (length(value$attempt_number) != 1L || is.na(suppressWarnings(as.integer(value$attempt_number)))) {
     stop("learning receipt attempt_number must be an integer", call. = FALSE)
@@ -329,14 +329,14 @@ validate_learning_receipt <- function(receipt) {
 }
 
 #' @export
-print.rlearnxr_receipt <- function(x, ...) {
-  cat("<rlearnxr_receipt>", x$outcome, "\n")
+print.rclaimlab_receipt <- function(x, ...) {
+  cat("<rclaimlab_receipt>", x$outcome, "\n")
   cat("Attempt:", x$attempt_number, " Evidence:", x$evidence$artifact_hash %||% "not recorded", "\n")
   invisible(x)
 }
 
 #' @export
-summary.rlearnxr_receipt <- function(object, ...) {
+summary.rclaimlab_receipt <- function(object, ...) {
   list(
     schema_version = object$schema_version,
     attempt_number = object$attempt_number,
@@ -347,7 +347,7 @@ summary.rlearnxr_receipt <- function(object, ...) {
 }
 
 #' @export
-as.data.frame.rlearnxr_receipt <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.rclaimlab_receipt <- function(x, row.names = NULL, optional = FALSE, ...) {
   data.frame(
     attempt_number = as.integer(x$attempt_number),
     prediction = paste(unlist(x$prediction), collapse = " "),

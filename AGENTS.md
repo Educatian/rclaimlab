@@ -1,4 +1,4 @@
-# R-LearnXR UI implementation rules
+# R-ClaimLab UI implementation rules
 
 These rules apply to every Figma-driven or learner-facing UI change in this repository.
 

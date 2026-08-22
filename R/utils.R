@@ -1,4 +1,4 @@
-RLEARNXR_SOURCE_ROOT <- local({
+RCLAIMLAB_SOURCE_ROOT <- local({
   source_file <- tryCatch(sys.frame(1)$ofile, error = function(error) NULL)
   if (is.null(source_file) || !nzchar(source_file)) return("")
   dirname(dirname(normalizePath(source_file, winslash = "/", mustWork = FALSE)))
@@ -21,7 +21,7 @@ html_escape <- function(x) {
 scene_template_path <- function() {
   working_root <- normalizePath(".", winslash = "/", mustWork = TRUE)
   search_roots <- unique(c(
-    RLEARNXR_SOURCE_ROOT,
+    RCLAIMLAB_SOURCE_ROOT,
     working_root,
     dirname(working_root),
     dirname(dirname(working_root)),
@@ -33,10 +33,10 @@ scene_template_path <- function() {
   source_path <- source_candidates[file.exists(source_candidates)][1]
   if (length(source_path) && !is.na(source_path)) return(source_path)
 
-  installed <- system.file("templates", "scene.html", package = "rlearnxr")
+  installed <- system.file("templates", "scene.html", package = "rclaimlab")
   if (nzchar(installed) && file.exists(installed)) return(installed)
 
-  stop("R-LearnXR scene template was not found", call. = FALSE)
+  stop("R-ClaimLab scene template was not found", call. = FALSE)
 }
 
 scene_html <- function(title, points_json, learning_contract = NULL) {

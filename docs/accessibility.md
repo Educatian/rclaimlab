@@ -1,6 +1,6 @@
 # Accessibility Baseline
 
-R-LearnXR treats XR and 3D interaction as progressive enhancement. A lesson is not accepted if its learning goal requires a mouse, headset, color perception, or spatial vision.
+R-ClaimLab treats XR and 3D interaction as progressive enhancement. A lesson is not accepted if its learning goal requires a mouse, headset, color perception, or spatial vision.
 
 ## Required paths
 

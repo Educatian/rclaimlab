@@ -24,7 +24,7 @@ profile_learning_data(
 \item{time}{Optional time or sequence column.}
 }
 \value{
-An object of class `rlearnxr_data_profile`.
+An object of class `rclaimlab_data_profile`.
 }
 \description{
 `profile_learning_data()` inspects a local data frame without selecting a

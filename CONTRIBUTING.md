@@ -1,6 +1,6 @@
-# Contributing to R-LearnXR
+# Contributing to R-ClaimLab
 
-R-LearnXR welcomes contributions from R educators, package developers, accessibility reviewers, and learners. Contributions may be code, lesson content, documentation, translations, datasets, usability findings, or reproducibility reports.
+R-ClaimLab welcomes contributions from R educators, package developers, accessibility reviewers, and learners. Contributions may be code, lesson content, documentation, translations, datasets, usability findings, or reproducibility reports.
 
 ## Start here
 

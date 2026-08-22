@@ -1,9 +1,9 @@
 # Question-first Lesson Wizard
 
-The Lesson Wizard turns a local CSV or R data frame into a reviewable R-LearnXR lesson. It is a guided authoring surface over the Evidence Compiler, not an automatic curriculum or statistical-decision generator.
+The Lesson Wizard turns a local CSV or R data frame into a reviewable R-ClaimLab lesson. It is a guided authoring surface over the Evidence Compiler, not an automatic curriculum or statistical-decision generator.
 
 ```r
-library(rlearnxr)
+library(rclaimlab)
 run_lesson_wizard()
 ```
 

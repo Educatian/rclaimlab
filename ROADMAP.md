@@ -1,4 +1,4 @@
-# R-LearnXR 2.0 Roadmap
+# R-ClaimLab 2.0 Roadmap
 
 The roadmap is governed by one architectural commitment: R owns analytical truth, the Evidence Compiler preserves stable evidence identifiers, and browser components render and collect learning interactions.
 

@@ -1,11 +1,11 @@
-run_rlearnxr_shiny <- function(lesson_dir = NULL, catalog = default_course_catalog(),
+run_rclaimlab_shiny <- function(lesson_dir = NULL, catalog = default_course_catalog(),
                                host = "127.0.0.1", port = getOption("shiny.port"),
                                launch.browser = interactive(), quiet = FALSE) {
-  app <- build_rlearnxr_shiny_app(lesson_dir = lesson_dir, catalog = catalog)
+  app <- build_rclaimlab_shiny_app(lesson_dir = lesson_dir, catalog = catalog)
   shiny::runApp(app, host = host, port = port, launch.browser = launch.browser, quiet = quiet)
 }
 
-build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course_catalog()) {
+build_rclaimlab_shiny_app <- function(lesson_dir = NULL, catalog = default_course_catalog()) {
   if (!requireNamespace("shiny", quietly = TRUE)) {
     stop(
       "The optional Shiny shell requires the 'shiny' package. Install it with install.packages('shiny').",
@@ -58,12 +58,12 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
 
   app_ui <- shiny::fluidPage(
     shiny::tags$head(
-      shiny::tags$title("R-LearnXR educator console"),
-      shiny::tags$style(shiny::HTML("\n        body { background:#f6f7f9; color:#17202a; font-family:Inter,system-ui,sans-serif; }\n        .container-fluid { max-width:1180px; padding:28px 24px 48px; }\n        .rlearnxr-header { border-bottom:1px solid #d9dee7; margin-bottom:22px; padding-bottom:18px; }\n        .rlearnxr-header h1 { font-size:28px; margin:0 0 6px; letter-spacing:-.02em; }\n        .rlearnxr-header p { color:#566273; margin:0; }\n        .rlearnxr-panel { background:#fff; border:1px solid #d9dee7; border-radius:10px; padding:18px; margin-bottom:16px; }\n        .rlearnxr-panel h3 { font-size:16px; margin-top:0; }\n        .btn { min-height:44px; border-radius:8px; }\n        .btn + .btn { margin-top:8px; }\n        .rlearnxr-status { border-left:4px solid #2368a2; background:#eef6fc; padding:12px 14px; }\n        .rlearnxr-pass { color:#176b45; font-weight:600; }\n        .rlearnxr-fail { color:#a62828; font-weight:600; }\n        .rlearnxr-muted { color:#566273; }\n        table.dataTable { width:100% !important; }\n      "))
+      shiny::tags$title("R-ClaimLab educator console"),
+      shiny::tags$style(shiny::HTML("\n        body { background:#f6f7f9; color:#17202a; font-family:Inter,system-ui,sans-serif; }\n        .container-fluid { max-width:1180px; padding:28px 24px 48px; }\n        .rclaimlab-header { border-bottom:1px solid #d9dee7; margin-bottom:22px; padding-bottom:18px; }\n        .rclaimlab-header h1 { font-size:28px; margin:0 0 6px; letter-spacing:-.02em; }\n        .rclaimlab-header p { color:#566273; margin:0; }\n        .rclaimlab-panel { background:#fff; border:1px solid #d9dee7; border-radius:10px; padding:18px; margin-bottom:16px; }\n        .rclaimlab-panel h3 { font-size:16px; margin-top:0; }\n        .btn { min-height:44px; border-radius:8px; }\n        .btn + .btn { margin-top:8px; }\n        .rclaimlab-status { border-left:4px solid #2368a2; background:#eef6fc; padding:12px 14px; }\n        .rclaimlab-pass { color:#176b45; font-weight:600; }\n        .rclaimlab-fail { color:#a62828; font-weight:600; }\n        .rclaimlab-muted { color:#566273; }\n        table.dataTable { width:100% !important; }\n      "))
     ),
-    shiny::tags$style(shiny::HTML(".shiny-text-output{overflow-wrap:anywhere;white-space:pre-wrap}.shiny-table-output{max-width:100%;overflow-x:auto}.shiny-table-output table{min-width:620px}@media(max-width:600px){.container-fluid{padding:20px 14px 36px}.rlearnxr-panel{padding:14px}.rlearnxr-header h1{font-size:25px}}")),
-    shiny::div(class = "rlearnxr-header",
-      shiny::h1("R-LearnXR educator console"),
+    shiny::tags$style(shiny::HTML(".shiny-text-output{overflow-wrap:anywhere;white-space:pre-wrap}.shiny-table-output{max-width:100%;overflow-x:auto}.shiny-table-output table{min-width:620px}@media(max-width:600px){.container-fluid{padding:20px 14px 36px}.rclaimlab-panel{padding:14px}.rclaimlab-header h1{font-size:25px}}")),
+    shiny::div(class = "rclaimlab-header",
+      shiny::h1("R-ClaimLab educator console"),
       shiny::p("Author, inspect, and release a reproducible R lesson. The learner-facing lesson remains a portable Quarto/WebR page.")
     ),
     shiny::sidebarLayout(
@@ -74,7 +74,7 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
         shiny::actionButton("check_lesson", "Run strict lesson check"),
         shiny::uiOutput("open_lesson"),
         shiny::tags$hr(),
-        shiny::p(class = "rlearnxr-muted",
+        shiny::p(class = "rclaimlab-muted",
           if (is.null(lesson_dir)) {
             "Start the console with lesson_dir = the repository root to enable local lesson checks and browser links."
           } else {
@@ -84,16 +84,16 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
       ),
       shiny::mainPanel(
         shiny::uiOutput("module_summary"),
-        shiny::div(class = "rlearnxr-panel",
+        shiny::div(class = "rclaimlab-panel",
           shiny::h3("Catalog contract"),
           shiny::verbatimTextOutput("catalog_status")
         ),
-        shiny::div(class = "rlearnxr-panel",
+        shiny::div(class = "rclaimlab-panel",
           shiny::h3("Strict lesson evidence"),
           shiny::uiOutput("check_summary"),
           shiny::tableOutput("check_table")
         ),
-        shiny::div(class = "rlearnxr-panel",
+        shiny::div(class = "rclaimlab-panel",
           shiny::h3("Architecture boundary"),
           shiny::p("R remains the authoring and analysis source. Quarto provides the lesson structure. WebR executes learner-edited code in the browser. This optional Shiny shell coordinates educator tasks; it is not required to publish or complete a lesson."),
           shiny::tags$code("scaffold_lesson()  \u2192  render_scene()  \u2192  check_lesson(strict = TRUE)")
@@ -108,7 +108,7 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
 
     output$module_summary <- shiny::renderUI({
       module <- modules[[match(selected_module_id(input$module_id), module_ids)]]
-      shiny::div(class = "rlearnxr-panel",
+      shiny::div(class = "rclaimlab-panel",
         shiny::h3(module$title),
         shiny::p(module$description),
         shiny::p(shiny::strong("Track: "), module$track, " \u00b7 ", module$minutes, " minutes \u00b7 ", module$level),
@@ -130,7 +130,7 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
     shiny::observeEvent(input$validate_catalog, {
       result <- tryCatch({
         validate_course_catalog(catalog)
-        "PASS: course catalog satisfies the rlearnxr-course-1 contract."
+        "PASS: course catalog satisfies the rclaimlab-course-1 contract."
       }, error = function(error) paste0("FAIL: ", conditionMessage(error)))
       catalog_status(result)
     })
@@ -164,13 +164,13 @@ build_rlearnxr_shiny_app <- function(lesson_dir = NULL, catalog = default_course
 
     output$check_summary <- shiny::renderUI({
       result <- check_result()
-      if (is.null(result)) return(shiny::p(class = "rlearnxr-muted", "Run the strict check to inspect release evidence."))
+      if (is.null(result)) return(shiny::p(class = "rclaimlab-muted", "Run the strict check to inspect release evidence."))
       failed <- sum(result$status == "FAIL")
       warning_count <- sum(result$status == "WARN")
       if (failed == 0L && warning_count == 0L) {
-        shiny::div(class = "rlearnxr-status rlearnxr-pass", "PASS: no strict failures or warnings.")
+        shiny::div(class = "rclaimlab-status rclaimlab-pass", "PASS: no strict failures or warnings.")
       } else {
-        shiny::div(class = "rlearnxr-status rlearnxr-fail", paste0("Needs attention: ", failed, " failure(s), ", warning_count, " warning(s)."))
+        shiny::div(class = "rclaimlab-status rclaimlab-fail", paste0("Needs attention: ", failed, " failure(s), ", warning_count, " warning(s)."))
       }
     })
   }

@@ -1,16 +1,16 @@
 {
   "manifest_version": "2.0",
   "lesson_id": "lesson",
-  "title": "R-LearnXR reference data space",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "title": "R-ClaimLab reference data space",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
   "activity_id": null,
   "dataset": {
     "file": "data/learning_points.csv",
-    "source": "Synthetic contributor-training points bundled with R-LearnXR.",
+    "source": "Synthetic contributor-training points bundled with R-ClaimLab.",
     "license": "CC0"
   },
   "r_contract": {
@@ -48,7 +48,7 @@
     "extension_activities": []
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "scene/evidence.json",
     "artifact_hash": null
   },

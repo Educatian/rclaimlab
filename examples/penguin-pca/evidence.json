@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "prcomp",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) fit <- prcomp(analysis_data[c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\")], center = TRUE, scale. = TRUE) evidence <- as_rlearnxr_evidence(fit, labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) fit <- prcomp(analysis_data[c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\")], center = TRUE, scale. = TRUE) evidence <- as_rclaimlab_evidence(fit, labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "5f42c382ea3a6ad84ccc5f35bad6bcaa"
+    "artifact_hash": "280e018b4700cd837154b27b986a0045"
   },
   "observations": [
     {
@@ -1124,7 +1124,7 @@
         "decision_context": "learning to interpret multivariate variation without treating PCA as a species classifier",
         "dependence_warning": false
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "fit <- prcomp(analysis_data[c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\")], center = TRUE, scale. = TRUE)", "evidence <- as_rlearnxr_evidence(fit, labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "fit <- prcomp(analysis_data[c(\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\")], center = TRUE, scale. = TRUE)", "evidence <- as_rclaimlab_evidence(fit, labels = labels)"]
     },
     "pedagogy": {
       "analysis": "prcomp",

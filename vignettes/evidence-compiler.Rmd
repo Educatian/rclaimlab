@@ -7,12 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The Evidence Compiler separates analytical truth from presentation. R creates `rlearnxr-evidence-2`; renderers consume it and never estimate the underlying model.
+The Evidence Compiler separates analytical truth from presentation. R creates `rclaimlab-evidence-2`; renderers consume it and never estimate the underlying model.
 
 ```{r}
-library(rlearnxr)
+library(rclaimlab)
 model <- lm(mpg ~ wt + hp, data = mtcars)
-evidence <- as_rlearnxr_evidence(model)
+evidence <- as_rclaimlab_evidence(model)
 summary(evidence)
 head(as.data.frame(evidence))
 ```

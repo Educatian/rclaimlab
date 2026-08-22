@@ -8,11 +8,11 @@ Version 1 can render R data in a browser, but code, marks, explanations, transfe
 
 ## Decision
 
-R owns statistical computation. Analysis adapters emit `rlearnxr-evidence-2` with stable observation, dimension, and evidence IDs. Lesson and renderer artifacts consume those IDs. Learner receipts cite the same IDs and artifact hash.
+R owns statistical computation. Analysis adapters emit `rclaimlab-evidence-2` with stable observation, dimension, and evidence IDs. Lesson and renderer artifacts consume those IDs. Learner receipts cite the same IDs and artifact hash.
 
 ## Public API
 
-`lesson_spec()`, `task_spec()`, `representation_spec()`, `as_rlearnxr_evidence()`, `compile_lesson()`, `check_lesson()`, and receipt read/write/validate functions form the v2 contract.
+`lesson_spec()`, `task_spec()`, `representation_spec()`, `as_rclaimlab_evidence()`, `compile_lesson()`, `check_lesson()`, and receipt read/write/validate functions form the v2 contract.
 
 ## Consequences
 

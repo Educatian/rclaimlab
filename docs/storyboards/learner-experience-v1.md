@@ -1,11 +1,11 @@
 ---
-title: "R-LearnXR Learner Experience Storyboard"
-date: 2026-08-20
+title: "R-ClaimLab Learner Experience Storyboard"
+date: 2026-08-22
 status: "v0.2 implemented and browser-validated"
 reference_lesson: "examples/lesson"
 ---
 
-# R-LearnXR 학습경험 스토리보드 v0.2
+# R-ClaimLab 학습경험 스토리보드 v0.2
 
 ## 1. 경험의 중심 문장
 
@@ -22,19 +22,19 @@ reference_lesson: "examples/lesson"
 
 현재 구현 화면을 기준으로 한 시각 참조:
 
-![R-LearnXR desktop and mobile implementation states](../../output/ui-improved/08-design-qa-contact-sheet.png)
+![R-ClaimLab tested desktop implementation](../../output/playwright/rclaimlab-browser-smoke-desktop.png)
 
 ### 상세 시각 스토리보드
 
 아래 첫 이미지는 모듈 진입부터 재현성 영수증까지의 전체 학습 여정을 보여준다. 각 화면은 단순한 페이지 전환이 아니라 학습자가 남겨야 하는 증거의 누적 단계다.
 
-![R-LearnXR learner journey from orientation to reproducibility receipt](assets/rlearnxr-learner-journey-v1.png)
+![R-ClaimLab learner journey from orientation to reproducibility receipt](assets/rclaimlab-learner-journey-v1.png)
 
 두 번째 이미지는 이 프로젝트의 핵심 학습 루프를 확대한다. 예측, R 실행 결과, 선택한 행과 3D 점, 설명, 기준별 피드백, 수정, 새 데이터 전이가 하나의 연결된 경험으로 작동해야 한다.
 
-![R-LearnXR evidence-building loop with prediction, R code, linked evidence, explanation, repair, and transfer](assets/rlearnxr-evidence-loop-v1.png)
+![R-ClaimLab evidence-building loop with prediction, R code, linked evidence, explanation, repair, and transfer](assets/rclaimlab-evidence-loop-v1.png)
 
-이미지의 화면은 목표 상태를 나타낸다. 2026-08-20 구현 검증에서 `Orient` 응답, 설명의 `Limitation` 기준과 `Repair`, 실제 `Transfer` 응답, 재현성 영수증, course home과 lesson 간 진행상태 동기화를 모두 완료했다.
+이미지의 화면은 실제 테스트 상태를 나타낸다. 2026-08-22 구현 검증에서 `Orient` 응답, 설명의 `Limitation` 기준과 `Repair`, 실제 `Transfer` 응답, 재현성 영수증, course home과 lesson 간 진행상태 동기화를 모두 완료했다.
 
 ## 2. 기준 페르소나와 학습 상황
 

@@ -1,4 +1,4 @@
-# R-LearnXR in-browser UI audit
+# R-ClaimLab in-browser UI audit
 
 Date: 2026-08-11
 

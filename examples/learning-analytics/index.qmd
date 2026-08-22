@@ -99,7 +99,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `data.frame` evidence with hash `9e0680e78eb9a94efe2f6077176e1288`.
+This lesson was compiled from `data.frame` evidence with hash `3f33cf7d211edfea5c72c937c14097d4`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

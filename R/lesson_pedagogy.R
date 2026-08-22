@@ -368,7 +368,7 @@ analysis_command_explanations <- function(source, analysis) {
       "Centers and scales the selected variables before distance-based clustering."
     } else if (grepl("kmeans", line, fixed = TRUE)) {
       "Runs k-means with the approved number of clusters and 25 random starts."
-    } else if (grepl("as_rlearnxr_evidence", line, fixed = TRUE)) {
+    } else if (grepl("as_rclaimlab_evidence", line, fixed = TRUE)) {
       paste0("Converts the existing ", analysis, " result into linked Evidence IR without reimplementing the statistical method.")
     } else {
       "Creates a visible, reviewable step in the compiled R analysis pipeline."
@@ -401,7 +401,7 @@ lesson_scene_contract <- function(lesson) {
     c("histogram", "summary", "table_dimensions", "table_levels", "classification", "test")
   )]
   list(
-    schema_version = "rlearnxr-browser-contract-1",
+    schema_version = "rclaimlab-browser-contract-1",
     lesson_id = lesson$id,
     title = lesson$title,
     outcomes = lesson$outcomes,
@@ -438,7 +438,7 @@ default_scene_contract <- function(title) {
   ))
   names(tasks) <- stages
   list(
-    schema_version = "rlearnxr-browser-contract-1", lesson_id = "scene", title = title,
+    schema_version = "rclaimlab-browser-contract-1", lesson_id = "scene", title = title,
     outcomes = c("Describe linked evidence", "State a limitation"),
     question = "What pattern is visible in these data?", analysis = "data.frame",
     axis_labels = list(x = "x", y = "y", z = "z"), seed = 2026L,

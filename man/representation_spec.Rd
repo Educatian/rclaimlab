@@ -21,7 +21,7 @@ representation_spec(
 \item{title}{Human-readable representation title.}
 }
 \value{
-An object of class `rlearnxr_representation`.
+An object of class `rclaimlab_representation`.
 }
 \description{
 Define an evidence representation

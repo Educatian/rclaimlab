@@ -1,6 +1,6 @@
 # Penguin PCA Reference Lesson
 
-This is the authentic-domain reference lesson for R-LearnXR. It uses openly licensed Palmer Penguins measurements and principal component analysis to demonstrate when a third coordinate can change an interpretation.
+This is the authentic-domain reference lesson for R-ClaimLab. It uses openly licensed Palmer Penguins measurements and principal component analysis to demonstrate when a third coordinate can change an interpretation.
 
 ## Reproduce
 

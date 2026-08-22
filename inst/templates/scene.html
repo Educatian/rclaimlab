@@ -429,10 +429,10 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
 </head>
 <body>
 <a class="skip-link" href="#lesson-main">Skip to interactive lesson</a>
-<main class="app" aria-label="R-LearnXR interactive lesson: From R Code to Evidence">
+<main class="app" aria-label="R-ClaimLab interactive lesson: From R Code to Evidence">
   <header class="topbar">
     <div class="brand-mark" aria-hidden="true">R</div>
-    <div class="brand-copy"><div class="brand-title">R-LearnXR</div><div class="brand-subtitle">From R code to evidence</div></div>
+    <div class="brand-copy"><div class="brand-title">R-ClaimLab</div><div class="brand-subtitle">From R code to evidence</div></div>
     <div class="topbar-spacer"></div>
     <div class="lesson-label">Lesson 01</div>
     <button class="educator-link" id="educator-mode-link" type="button">For educators: author a lesson</button>
@@ -486,11 +486,11 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
           <section class="reuse-card" aria-labelledby="reuse-title">
             <div class="guide-kicker" id="reuse-title">From R to lesson</div>
             <p>Authors can scaffold a lesson, render a scene, and run the release checks locally. The browser preview pins WebR 0.6.0 and records a browser-run hash.</p>
-            <pre>rlearnxr::scaffold_lesson("my-lesson")&#10;rlearnxr::render_scene(data, "x", "y", "z", overwrite = TRUE)&#10;rlearnxr::check_lesson("my-lesson", strict = TRUE)</pre>
+            <pre>rclaimlab::scaffold_lesson("my-lesson")&#10;rclaimlab::render_scene(data, "x", "y", "z", overwrite = TRUE)&#10;rclaimlab::check_lesson("my-lesson", strict = TRUE)</pre>
           </section>
           <section class="authoring-card" id="authoring-checklist" tabindex="-1" aria-labelledby="authoring-title">
             <div class="authoring-header"><div><div class="guide-kicker">Educator handoff</div><h3 id="authoring-title">From browser preview to a Quarto release</h3><p>Use this lab to preview the interaction. Use the local package checks to release a reusable lesson.</p></div><div class="release-gate">PROJECT RELEASE CHECKS<strong>Run locally</strong></div></div>
-            <div class="authoring-content"><ol class="authoring-checklist"><li><code>scaffold_lesson()</code> creates the lesson, <code>index.qmd</code>, <code>scene/</code>, and a pinned environment.</li><li>Edit the lesson narrative and R pipeline, then run <code>render_scene(..., overwrite = TRUE)</code>.</li><li>Run <code>check_lesson(..., strict = TRUE)</code> and inspect the Markdown/JSON reports.</li><li>Run <code>quarto render</code>, review the browser screenshot, license, and accessibility notes before publishing.</li></ol><div class="authoring-links"><strong>Open the authoring references</strong><a href="https://github.com/Educatian/rlearnxr/blob/main/docs/authoring-guide.md" target="_blank" rel="noreferrer">Authoring guide</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/docs/runtime-dependencies.md" target="_blank" rel="noreferrer">Runtime boundary</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/CONTENT_LICENSE.md" target="_blank" rel="noreferrer">Content license</a> &middot; <a href="https://github.com/Educatian/rlearnxr/blob/main/docs/accessibility.md" target="_blank" rel="noreferrer">Accessibility</a></div></div>
+            <div class="authoring-content"><ol class="authoring-checklist"><li><code>scaffold_lesson()</code> creates the lesson, <code>index.qmd</code>, <code>scene/</code>, and a pinned environment.</li><li>Edit the lesson narrative and R pipeline, then run <code>render_scene(..., overwrite = TRUE)</code>.</li><li>Run <code>check_lesson(..., strict = TRUE)</code> and inspect the Markdown/JSON reports.</li><li>Run <code>quarto render</code>, review the browser screenshot, license, and accessibility notes before publishing.</li></ol><div class="authoring-links"><strong>Open the authoring references</strong><a href="https://github.com/Educatian/rclaimlab/blob/main/docs/authoring-guide.md" target="_blank" rel="noreferrer">Authoring guide</a> &middot; <a href="https://github.com/Educatian/rclaimlab/blob/main/docs/runtime-dependencies.md" target="_blank" rel="noreferrer">Runtime boundary</a> &middot; <a href="https://github.com/Educatian/rclaimlab/blob/main/CONTENT_LICENSE.md" target="_blank" rel="noreferrer">Content license</a> &middot; <a href="https://github.com/Educatian/rclaimlab/blob/main/docs/accessibility.md" target="_blank" rel="noreferrer">Accessibility</a></div></div>
           </section>
         </div>
         <div class="r-transform-summary" id="r-transform-summary" aria-live="polite"><strong>Transformation preview:</strong> Run R to see how scaling and filtering change the scene.</div>
@@ -507,7 +507,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
         </div>
       </section>
       <section class="view-panel ai-lab" id="ai-panel" role="tabpanel" aria-labelledby="ai-tab" aria-hidden="true" inert hidden>
-        <div class="lab-heading"><div><h2>Describe the 3D view you want</h2><p>Write the analytical goal in plain language. R-LearnXR turns it into an R brief, generated code, and a verifiable 3D result. This is optional; the R package and Quarto workflow do not depend on AI.</p></div><div class="engine-status ai-provider-status" id="ai-provider-status" data-state="ready">AI assistant · optional demo</div></div>
+        <div class="lab-heading"><div><h2>Describe the 3D view you want</h2><p>Write the analytical goal in plain language. R-ClaimLab turns it into an R brief, generated code, and a verifiable 3D result. This is optional; the R package and Quarto workflow do not depend on AI.</p></div><div class="engine-status ai-provider-status" id="ai-provider-status" data-state="ready">AI assistant · optional demo</div></div>
         <div class="ai-flow" aria-label="AI to R workflow"><div class="ai-flow-step"><strong>1. Intent</strong><span>Describe the comparison.</span></div><div class="ai-flow-step"><strong>2. Review</strong><span>Inspect the proposed R code.</span></div><div class="ai-flow-step"><strong>3. Run</strong><span>Execute locally in WebR.</span></div><div class="ai-flow-step"><strong>4. Inspect</strong><span>Connect rows to the scene.</span></div></div>
         <div class="ai-layout">
           <section class="ai-prompt-card" aria-labelledby="ai-prompt-title">
@@ -651,8 +651,8 @@ const aiMode = document.getElementById("ai-mode");
 const aiGeneratedCode = document.getElementById("ai-generated-code");
 const aiResultStatus = document.getElementById("ai-result-status");
 const colors = ["#2563eb", "#078999", "#7c3aed", "#c0266d", "#c64e08", "#128553"];
-const storageKey = "rlearnxr:" + document.title;
-const courseProgressKey = "rlearnxr:rlearnxr-foundations:progress:v1";
+const storageKey = "rclaimlab:" + document.title;
+const courseProgressKey = "rclaimlab:rclaimlab-foundations:progress:v1";
 let yaw = 0.72;
 let pitch = 0.46;
 let zoom = 1.0;
@@ -1014,7 +1014,7 @@ function validateAIBrief(brief) {
 }
 
 async function requestAIBrief(prompt) {
-  const endpoint = window.RLearnXR_LLM_ENDPOINT;
+  const endpoint = window.RClaimLab_LLM_ENDPOINT;
   if (!endpoint) return localAIBrief(prompt);
   let endpointUrl;
   try { endpointUrl = new URL(endpoint, window.location.href); } catch (error) { throw new Error("The configured AI endpoint URL is invalid."); }
@@ -1026,7 +1026,7 @@ async function requestAIBrief(prompt) {
     body: JSON.stringify({
       prompt,
       data_schema: {required: ["label", "x", "y", "z"], runtime: "WebR 0.6.0", seed: contractSeed},
-      response_format: "rlearnxr_visualization_brief"
+      response_format: "rclaimlab_visualization_brief"
     })
   });
   if (!response.ok) throw new Error("The configured LLM endpoint returned HTTP " + response.status + ".");
@@ -1049,7 +1049,7 @@ function showAIBrief(brief) {
 
 function aiProvenance() {
   return {
-    schema_version: "rlearnxr_visualization_brief/1",
+    schema_version: "rclaimlab_visualization_brief/1",
     prompt: aiPrompt.value.trim(),
     title: aiBrief ? aiBrief.title : "",
     explanation: aiBrief ? aiBrief.explanation : "",
@@ -1077,14 +1077,14 @@ function learningReceipt() {
   }]));
   return {
     receipt_version: "2.0",
-    schema_version: "rlearnxr-receipt-2",
+    schema_version: "rclaimlab-receipt-2",
     generated_at: new Date().toISOString(),
     lesson: document.title,
     lesson_id: lessonSpec.lesson_id || context.id,
     question: lessonSpec.question || "",
     analysis: lessonSpec.analysis || "data",
     context: lessonSpec.context || {},
-    course_id: "rlearnxr-foundations",
+    course_id: "rclaimlab-foundations",
     module_id: context.id,
     outcome: lessonCompleted ? "complete" : rRunPassed ? "r_verified" : "in_progress",
     task_contract: taskContract,
@@ -1847,11 +1847,11 @@ function qmdDocument() {
   const cautionLines = (lessonSpec.cautions || []).map(value => "- " + value);
   return [
     "---",
-    'title: "' + String(lessonSpec.title || "My reproducible R-LearnXR analysis").replace(/"/g, '\\"') + '"',
+    'title: "' + String(lessonSpec.title || "My reproducible R-ClaimLab analysis").replace(/"/g, '\\"') + '"',
     "format: html",
     "---",
     "",
-    "<!-- Generated by the R-LearnXR browser preview. Copy this file into a scaffolded lesson and edit the narrative before publishing. -->",
+    "<!-- Generated by the R-ClaimLab browser preview. Copy this file into a scaffolded lesson and edit the narrative before publishing. -->",
     "<!-- Release path: render_scene(..., overwrite = TRUE) -> check_lesson(..., strict = TRUE) -> quarto render. -->",
     "",
     "# Question and data structure",
@@ -2338,7 +2338,7 @@ document.getElementById("use-ai-code").addEventListener("click", () => {
 document.getElementById("copy-ai-code").addEventListener("click", copyAICode);
 document.getElementById("download-ai-brief").addEventListener("click", () => {
   if (!aiGeneratedRCode) return;
-  downloadText("rlearnxr-visualization-brief.json", JSON.stringify(aiProvenance(), null, 2) + "\n", "application/json");
+  downloadText("rclaimlab-visualization-brief.json", JSON.stringify(aiProvenance(), null, 2) + "\n", "application/json");
   aiResultStatus.textContent = "Brief downloaded with prompt, R code, seed, runtime, and result provenance.";
 });
 document.getElementById("run-ai-code").addEventListener("click", async () => {
@@ -2369,16 +2369,16 @@ document.getElementById("reset-r-code").addEventListener("click", () => {
   saveState();
   runRCode.focus();
 });
-document.getElementById("download-r").addEventListener("click", () => downloadText("rlearnxr-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
-document.getElementById("download-qmd").addEventListener("click", () => downloadText("rlearnxr-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
+document.getElementById("download-r").addEventListener("click", () => downloadText("rclaimlab-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
+document.getElementById("download-qmd").addEventListener("click", () => downloadText("rclaimlab-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
 document.getElementById("download-receipt").addEventListener("click", () => {
-  downloadText("rlearnxr-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
+  downloadText("rclaimlab-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
   statusText.textContent = "Learning receipt downloaded locally";
 });
-document.getElementById("download-r-companion").addEventListener("click", () => downloadText("rlearnxr-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
-document.getElementById("download-qmd-companion").addEventListener("click", () => downloadText("rlearnxr-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
+document.getElementById("download-r-companion").addEventListener("click", () => downloadText("rclaimlab-analysis.R", rCodeEditor.value.trim() + "\n", "text/plain"));
+document.getElementById("download-qmd-companion").addEventListener("click", () => downloadText("rclaimlab-analysis.qmd", qmdDocument() + "\n", "text/markdown"));
 document.getElementById("download-receipt-companion").addEventListener("click", () => {
-  downloadText("rlearnxr-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
+  downloadText("rclaimlab-learning-receipt.json", JSON.stringify(learningReceipt(), null, 2) + "\n", "application/json");
   completionFeedback.textContent = "Learning receipt downloaded locally.";
 });
 viewRResult.addEventListener("click", () => { showView("scene", true); setStep(4); });

@@ -11,7 +11,7 @@ if (-not $BaseUrl) { $BaseUrl = "http://127.0.0.1:$ServerPort$lessonPath" }
 $npxCommand = Get-Command npx.cmd -ErrorAction SilentlyContinue
 if (-not $npxCommand) { $npxCommand = Get-Command npx -ErrorAction Stop }
 $npx = $npxCommand.Source
-$session = "rlearnxr-persona-validation"
+$session = "rclaimlab-persona-validation"
 $artifactDir = Join-Path $root "output\audit\persona-validation"
 $server = $null
 $results = [ordered]@{
@@ -82,7 +82,7 @@ try {
   $results.screen_reader_proxy = "PASS"
 
   $results | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $artifactDir "persona-validation.json")
-  Write-Output "R-LearnXR persona validation passed: learner flow and screen-reader accessibility-tree proxy."
+  Write-Output "R-ClaimLab persona validation passed: learner flow and screen-reader accessibility-tree proxy."
 } finally {
   try { Invoke-PwCli close | Out-Null } catch { }
   if ($server) { Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue }

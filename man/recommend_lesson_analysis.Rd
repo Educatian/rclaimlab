@@ -13,7 +13,7 @@ recommend_lesson_analysis(
 )
 }
 \arguments{
-\item{x}{A data frame or `rlearnxr_data_profile`.}
+\item{x}{A data frame or `rclaimlab_data_profile`.}
 
 \item{outcome}{Optional outcome column.}
 

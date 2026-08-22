@@ -1,4 +1,4 @@
-# R-LearnXR Formative Pilot Protocol
+# R-ClaimLab Formative Pilot Protocol
 
 ## Participants
 

@@ -101,7 +101,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `lm` evidence with hash `b4ab0b94e4983adfedf67009f0a73e2e`.
+This lesson was compiled from `lm` evidence with hash `d89a8f215e3188d8a118fb8bc3fbddeb`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

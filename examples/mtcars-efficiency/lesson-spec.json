@@ -1,12 +1,12 @@
 {
-  "schema_version": "rlearnxr-lesson-2",
+  "schema_version": "rclaimlab-lesson-2",
   "id": "mtcars-efficiency",
   "title": "Vehicle efficiency model evidence",
   "outcomes": ["Use the lm adapter to address: How are horsepower and vehicle weight associated with fuel efficiency, and where does the linear model fit poorly?", "Explain one observation with linked analytical evidence and an explicit limitation", "Repair and transfer the interpretation while preserving reproducibility"],
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "b4ab0b94e4983adfedf67009f0a73e2e"
+    "artifact_hash": "d89a8f215e3188d8a118fb8bc3fbddeb"
   },
   "tasks": [
     {
@@ -95,7 +95,7 @@
   "content_license": "CC BY 4.0",
   "authoring": {
     "method": "lesson_wizard",
-    "profile_schema": "rlearnxr-data-profile-2",
+    "profile_schema": "rclaimlab-data-profile-2",
     "analysis_recommendations": [
       {
         "analysis": "describe",

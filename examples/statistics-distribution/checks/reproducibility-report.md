@@ -1,7 +1,7 @@
-# R-LearnXR reproducibility report
+# R-ClaimLab reproducibility report
 
-Generated: 2026-08-21 12:52:38 PDT
-Mode: advisory
+Generated: 2026-08-22 01:56:22 PDT
+Mode: strict (warnings fail)
 
 | Check | Status | Message |
 |---|---|---|
@@ -10,7 +10,7 @@ Mode: advisory
 | browser_scene | PASS | scene/index.html exists |
 | lesson_manifest | PASS | lesson-manifest.json exists |
 | manifest_contract | PASS | lesson manifest satisfies the version 2 contract |
-| evidence_ir | PASS | Evidence IR satisfies rlearnxr-evidence-2 |
+| evidence_ir | PASS | Evidence IR satisfies rclaimlab-evidence-2 |
 | data_license | PASS | lesson data source, provenance, and reuse terms are documented |
 | data_presence | PASS | data directory contains at least one file |
 | portable_paths | PASS | no common absolute local paths detected |
@@ -21,7 +21,7 @@ Mode: advisory
 | static_fallback | PASS | table, source, and learning receipt exports remain available without the visual runtime |
 | ai_safety_markers | PASS | optional AI path omits browser credentials, records the privacy boundary, and validates returned code |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | bdfb619d5a606e757824faa2c45e9ec6, 3b07f8d0a364f323ec86c017ac899811, e508401c1b46de674f953b3e86292b8a |
-| quarto_available | WARN | Quarto CLI was not found; CI must render the lesson before release |
+| artifact_hash | PASS | 65f1eaccb5902ea980d6157b2db9fcca, 3b07f8d0a364f323ec86c017ac899811, 97fabc95cfb1db27de7843ae0b8b898c |
+| quarto_available | FAIL | Quarto CLI was not found; CI must render the lesson before release |
 
 This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lesson_manifest.R
 \name{read_learning_receipt}
 \alias{read_learning_receipt}
-\title{Read an R-LearnXR learning receipt}
+\title{Read an R-ClaimLab learning receipt}
 \usage{
 read_learning_receipt(path = ".")
 }
@@ -10,8 +10,8 @@ read_learning_receipt(path = ".")
 \item{path}{Path to a receipt JSON file or a lesson directory.}
 }
 \value{
-An object of class `rlearnxr_receipt`.
+An object of class `rclaimlab_receipt`.
 }
 \description{
-Read an R-LearnXR learning receipt
+Read an R-ClaimLab learning receipt
 }

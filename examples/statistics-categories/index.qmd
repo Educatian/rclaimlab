@@ -100,7 +100,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `chisq.test` evidence with hash `8b0557370190a23169855444c8ba44fa`.
+This lesson was compiled from `chisq.test` evidence with hash `b08025251320497527146e2f5799527d`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

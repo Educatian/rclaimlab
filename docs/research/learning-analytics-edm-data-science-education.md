@@ -1,12 +1,12 @@
-# Research basis for the R-LearnXR curriculum
+# Research basis for the R-ClaimLab curriculum
 
 This design note translates the dated literature scan into content and feature decisions. The scan records search tiers, source selection, synthesis, and APA-ready references.
 
 ## What the literature changes
 
-- Learning Analytics (LA) and Educational Data Mining (EDM) overlap but are not interchangeable. LA emphasizes data-informed understanding, feedback, and educational decisions; EDM emphasizes computational pattern discovery and modeling. R-LearnXR therefore keeps separate LA and EDM application tracks.
+- Learning Analytics (LA) and Educational Data Mining (EDM) overlap but are not interchangeable. LA emphasizes data-informed understanding, feedback, and educational decisions; EDM emphasizes computational pattern discovery and modeling. R-ClaimLab therefore keeps separate LA and EDM application tracks.
 - Data Science Education needs interdisciplinary, translational, ethical, professional, and reproducible skills in addition to statistics and programming.
-- Reviews identify gaps in explicit theory, empirical evidence, terminology, and reproducibility. R-LearnXR addresses these through learning objectives, decision prompts, claim/evidence/limitation rubrics, receipts, and strict lesson checks.
+- Reviews identify gaps in explicit theory, empirical evidence, terminology, and reproducibility. R-ClaimLab addresses these through learning objectives, decision prompts, claim/evidence/limitation rubrics, receipts, and strict lesson checks.
 - Analytics are not neutral. Learners must see the measurement boundary, consent/privacy choices, uncertainty, and the consequences of a false positive or false negative.
 
 ## Sources
@@ -22,7 +22,7 @@ This design note translates the dated literature scan into content and feature d
 
 ## Design translation
 
-| Evidence from research | R-LearnXR implementation |
+| Evidence from research | R-ClaimLab implementation |
 |---|---|
 | Question and educational purpose matter | Every module begins with a learner decision |
 | Concepts should not be reduced to syntax | Predict before R, then explain the transformation |

@@ -4,7 +4,8 @@ _freeze/
 renv/library/
 .Rhistory
 .tools/
-rlearnxr.Rcheck/
+*.Rcheck/
+test-results/
 *.tar.gz
 output/demo/.video-parts/
 output/demo/verify-*.png

@@ -1,4 +1,4 @@
-# R-LearnXR persona validation audit
+# R-ClaimLab persona validation audit
 
 Date: 2026-08-14
 
@@ -48,7 +48,7 @@ The clean-room Posit Cloud proxy is executed in `.github/workflows/check.yml` wi
 Rscript scripts/persona_validation.R
 ```
 
-The latest full hosted validation run [`31827093537`](https://github.com/Educatian/rlearnxr/actions/runs/31827093537) passed the public install, Linux/Windows/macOS package and lesson checks, Quarto rendering, browser interaction, offline fallback, the synthetic learner/screen-reader proxy, and the Posit Cloud clean-room proxy.
+The latest full hosted validation run [`31827093537`](https://github.com/Educatian/rclaimlab/actions/runs/31827093537) passed the public install, Linux/Windows/macOS package and lesson checks, Quarto rendering, browser interaction, offline fallback, the synthetic learner/screen-reader proxy, and the Posit Cloud clean-room proxy.
 
 ## What remains human or account-dependent
 

@@ -1,6 +1,6 @@
-# R-LearnXR design system
+# R-ClaimLab design system
 
-R-LearnXR uses a compact instructional-workspace pattern: progress on the left, evidence in the center, and learner reasoning on the right. The interface should feel like a research or analytics product rather than a promotional landing page.
+R-ClaimLab uses a compact instructional-workspace pattern: progress on the left, evidence in the center, and learner reasoning on the right. The interface should feel like a research or analytics product rather than a promotional landing page.
 
 ## Foundations
 

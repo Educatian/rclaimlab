@@ -1,5 +1,5 @@
 ---
-title: "R-LearnXR reference data space"
+title: "R-ClaimLab reference data space"
 format: html
 ---
 
@@ -98,7 +98,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `data.frame` evidence with hash `c64474c79fac8a45d585421b61b2bdbd`.
+This lesson was compiled from `data.frame` evidence with hash `3fb7a52274d4f54acedcc9700e052d2a`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

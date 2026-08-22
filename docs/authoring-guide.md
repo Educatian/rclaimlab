@@ -1,4 +1,4 @@
-# Authoring an R-LearnXR Lesson
+# Authoring an R-ClaimLab Lesson
 
 ## 1. Define the learning decision
 
@@ -9,14 +9,14 @@ For a statistics concept, start from the pathway in [`docs/curriculum/statistics
 ## 2. Profile data and approve the method
 
 ```r
-profile <- rlearnxr::profile_learning_data(
+profile <- rclaimlab::profile_learning_data(
   learner_data,
   outcome = "transfer_score",
   intent = "explain",
   grouping = "learner_id",
   time = "session"
 )
-rlearnxr::recommend_lesson_analysis(profile)
+rclaimlab::recommend_lesson_analysis(profile)
 ```
 
 Availability is not the same as appropriateness. Declaring grouping or repeated time prevents the core `lm` and `glm` adapters from being automatically recommended because those adapters do not model dependence.
@@ -24,7 +24,7 @@ Availability is not the same as appropriateness. Declaring grouping or repeated 
 ## 3. Compile the lesson contract
 
 ```r
-lesson <- rlearnxr::lesson_from_data(
+lesson <- rclaimlab::lesson_from_data(
   learner_data,
   analysis = "auto",
   dimensions = c("revision_count", "transfer_score", "hint_rate"),
@@ -36,7 +36,7 @@ lesson <- rlearnxr::lesson_from_data(
   unit_of_analysis = "one de-identified learner-session summary",
   decision_context = "choosing reversible instructional support"
 )
-rlearnxr::compile_lesson(lesson, "my-lesson")
+rclaimlab::compile_lesson(lesson, "my-lesson")
 ```
 
 This is the preferred v2 path. It compiles Evidence IR, the semantic table, method diagnostics, exact task prompts and criteria, Quarto source, browser scene, and receipt contract from one R object.
@@ -44,7 +44,7 @@ This is the preferred v2 path. It compiles Evidence IR, the semantic table, meth
 ## 4. Scaffold a fully custom project
 
 ```r
-rlearnxr::scaffold_lesson("my-lesson", title = "My R-LearnXR Lesson")
+rclaimlab::scaffold_lesson("my-lesson", title = "My R-ClaimLab Lesson")
 ```
 
 Keep raw or generated source data in `data/`, lesson prose in `index.qmd`, and generated browser artifacts in `scene/`.
@@ -52,7 +52,7 @@ Keep raw or generated source data in `data/`, lesson prose in `index.qmd`, and g
 ## 5. Use the lower-level scene renderer when needed
 
 ```r
-rlearnxr::render_scene(
+rclaimlab::render_scene(
   data = lesson_data,
   x = "x",
   y = "y",
@@ -66,7 +66,7 @@ rlearnxr::render_scene(
 Before rendering, authors can validate and normalize the scene contract directly:
 
 ```r
-scene <- rlearnxr::validate_scene_data(
+scene <- rclaimlab::validate_scene_data(
   lesson_data, x = "measure_1", y = "measure_2", z = "measure_3",
   labels = lesson_data$observation_id
 )
@@ -106,7 +106,7 @@ Use [`docs/curriculum/module-authoring-template.md`](curriculum/module-authoring
 ## 7. Check and render
 
 ```r
-rlearnxr::check_lesson("my-lesson", strict = TRUE)
+rclaimlab::check_lesson("my-lesson", strict = TRUE)
 ```
 
 Then restore the project environment and render with Quarto. Inspect the generated report and browser screenshot before publishing.

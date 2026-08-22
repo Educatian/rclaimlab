@@ -1,4 +1,4 @@
-#' Validate and normalize the R-LearnXR scene data contract
+#' Validate and normalize the R-ClaimLab scene data contract
 #'
 #' @param data A data frame containing three numeric coordinate columns.
 #' @param x,y,z Names of the columns used for the three scene axes.

@@ -100,7 +100,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `prcomp` evidence with hash `5f42c382ea3a6ad84ccc5f35bad6bcaa`.
+This lesson was compiled from `prcomp` evidence with hash `280e018b4700cd837154b27b986a0045`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

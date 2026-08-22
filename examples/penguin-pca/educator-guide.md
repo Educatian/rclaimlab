@@ -2,7 +2,7 @@
 
 ## Teaching purpose
 
-This is the flagship R-LearnXR lesson for multivariate reasoning. The 3D scene is not the objective; it is a controlled way to test whether a third coordinate changes a learner's interpretation.
+This is the flagship R-ClaimLab lesson for multivariate reasoning. The 3D scene is not the objective; it is a controlled way to test whether a third coordinate changes a learner's interpretation.
 
 ## 20-minute facilitation plan
 

@@ -2,15 +2,15 @@
   "manifest_version": "2.0",
   "lesson_id": "learning-analytics",
   "title": "Learning analytics event-to-construct evidence",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
   "activity_id": null,
   "dataset": {
     "file": "data/learning_events.csv",
-    "source": "Synthetic R-LearnXR repeated-session event summaries.",
+    "source": "Synthetic R-ClaimLab repeated-session event summaries.",
     "license": "CC0-style synthetic instructional data; no real learner records."
   },
   "r_contract": {
@@ -48,9 +48,9 @@
     "extension_activities": ["change one feature", "document a validity or privacy limitation"]
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "9e0680e78eb9a94efe2f6077176e1288"
+    "artifact_hash": "3f33cf7d211edfea5c72c937c14097d4"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

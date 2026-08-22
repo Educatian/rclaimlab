@@ -1,20 +1,22 @@
 param(
   [string]$Ffmpeg = "ffmpeg",
-  [string]$Ffprobe = "ffprobe"
+  [string]$Ffprobe = "ffprobe",
+  [switch]$CaptionedPreview
 )
 
 $ErrorActionPreference = "Stop"
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $demoOutput = Join-Path $projectRoot "output\demo"
 $captionSource = Join-Path $projectRoot "demo\subtitles-en.srt"
-$captionOutput = Join-Path $demoOutput "rlearnxr-demo-en.srt"
-$narration = Join-Path $demoOutput "rlearnxr-narration-en.mp3"
-$referenceRecording = Join-Path $demoOutput "rlearnxr-interaction-raw.webm"
-$penguinRecording = Join-Path $demoOutput "rlearnxr-penguin-interaction-raw.webm"
-$finalVideo = Join-Path $demoOutput "rlearnxr-demo-en.mp4"
-$temporaryVideo = Join-Path $demoOutput "rlearnxr-demo-en.tmp.mp4"
+$captionOutput = Join-Path $demoOutput "rclaimlab-demo-en.srt"
+$narration = Join-Path $demoOutput "rclaimlab-narration-en.mp3"
+$referenceRecording = Join-Path $demoOutput "rclaimlab-interaction-raw.webm"
+$finalName = if ($CaptionedPreview) { "rclaimlab-demo-captioned-preview.mp4" } else { "rclaimlab-demo-en.mp4" }
+$finalVideo = Join-Path $demoOutput $finalName
+$temporaryVideo = Join-Path $demoOutput ($finalName -replace '\.mp4$', '.tmp.mp4')
 
-$required = @($captionSource, $narration, $referenceRecording, $penguinRecording)
+$required = @($captionSource, $referenceRecording)
+if (-not $CaptionedPreview) { $required += $narration }
 foreach ($path in $required) {
   if (-not (Test-Path -LiteralPath $path)) {
     throw "Required demo input is missing: $path"
@@ -23,17 +25,13 @@ foreach ($path in $required) {
 
 Copy-Item -LiteralPath $captionSource -Destination $captionOutput -Force
 
-# These cuts align verified browser interactions with the existing 103-second
-# English ElevenLabs narration and caption timing.
+$targetDuration = 103.14
+$rawDurationText = & $Ffprobe -v error -show_entries "format=duration" -of "default=noprint_wrappers=1:nokey=1" $referenceRecording
+if ($LASTEXITCODE -ne 0) { throw "FFprobe could not read the interaction recording." }
+$rawDuration = [double]::Parse($rawDurationText.Trim(), [Globalization.CultureInfo]::InvariantCulture)
+$ratio = ($targetDuration / $rawDuration).ToString("0.000000", [Globalization.CultureInfo]::InvariantCulture)
 $filter = @"
-[0:v]trim=start=0:end=18,setpts=0.944444444*(PTS-STARTPTS)[v0];
-[0:v]trim=start=70:end=100,setpts=0.600000000*(PTS-STARTPTS)[v1];
-[0:v]trim=start=102:end=114,setpts=0.750000000*(PTS-STARTPTS)[v2];
-[0:v]trim=start=114:end=133,setpts=1.052631579*(PTS-STARTPTS)[v3];
-[0:v]trim=start=20:end=65,setpts=0.177777778*(PTS-STARTPTS)[v4];
-[1:v]trim=start=0:end=28.52,setpts=0.631136045*(PTS-STARTPTS)[v5];
-[0:v]trim=start=133:end=151.4,setpts=0.714293478*(PTS-STARTPTS)[v6];
-[v0][v1][v2][v3][v4][v5][v6]concat=n=7:v=1:a=0,
+[0:v]setpts=$ratio*(PTS-STARTPTS),
 scale=1440:1080:force_original_aspect_ratio=decrease,
 pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=0x111827,
 subtitles='demo/subtitles-en.srt':force_style='FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=1.5,Shadow=0,MarginV=22,Alignment=2',
@@ -43,15 +41,23 @@ $filter = ($filter -replace "`r?`n", "")
 
 Push-Location $projectRoot
 try {
-  & $Ffmpeg -hide_banner -loglevel error -y `
-    -i $referenceRecording -i $penguinRecording -i $narration `
-    -filter_complex $filter -map "[vout]" -map "2:a:0" `
-    -af "loudnorm=I=-16:TP=-1.5:LRA=11" -r 30 `
-    -c:v libx264 -preset medium -crf 20 `
-    -c:a aac -b:a 192k -shortest -movflags +faststart `
-    -metadata title="R-LearnXR Direct Interaction Grant Demo" `
-    -metadata comment="AI-generated narration by ElevenLabs; English captions included." `
-    $temporaryVideo
+  if ($CaptionedPreview) {
+    & $Ffmpeg -hide_banner -loglevel error -y -i $referenceRecording `
+      -filter_complex $filter -map "[vout]" -r 30 -t $targetDuration `
+      -c:v libx264 -preset medium -crf 20 -movflags +faststart `
+      -metadata title="R-ClaimLab Captioned Direct Interaction Preview" `
+      -metadata comment="English captions included; narration pending a fresh ElevenLabs render." `
+      $temporaryVideo
+  } else {
+    & $Ffmpeg -hide_banner -loglevel error -y -i $referenceRecording -i $narration `
+      -filter_complex $filter -map "[vout]" -map "1:a:0" `
+      -af "loudnorm=I=-16:TP=-1.5:LRA=11,apad" -r 30 -t $targetDuration `
+      -c:v libx264 -preset medium -crf 20 `
+      -c:a aac -b:a 192k -movflags +faststart `
+      -metadata title="R-ClaimLab Direct Interaction Grant Demo" `
+      -metadata comment="AI-generated narration by ElevenLabs; English captions included." `
+      $temporaryVideo
+  }
   if ($LASTEXITCODE -ne 0) { throw "FFmpeg failed while composing the interaction demo." }
 
   Move-Item -LiteralPath $temporaryVideo -Destination $finalVideo -Force
@@ -69,4 +75,6 @@ finally {
   Pop-Location
 }
 
-Get-Item -LiteralPath $finalVideo, $captionOutput, $narration | Select-Object FullName, Length
+$outputs = @($finalVideo, $captionOutput)
+if (-not $CaptionedPreview) { $outputs += $narration }
+Get-Item -LiteralPath $outputs | Select-Object FullName, Length

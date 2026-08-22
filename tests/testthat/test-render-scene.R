@@ -1,5 +1,5 @@
 test_that("render_scene creates an accessible complete learning loop", {
-  output <- tempfile("rlearnxr-scene-")
+  output <- tempfile("rclaimlab-scene-")
   data <- data.frame(
     x = c(-0.5, 0, 0.5),
     y = c(0.25, -0.25, 0.1),
@@ -25,8 +25,8 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="download-receipt"', fixed = TRUE)
   expect_match(html, 'id="explanation-input"', fixed = TRUE)
   expect_match(html, 'id="criteria-grid"', fixed = TRUE)
-  expect_match(html, 'schema_version: "rlearnxr-receipt-2"', fixed = TRUE)
-  expect_match(html, 'rlearnxr-browser-contract-1', fixed = TRUE)
+  expect_match(html, 'schema_version: "rclaimlab-receipt-2"', fixed = TRUE)
+  expect_match(html, 'rclaimlab-browser-contract-1', fixed = TRUE)
   expect_match(html, 'task_contract: taskContract', fixed = TRUE)
   expect_match(html, 'compiled_evidence_hash: lessonSpec.evidence_hash', fixed = TRUE)
   expect_match(html, 'function explanationCriteria(text, selected)', fixed = TRUE)
@@ -58,7 +58,7 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="ai-provider-status"', fixed = TRUE)
   expect_match(html, 'optional demo', fixed = TRUE)
   expect_match(html, 'function friendlyRError(error)', fixed = TRUE)
-  expect_match(html, 'rlearnxr::scaffold_lesson', fixed = TRUE)
+  expect_match(html, 'rclaimlab::scaffold_lesson', fixed = TRUE)
   expect_match(html, 'WebR 0.6.0', fixed = TRUE)
   expect_match(html, 'id="ai-tab"', fixed = TRUE)
   expect_match(html, 'id="generate-ai-brief"', fixed = TRUE)
@@ -66,11 +66,11 @@ test_that("render_scene creates an accessible complete learning loop", {
   expect_match(html, 'id="download-ai-brief"', fixed = TRUE)
   expect_match(html, 'function localAIBrief(prompt)', fixed = TRUE)
   expect_match(html, 'function learningReceipt()', fixed = TRUE)
-  expect_match(html, 'schema_version: "rlearnxr-receipt-2"', fixed = TRUE)
+  expect_match(html, 'schema_version: "rclaimlab-receipt-2"', fixed = TRUE)
   expect_match(html, 'function normalizePointIdentity(point, index)', fixed = TRUE)
   expect_match(html, 'private_data_sent_to_ai: false', fixed = TRUE)
   expect_match(html, 'function aiProvenance()', fixed = TRUE)
-  expect_match(html, 'response_format: "rlearnxr_visualization_brief"', fixed = TRUE)
+  expect_match(html, 'response_format: "rclaimlab_visualization_brief"', fixed = TRUE)
   expect_match(html, 'wrap="soft"', fixed = TRUE)
   expect_match(html, 'white-space: pre-wrap', fixed = TRUE)
   expect_match(html, 'function projectionMetrics(width, height)', fixed = TRUE)
@@ -117,7 +117,7 @@ test_that("validate_scene_data normalizes named axes and labels", {
 })
 
 test_that("render_scene protects existing artifacts unless overwrite is explicit", {
-  output <- tempfile("rlearnxr-overwrite-")
+  output <- tempfile("rclaimlab-overwrite-")
   data <- data.frame(x = 1:3, y = 3:1, z = c(0, 1, 0))
   render_scene(data, "x", "y", "z", output_dir = output)
   expect_error(render_scene(data, "x", "y", "z", output_dir = output), "already exists")

@@ -2,15 +2,15 @@
   "manifest_version": "2.0",
   "lesson_id": "edm-patterns",
   "title": "Educational data mining pattern evidence",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
   "activity_id": null,
   "dataset": {
     "file": "data/edm_features.csv",
-    "source": "Synthetic R-LearnXR feature profiles.",
+    "source": "Synthetic R-ClaimLab feature profiles.",
     "license": "CC0-style synthetic instructional data; no real learner records."
   },
   "r_contract": {
@@ -48,9 +48,9 @@
     "extension_activities": ["change one feature", "document a validity or privacy limitation"]
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "d899f780fc03080ca82e4131e3696a56"
+    "artifact_hash": "6cd379f453d08f1b1b1a5aafc4580cfc"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

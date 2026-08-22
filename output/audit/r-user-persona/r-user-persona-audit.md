@@ -1,4 +1,4 @@
-# R User Persona Audit: R-LearnXR
+# R User Persona Audit: R-ClaimLab
 
 Date: 2026-08-11
 Surface: `examples/lesson/scene/index.html`
@@ -7,7 +7,7 @@ Perspective: an R practitioner or educator who wants to turn a real R data frame
 
 ## Overall verdict
 
-R-LearnXR is genuinely R-based. The core experience is not an XR skin: the learner edits R code, runs a real R runtime in the browser, receives validation results, and uses the resulting data frame as evidence in the 3D scene.
+R-ClaimLab is genuinely R-based. The core experience is not an XR skin: the learner edits R code, runs a real R runtime in the browser, receives validation results, and uses the resulting data frame as evidence in the 3D scene.
 
 | R-user lens | Score | Assessment |
 |---|---:|---|
@@ -114,11 +114,11 @@ The high-priority R-user improvements were implemented in the template and regen
 - A failed run shows a plain-language fix before the raw R trace: “R could not find `not_defined_object` …”.
 - The 390×844 mobile run keeps the lesson and R teaching cards within the viewport without horizontal overflow.
 
-![Guided R lab](../../playwright/rlearnxr-r-user-r-lab-guided.png)
+![Guided R lab](../../playwright/rclaimlab-r-user-r-lab-guided.png)
 
-![Successful R execution with transformation evidence](../../playwright/rlearnxr-r-user-r-lab-success.png)
+![Successful R execution with transformation evidence](../../playwright/rclaimlab-r-user-r-lab-success.png)
 
-![Beginner-friendly R error recovery](../../playwright/rlearnxr-r-user-r-lab-error-guided.png)
+![Beginner-friendly R error recovery](../../playwright/rclaimlab-r-user-r-lab-error-guided.png)
 
 After this pass, the R learner fit is 4.5/5, the R educator/author fit is 4.5/5, and the overall product fit is 4.4/5. Maintainer and community readiness remain 3.8/5 until the public prototype release, named contributor roles, and learner or instructor pilot are documented.
 
@@ -132,11 +132,11 @@ The internal R-user fit is now **4.8/5**. The public `v0.1.0-rc.2` release candi
 
 The new AI Visual Brief tab adds a natural-language entry point without hiding the R workflow. A user can describe a desired 3D view, inspect the generated intent and R code, run it in WebR, and receive the same row-count, runtime, seed, hash, table, and 3D evidence as a manually authored pipeline.
 
-![Natural-language AI visualization brief](../../playwright/rlearnxr-ai-visual-brief.png)
+![Natural-language AI visualization brief](../../playwright/rclaimlab-ai-visual-brief.png)
 
-![AI-generated R code executed in WebR](../../playwright/rlearnxr-ai-r-execution.png)
+![AI-generated R code executed in WebR](../../playwright/rclaimlab-ai-r-execution.png)
 
-![Mobile AI visualization brief](../../playwright/rlearnxr-ai-visual-brief-mobile.png)
+![Mobile AI visualization brief](../../playwright/rclaimlab-ai-visual-brief-mobile.png)
 
 The current browser demo is explicitly labeled “demo mode” because it uses a deterministic local intent compiler. An optional server-side LLM adapter is documented in `docs/llm-adapter.md`; it accepts a structured request, requires reproducible R code containing `set.seed()` and `scene`, and leaves execution under learner review. This preserves R-first reproducibility and avoids putting provider secrets in the browser.
 
@@ -146,9 +146,9 @@ The AI result now includes `Copy R code` for RStudio or the in-browser lab and `
 
 The 390x844 mobile layout was rechecked after adding those controls. The three laboratory tabs now show their primary labels without clipping; secondary status labels are intentionally hidden at narrow widths and remain visible as panel status badges.
 
-![AI provenance controls on desktop](../../playwright/rlearnxr-ai-provenance-desktop.png)
+![AI provenance controls on desktop](../../playwright/rclaimlab-ai-provenance-desktop.png)
 
-![AI laboratory tabs at mobile width](../../playwright/rlearnxr-ai-tabs-mobile-final.png)
+![AI laboratory tabs at mobile width](../../playwright/rclaimlab-ai-tabs-mobile-final.png)
 
 The final browser pass verified brief generation, JSON download, R-code copy status, the 390px layout, and zero browser console errors or warnings. Remaining limits are external to this pass: no live LLM provider was configured, and no independent screen-reader or novice learning study was run.
 

@@ -1,6 +1,6 @@
-# R-LearnXR Community Code of Conduct
+# R-ClaimLab Community Code of Conduct
 
-We want participation in R-LearnXR to be safe, respectful, and useful for people with different levels of R, teaching, language, and accessibility experience.
+We want participation in R-ClaimLab to be safe, respectful, and useful for people with different levels of R, teaching, language, and accessibility experience.
 
 ## Expected behavior
 

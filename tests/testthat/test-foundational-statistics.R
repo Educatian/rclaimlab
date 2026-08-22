@@ -1,25 +1,25 @@
 test_that("foundational statistics adapters preserve observations and test evidence", {
-  numeric_evidence <- as_rlearnxr_evidence(mtcars$mpg, variable = "mpg")
+  numeric_evidence <- as_rclaimlab_evidence(mtcars$mpg, variable = "mpg")
   expect_equal(numeric_evidence$analysis$engine, "numeric_summary")
   expect_equal(numeric_evidence$metadata$summary$mean, mean(mtcars$mpg))
   expect_true(all(c("mpg", "centered_value", "percentile") %in% numeric_evidence$dimensions$label))
 
-  count_evidence <- as_rlearnxr_evidence(table(iris$Species))
+  count_evidence <- as_rclaimlab_evidence(table(iris$Species))
   expect_equal(count_evidence$analysis$engine, "table")
   expect_equal(sum(as.data.frame(count_evidence)$count), nrow(iris))
 
   paired <- mtcars[1:12, ]
   correlation <- stats::cor.test(paired$wt, paired$mpg)
-  correlation_evidence <- as_rlearnxr_evidence(
+  correlation_evidence <- as_rclaimlab_evidence(
     correlation, data = paired, x_column = "wt", y_column = "mpg"
   )
   expect_equal(correlation_evidence$analysis$engine, "cor.test")
   expect_equal(correlation_evidence$metadata$test$p_value, correlation$p.value)
-  expect_error(as_rlearnxr_evidence(correlation), "requires data")
+  expect_error(as_rclaimlab_evidence(correlation), "requires data")
 
   groups <- transform(mtcars, transmission = factor(am, labels = c("automatic", "manual")))
   comparison <- stats::t.test(mpg ~ transmission, data = groups)
-  comparison_evidence <- as_rlearnxr_evidence(
+  comparison_evidence <- as_rclaimlab_evidence(
     comparison, data = groups, x_column = "mpg", group = "transmission"
   )
   expect_equal(comparison_evidence$analysis$engine, "t.test")
@@ -27,14 +27,14 @@ test_that("foundational statistics adapters preserve observations and test evide
 
   contingency <- table(iris$Species, cut(iris$Sepal.Width, 2))
   chi <- suppressWarnings(stats::chisq.test(contingency))
-  chi_evidence <- as_rlearnxr_evidence(chi)
+  chi_evidence <- as_rclaimlab_evidence(chi)
   expect_equal(chi_evidence$analysis$engine, "chisq.test")
   expect_true(all(c("count", "expected_count", "standardized_residual") %in% chi_evidence$dimensions$label))
 })
 
 test_that("ANOVA and bootstrap have explicit contracts instead of silent fallbacks", {
   fit <- stats::aov(mpg ~ factor(cyl), data = mtcars)
-  evidence <- as_rlearnxr_evidence(fit)
+  evidence <- as_rclaimlab_evidence(fit)
   expect_equal(evidence$analysis$engine, "aov")
   expect_true("anova_table" %in% names(evidence$metadata))
   expect_true(all(c("observed", "group_mean", "residual") %in% evidence$dimensions$label))
@@ -42,22 +42,22 @@ test_that("ANOVA and bootstrap have explicit contracts instead of silent fallbac
   first <- bootstrap_mean(mtcars$mpg, times = 40L, seed = 18L)
   second <- bootstrap_mean(mtcars$mpg, times = 40L, seed = 18L)
   expect_equal(first$estimates, second$estimates)
-  bootstrap_evidence <- as_rlearnxr_evidence(first)
+  bootstrap_evidence <- as_rclaimlab_evidence(first)
   expect_equal(bootstrap_evidence$analysis$engine, "bootstrap_mean")
   expect_equal(bootstrap_evidence$metadata$times, 40L)
   expect_error(bootstrap_mean(1, times = 40), "at least two")
   expect_error(bootstrap_mean(1:3, times = 10), "greater than or equal")
   expect_error(bootstrap_mean(1:3, seed = c(1, 2)), "seed")
-  expect_error(as_rlearnxr_evidence(c(1, Inf)), "finite")
-  expect_error(as_rlearnxr_evidence(as.table(c(0, 0))), "positive total")
-  expect_error(as_rlearnxr_evidence(as.table(c(3, -1))), "non-negative")
+  expect_error(as_rclaimlab_evidence(c(1, Inf)), "finite")
+  expect_error(as_rclaimlab_evidence(as.table(c(0, 0))), "positive total")
+  expect_error(as_rclaimlab_evidence(as.table(c(3, -1))), "non-negative")
 })
 
 test_that("foundational hypothesis-test adapters reject ambiguous inputs", {
   paired <- data.frame(x = 1:2, y = 2:3)
   correlation <- stats::cor.test(mtcars$wt, mtcars$mpg)
   expect_error(
-    as_rlearnxr_evidence(correlation, data = paired,
+    as_rclaimlab_evidence(correlation, data = paired,
                          x_column = "x", y_column = "y"),
     "three complete"
   )
@@ -65,29 +65,29 @@ test_that("foundational hypothesis-test adapters reject ambiguous inputs", {
   comparison <- transform(mtcars, transmission = factor(am))
   two_sample <- stats::t.test(mpg ~ transmission, data = comparison)
   expect_error(
-    as_rlearnxr_evidence(two_sample, data = transform(comparison, mpg = as.character(mpg)),
+    as_rclaimlab_evidence(two_sample, data = transform(comparison, mpg = as.character(mpg)),
                          x_column = "mpg", group = "transmission"),
     "numeric x_column"
   )
   expect_error(
-    as_rlearnxr_evidence(two_sample, data = comparison[1:2, ],
+    as_rclaimlab_evidence(two_sample, data = comparison[1:2, ],
                          x_column = "mpg", group = "transmission"),
     "three complete"
   )
   expect_error(
-    as_rlearnxr_evidence(two_sample, data = transform(comparison, transmission = factor(cyl)),
+    as_rclaimlab_evidence(two_sample, data = transform(comparison, transmission = factor(cyl)),
                          x_column = "mpg", group = "transmission"),
     "exactly two levels"
   )
 
   one_sample <- stats::t.test(mtcars$mpg, mu = 20)
-  one_sample_evidence <- as_rlearnxr_evidence(
+  one_sample_evidence <- as_rclaimlab_evidence(
     one_sample, data = mtcars, x_column = "mpg", labels = rep("duplicate", nrow(mtcars))
   )
   expect_equal(one_sample_evidence$analysis$engine, "t.test")
   expect_equal(one_sample_evidence$observations$label[[1]], "observation-0001")
   expect_error(
-    as_rlearnxr_evidence(stats::wilcox.test(mtcars$mpg)),
+    as_rclaimlab_evidence(stats::wilcox.test(mtcars$mpg)),
     "unsupported htest"
   )
 })
@@ -135,10 +135,10 @@ test_that("the wizard compiles foundational methods with runnable source", {
     t_test = comparison_data, aov = mtcars, chi_square = category_data
   )
   for (name in names(lessons)) {
-    source_env <- new.env(parent = environment(as_rlearnxr_evidence))
+    source_env <- new.env(parent = environment(as_rclaimlab_evidence))
     source_env$learner_data <- source_data[[name]]
     eval(parse(text = lessons[[name]]$evidence$metadata$wizard$generated_r_code), envir = source_env)
-    expect_s3_class(source_env$evidence, "rlearnxr_evidence")
+    expect_s3_class(source_env$evidence, "rclaimlab_evidence")
     expect_equal(as.data.frame(source_env$evidence), as.data.frame(lessons[[name]]$evidence), tolerance = 1e-10, info = name)
   }
 })
@@ -155,17 +155,17 @@ test_that("learning events aggregate locally with a reviewable recipe", {
     events, learner = "learner", event = "event", outcome = "score",
     time = "time", duration = "duration", grouping = "course"
   )
-  expect_s3_class(features, "rlearnxr_learning_features")
+  expect_s3_class(features, "rclaimlab_learning_features")
   expect_equal(features$event_count, c(2, 3))
   expect_equal(features$outcome_last, c(1, 1))
   expect_equal(features$active_span, c(20, 28))
-  expect_equal(attr(features, "rlearnxr_recipe")$source_rows, 5)
+  expect_equal(attr(features, "rclaimlab_recipe")$source_rows, 5)
   expect_output(print(features), "5 events")
   expect_error(prepare_learning_events(transform(events, learner = NA), "learner"), "complete")
 })
 
 test_that("concept registry separates tested scope from planned scope", {
-  registry <- rlearnxr_concept_registry()
+  registry <- rclaimlab_concept_registry()
   expect_equal(anyDuplicated(registry$concept_id), 0L)
   expect_true(all(c("tested", "planned") %in% registry$status))
   expect_equal(registry$status[registry$concept_id == "plot2d-representation"], "tested")

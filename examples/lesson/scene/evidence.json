@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "data.frame",
     "call": "render_scene(data)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "5b2186ea22539ceeb235448ac06e5e7c"
+    "artifact_hash": "5331558671fdeb2c87af6b9a956da0eb"
   },
   "observations": [
     {

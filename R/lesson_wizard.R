@@ -10,7 +10,7 @@
 #' @param intent Intended analytical learning goal. See `recommend_lesson_analysis()`.
 #' @param grouping Optional grouping or nesting column.
 #' @param time Optional time or sequence column.
-#' @return An object of class `rlearnxr_data_profile`.
+#' @return An object of class `rclaimlab_data_profile`.
 #' @export
 profile_learning_data <- function(data, outcome = NULL, intent = "explore",
                                   grouping = NULL, time = NULL) {
@@ -67,7 +67,7 @@ profile_learning_data <- function(data, outcome = NULL, intent = "explore",
   }
   value <- structure(
     list(
-      schema_version = "rlearnxr-data-profile-2",
+      schema_version = "rclaimlab-data-profile-2",
       rows = nrow(data),
       columns = columns,
       outcome = outcome,
@@ -78,7 +78,7 @@ profile_learning_data <- function(data, outcome = NULL, intent = "explore",
       warnings = unique(warnings),
       data = data
     ),
-    class = c("rlearnxr_data_profile", "list")
+    class = c("rclaimlab_data_profile", "list")
   )
   value
 }
@@ -90,7 +90,7 @@ profile_learning_data <- function(data, outcome = NULL, intent = "explore",
 #' is kept separate from recommendation so a runnable method is not presented as
 #' substantively appropriate by default.
 #'
-#' @param x A data frame or `rlearnxr_data_profile`.
+#' @param x A data frame or `rclaimlab_data_profile`.
 #' @param outcome Optional outcome column.
 #' @param intent One of `explore`, `reduce`, `explain`, `classify`, or `cluster`.
 #' @param grouping Optional grouping or nesting column.
@@ -99,7 +99,7 @@ profile_learning_data <- function(data, outcome = NULL, intent = "explore",
 #' @export
 recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
                                       grouping = NULL, time = NULL) {
-  if (inherits(x, "rlearnxr_data_profile")) {
+  if (inherits(x, "rclaimlab_data_profile")) {
     data <- x$data
     if (is.null(outcome)) outcome <- x$outcome
     if (missing(intent)) intent <- x$intent %||% "explore"
@@ -108,7 +108,7 @@ recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
   } else {
     data <- x
   }
-  if (!is.data.frame(data)) stop("x must be a data.frame or rlearnxr_data_profile", call. = FALSE)
+  if (!is.data.frame(data)) stop("x must be a data.frame or rclaimlab_data_profile", call. = FALSE)
   intent <- match.arg(intent, names(learning_intents()))
   lesson_analysis_recommendations(data, outcome, intent, grouping, time)
 }
@@ -140,7 +140,7 @@ recommend_lesson_analysis <- function(x, outcome = NULL, intent = "explore",
 #' @param clusters Number of clusters for `kmeans`.
 #' @param bootstrap_times Number of resamples for `bootstrap`.
 #' @param na_action Either `fail` or `complete` for explicit complete-case use.
-#' @return An object of class `rlearnxr_lesson` ready for `compile_lesson()`.
+#' @return An object of class `rclaimlab_lesson` ready for `compile_lesson()`.
 #' @export
 lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
                              outcome = NULL, id_column = NULL,
@@ -150,7 +150,7 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
                              decision_context = "learning and interpretation",
                              title = "My data evidence lesson", id = NULL,
                              outcomes = NULL,
-                             stages = rlearnxr_learning_stages(), seed = 2026L,
+                             stages = rclaimlab_learning_stages(), seed = 2026L,
                              clusters = 3L, bootstrap_times = 1000L,
                              na_action = c("fail", "complete")) {
   context <- normalize_learning_context(
@@ -228,25 +228,25 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
   model <- NULL
   evidence <- switch(
     analysis,
-    describe = as_rlearnxr_evidence(prepared[[dimensions[[1]]]], labels = labels, variable = dimensions[[1]], seed = seed),
-    data_view = as_rlearnxr_evidence(
+    describe = as_rclaimlab_evidence(prepared[[dimensions[[1]]]], labels = labels, variable = dimensions[[1]], seed = seed),
+    data_view = as_rclaimlab_evidence(
       prepared[dimensions], dimensions = dimensions, labels = labels, seed = seed,
       analysis_call = wizard_analysis_source(analysis, dimensions, outcome, seed, clusters, id_column, grouping, bootstrap_times)
     ),
     correlation = {
       model <- stats::cor.test(prepared[[dimensions[[1]]]], prepared[[dimensions[[2]]]])
-      as_rlearnxr_evidence(model, data = prepared, x_column = dimensions[[1]],
+      as_rclaimlab_evidence(model, data = prepared, x_column = dimensions[[1]],
                            y_column = dimensions[[2]], labels = labels, seed = seed)
     },
     bootstrap = {
       model <- bootstrap_mean(prepared[[dimensions[[1]]]], times = bootstrap_times, seed = seed)
-      as_rlearnxr_evidence(model)
+      as_rclaimlab_evidence(model)
     },
     t_test = {
       if (!is.numeric(prepared[[outcome]])) stop("t_test requires a numeric outcome", call. = FALSE)
       if (length(unique(prepared[[grouping]])) != 2L) stop("t_test requires exactly two groups", call. = FALSE)
       model <- stats::t.test(prepared[[outcome]] ~ factor(prepared[[grouping]]))
-      as_rlearnxr_evidence(model, data = prepared, x_column = outcome,
+      as_rclaimlab_evidence(model, data = prepared, x_column = outcome,
                            group = grouping, labels = labels, seed = seed)
     },
     aov = {
@@ -254,27 +254,27 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
       if (length(unique(prepared[[grouping]])) < 2L) stop("aov requires at least two groups", call. = FALSE)
       model_data <- data.frame(outcome = prepared[[outcome]], group = factor(prepared[[grouping]]))
       model <- stats::aov(outcome ~ group, data = model_data)
-      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+      as_rclaimlab_evidence(model, labels = labels, seed = seed)
     },
     chi_square = {
       contingency <- table(prepared[[grouping]], prepared[[outcome]])
       if (any(dim(contingency) < 2L)) stop("chi_square requires at least two levels in both variables", call. = FALSE)
       model <- suppressWarnings(stats::chisq.test(contingency))
-      as_rlearnxr_evidence(model, seed = seed)
+      as_rclaimlab_evidence(model, seed = seed)
     },
     prcomp = {
       model <- stats::prcomp(prepared[dimensions], center = TRUE, scale. = TRUE)
-      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+      as_rclaimlab_evidence(model, labels = labels, seed = seed)
     },
     lm = {
       model_data <- wizard_model_data(prepared, dimensions, outcome, binary = FALSE)
       model <- stats::lm(outcome ~ ., data = model_data)
-      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+      as_rclaimlab_evidence(model, labels = labels, seed = seed)
     },
     glm = {
       model_data <- wizard_model_data(prepared, dimensions, outcome, binary = TRUE)
       model <- stats::glm(outcome ~ ., data = model_data, family = stats::binomial())
-      as_rlearnxr_evidence(model, labels = labels, seed = seed)
+      as_rclaimlab_evidence(model, labels = labels, seed = seed)
     },
     kmeans = {
       clusters <- as.integer(clusters)
@@ -285,7 +285,7 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
       scaled_data <- as.data.frame(scale(prepared[dimensions]))
       names(scaled_data) <- dimensions
       model <- stats::kmeans(scaled_data, centers = clusters, nstart = 25L)
-      as_rlearnxr_evidence(model, data = scaled_data, dimensions = dimensions, labels = labels, seed = seed)
+      as_rclaimlab_evidence(model, data = scaled_data, dimensions = dimensions, labels = labels, seed = seed)
     }
   )
 
@@ -311,12 +311,12 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
   hash_payload <- unclass(evidence)
   hash_payload$analysis$artifact_hash <- NULL
   evidence$analysis$artifact_hash <- evidence_hash(hash_payload)
-  validate_rlearnxr_evidence(evidence)
+  validate_rclaimlab_evidence(evidence)
 
   if (is.null(id)) id <- lesson_id_from_title(title)
   if (is.null(outcomes)) outcomes <- pedagogy$outcomes
-  stages <- match.arg(stages, rlearnxr_learning_stages(), several.ok = TRUE)
-  stages <- rlearnxr_learning_stages()[rlearnxr_learning_stages() %in% stages]
+  stages <- match.arg(stages, rclaimlab_learning_stages(), several.ok = TRUE)
+  stages <- rclaimlab_learning_stages()[rclaimlab_learning_stages() %in% stages]
   tasks <- lapply(stages, wizard_task_spec, analysis = analysis,
                   context = context, pedagogy = pedagogy)
   lesson <- lesson_spec(
@@ -340,15 +340,15 @@ lesson_from_data <- function(data, analysis = "auto", dimensions = NULL,
 }
 
 #' @export
-print.rlearnxr_data_profile <- function(x, ...) {
-  cat("<rlearnxr_data_profile>", x$rows, "rows x", nrow(x$columns), "columns\n")
+print.rclaimlab_data_profile <- function(x, ...) {
+  cat("<rclaimlab_data_profile>", x$rows, "rows x", nrow(x$columns), "columns\n")
   cat("Available adapters:", paste(x$recommendations$analysis[x$recommendations$available], collapse = ", "), "\n")
   cat("Warnings:", length(x$warnings), "\n")
   invisible(x)
 }
 
 #' @export
-summary.rlearnxr_data_profile <- function(object, ...) {
+summary.rclaimlab_data_profile <- function(object, ...) {
   available <- object$recommendations[object$recommendations$available, , drop = FALSE]
   list(
     rows = object$rows,
@@ -362,7 +362,7 @@ summary.rlearnxr_data_profile <- function(object, ...) {
 }
 
 #' @export
-as.data.frame.rlearnxr_data_profile <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.rclaimlab_data_profile <- function(x, row.names = NULL, optional = FALSE, ...) {
   x$columns
 }
 
@@ -394,13 +394,13 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
 
   app_ui <- shiny::fluidPage(
     shiny::tags$head(
-      shiny::tags$title("R-LearnXR Lesson Wizard"),
+      shiny::tags$title("R-ClaimLab Lesson Wizard"),
       shiny::tags$style(shiny::HTML(wizard_css()))
     ),
     shiny::tags$a(class = "wizard-skip", href = "#wizard-main", "Skip to lesson design"),
     shiny::div(class = "wizard-shell",
       shiny::tags$header(class = "wizard-header",
-        shiny::div(class = "wizard-brand", shiny::span(class = "wizard-mark", "R"), "R-LearnXR"),
+        shiny::div(class = "wizard-brand", shiny::span(class = "wizard-mark", "R"), "R-ClaimLab"),
         shiny::h1("Turn a local dataset into an evidence lesson"),
         shiny::p("Inspect the data, approve an analysis, and compile an eight-stage learning experience. Your data stays in this R session.")
       ),
@@ -461,8 +461,8 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
               ),
               shiny::checkboxGroupInput(
                 "stages", "Learning stages",
-                choices = stats::setNames(rlearnxr_learning_stages(), wizard_stage_labels()),
-                selected = rlearnxr_learning_stages(), inline = TRUE
+                choices = stats::setNames(rclaimlab_learning_stages(), wizard_stage_labels()),
+                selected = rclaimlab_learning_stages(), inline = TRUE
               ),
               shiny::actionButton("preview_lesson", "Review lesson plan", class = "btn-primary wizard-primary"),
               shiny::uiOutput("lesson_preview")
@@ -484,7 +484,7 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
     current_name <- shiny::reactiveVal(if (is.null(data)) NULL else "Provided R data frame")
     preview_value <- shiny::reactiveVal(NULL)
     build_value <- shiny::reactiveVal(NULL)
-    resource_alias <- paste0("rlearnxr-wizard-", gsub("[^A-Za-z0-9]", "", session$token))
+    resource_alias <- paste0("rclaimlab-wizard-", gsub("[^A-Za-z0-9]", "", session$token))
 
     session$onSessionEnded(function() {
       try(shiny::removeResourcePath(resource_alias), silent = TRUE)
@@ -676,7 +676,7 @@ build_lesson_wizard_app <- function(data = NULL, output_dir = NULL) {
         shiny::showNotification(conditionMessage(lesson), type = "error")
         return()
       }
-      parent <- output_dir %||% file.path(tempdir(), "rlearnxr-wizard-builds")
+      parent <- output_dir %||% file.path(tempdir(), "rclaimlab-wizard-builds")
       path <- file.path(parent, lesson$id)
       value <- tryCatch(compile_lesson(lesson, path, overwrite = TRUE), error = function(error) error)
       if (!inherits(value, "error")) {
@@ -863,55 +863,55 @@ wizard_analysis_source <- function(analysis, dimensions, outcome, seed, clusters
   quoted_outcome <- if (is.null(outcome)) "" else gsub('"', '\\"', outcome, fixed = TRUE)
   code <- switch(
     analysis,
-    describe = paste0('evidence <- as_rlearnxr_evidence(analysis_data[["', dimensions[[1]], '"]], labels = labels, variable = "', dimensions[[1]], '")'),
-    data_view = paste0("evidence <- as_rlearnxr_evidence(analysis_data[c(", quoted_dimensions, ")], dimensions = c(", quoted_dimensions, "), labels = labels)"),
+    describe = paste0('evidence <- as_rclaimlab_evidence(analysis_data[["', dimensions[[1]], '"]], labels = labels, variable = "', dimensions[[1]], '")'),
+    data_view = paste0("evidence <- as_rclaimlab_evidence(analysis_data[c(", quoted_dimensions, ")], dimensions = c(", quoted_dimensions, "), labels = labels)"),
     correlation = c(
       paste0('fit <- cor.test(analysis_data[["', dimensions[[1]], '"]], analysis_data[["', dimensions[[2]], '"]])'),
-      paste0('evidence <- as_rlearnxr_evidence(fit, data = analysis_data, x_column = "', dimensions[[1]], '", y_column = "', dimensions[[2]], '", labels = labels)')
+      paste0('evidence <- as_rclaimlab_evidence(fit, data = analysis_data, x_column = "', dimensions[[1]], '", y_column = "', dimensions[[2]], '", labels = labels)')
     ),
     bootstrap = c(
       paste0('fit <- bootstrap_mean(analysis_data[["', dimensions[[1]], '"]], times = ', as.integer(bootstrap_times), ', seed = ', as.integer(seed), ')'),
-      "evidence <- as_rlearnxr_evidence(fit)"
+      "evidence <- as_rclaimlab_evidence(fit)"
     ),
     t_test = c(
       paste0('analysis_data[["', grouping, '"]] <- factor(analysis_data[["', grouping, '"]])'),
       paste0('fit <- t.test(analysis_data[["', outcome, '"]] ~ analysis_data[["', grouping, '"]])'),
-      paste0('evidence <- as_rlearnxr_evidence(fit, data = analysis_data, x_column = "', outcome, '", group = "', grouping, '", labels = labels)')
+      paste0('evidence <- as_rclaimlab_evidence(fit, data = analysis_data, x_column = "', outcome, '", group = "', grouping, '", labels = labels)')
     ),
     aov = c(
       paste0('analysis_data[["', grouping, '"]] <- factor(analysis_data[["', grouping, '"]])'),
       paste0('fit <- aov(reformulate("', grouping, '", response = "', outcome, '"), data = analysis_data)'),
-      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+      "evidence <- as_rclaimlab_evidence(fit, labels = labels)"
     ),
     chi_square = c(
       paste0('contingency <- table(analysis_data[["', grouping, '"]], analysis_data[["', outcome, '"]])'),
       "fit <- suppressWarnings(chisq.test(contingency))",
-      "evidence <- as_rlearnxr_evidence(fit)"
+      "evidence <- as_rclaimlab_evidence(fit)"
     ),
-    prcomp = c(paste0("fit <- prcomp(analysis_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rlearnxr_evidence(fit, labels = labels)"),
+    prcomp = c(paste0("fit <- prcomp(analysis_data[c(", quoted_dimensions, ")], center = TRUE, scale. = TRUE)"), "evidence <- as_rclaimlab_evidence(fit, labels = labels)"),
     lm = c(
       paste0('fit <- lm(reformulate(c(', quoted_dimensions, '), response = "', quoted_outcome, '"), data = analysis_data)'),
-      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+      "evidence <- as_rclaimlab_evidence(fit, labels = labels)"
     ),
     glm = c(
       paste0('analysis_data[["', quoted_outcome, '"]] <- factor(as.character(analysis_data[["', quoted_outcome, '"]]), levels = sort(unique(as.character(analysis_data[["', quoted_outcome, '"]]))) )'),
       paste0('fit <- glm(reformulate(c(', quoted_dimensions, '), response = "', quoted_outcome, '"), data = analysis_data, family = binomial())'),
-      "evidence <- as_rlearnxr_evidence(fit, labels = labels)"
+      "evidence <- as_rclaimlab_evidence(fit, labels = labels)"
     ),
     kmeans = c(
       paste0("scaled_data <- as.data.frame(scale(analysis_data[c(", quoted_dimensions, ")]))"),
       paste0("fit <- kmeans(scaled_data, centers = ", as.integer(clusters), ", nstart = 25)"),
-      "evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)"
+      "evidence <- as_rclaimlab_evidence(fit, data = scaled_data, labels = labels)"
     )
   )
   c(header, code)
 }
 
-rlearnxr_learning_stages <- function() {
+rclaimlab_learning_stages <- function() {
   c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce")
 }
 
-wizard_stage_labels <- function(stages = rlearnxr_learning_stages()) {
+wizard_stage_labels <- function(stages = rclaimlab_learning_stages()) {
   labels <- c(orient = "Orient", predict = "Predict", run_r = "Run R", explore = "Explore", explain = "Explain", repair = "Repair", transfer = "Transfer", reproduce = "Reproduce")
   unname(labels[stages])
 }
@@ -964,12 +964,12 @@ wizard_css <- function() {
 }
 
 wizard_template_path <- function() {
-  roots <- unique(c(RLEARNXR_SOURCE_ROOT, normalizePath(".", winslash = "/", mustWork = TRUE)))
+  roots <- unique(c(RCLAIMLAB_SOURCE_ROOT, normalizePath(".", winslash = "/", mustWork = TRUE)))
   candidates <- file.path(roots, "inst", "templates", "wizard.css")
   found <- candidates[file.exists(candidates)][1]
   if (length(found) && !is.na(found)) return(found)
-  installed <- system.file("templates", "wizard.css", package = "rlearnxr")
+  installed <- system.file("templates", "wizard.css", package = "rclaimlab")
   if (nzchar(installed)) return(installed)
-  stop("R-LearnXR Lesson Wizard stylesheet was not found", call. = FALSE)
+  stop("R-ClaimLab Lesson Wizard stylesheet was not found", call. = FALSE)
 }
 # nocov end

@@ -1,5 +1,5 @@
 ---
-title: 'R-LearnXR: An Evidence Compiler for Reproducible Data-Science Education'
+title: 'R-ClaimLab: An Evidence Compiler for Reproducible Data-Science Education'
 tags:
   - R
   - reproducibility
@@ -18,11 +18,11 @@ bibliography: paper.bib
 
 # Summary
 
-R-LearnXR compiles existing R analysis objects into a method-independent Evidence Intermediate Representation. Stable observation, dimension, task, criterion, and evidence identifiers connect analytical values to semantic tables, 2D and 3D representations, learner explanations, repair and transfer tasks, and reproducibility receipts.
+R-ClaimLab compiles existing R analysis objects into a method-independent Evidence Intermediate Representation. Stable observation, dimension, task, criterion, and evidence identifiers connect analytical values to semantic tables, 2D and 3D representations, learner explanations, repair and transfer tasks, and reproducibility receipts.
 
 # Statement of need
 
-Educational visualizations often duplicate analytical state across code, browser graphics, worksheets, and assessment. That duplication makes it difficult to verify that a learner's explanation cites the same evidence shown by the analysis. R-LearnXR provides adapters for data frames, principal component analysis, linear and generalized linear models, and k-means clustering. It does not reimplement these statistical methods. A question-first authoring workflow records the analytical intent, unit of analysis, outcome, grouping/time structure, and intended decision before recommending an adapter.
+Educational visualizations often duplicate analytical state across code, browser graphics, worksheets, and assessment. That duplication makes it difficult to verify that a learner's explanation cites the same evidence shown by the analysis. R-ClaimLab provides adapters for data frames, principal component analysis, linear and generalized linear models, and k-means clustering. It does not reimplement these statistical methods. A question-first authoring workflow records the analytical intent, unit of analysis, outcome, grouping/time structure, and intended decision before recommending an adapter.
 
 # Architecture and quality
 

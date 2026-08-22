@@ -9,11 +9,6 @@
     ]
   },
   "Packages": {
-    "rlearnxr": {
-      "Package": "rlearnxr",
-      "Version": "2.0.0.900",
-      "Source": "Local"
-    },
     "jsonlite": {
       "Package": "jsonlite",
       "Version": "2.0.0",

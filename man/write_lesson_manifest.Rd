@@ -8,7 +8,7 @@ write_lesson_manifest(
   path = ".",
   lesson_id = NULL,
   title = NULL,
-  source_platform = "rlearnxr",
+  source_platform = "rclaimlab",
   source_project = NULL,
   course_id = NULL,
   session_id = NULL,

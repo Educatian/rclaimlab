@@ -2,7 +2,7 @@
 
 ## Project team
 
-- **Jewoong Moon, Project Lead and primary contractor.** Responsible for learning-experience design, R and Quarto integration, reproducibility workflow, documentation, community coordination, and project reporting. Track record and current implementation are available in the [public R-LearnXR repository](https://github.com/Educatian/rlearnxr).
+- **Jewoong Moon, Project Lead and primary contractor.** Responsible for learning-experience design, R and Quarto integration, reproducibility workflow, documentation, community coordination, and project reporting. Track record and current implementation are available in the [public R-ClaimLab repository](https://github.com/Educatian/rclaimlab).
 - **Additional core team members: optional and to be added if confirmed.** The proposal is intentionally scoped so the Project Lead can deliver the six-month MVP as the primary contractor. Any confirmed collaborator will receive a named responsibility and be added with their consent.
 
 ## Contributors

@@ -1,8 +1,8 @@
-# R-LearnXR end-user quick start
+# R-ClaimLab end-user quick start
 
 First time here? Use the screenshot-led [Beginner guide](beginner-guide.html) once. It connects each command to the screen that appears, explains what the result means, and tells you exactly when to move to the next step. Return to this page afterward as the compact command reference.
 
-R-LearnXR has three different entry paths. Choose the shortest path for the job.
+R-ClaimLab has three different entry paths. Choose the shortest path for the job.
 
 ## Path A: explore a lesson
 
@@ -17,13 +17,13 @@ This path is for an R user who wants the package API but does not need to edit t
 ```r
 install.packages("remotes")
 remotes::install_github(
-  "Educatian/rlearnxr",
+  "Educatian/rclaimlab",
   ref = "v1.1.0",
   upgrade = "never"
 )
 
-library(rlearnxr)
-packageVersion("rlearnxr")
+library(rclaimlab)
+packageVersion("rclaimlab")
 ```
 
 The `ref` pins the public v1.1.0 release. The default `main` branch is aligned with this release; use the `ref` when you need an immutable installation.
@@ -33,7 +33,7 @@ The `ref` pins the public v1.1.0 release. The default `main` branch is aligned w
 Posit supports cloning a remote repository through **File > New Project > Version Control > Git**. Enter:
 
 ```text
-https://github.com/Educatian/rlearnxr.git
+https://github.com/Educatian/rclaimlab.git
 ```
 
 Then open the cloned project in RStudio and run the following in the Console:
@@ -44,9 +44,9 @@ install.packages(c("remotes", "renv"))
 renv::restore(prompt = FALSE)
 remotes::install_local(".", upgrade = "never")
 
-library(rlearnxr)
-packageVersion("rlearnxr")
-rlearnxr::check_lesson("examples/lesson", strict = TRUE)
+library(rclaimlab)
+packageVersion("rclaimlab")
+rclaimlab::check_lesson("examples/lesson", strict = TRUE)
 ```
 
 If the project is on a release tag, use the Git pane or the terminal to check out `v1.1.0` before installing locally. Do not edit the live `main` branch directly when preparing a contribution.
@@ -79,10 +79,10 @@ Run `Rscript scripts/diagnose_environment.R` before troubleshooting. It reports 
 
 - **`git` is not found:** install Git for Windows or use the hosted browser demo instead.
 - **`quarto` is not found:** install Quarto, restart RStudio, and run `quarto check`.
-- **The package version is old:** check `packageVersion("rlearnxr")`, then reinstall with `ref = "v1.1.0"`.
+- **The package version is old:** check `packageVersion("rclaimlab")`, then reinstall with `ref = "v1.1.0"`.
 - **`renv::restore()` prompts or fails:** run it from the repository root and inspect the first unavailable package or mirror URL.
 - **WebR does not start:** confirm browser network access to the pinned WebR URL; the static scene, table, and source exports remain available as fallbacks.
-- **Windows path errors:** clone to a short user-owned path without cloud-sync or permission restrictions, such as `C:/Users/<you>/Documents/rlearnxr`.
+- **Windows path errors:** clone to a short user-owned path without cloud-sync or permission restrictions, such as `C:/Users/<you>/Documents/rclaimlab`.
 - **Only the browser demo is needed:** skip RStudio and open the lesson scene directly.
 
 To rehearse the network-failure path locally, run `powershell -ExecutionPolicy Bypass -File scripts/browser_offline_smoke_test.ps1 -StartServer`. The same check runs on a GitHub-hosted Windows runner, so local GUI manipulation is not required. See [External validation](external-validation.md) for the remote workflow and artifacts.
@@ -93,8 +93,8 @@ The core learner experience does not require Shiny. Educators who prefer a local
 
 ```r
 install.packages("shiny")
-library(rlearnxr)
-run_rlearnxr_shiny(lesson_dir = ".")
+library(rclaimlab)
+run_rclaimlab_shiny(lesson_dir = ".")
 ```
 
 The console selects a reference module, validates the course catalog, opens the lesson, and runs the same strict `check_lesson()` contract used by release checks. See [Optional Shiny educator shell](shiny-educator-shell.md).

@@ -8,7 +8,7 @@ test_that("data profiling makes fit and privacy risks inspectable", {
     stringsAsFactors = FALSE
   )
   profile <- profile_learning_data(data, intent = "explore", grouping = "group", time = "time")
-  expect_s3_class(profile, "rlearnxr_data_profile")
+  expect_s3_class(profile, "rclaimlab_data_profile")
   expect_equal(profile$rows, 4)
   expect_true(profile$columns$possible_identifier[profile$columns$column == "learner_id"])
   expect_match(paste(profile$warnings, collapse = " "), "Missing values")
@@ -18,7 +18,7 @@ test_that("data profiling makes fit and privacy risks inspectable", {
   expect_true(any(profile$recommendations$available))
   expect_equal(as.data.frame(profile), profile$columns)
   expect_equal(summary(profile)$missing_cells, 1)
-  expect_output(print(profile), "rlearnxr_data_profile")
+  expect_output(print(profile), "rclaimlab_data_profile")
 })
 
 test_that("a one-column numeric file can start a descriptive lesson", {
@@ -73,7 +73,7 @@ test_that("lesson_from_data builds the complete learning contract", {
     question = "Which measurements vary together, and which flowers have contrasting PCA scores?",
     intent = "reduce", unit_of_analysis = "one iris flower"
   )
-  expect_s3_class(lesson, "rlearnxr_lesson")
+  expect_s3_class(lesson, "rclaimlab_lesson")
   expect_equal(vapply(lesson$tasks, `[[`, character(1), "type"),
                c("orient", "predict", "run_r", "explore", "explain", "repair", "transfer", "reproduce"))
   expect_equal(lesson$evidence$metadata$wizard$analysis, "prcomp")
@@ -87,23 +87,23 @@ test_that("lesson_from_data builds the complete learning contract", {
     lesson$evidence$metadata$pedagogy$diagnostics,
     function(item) identical(item$id, "scaling"), logical(1)
   )))
-  browser_contract <- rlearnxr:::lesson_scene_contract(lesson)
+  browser_contract <- rclaimlab:::lesson_scene_contract(lesson)
   expect_true(all(c("observation_id", "label", "PC1", "PC2", "PC3") %in% browser_contract$evidence_table$columns))
   expect_equal(length(browser_contract$evidence_table$rows), 20)
   explanations <- vapply(browser_contract$command_explanations, `[[`, character(1), "explanation")
   expect_match(explanations[[4]], "retained source-row")
   expect_match(explanations[[5]], "Creates the analysis data")
   expect_true(validate_lesson_spec(lesson))
-  expect_true(validate_rlearnxr_evidence(lesson$evidence))
+  expect_true(validate_rclaimlab_evidence(lesson$evidence))
 
   output <- tempfile("wizard-build-")
   build <- compile_lesson(lesson, output)
-  expect_s3_class(build, "rlearnxr_build")
+  expect_s3_class(build, "rclaimlab_build")
   expect_true(file.exists(file.path(output, "scene", "index.html")))
   expect_true(all(build$checks$status != "FAIL"))
   html <- paste(readLines(file.path(output, "scene", "index.html"), warn = FALSE), collapse = "\n")
   expect_match(html, "Which measurements vary together", fixed = TRUE)
-  expect_match(html, "rlearnxr-browser-contract-1", fixed = TRUE)
+  expect_match(html, "rclaimlab-browser-contract-1", fixed = TRUE)
   expect_match(html, '"component":"Names a principal component"', fixed = TRUE)
   expect_match(html, 'id="compiled-evidence-body"', fixed = TRUE)
   qmd <- paste(readLines(file.path(output, "index.qmd"), warn = FALSE), collapse = "\n")
@@ -134,18 +134,18 @@ test_that("all supported wizard adapters create evidence", {
   expect_equal(vapply(lessons, function(value) value$evidence$analysis$engine, character(1)),
                c(data_view = "data.frame", lm = "lm", glm = "glm", kmeans = "kmeans"))
   expect_true(all(c("fitted", "residual", "interval_low", "interval_high") %in%
-                    rlearnxr:::lesson_scene_contract(lessons$lm)$evidence_table$columns))
+                    rclaimlab:::lesson_scene_contract(lessons$lm)$evidence_table$columns))
   expect_true(all(c("predicted_probability", "predicted_class") %in%
-                    rlearnxr:::lesson_scene_contract(lessons$glm)$evidence_table$columns))
+                    rclaimlab:::lesson_scene_contract(lessons$glm)$evidence_table$columns))
   expect_true(all(c("cluster", "distance_to_centroid") %in%
-                    rlearnxr:::lesson_scene_contract(lessons$kmeans)$evidence_table$columns))
+                    rclaimlab:::lesson_scene_contract(lessons$kmeans)$evidence_table$columns))
 
   source_data <- list(data_view = iris[1:20, ], lm = mtcars, glm = binary, kmeans = iris[1:20, ])
   for (name in names(lessons)) {
-    source_env <- new.env(parent = environment(as_rlearnxr_evidence))
+    source_env <- new.env(parent = environment(as_rclaimlab_evidence))
     source_env$learner_data <- source_data[[name]]
     eval(parse(text = lessons[[name]]$evidence$metadata$wizard$generated_r_code), envir = source_env)
-    expect_s3_class(source_env$evidence, "rlearnxr_evidence")
+    expect_s3_class(source_env$evidence, "rclaimlab_evidence")
     expect_equal(as.data.frame(source_env$evidence), as.data.frame(lessons[[name]]$evidence), tolerance = 1e-10)
   }
 })
@@ -177,7 +177,7 @@ test_that("missingness and invalid role decisions fail clearly", {
 test_that("Lesson Wizard remains an optional Shiny surface", {
   expect_true(is.function(run_lesson_wizard))
   skip_if_not_installed("shiny")
-  app <- rlearnxr:::build_lesson_wizard_app(data = iris[1:10, ])
+  app <- rclaimlab:::build_lesson_wizard_app(data = iris[1:10, ])
   expect_s3_class(app, "shiny.appobj")
   expect_true(is.function(app$serverFuncSource))
 })

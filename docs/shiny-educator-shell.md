@@ -1,8 +1,8 @@
 # Optional Shiny educator shell
 
-R-LearnXR is not a Shiny-only application. The core release is a portable R package with Quarto lesson templates, browser-based WebR execution, a semantic table fallback, and reproducibility checks. This keeps learner access compatible with static hosting and does not require an application server.
+R-ClaimLab is not a Shiny-only application. The core release is a portable R package with Quarto lesson templates, browser-based WebR execution, a semantic table fallback, and reproducibility checks. This keeps learner access compatible with static hosting and does not require an application server.
 
-The optional `run_rlearnxr_shiny()` entry point is an educator and authoring console. It provides:
+The optional `run_rclaimlab_shiny()` entry point is an educator and authoring console. It provides:
 
 - reference-module selection across Statistics, Learning Analytics, and Educational Data Mining;
 - course-catalog contract validation;
@@ -16,8 +16,8 @@ Install the optional dependency and start the console from an RStudio project:
 install.packages("shiny")
 remotes::install_local(".", upgrade = "never")
 
-library(rlearnxr)
-run_rlearnxr_shiny(lesson_dir = ".")
+library(rclaimlab)
+run_rclaimlab_shiny(lesson_dir = ".")
 ```
 
 The console does not upload learner data, create accounts, or replace the static lesson. It is intentionally local and uses the same exported package contracts as the command-line and CI workflows. If the repository is hosted as a static site, learners continue to open `examples/index.html` and the lesson `scene/index.html` without Shiny.
@@ -25,7 +25,7 @@ The console does not upload learner data, create accounts, or replace the static
 For a clean release rehearsal:
 
 ```r
-run_rlearnxr_shiny(
+run_rclaimlab_shiny(
   lesson_dir = ".",
   launch.browser = TRUE
 )

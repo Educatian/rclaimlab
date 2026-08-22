@@ -37,10 +37,10 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
   declared_evidence_path <- if (file.exists(root_evidence_path)) root_evidence_path else evidence_path
   if (file.exists(declared_evidence_path)) {
     evidence_check <- tryCatch({
-      read_rlearnxr_evidence(declared_evidence_path)
+      read_rclaimlab_evidence(declared_evidence_path)
       TRUE
     }, error = function(error) error)
-    if (isTRUE(evidence_check)) add("evidence_ir", "PASS", "Evidence IR satisfies rlearnxr-evidence-2")
+    if (isTRUE(evidence_check)) add("evidence_ir", "PASS", "Evidence IR satisfies rclaimlab-evidence-2")
     else add("evidence_ir", "FAIL", conditionMessage(evidence_check))
   } else {
     add("evidence_ir", "FAIL", "evidence.json is missing")
@@ -162,7 +162,7 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
     ensure_dir(file.path(path, "checks"))
     markdown_message <- function(value) gsub("|", "\\\\|", value, fixed = TRUE)
     lines <- c(
-      "# R-LearnXR reproducibility report", "",
+      "# R-ClaimLab reproducibility report", "",
       paste0("Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")),
       paste0("Mode: ", if (isTRUE(strict)) "strict (warnings fail)" else "advisory"), "",
       "| Check | Status | Message |", "|---|---|---|",
@@ -185,6 +185,6 @@ check_lesson <- function(path = ".", write_report = TRUE, strict = FALSE,
       )
     }
   }
-  class(results) <- c("rlearnxr_checks", class(results))
+  class(results) <- c("rclaimlab_checks", class(results))
   results
 }

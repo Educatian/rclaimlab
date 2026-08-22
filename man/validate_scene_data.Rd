@@ -1,7 +1,7 @@
 % Generated manually for the small MVP package.
 \name{validate_scene_data}
 \alias{validate_scene_data}
-\title{Validate and normalize the R-LearnXR scene data contract}
+\title{Validate and normalize the R-ClaimLab scene data contract}
 \description{Checks a data frame and returns stable observation IDs, labels, and x, y, and z scene columns.}
 \usage{
 validate_scene_data(data, x = "x", y = "y", z = "z", labels = NULL,

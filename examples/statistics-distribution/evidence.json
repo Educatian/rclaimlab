@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "numeric_summary",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"mpg\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- sprintf(\"observation-%04d\", source_rows) evidence <- as_rlearnxr_evidence(analysis_data[[\"mpg\"]], labels = labels, variable = \"mpg\")",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"mpg\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- sprintf(\"observation-%04d\", source_rows) evidence <- as_rclaimlab_evidence(analysis_data[[\"mpg\"]], labels = labels, variable = \"mpg\")",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "470bb09c22419493d8f4ad5cdf9ef335"
+    "artifact_hash": "cc50bfc8d593e8385932b33d56e04189"
   },
   "observations": [
     {
@@ -1483,7 +1483,7 @@
         "decision_context": "statistical reasoning practice, not a causal or population claim",
         "dependence_warning": false
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"mpg\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- sprintf(\"observation-%04d\", source_rows)", "evidence <- as_rlearnxr_evidence(analysis_data[[\"mpg\"]], labels = labels, variable = \"mpg\")"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"mpg\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- sprintf(\"observation-%04d\", source_rows)", "evidence <- as_rclaimlab_evidence(analysis_data[[\"mpg\"]], labels = labels, variable = \"mpg\")"]
     },
     "pedagogy": {
       "analysis": "describe",

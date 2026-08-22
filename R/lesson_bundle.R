@@ -48,7 +48,7 @@ export_lesson_bundle <- function(path = ".", output = NULL, zip = FALSE,
   if (isTRUE(zip) || grepl("\\.zip$", output, ignore.case = TRUE)) {
     zip_path <- if (grepl("\\.zip$", output, ignore.case = TRUE)) output else paste0(output, ".zip")
     if (file.exists(zip_path) && !isTRUE(overwrite)) stop("bundle already exists; use overwrite = TRUE", call. = FALSE)
-    staging <- tempfile("rlearnxr-bundle-")
+    staging <- tempfile("rclaimlab-bundle-")
     ensure_dir(staging)
     copy_lesson_tree(path, staging, include_receipt = include_receipt)
     old_wd <- getwd()
@@ -67,7 +67,7 @@ export_lesson_bundle <- function(path = ".", output = NULL, zip = FALSE,
   invisible(output)
 }
 
-import_datasandbox_bundle <- function(bundle, output = "rlearnxr-imported-lesson", overwrite = FALSE) {
+import_datasandbox_bundle <- function(bundle, output = "rclaimlab-imported-lesson", overwrite = FALSE) {
   if (!file.exists(bundle) && !dir.exists(bundle)) stop("DataSandbox bundle was not found", call. = FALSE)
   output <- normalizePath(output, winslash = "/", mustWork = FALSE)
   if ((dir.exists(output) && length(list.files(output, all.files = TRUE, no.. = TRUE)) > 0L) && !isTRUE(overwrite)) {
@@ -84,7 +84,7 @@ import_datasandbox_bundle <- function(bundle, output = "rlearnxr-imported-lesson
   }
   if (!grepl("\\.json$", bundle, ignore.case = TRUE)) stop("bundle must be a directory, ZIP, or portable JSON bundle", call. = FALSE)
   payload <- jsonlite::fromJSON(bundle, simplifyVector = FALSE)
-  if (is.null(payload$schema_version) || payload$schema_version != "rlearnxr-bundle-1") {
+  if (is.null(payload$schema_version) || payload$schema_version != "rclaimlab-bundle-1") {
     stop("unsupported portable bundle schema", call. = FALSE)
   }
   if (is.null(payload$files) || !is.list(payload$files)) stop("portable bundle has no files", call. = FALSE)

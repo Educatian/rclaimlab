@@ -1,7 +1,7 @@
 {
   "report_version": "1",
   "path": ".",
-  "strict": false,
+  "strict": true,
   "checks": [
     {
       "check": "project_config",
@@ -31,7 +31,7 @@
     {
       "check": "evidence_ir",
       "status": "PASS",
-      "message": "Evidence IR satisfies rlearnxr-evidence-2"
+      "message": "Evidence IR satisfies rclaimlab-evidence-2"
     },
     {
       "check": "data_license",
@@ -86,11 +86,11 @@
     {
       "check": "artifact_hash",
       "status": "PASS",
-      "message": "cdbbc47d14e4e5b143bed138096445fd, cc32ccbdd058fd052ab7080b844ec3db, 9c75aafb3e54fe080aff20a26f8b54e2"
+      "message": "8df5433cb539cc16311f6a2ce7a10f12, cc32ccbdd058fd052ab7080b844ec3db, 0f3a18c11e93c9a6f7ef65fefdda5dd5"
     },
     {
       "check": "quarto_available",
-      "status": "WARN",
+      "status": "FAIL",
       "message": "Quarto CLI was not found; CI must render the lesson before release"
     }
   ]

@@ -1,4 +1,4 @@
-name: R-LearnXR external validation
+name: R-ClaimLab external validation
 
 on:
   push:
@@ -71,7 +71,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-lessons-${{ matrix.os }}
+          name: rclaimlab-lessons-${{ matrix.os }}
           path: |
             examples/*/_site
             examples/*/checks
@@ -89,13 +89,13 @@ jobs:
       - name: Install from public main into a clean library
         shell: Rscript {0}
         run: |
-          clean_lib <- file.path(tempdir(), "rlearnxr-clean-library")
+          clean_lib <- file.path(tempdir(), "rclaimlab-clean-library")
           dir.create(clean_lib, recursive = TRUE)
           .libPaths(c(clean_lib, .libPaths()))
-          remotes::install_git("https://github.com/Educatian/rlearnxr.git", ref = "main", upgrade = "never")
-          library(rlearnxr, lib.loc = clean_lib)
-          stopifnot(as.character(packageVersion("rlearnxr")) == "1.1.0")
-          stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rlearnxr")))
+          remotes::install_git("https://github.com/Educatian/rclaimlab.git", ref = "main", upgrade = "never")
+          library(rclaimlab, lib.loc = clean_lib)
+          stopifnot(as.character(packageVersion("rclaimlab")) == "1.1.0")
+          stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rclaimlab")))
           message("Public main clean-install rehearsal passed")
 
   pkgdown:
@@ -117,7 +117,7 @@ jobs:
       - name: Upload pkgdown site
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-pkgdown
+          name: rclaimlab-pkgdown
           path: site
 
   posit-cloud-persona-proxy:
@@ -138,7 +138,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-posit-cloud-persona-proxy
+          name: rclaimlab-posit-cloud-persona-proxy
           path: output/audit/persona-validation/posit-cloud-proxy.csv
 
   browser-smoke:
@@ -156,8 +156,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-browser-smoke
-          path: output/playwright/rlearnxr-browser-smoke-*.png
+          name: rclaimlab-browser-smoke
+          path: output/playwright/rclaimlab-browser-smoke-*.png
 
   browser-offline-smoke:
     name: Offline WebR fallback smoke test
@@ -175,8 +175,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-browser-offline-fallback
-          path: output/playwright/rlearnxr-browser-offline-fallback.png
+          name: rclaimlab-browser-offline-fallback
+          path: output/playwright/rclaimlab-browser-offline-fallback.png
 
   course-home-smoke:
     name: Learner course home smoke test
@@ -197,10 +197,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-course-home
+          name: rclaimlab-course-home
           path: |
-            output/playwright/rlearnxr-course-home-*.png
-            output/playwright/rlearnxr-beginner-guide-*.png
+            output/playwright/rclaimlab-course-home-*.png
+            output/playwright/rclaimlab-beginner-guide-*.png
 
   lesson-wizard-smoke:
     name: Local CSV Lesson Wizard smoke test
@@ -222,8 +222,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-lesson-wizard
-          path: output/playwright/rlearnxr-lesson-wizard-*.png
+          name: rclaimlab-lesson-wizard
+          path: output/playwright/rclaimlab-lesson-wizard-*.png
 
   persona-browser:
     name: Learner and screen-reader proxy
@@ -241,5 +241,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rlearnxr-persona-validation
+          name: rclaimlab-persona-validation
           path: output/audit/persona-validation

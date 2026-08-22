@@ -2,8 +2,8 @@
   "manifest_version": "2.0",
   "lesson_id": "penguin-pca",
   "title": "Penguin morphology PCA",
-  "source_platform": "rlearnxr",
-  "source_project": "rlearnxr",
+  "source_platform": "rclaimlab",
+  "source_project": "rclaimlab",
   "course_id": null,
   "session_id": null,
   "block_id": null,
@@ -48,9 +48,9 @@
     "extension_activities": "extension-activities.md"
   },
   "evidence": {
-    "schema_version": "rlearnxr-evidence-2",
+    "schema_version": "rclaimlab-evidence-2",
     "artifact": "evidence.json",
-    "artifact_hash": "5f42c382ea3a6ad84ccc5f35bad6bcaa"
+    "artifact_hash": "280e018b4700cd837154b27b986a0045"
   },
   "artifacts": {
     "lesson_entrypoint": "index.qmd",

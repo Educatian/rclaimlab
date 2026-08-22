@@ -2,7 +2,7 @@
 % Please edit documentation in R/evidence_spec.R
 \name{validate_lesson_spec}
 \alias{validate_lesson_spec}
-\title{Validate an R-LearnXR lesson specification}
+\title{Validate an R-ClaimLab lesson specification}
 \usage{
 validate_lesson_spec(x)
 }
@@ -13,5 +13,5 @@ validate_lesson_spec(x)
 Invisibly returns `TRUE` when valid.
 }
 \description{
-Validate an R-LearnXR lesson specification
+Validate an R-ClaimLab lesson specification
 }

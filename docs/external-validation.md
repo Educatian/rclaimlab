@@ -1,6 +1,6 @@
 # External validation without local GUI control
 
-R-LearnXR can be validated outside the developer's current work window. The primary route is the public GitHub Actions workflow at `.github/workflows/check.yml`; it uses disposable GitHub-hosted runners and does not require Computer Use, RStudio Desktop, or a locally controlled browser window.
+R-ClaimLab can be validated outside the developer's current work window. The primary route is the public GitHub Actions workflow at `.github/workflows/check.yml`; it uses disposable GitHub-hosted runners and does not require Computer Use, RStudio Desktop, or a locally controlled browser window.
 
 ## What runs remotely
 
@@ -9,7 +9,7 @@ Every push, pull request, manual dispatch, and weekly scheduled run performs:
 1. R package checks on Ubuntu, Windows, and macOS.
 2. Rebuilds and strict-checks all ten reference lessons.
 3. Renders all ten Quarto lessons.
-4. Clones and installs `Educatian/rlearnxr` from public `main` into a clean R library and verifies the exported API.
+4. Clones and installs `Educatian/rclaimlab` from public `main` into a clean R library and verifies the exported API.
 5. Runs a real Chromium interaction smoke test for keyboard controls, mobile width, the AI brief, and the semantic table.
 6. Runs the network-blocked WebR fallback test on a hosted Windows runner.
 7. Runs the synthetic novice-learner flow through completion and a screen-reader accessibility-tree proxy.
@@ -22,8 +22,8 @@ The workflow stores rendered lesson reports and browser screenshots as GitHub Ac
 The workflow runs automatically after a public push or pull request. For an explicit release rehearsal, use the GitHub Actions **Run workflow** control or the GitHub CLI:
 
 ```powershell
-gh workflow run "R-LearnXR external validation" --repo Educatian/rlearnxr --ref main
-gh run list --repo Educatian/rlearnxr --workflow "R-LearnXR external validation" --limit 1
+gh workflow run "R-ClaimLab external validation" --repo Educatian/rclaimlab --ref main
+gh run list --repo Educatian/rclaimlab --workflow "R-ClaimLab external validation" --limit 1
 ```
 
 The repository is public, so this validation does not require sharing a local desktop session. It does require GitHub-hosted runner availability and the repository's Actions permission to remain enabled.

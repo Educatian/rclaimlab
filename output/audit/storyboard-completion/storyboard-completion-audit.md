@@ -1,4 +1,4 @@
-# R-LearnXR storyboard completion audit
+# R-ClaimLab storyboard completion audit
 
 Date: 2026-08-20
 

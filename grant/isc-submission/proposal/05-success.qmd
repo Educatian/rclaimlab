@@ -3,7 +3,7 @@
 ## Definition of done
 
 - Package functions and lesson checks pass in continuous integration.
-- Three complete lessons render from documented, locked environments; the grant validates reuse and adds a community-authored adaptation.
+- Ten complete reference lessons render from documented, locked environments; the grant validates reuse and adds a community-authored adaptation.
 - Every example supports keyboard operation and a semantic data alternative.
 - Authoring, accessibility, contribution, validation, and maintenance documentation is public.
 - A tagged release and final project report are archived and linked from the repository.

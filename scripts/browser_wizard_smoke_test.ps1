@@ -9,12 +9,12 @@ $output = Join-Path $root "output\playwright"
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 $fixture = Join-Path $root "examples\learning-analytics\data\learning_events.csv"
 $npx = (Get-Command npx.cmd -ErrorAction Stop).Source
-$session = "rlearnxr-wizard"
+$session = "rclaimlab-wizard"
 $server = $null
 $browserOpened = $false
-$desktopShot = Join-Path $output "rlearnxr-lesson-wizard-desktop.png"
-$completeShot = Join-Path $output "rlearnxr-lesson-wizard-complete.png"
-$mobileShot = Join-Path $output "rlearnxr-lesson-wizard-mobile.png"
+$desktopShot = Join-Path $output "rclaimlab-lesson-wizard-desktop.png"
+$completeShot = Join-Path $output "rclaimlab-lesson-wizard-complete.png"
+$mobileShot = Join-Path $output "rclaimlab-lesson-wizard-mobile.png"
 $fixtureBrowserPath = $fixture.Replace("\", "/")
 
 function Invoke-PwCli {

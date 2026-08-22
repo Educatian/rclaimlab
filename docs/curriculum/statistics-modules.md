@@ -1,6 +1,6 @@
-# R-LearnXR Statistics and Educational Data Pathway
+# R-ClaimLab Statistics and Educational Data Pathway
 
-R-LearnXR does not claim to teach every branch of statistics. It provides a reusable introductory pathway for data-science statistics, then connects the same workflow to Learning Analytics (LA) and Educational Data Mining (EDM). Each module turns one statistical concept into a learner decision, an editable R activity, an evidence view, an explanation prompt, and a reproducible receipt.
+R-ClaimLab does not claim to teach every branch of statistics. It provides a reusable introductory pathway for data-science statistics, then connects the same workflow to Learning Analytics (LA) and Educational Data Mining (EDM). Each module turns one statistical concept into a learner decision, an editable R activity, an evidence view, an explanation prompt, and a reproducible receipt.
 
 ## Design rules
 
@@ -44,12 +44,12 @@ These modules reuse S01–S11 rather than replacing them with a dashboard.
 
 ## Current implementation map
 
-- `rlearnxr_concept_registry()`: authoritative machine-readable distinction between tested and planned curriculum capabilities.
-- `as_rlearnxr_evidence.numeric()`: S03 center, spread, percentile, and histogram evidence.
-- `as_rlearnxr_evidence.table()`: S02/S03 categorical counts and proportions.
-- `as_rlearnxr_evidence.htest()`: S04–S07 paired correlation, t-test, and chi-square evidence when the required source data are supplied.
+- `rclaimlab_concept_registry()`: authoritative machine-readable distinction between tested and planned curriculum capabilities.
+- `as_rclaimlab_evidence.numeric()`: S03 center, spread, percentile, and histogram evidence.
+- `as_rclaimlab_evidence.table()`: S02/S03 categorical counts and proportions.
+- `as_rclaimlab_evidence.htest()`: S04–S07 paired correlation, t-test, and chi-square evidence when the required source data are supplied.
 - `bootstrap_mean()`: S04 deterministic resampling distribution and percentile interval.
-- `as_rlearnxr_evidence.aov()`: explicit ANOVA evidence; `aov` objects no longer fall through to the generic `lm` contract.
+- `as_rclaimlab_evidence.aov()`: explicit ANOVA evidence; `aov` objects no longer fall through to the generic `lm` contract.
 - `prepare_learning_events()`: local event-to-learner aggregation with a reviewable recipe for LA/EDM authoring.
 - `examples/lesson/`: S01/S02/S05/S11 plus the complete browser learning loop; contributor-training reference.
 - `examples/statistics-distribution/`: S03 numeric summary and histogram lesson.

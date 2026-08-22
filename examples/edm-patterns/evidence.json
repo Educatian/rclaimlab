@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "kmeans",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"profile\"]]) scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")])) fit <- kmeans(scaled_data, centers = 3, nstart = 25) evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"profile\"]]) scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")])) fit <- kmeans(scaled_data, centers = 3, nstart = 25) evidence <- as_rclaimlab_evidence(fit, data = scaled_data, labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "d899f780fc03080ca82e4131e3696a56"
+    "artifact_hash": "6cd379f453d08f1b1b1a5aafc4580cfc"
   },
   "observations": [
     {
@@ -504,7 +504,7 @@
         "decision_context": "method critique and reversible support design, never automatic learner classification",
         "dependence_warning": false
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"profile\"]])", "scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")]))", "fit <- kmeans(scaled_data, centers = 3, nstart = 25)", "evidence <- as_rlearnxr_evidence(fit, data = scaled_data, labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"practice_minutes\", \"revision_count\", \"transfer_score\", \"profile\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"profile\"]])", "scaled_data <- as.data.frame(scale(analysis_data[c(\"practice_minutes\", \"revision_count\", \"transfer_score\")]))", "fit <- kmeans(scaled_data, centers = 3, nstart = 25)", "evidence <- as_rclaimlab_evidence(fit, data = scaled_data, labels = labels)"]
     },
     "pedagogy": {
       "analysis": "kmeans",

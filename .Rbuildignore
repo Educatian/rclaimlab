@@ -5,6 +5,7 @@
 ^examples$
 ^scripts$
 ^\.playwright-cli$
+^test-results$
 ^output$
 ^\.tools$
 ^renv\.lock$
@@ -21,12 +22,12 @@
 ^tmp$
 ^AGENTS\.md$
 ^CONTENT_LICENSE\.md$
-^rlearnxr\.Rproj$
+^rclaimlab\.Rproj$
 ^responsive-audit\.md$
 ^\.Rproj\.user$
 ^\.Rhistory$
 ^\.\.Rcheck$
-^rlearnxr\.Rcheck$
+^rclaimlab\.Rcheck$
 ^_pkgdown\.yml$
 ^CITATION\.cff$
 ^cran-comments\.md$
@@ -36,3 +37,4 @@
 ^SECURITY\.md$
 ^SUPPORT\.md$
 ^site$
+^.*\.tar\.gz$

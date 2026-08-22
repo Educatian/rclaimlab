@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use this 10-minute lesson to teach the R-LearnXR interaction contract before a domain lesson. It is intentionally small and synthetic.
+Use this 10-minute lesson to teach the R-ClaimLab interaction contract before a domain lesson. It is intentionally small and synthetic.
 
 ## Facilitation sequence
 

@@ -100,7 +100,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `aov` evidence with hash `9dbf1f8e1361fd08a2ebf0347b9837fd`.
+This lesson was compiled from `aov` evidence with hash `d2db195923307c5adb5317a3648e4aba`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

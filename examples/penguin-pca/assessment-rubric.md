@@ -1,4 +1,4 @@
-# Assessment Rubric — Reusable R-LearnXR Exit Ticket
+# Assessment Rubric — Reusable R-ClaimLab Exit Ticket
 
 Score each dimension from 0 to 2. A formative “ready” response usually scores at least 7/10 and has no zero in evidence use.
 

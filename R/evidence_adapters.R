@@ -1,20 +1,20 @@
 #' Convert an R analysis object into linked learning evidence
 #'
-#' `as_rlearnxr_evidence()` is the extension point for R-LearnXR analysis
+#' `as_rclaimlab_evidence()` is the extension point for R-ClaimLab analysis
 #' adapters. Methods preserve stable observation, dimension, and evidence IDs so
 #' that tables, plots, scenes, explanations, and receipts refer to the same
 #' analytical evidence.
 #'
 #' @param x An R data or model object.
 #' @param ... Method-specific arguments.
-#' @return An object of class `rlearnxr_evidence`.
+#' @return An object of class `rclaimlab_evidence`.
 #' @export
-as_rlearnxr_evidence <- function(x, ...) UseMethod("as_rlearnxr_evidence")
+as_rclaimlab_evidence <- function(x, ...) UseMethod("as_rclaimlab_evidence")
 
 #' @export
-as_rlearnxr_evidence.default <- function(x, ...) {
+as_rclaimlab_evidence.default <- function(x, ...) {
   stop(
-    "no R-LearnXR evidence adapter is available for class: ",
+    "no R-ClaimLab evidence adapter is available for class: ",
     paste(class(x), collapse = "/"),
     call. = FALSE
   )
@@ -26,7 +26,7 @@ as_rlearnxr_evidence.default <- function(x, ...) {
 #' @param units Optional named units for evidence dimensions.
 #' @param analysis_call Optional source call recorded in provenance.
 #' @export
-as_rlearnxr_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
+as_rclaimlab_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
                                             seed = 2026L, units = NULL,
                                             analysis_call = NULL, ...) {
   if (is.null(dimensions)) dimensions <- names(x)[vapply(x, is.numeric, logical(1))]
@@ -45,11 +45,11 @@ as_rlearnxr_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
     labels <- if ("label" %in% names(x)) x$label else rownames(x)
     if (is.null(labels) || length(labels) != nrow(x) || any(!nzchar(labels))) labels <- paste0("observation-", seq_len(nrow(x)))
   }
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values = x[dimensions],
     labels = labels,
     engine = "data.frame",
-    analysis_call = analysis_call %||% "as_rlearnxr_evidence(data.frame)",
+    analysis_call = analysis_call %||% "as_rclaimlab_evidence(data.frame)",
     seed = seed,
     roles = rep("variable", length(dimensions)),
     units = units,
@@ -58,7 +58,7 @@ as_rlearnxr_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
 }
 
 #' @export
-as_rlearnxr_evidence.prcomp <- function(x, labels = NULL, components = NULL,
+as_rclaimlab_evidence.prcomp <- function(x, labels = NULL, components = NULL,
                                         seed = 2026L, ...) {
   scores <- as.data.frame(x$x, stringsAsFactors = FALSE)
   if (is.null(components)) components <- names(scores)[seq_len(min(3L, ncol(scores)))]
@@ -75,14 +75,14 @@ as_rlearnxr_evidence.prcomp <- function(x, labels = NULL, components = NULL,
     center = x$center,
     scale = x$scale
   )
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     scores[components], labels, "prcomp", deparse_analysis_call(x$call, "stats::prcomp"),
     seed, roles = rep("component_score", length(components)), metadata = metadata
   )
 }
 
 #' @export
-as_rlearnxr_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
+as_rclaimlab_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
   frame <- stats::model.frame(x)
   observed <- stats::model.response(frame)
   if (!is.numeric(observed)) stop("lm evidence requires a numeric response", call. = FALSE)
@@ -103,7 +103,7 @@ as_rlearnxr_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
     maximum_leverage = max(stats::hatvalues(x), na.rm = TRUE),
     shapiro_p_value = if (length(residual_values) >= 3L && length(residual_values) <= 5000L) stats::shapiro.test(residual_values)$p.value else NA_real_
   )
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values, labels, "lm", deparse_analysis_call(x$call, "stats::lm"), seed,
     roles = c("outcome", "fitted", "residual", "uncertainty", "uncertainty"),
     metadata = list(
@@ -115,7 +115,7 @@ as_rlearnxr_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
 
 #' @param threshold Classification threshold recorded by the `glm` adapter.
 #' @export
-as_rlearnxr_evidence.glm <- function(x, labels = NULL, seed = 2026L,
+as_rclaimlab_evidence.glm <- function(x, labels = NULL, seed = 2026L,
                                      threshold = 0.5, ...) {
   if (!is.numeric(threshold) || length(threshold) != 1L || is.na(threshold) || threshold <= 0 || threshold >= 1) {
     stop("threshold must be one number between zero and one", call. = FALSE)
@@ -143,7 +143,7 @@ as_rlearnxr_evidence.glm <- function(x, labels = NULL, seed = 2026L,
     predicted_class = predicted_class
   )
   if (is.null(labels)) labels <- rownames(frame)
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values, labels, "glm", deparse_analysis_call(x$call, "stats::glm"), seed,
     roles = c("outcome", "probability", "residual", "uncertainty", "uncertainty", "classification"),
     metadata = list(
@@ -165,7 +165,7 @@ as_rlearnxr_evidence.glm <- function(x, labels = NULL, seed = 2026L,
 
 #' @param data Numeric data used to estimate the `kmeans` object.
 #' @export
-as_rlearnxr_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NULL,
+as_rclaimlab_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NULL,
                                         seed = 2026L, ...) {
   data <- as.data.frame(data, stringsAsFactors = FALSE)
   if (nrow(data) != length(x$cluster)) stop("data rows must match the kmeans cluster assignments", call. = FALSE)
@@ -195,7 +195,7 @@ as_rlearnxr_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NUL
   }, numeric(1))
   values <- data.frame(data[dimensions], cluster = as.numeric(x$cluster), distance_to_centroid = distance, check.names = FALSE)
   if (is.null(labels)) labels <- rownames(data)
-  build_rlearnxr_evidence(
+  build_rclaimlab_evidence(
     values, labels, "kmeans", "stats::kmeans", seed,
     roles = c(rep("feature", length(dimensions)), "cluster", "distance"),
     metadata = list(
@@ -208,7 +208,7 @@ as_rlearnxr_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NUL
   )
 }
 
-build_rlearnxr_evidence <- function(values, labels, engine, analysis_call, seed,
+build_rclaimlab_evidence <- function(values, labels, engine, analysis_call, seed,
                                     roles = NULL, units = NULL, metadata = list()) {
   values <- as.data.frame(values, stringsAsFactors = FALSE, check.names = FALSE)
   if (!nrow(values) || ncol(values) < 1L) stop("evidence must contain rows and at least one dimension", call. = FALSE)
@@ -241,9 +241,9 @@ build_rlearnxr_evidence <- function(values, labels, engine, analysis_call, seed,
   links <- long[c("evidence_id", "observation_id", "dimension_id")]
   links$source_type <- "analysis_result"
   links$source_ref <- paste0(engine, ":", links$observation_id, ":", links$dimension_id)
-  packages <- list(rlearnxr = current_rlearnxr_version())
+  packages <- list(rclaimlab = current_rclaimlab_version())
   payload <- list(
-    schema_version = "rlearnxr-evidence-2",
+    schema_version = "rclaimlab-evidence-2",
     analysis = list(
       engine = engine,
       call = paste(analysis_call, collapse = " "),
@@ -258,19 +258,19 @@ build_rlearnxr_evidence <- function(values, labels, engine, analysis_call, seed,
     metadata = metadata
   )
   payload$analysis$artifact_hash <- evidence_hash(payload)
-  value <- structure(payload, class = c("rlearnxr_evidence", "list"))
-  validate_rlearnxr_evidence(value)
+  value <- structure(payload, class = c("rclaimlab_evidence", "list"))
+  validate_rclaimlab_evidence(value)
   value
 }
 
-#' Validate linked R-LearnXR evidence
+#' Validate linked R-ClaimLab evidence
 #'
 #' @param x An evidence object.
 #' @return Invisibly returns `TRUE` when the Evidence IR contract is valid.
 #' @export
-validate_rlearnxr_evidence <- function(x) {
-  if (!inherits(x, "rlearnxr_evidence")) stop("x must be an rlearnxr_evidence object", call. = FALSE)
-  if (!identical(x$schema_version, "rlearnxr-evidence-2")) stop("unsupported evidence schema", call. = FALSE)
+validate_rclaimlab_evidence <- function(x) {
+  if (!inherits(x, "rclaimlab_evidence")) stop("x must be an rclaimlab_evidence object", call. = FALSE)
+  if (!identical(x$schema_version, "rclaimlab-evidence-2")) stop("unsupported evidence schema", call. = FALSE)
   required_analysis <- c("engine", "call", "seed", "r_version", "packages", "artifact_hash")
   if (!all(required_analysis %in% names(x$analysis))) stop("evidence analysis provenance is incomplete", call. = FALSE)
   if (anyDuplicated(x$observations$observation_id) || anyDuplicated(x$dimensions$dimension_id) || anyDuplicated(x$values$evidence_id)) {
@@ -286,8 +286,8 @@ validate_rlearnxr_evidence <- function(x) {
 }
 
 #' @export
-as.data.frame.rlearnxr_evidence <- function(x, row.names = NULL, optional = FALSE, ...) {
-  validate_rlearnxr_evidence(x)
+as.data.frame.rclaimlab_evidence <- function(x, row.names = NULL, optional = FALSE, ...) {
+  validate_rclaimlab_evidence(x)
   matrix_values <- matrix(NA_real_, nrow = nrow(x$observations), ncol = nrow(x$dimensions))
   row_index <- match(x$values$observation_id, x$observations$observation_id)
   column_index <- match(x$values$dimension_id, x$dimensions$dimension_id)
@@ -297,15 +297,15 @@ as.data.frame.rlearnxr_evidence <- function(x, row.names = NULL, optional = FALS
 }
 
 #' @export
-print.rlearnxr_evidence <- function(x, ...) {
-  cat("<rlearnxr_evidence>", x$analysis$engine, "\n")
+print.rclaimlab_evidence <- function(x, ...) {
+  cat("<rclaimlab_evidence>", x$analysis$engine, "\n")
   cat("Observations:", nrow(x$observations), " Dimensions:", nrow(x$dimensions), "\n")
   cat("Hash:", x$analysis$artifact_hash, "\n")
   invisible(x)
 }
 
 #' @export
-summary.rlearnxr_evidence <- function(object, ...) {
+summary.rclaimlab_evidence <- function(object, ...) {
   list(
     schema_version = object$schema_version,
     engine = object$analysis$engine,
@@ -318,7 +318,7 @@ summary.rlearnxr_evidence <- function(object, ...) {
 
 #' @param x_dimension,y_dimension Dimensions used by the base R preview plot.
 #' @export
-plot.rlearnxr_evidence <- function(x, x_dimension = x$dimensions$dimension_id[[1]],
+plot.rclaimlab_evidence <- function(x, x_dimension = x$dimensions$dimension_id[[1]],
                                    y_dimension = if (nrow(x$dimensions) >= 2L) x$dimensions$dimension_id[[2]] else NULL, ...) {
   table <- as.data.frame(x)
   x_index <- match(x_dimension, x$dimensions$dimension_id)
@@ -342,10 +342,10 @@ evidence_hash <- function(value) {
   unname(tools::md5sum(path))
 }
 
-current_rlearnxr_version <- function() {
+current_rclaimlab_version <- function() {
   description <- tryCatch(suppressWarnings(read.dcf("DESCRIPTION")), error = function(...) NULL)
   if (!is.null(description) && "Version" %in% colnames(description)) return(unname(description[1, "Version"]))
-  installed <- tryCatch(as.character(utils::packageVersion("rlearnxr")), error = function(...) NULL)
+  installed <- tryCatch(as.character(utils::packageVersion("rclaimlab")), error = function(...) NULL)
   if (!is.null(installed)) return(installed)
   "2.0.0-dev"
 }
@@ -353,25 +353,25 @@ current_rlearnxr_version <- function() {
 #' Read an Evidence IR artifact
 #'
 #' @param path Path to an `evidence.json` artifact.
-#' @return An object of class `rlearnxr_evidence`.
+#' @return An object of class `rclaimlab_evidence`.
 #' @export
-read_rlearnxr_evidence <- function(path) {
+read_rclaimlab_evidence <- function(path) {
   if (!file.exists(path)) stop("evidence artifact was not found", call. = FALSE)
   value <- jsonlite::fromJSON(path, simplifyDataFrame = TRUE, simplifyMatrix = TRUE)
-  value <- structure(value, class = c("rlearnxr_evidence", "list"))
-  validate_rlearnxr_evidence(value)
+  value <- structure(value, class = c("rclaimlab_evidence", "list"))
+  validate_rclaimlab_evidence(value)
   value
 }
 
 #' Write an Evidence IR artifact
 #'
-#' @param x An `rlearnxr_evidence` object.
+#' @param x An `rclaimlab_evidence` object.
 #' @param path Destination JSON path.
 #' @param overwrite Whether to replace an existing file.
 #' @return Invisibly returns the normalized output path.
 #' @export
-write_rlearnxr_evidence <- function(x, path, overwrite = FALSE) {
-  validate_rlearnxr_evidence(x)
+write_rclaimlab_evidence <- function(x, path, overwrite = FALSE) {
+  validate_rclaimlab_evidence(x)
   if (file.exists(path) && !isTRUE(overwrite)) stop("evidence artifact already exists; use overwrite = TRUE", call. = FALSE)
   ensure_dir(dirname(path))
   write_json_object(unclass(x), path)

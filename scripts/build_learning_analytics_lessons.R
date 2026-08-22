@@ -1,12 +1,12 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-source(file.path(root, "scripts", "load_rlearnxr_source.R"), chdir = FALSE)
+source(file.path(root, "scripts", "load_rclaimlab_source.R"), chdir = FALSE)
 
 education <- function(minutes, objectives, materials) list(
   audience = "introductory learning analytics and data science learners",
   estimated_minutes = minutes,
   prerequisites = c("basic data-frame vocabulary", "read a simple plot"),
   objectives = objectives,
-  sequence = rlearnxr_learning_stages(),
+  sequence = rclaimlab_learning_stages(),
   assessment = "Use the method-specific claim, evidence, limitation, repair, and transfer criteria.",
   instructor_materials = materials,
   accessibility_alternative = "semantic table and keyboard path",
@@ -29,7 +29,7 @@ build_learning_analytics <- function() {
   compile_lesson(lesson, lesson_dir, overwrite = TRUE)
   write_reference_data_license(
     lesson_dir,
-    "Synthetic R-LearnXR repeated-session event summaries.",
+    "Synthetic R-ClaimLab repeated-session event summaries.",
     "CC0-style synthetic instructional data.",
     "No real learner records are included, and the IDs are fictional."
   )
@@ -37,7 +37,7 @@ build_learning_analytics <- function() {
     lesson_dir, lesson_id = "learning-analytics", title = lesson$title,
     evidence_file = "evidence.json", evidence_hash = lesson$evidence$analysis$artifact_hash,
     dataset_file = input_file,
-    dataset_source = "Synthetic R-LearnXR repeated-session event summaries.",
+    dataset_source = "Synthetic R-ClaimLab repeated-session event summaries.",
     dataset_license = "CC0-style synthetic instructional data; no real learner records.",
     education = education(30L, c(
       "distinguish an event from a learning construct",
@@ -64,7 +64,7 @@ build_edm <- function() {
   compile_lesson(lesson, lesson_dir, overwrite = TRUE)
   write_reference_data_license(
     lesson_dir,
-    "Synthetic R-LearnXR feature profiles.",
+    "Synthetic R-ClaimLab feature profiles.",
     "CC0-style synthetic instructional data.",
     "No real learner records are included, and profiles must not be used for learner classification."
   )
@@ -72,7 +72,7 @@ build_edm <- function() {
     lesson_dir, lesson_id = "edm-patterns", title = lesson$title,
     evidence_file = "evidence.json", evidence_hash = lesson$evidence$analysis$artifact_hash,
     dataset_file = input_file,
-    dataset_source = "Synthetic R-LearnXR feature profiles.",
+    dataset_source = "Synthetic R-ClaimLab feature profiles.",
     dataset_license = "CC0-style synthetic instructional data; no real learner records.",
     education = education(30L, c(
       "explain why scale, k, seed, and multiple starts matter for k-means",

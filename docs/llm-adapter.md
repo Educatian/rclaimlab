@@ -1,6 +1,6 @@
 # Optional LLM visualization adapter
 
-R-LearnXR keeps the R and WebR core usable without a model provider. The AI Visual Brief tab has a deterministic demo mode and can call an OpenAI-compatible server endpoint when `window.RLearnXR_LLM_ENDPOINT` is configured by the host application.
+R-ClaimLab keeps the R and WebR core usable without a model provider. The AI Visual Brief tab has a deterministic demo mode and can call an OpenAI-compatible server endpoint when `window.RClaimLab_LLM_ENDPOINT` is configured by the host application.
 
 ## Request
 
@@ -14,7 +14,7 @@ The browser sends JSON like:
     "runtime": "WebR 0.6.0",
     "seed": 2026
   },
-  "response_format": "rlearnxr_visualization_brief"
+  "response_format": "rclaimlab_visualization_brief"
 }
 ```
 

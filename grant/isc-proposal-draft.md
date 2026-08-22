@@ -1,10 +1,10 @@
-# R-LearnXR: From R Code to Evidence
+# R-ClaimLab: From R Code to Evidence
 
 **A Reproducible R Framework for Interactive Data Learning**
 
 ## Executive summary
 
-R-LearnXR will provide a small, reusable R Evidence Compiler and Quarto authoring framework for reproducible data-science lessons. Many lessons ask learners to interpret analytical results, yet code, tables, graphics, prompts, assessment, and provenance often maintain separate copies of the evidence. R-LearnXR addresses this infrastructure gap by converting existing R analysis objects into an Evidence Intermediate Representation whose stable IDs connect semantic tables, 2D and optional 3D views, learner explanations, repairs, transfer tasks, and reproducibility receipts.
+R-ClaimLab will provide a small, reusable R Evidence Compiler and Quarto authoring framework for reproducible data-science lessons. Many lessons ask learners to interpret analytical results, yet code, tables, graphics, prompts, assessment, and provenance often maintain separate copies of the evidence. R-ClaimLab addresses this infrastructure gap by converting existing R analysis objects into an Evidence Intermediate Representation whose stable IDs connect semantic tables, 2D and optional 3D views, learner explanations, repairs, transfer tasks, and reproducibility receipts.
 
 An implemented v2 release candidate already demonstrates the complete R-object-to-receipt workflow. Authors state a question, analytical intent, unit of analysis, outcome, grouping/time structure, and decision context before approving an adapter. Learners then complete Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce against method-specific prompts and criteria. Ten reference lessons cover contributor training, foundational description and inference, PCA, linear regression, repeated-session Learning Analytics, and k-means Educational Data Mining. The grant will fund external review, API and release hardening, CRAN-ready checks, contributor onboarding, and a small educator/learner feasibility pilot. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month funded release phase beginning in January 2027, within the longer 24-month research-software roadmap.
 
@@ -31,13 +31,13 @@ The problem affects instructors, package authors, workshop organizers, and learn
 
 Solving this problem will let the R community share virtual laboratories as open educational resources. An instructor could start from a documented template, map three variables from an R data frame into a browser scene, add prediction and explanation prompts, verify the build, and publish through an ordinary Quarto workflow. Community contributors could improve the package, author domain-specific lessons, translate materials, and reuse the checks in other educational projects.
 
-Existing R packages provide excellent analysis, visualization, WebGL, Shiny, and publishing capabilities. R-LearnXR does not replace them. It supplies a focused package-level educational layer that connects data preparation, learner workflow, accessibility, reproducibility, and contribution practices. The browser-first design also avoids making headsets or proprietary hardware a requirement. The 3D view is progressive enhancement; the package contract, R source, Quarto lesson, JSON artifact, and semantic table are the durable core. The optional LLM adapter is reviewable, bounded, and outside the funded MVP.
+Existing R packages provide excellent analysis, visualization, WebGL, Shiny, and publishing capabilities. R-ClaimLab does not replace them. It supplies a focused package-level educational layer that connects data preparation, learner workflow, accessibility, reproducibility, and contribution practices. The browser-first design also avoids making headsets or proprietary hardware a requirement. The 3D view is progressive enhancement; the package contract, R source, Quarto lesson, JSON artifact, and semantic table are the durable core. The optional LLM adapter is reviewable, bounded, and outside the funded MVP.
 
 ## The proposal
 
 ### Overview
 
-R-LearnXR will become a small, well-scoped R package and Quarto lesson framework. Its primary value is the Evidence Compiler, not a single 3D demo. A data-frame, `prcomp`, `lm`, `glm`, or `kmeans` adapter converts an existing result into linked evidence. The browser renders that evidence and the R-authored learning contract but does not own statistical rules. The grant-period release will also validate an open artifact bridge against a separate DataSandbox test copy without changing the live intervention repository or introducing a shared database, LMS identity layer, or research-data pipeline.
+R-ClaimLab will become a small, well-scoped R package and Quarto lesson framework. Its primary value is the Evidence Compiler, not a single 3D demo. A data-frame, `prcomp`, `lm`, `glm`, or `kmeans` adapter converts an existing result into linked evidence. The browser renders that evidence and the R-authored learning contract but does not own statistical rules. The grant-period release will also validate an open artifact bridge against a separate DataSandbox test copy without changing the live intervention repository or introducing a shared database, LMS identity layer, or research-data pipeline.
 
 ### Funded release scope
 

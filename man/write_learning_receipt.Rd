@@ -14,7 +14,7 @@ write_learning_receipt(
   evidence_point = NULL,
   transfer_response = "",
   transfer_point = NULL,
-  source_platform = "rlearnxr",
+  source_platform = "rclaimlab",
   course_id = NULL,
   session_id = NULL,
   block_id = NULL,
@@ -52,7 +52,7 @@ write_learning_receipt(
 \item{overwrite}{Whether an existing receipt may be replaced.}
 }
 \value{
-Invisibly returns an `rlearnxr_receipt` with its file path attribute.
+Invisibly returns an `rclaimlab_receipt` with its file path attribute.
 }
 \description{
 Write a version 2 learner-controlled receipt

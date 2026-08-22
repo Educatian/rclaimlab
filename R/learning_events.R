@@ -12,7 +12,7 @@
 #' @param duration Optional non-negative numeric duration column.
 #' @param grouping Optional stable class, course, or site column.
 #' @return A data frame of auditable learner-level features with an aggregation
-#'   recipe stored in the `rlearnxr_recipe` attribute.
+#'   recipe stored in the `rclaimlab_recipe` attribute.
 #' @export
 prepare_learning_events <- function(data, learner, event = NULL, outcome = NULL,
                                     time = NULL, duration = NULL, grouping = NULL) {
@@ -68,20 +68,20 @@ prepare_learning_events <- function(data, learner, event = NULL, outcome = NULL,
   result <- do.call(rbind, rows)
   rownames(result) <- NULL
   names(result)[names(result) == "learner_id"] <- learner
-  attr(result, "rlearnxr_recipe") <- list(
+  attr(result, "rclaimlab_recipe") <- list(
     source_rows = nrow(data), output_rows = nrow(result), learner = learner,
     event = event, outcome = outcome, time = time, duration = duration,
     grouping = grouping, ordering = if (is.null(time)) "source row order" else time,
     privacy = "No identifiers or rows were transmitted; aggregation ran in local R."
   )
-  class(result) <- c("rlearnxr_learning_features", class(result))
+  class(result) <- c("rclaimlab_learning_features", class(result))
   result
 }
 
 #' @export
-print.rlearnxr_learning_features <- function(x, ...) {
-  recipe <- attr(x, "rlearnxr_recipe")
-  cat("<rlearnxr_learning_features>", nrow(x), "units from", recipe$source_rows, "events\n")
+print.rclaimlab_learning_features <- function(x, ...) {
+  recipe <- attr(x, "rclaimlab_recipe")
+  cat("<rclaimlab_learning_features>", nrow(x), "units from", recipe$source_rows, "events\n")
   NextMethod("print")
   invisible(x)
 }

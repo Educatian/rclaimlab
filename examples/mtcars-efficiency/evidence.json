@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "lm",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data) evidence <- as_rlearnxr_evidence(fit, labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data) evidence <- as_rclaimlab_evidence(fit, labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "b4ab0b94e4983adfedf67009f0a73e2e"
+    "artifact_hash": "d89a8f215e3188d8a118fb8bc3fbddeb"
   },
   "observations": [
     {
@@ -2318,7 +2318,7 @@
         "decision_context": "learning to critique an association model, not making a causal vehicle-design claim",
         "dependence_warning": false
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)", "evidence <- as_rlearnxr_evidence(fit, labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"hp\", \"wt\", \"mpg\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "fit <- lm(reformulate(c(\"hp\", \"wt\"), response = \"mpg\"), data = analysis_data)", "evidence <- as_rclaimlab_evidence(fit, labels = labels)"]
     },
     "pedagogy": {
       "analysis": "lm",

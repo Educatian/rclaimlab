@@ -1,6 +1,6 @@
-Package: rlearnxr
+Package: rclaimlab
 Type: Package
-Title: R-LearnXR: From R Code to Evidence
+Title: R-ClaimLab: From R Code to Evidence
 Version: 2.0.0.900
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]
@@ -10,8 +10,8 @@ Description: Compiles R analysis objects into linked educational evidence for
     lessons, explanation tasks, transfer tasks, and reproducibility receipts.
 Depends: R (>= 4.1.0)
 License: MIT + file LICENSE
-URL: https://github.com/Educatian/rlearnxr
-BugReports: https://github.com/Educatian/rlearnxr/issues
+URL: https://github.com/Educatian/rclaimlab
+BugReports: https://github.com/Educatian/rclaimlab/issues
 Encoding: UTF-8
 Imports:
     jsonlite (>= 1.8.0)

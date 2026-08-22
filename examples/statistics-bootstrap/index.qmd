@@ -99,7 +99,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `bootstrap_mean` evidence with hash `72db462ea07511794fe530de758c5cc5`.
+This lesson was compiled from `bootstrap_mean` evidence with hash `87d10e4e3a0845ad92764ecbf7e57857`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

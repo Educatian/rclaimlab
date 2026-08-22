@@ -12,7 +12,7 @@ The public repository, licenses, contribution guide, code of conduct, prototype 
 | 4. External validation, release, and maintenance | Jun. 30, 2027 | Educator/novice feasibility pilot, contributor training, tagged release, and report | $2,600 |
 | **Total** |  |  | **$10,000** |
 
-The rows identify scope, outcomes, and partial-funding priorities; they do not request four separate payments, and contract terms govern disbursement. Funds support direct labor during the grant period. No indirect costs, travel, lodging, food, publication fees, or personal hardware are requested. Existing prototype code, UI refinement, narration, screenshots, and the three current lessons are in-kind feasibility evidence and are not charged retroactively.
+The rows identify scope, outcomes, and partial-funding priorities; they do not request four separate payments, and contract terms govern disbursement. Funds support direct labor during the grant period. No indirect costs, travel, lodging, food, publication fees, or personal hardware are requested. Existing prototype code, UI refinement, narration, screenshots, and the ten current lessons are in-kind feasibility evidence and are not charged retroactively.
 
 ## Community availability and dissemination
 

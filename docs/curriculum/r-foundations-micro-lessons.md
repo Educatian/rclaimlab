@@ -1,6 +1,6 @@
 # R Foundations Micro-Lessons
 
-These four 5-minute activities prepare a novice learner for the longer R-LearnXR reference lessons. They teach statistical reasoning and R syntax together, but the learner makes a claim before seeing the code.
+These four 5-minute activities prepare a novice learner for the longer R-ClaimLab reference lessons. They teach statistical reasoning and R syntax together, but the learner makes a claim before seeing the code.
 
 ## R01 — What is one row?
 

@@ -10,4 +10,4 @@ for (lesson in lessons) {
   status <- system2(quarto, c("render", shQuote(lesson)))
   if (!identical(status, 0L)) stop("Quarto render failed for ", basename(lesson), call. = FALSE)
 }
-cat("Rendered", length(lessons), "R-LearnXR reference lessons.\n")
+cat("Rendered", length(lessons), "R-ClaimLab reference lessons.\n")

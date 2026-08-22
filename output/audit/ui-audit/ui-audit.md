@@ -1,4 +1,4 @@
-# R-LearnXR UI layout audit
+# R-ClaimLab UI layout audit
 
 Date: 2026-08-14  
 Target: `http://127.0.0.1:8772/examples/lesson/scene/index.html`  

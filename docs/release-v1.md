@@ -1,6 +1,6 @@
-# R-LearnXR release-ready v1
+# R-ClaimLab release-ready v1
 
-R-LearnXR v1 is a complete, installable open educational infrastructure package within a deliberately bounded scope. It is not a claim that every statistics topic or every institutional deployment is finished.
+R-ClaimLab v1 is a complete, installable open educational infrastructure package within a deliberately bounded scope. It is not a claim that every statistics topic or every institutional deployment is finished.
 
 ## Shipped product surface
 

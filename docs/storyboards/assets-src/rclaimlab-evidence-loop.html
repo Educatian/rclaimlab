@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>R-ClaimLab evidence loop</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f8fafc; color: #12213d; font-family: Inter, "Segoe UI", Arial, sans-serif; }
+    main { width: 1920px; min-height: 1080px; padding: 62px 70px 48px; background: linear-gradient(135deg, #f8fafc 55%, #eef5ff); }
+    .top { display: flex; justify-content: space-between; gap: 60px; align-items: end; }
+    .eyebrow { color: #1d4ed8; font-size: 20px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+    h1 { margin: 7px 0 0; font-size: 56px; letter-spacing: -2px; }
+    .statement { width: 610px; margin: 0; color: #52617a; font-size: 22px; line-height: 1.45; }
+    .pipeline { display: grid; grid-template-columns: 1fr 70px 1fr 70px 1fr 70px 1fr; align-items: center; margin-top: 48px; }
+    .arrow { color: #1d4ed8; text-align: center; font-size: 46px; font-weight: 700; }
+    article { overflow: hidden; border: 1px solid #d6deea; border-radius: 22px; background: white; box-shadow: 0 16px 42px rgba(31, 48, 78, .11); }
+    .shot { height: 420px; overflow: hidden; background: #e9eef7; border-bottom: 1px solid #d6deea; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+    .body { min-height: 158px; padding: 22px 24px; }
+    .step { color: #1d4ed8; font-size: 15px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+    h2 { margin: 6px 0 8px; font-size: 26px; }
+    p { margin: 0; color: #59677e; font-size: 17px; line-height: 1.45; }
+    .idrail { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 18px; margin-top: 36px; }
+    .rail { border-radius: 18px; padding: 20px 22px; background: #12213d; color: white; }
+    .rail strong { display: block; margin-bottom: 5px; font-size: 19px; }
+    .rail span { color: #c7d4e8; font-size: 16px; }
+    .rail.green { background: #11633c; }
+    .rail.blue { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div><div class="eyebrow">R-ClaimLab · Evidence Compiler</div><h1>One analysis, linked learning evidence</h1></div>
+    <p class="statement">The browser presents the evidence. R owns the analysis. Stable identifiers keep the selected value aligned across representations, reasoning, and the final receipt.</p>
+  </div>
+  <section class="pipeline">
+    <article><div class="shot"><img src="../../../output/audit/persona-validation/02-learner-run-r.png" alt="R code"></div><div class="body"><div class="step">01 · Analyze</div><h2>Run method-specific R</h2><p>Create the analysis object and provenance with an inspectable source command.</p></div></article>
+    <div class="arrow">→</div>
+    <article><div class="shot"><img src="../../../output/playwright/rclaimlab-browser-smoke-table.png" alt="Semantic evidence table"></div><div class="body"><div class="step">02 · Compile</div><h2>Build Evidence IR</h2><p>Assign stable observation, dimension, value, and selection identifiers.</p></div></article>
+    <div class="arrow">→</div>
+    <article><div class="shot"><img src="../../../output/playwright/rclaimlab-browser-smoke-desktop.png" alt="Linked 3D evidence"></div><div class="body"><div class="step">03 · Represent</div><h2>Inspect linked views</h2><p>Table, 2D, and optional 3D views point to the same evidence record.</p></div></article>
+    <div class="arrow">→</div>
+    <article><div class="shot"><img src="../../../output/audit/persona-validation/05-learner-complete.png" alt="Learning receipt"></div><div class="body"><div class="step">04 · Account</div><h2>Write a learning receipt</h2><p>Record prediction, evidence choice, explanation, repair, transfer, and checks.</p></div></article>
+  </section>
+  <section class="idrail">
+    <div class="rail blue"><strong>Shared evidence ID</strong><span>The same observation survives every representation change.</span></div>
+    <div class="rail"><strong>Accessible equivalent</strong><span>The semantic table remains usable without WebGL or motion.</span></div>
+    <div class="rail green"><strong>Reproducibility receipt</strong><span>Artifact hash and criterion results make completion inspectable.</span></div>
+  </section>
+</main>
+</body>
+</html>

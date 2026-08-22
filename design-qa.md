@@ -4,11 +4,11 @@ final result: passed
 
 ## Test setup
 
-- Figma reference: `output/figma/rlearnxr-explore-screen.png`
-- Desktop R success: `output/ui-improved/03-desktop-r-success.jpg`
-- Desktop 3D success: `output/ui-improved/04-desktop-scene-success.jpg`
-- Mobile entry, R, and 3D states: `output/ui-improved/05-mobile-top.jpg`, `06-mobile-r.jpg`, `07-mobile-scene.jpg`
-- Side-by-side comparison: `output/ui-improved/08-design-qa-contact-sheet.png`
+- Figma reference: `output/figma/rclaimlab-explore-screen.png`
+- Desktop implementation: `output/playwright/rclaimlab-browser-smoke-desktop.png`
+- Linked semantic table and 2D states: `output/playwright/rclaimlab-browser-smoke-table.png`, `output/playwright/rclaimlab-browser-smoke-2d.png`
+- Mobile implementation: `output/playwright/rclaimlab-browser-smoke-mobile.png`
+- Direct-interaction verification sheet: `output/demo/video-verification-contact-sheet.png`
 - Tested flow: Predict → Run real R → verify checks → inspect synchronized 3D result
 - Tested viewports: desktop 1440 × 810 and mobile 390 × 844
 
@@ -47,12 +47,12 @@ The product-design audit identified one remaining risk: the strongest learning s
 
 ## Current implementation evidence
 
-- Desktop post-run: `output/audit/design-improvements/02-evidence-reveal-desktop.png`
-- AI review flow: `output/audit/design-improvements/03-ai-review-flow.png`
-- Mobile result connection: `output/audit/design-improvements/07-mobile-evidence-connection.png`
+- Desktop post-run: `output/audit/persona-validation/03-learner-r-verified.png`
+- Linked evidence flow: `output/audit/persona-validation/04-learner-explain.png`
+- Mobile result connection: `output/playwright/rclaimlab-browser-smoke-mobile.png`
 - Mobile overflow check: 390 px viewport, `scrollWidth == clientWidth`
 - Package tests: `pkgload::load_all('.')` plus `testthat::test_dir('tests/testthat')` passed
-- Strict lesson checks: all five reference lessons passed with the pinned Quarto binary
+- Strict lesson checks: all ten reference lessons passed; Quarto rendering is verified in continuous integration
 - Final browser QA: keyboard canvas controls, labelled inputs, landmarks, reduced-motion CSS, and 200% zoom with no horizontal overflow
 
 ## Intentional deviations from Figma
@@ -63,16 +63,16 @@ The product-design audit identified one remaining risk: the strongest learning s
 
 ## Brand title pass
 
-- Official project title: **R-LearnXR: From R Code to Evidence**.
+- Official project title: **R-ClaimLab: From R Code to Evidence**.
 - Grant subtitle: *A Reproducible R Framework for Interactive Data Learning*.
-- The package and repository identifier remain `rlearnxr` for compatibility.
-- The lesson shell now uses the concise brand line `From R code to evidence` beneath `R-LearnXR`.
-- Browser evidence: `output/audit/design-improvements/13-browser-title-desktop.png` and `14-browser-title-mobile.png`.
+- The package and repository identifier remain `rclaimlab` for compatibility.
+- The lesson shell now uses the concise brand line `From R code to evidence` beneath `R-ClaimLab`.
+- Browser evidence: `output/playwright/rclaimlab-browser-smoke-desktop.png` and `rclaimlab-browser-smoke-mobile.png`.
 - Responsive result: 390 px viewport, `scrollWidth == clientWidth == 375`; no clipping or horizontal overflow.
 
 ## Storyboard completion pass
 
-Date: 2026-08-20
+Date: 2026-08-22
 
 Reference design: Figma file `jZ0W2ieUoSRwZtrMUKru8g`, explore lesson node `1:13`
 
@@ -96,4 +96,4 @@ Final checks:
 - Mobile 390 by 844 override: no horizontal document overflow; explanation criteria, transfer response, downloads, and receipt remain usable.
 - Essential learning content remains visible on mobile. No instructional section was hidden to fit the viewport.
 - Focus outlines are deliberately visible for keyboard navigation.
-- Evidence is stored in `output/audit/storyboard-completion/`.
+- Current evidence is stored in `output/audit/persona-validation/`, `output/playwright/`, and `docs/storyboards/assets/`.

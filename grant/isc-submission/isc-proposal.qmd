@@ -1,9 +1,9 @@
 ---
-title: "R-LearnXR: From R Code to Evidence"
+title: "R-ClaimLab: From R Code to Evidence"
 subtitle: "A Reproducible R Framework for Interactive Data Learning"
 author:
   - name: Jewoong Moon
-date: 2026-08-14
+date: 2026-08-22
 date-format: iso
 format:
   pdf:

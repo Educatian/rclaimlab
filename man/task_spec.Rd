@@ -9,7 +9,7 @@ task_spec(id, type, prompt, criteria = character(), evidence_required = TRUE)
 \arguments{
 \item{id}{Stable task identifier.}
 
-\item{type}{One stage in the R-LearnXR evidence-building sequence.}
+\item{type}{One stage in the R-ClaimLab evidence-building sequence.}
 
 \item{prompt}{Learner-facing instruction.}
 
@@ -18,7 +18,7 @@ task_spec(id, type, prompt, criteria = character(), evidence_required = TRUE)
 \item{evidence_required}{Whether the task must cite evidence from the compiled analysis.}
 }
 \value{
-An object of class `rlearnxr_task`.
+An object of class `rclaimlab_task`.
 }
 \description{
 Define one learning task

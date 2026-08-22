@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A screenshot-led, step-by-step beginner guide to learning with and authoring in R-LearnXR.">
+<meta name="description" content="A screenshot-led, step-by-step beginner guide to learning with and authoring in R-ClaimLab.">
 <link rel="icon" href="data:,">
-<title>Start with R-LearnXR · Beginner guide</title>
+<title>Start with R-ClaimLab · Beginner guide</title>
 <style>
 :root { color-scheme:light; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; --ink:#172033; --muted:#536078; --line:#d7e0ec; --canvas:#edf2f7; --paper:#fff; --blue:#185bcc; --blue-soft:#eaf2ff; --navy:#101a2c; --green:#087a46; --green-soft:#eaf8f0; --amber:#945200; --amber-soft:#fff6df; --code:#111827; --shadow:0 18px 50px rgba(23,32,51,.09); }
 * { box-sizing:border-box; }
@@ -91,12 +91,12 @@ details.faq p { margin:0 0 18px; color:var(--muted); }
 <a class="skip" href="#guide-main">Skip to the guide</a>
 <div class="page">
   <header class="hero">
-    <div class="brand"><span class="mark" aria-hidden="true">R</span><span>R-LearnXR · Beginner guide</span></div>
+    <div class="brand"><span class="mark" aria-hidden="true">R</span><span>R-ClaimLab · Beginner guide</span></div>
     <div class="eyebrow">Screenshot-led onboarding</div>
     <h1>Start with a question. Finish with inspectable evidence.</h1>
     <p class="hero-copy">This guide shows exactly what to type, what each command creates, what the result means, and where to go next. Begin as a learner in the browser, or continue in RStudio to compile your own data lesson.</p>
     <div class="hero-actions"><a class="button primary" href="#learner-route">Start as a learner</a><a class="button" href="#rstudio-route">Build from RStudio</a><a class="button" href="../examples/index.html">Open course home</a></div>
-    <figure class="hero-figure"><img src="../output/playwright/rlearnxr-course-home-desktop.png" alt="R-LearnXR course home showing learning outcomes, local progress, filters, and the module library." width="1280" height="720"><figcaption>Your first screen: choose one executable module. Progress remains in this browser.</figcaption></figure>
+    <figure class="hero-figure"><img src="../output/playwright/rclaimlab-course-home-desktop.png" alt="R-ClaimLab course home showing learning outcomes, local progress, filters, and the module library." width="1280" height="720"><figcaption>Your first screen: choose one executable module. Progress remains in this browser.</figcaption></figure>
   </header>
 
   <div class="layout">
@@ -121,13 +121,13 @@ details.faq p { margin:0 0 18px; color:var(--muted); }
 
         <article class="step">
           <div class="step-head"><span class="step-number">1</span><div><h3>Get the current course files</h3><p>Use PowerShell or the RStudio Terminal.</p></div></div>
-          <pre><button class="copy" type="button">Copy</button><code>git clone --branch codex/v2-evidence-compiler --single-branch https://github.com/Educatian/rlearnxr.git
-Set-Location rlearnxr</code></pre>
-          <dl><div class="instruction"><dt>What it does</dt><dd><p><code>git clone</code> downloads the current Evidence Compiler branch. <code>Set-Location</code> moves the terminal into that project folder.</p></dd></div><div class="instruction"><dt>You should see</dt><dd><p>A new <code>rlearnxr</code> folder with <code>README.md</code>, <code>R/</code>, <code>docs/</code>, and <code>examples/</code>.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Keep this terminal open and start the local server.</p></dd></div></dl>
+          <pre><button class="copy" type="button">Copy</button><code>git clone --branch codex/v2-evidence-compiler --single-branch https://github.com/Educatian/rclaimlab.git
+Set-Location rclaimlab</code></pre>
+          <dl><div class="instruction"><dt>What it does</dt><dd><p><code>git clone</code> downloads the current Evidence Compiler branch. <code>Set-Location</code> moves the terminal into that project folder.</p></dd></div><div class="instruction"><dt>You should see</dt><dd><p>A new <code>rclaimlab</code> folder with <code>README.md</code>, <code>R/</code>, <code>docs/</code>, and <code>examples/</code>.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Keep this terminal open and start the local server.</p></dd></div></dl>
         </article>
 
         <article class="step">
-          <div class="step-head"><span class="step-number">2</span><div><h3>Start the course home</h3><p>Run this from inside the cloned <code>rlearnxr</code> folder.</p></div></div>
+          <div class="step-head"><span class="step-number">2</span><div><h3>Start the course home</h3><p>Run this from inside the cloned <code>rclaimlab</code> folder.</p></div></div>
           <pre><button class="copy" type="button">Copy</button><code>python -m http.server 8772 --bind 127.0.0.1</code></pre>
           <dl><div class="instruction"><dt>What it does</dt><dd><p>Python serves the repository only to this computer at port <code>8772</code>. <code>127.0.0.1</code> means “this computer.”</p></dd></div><div class="instruction"><dt>You should see</dt><dd><p><code>Serving HTTP on 127.0.0.1 port 8772</code>. Leave the terminal running.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p>Open <a href="http://127.0.0.1:8772/examples/index.html"><code>http://127.0.0.1:8772/examples/index.html</code></a>, then select <strong>Open module</strong>.</p></dd></div></dl>
           <div class="callout warning"><p>If <code>python</code> is not recognized, open <code>examples/index.html</code> directly for a static preview, or install Python and retry. Browser R execution works best through the local server.</p></div>
@@ -150,7 +150,7 @@ Set-Location rlearnxr</code></pre>
           <div class="step-head"><span class="step-number">5</span><div><h3>Explain, repair, transfer, and reproduce</h3><p>Use a value or direction from a selected observation, then state a limitation.</p></div></div>
           <figure class="shot"><img src="../output/audit/persona-validation/04-learner-explain.png" alt="Lesson at Transfer with a selected observation in the 3D view and explanation criteria in the companion." width="1280" height="720"><figcaption>The explanation checker asks for an observation, a value or direction, and a descriptive limitation.</figcaption></figure>
           <dl><div class="instruction"><dt>Good explanation</dt><dd><p>“Observation inspect has x = −1.52, which is lower than clean. This is a descriptive comparison and may not generalize beyond these observations.”</p></dd></div><div class="instruction"><dt>Repair</dt><dd><p>If a criterion is missing, add only the missing evidence or limitation; do not replace the claim with a longer unsupported story.</p></dd></div><div class="instruction"><dt>Transfer</dt><dd><p>Select a different observation and apply the same comparison rule. Transfer shows whether the reasoning survives beyond the first point.</p></dd></div><div class="instruction"><dt>Reproduce</dt><dd><p>Check the R version, seed, retained rows, and hash; then download the R source, Quarto source, and receipt.</p></dd></div></dl>
-          <figure class="shot"><img src="../output/audit/persona-validation/05-learner-complete.png" alt="Completed R-LearnXR lesson with all eight stages marked done, reproducibility metadata, download buttons, and return-to-course action." width="1280" height="720"><figcaption>Completion means the prediction, R output, selected evidence, limitation, transfer response, and reproducibility record are connected.</figcaption></figure>
+          <figure class="shot"><img src="../output/audit/persona-validation/05-learner-complete.png" alt="Completed R-ClaimLab lesson with all eight stages marked done, reproducibility metadata, download buttons, and return-to-course action." width="1280" height="720"><figcaption>Completion means the prediction, R output, selected evidence, limitation, transfer response, and reproducibility record are connected.</figcaption></figure>
         </article>
       </section>
 
@@ -175,17 +175,17 @@ Set-Location rlearnxr</code></pre>
           <div class="step-head"><span class="step-number">1</span><div><h3>Install and load the package</h3><p>The branch is pinned so this guide and your installed API match.</p></div></div>
           <pre><button class="copy" type="button">Copy</button><code>install.packages("remotes")
 remotes::install_github(
-  "Educatian/rlearnxr",
+  "Educatian/rclaimlab",
   ref = "codex/v2-evidence-compiler",
   upgrade = "never"
 )
-library(rlearnxr)
-packageVersion("rlearnxr")
+library(rclaimlab)
+packageVersion("rclaimlab")
 Sys.which("quarto")</code></pre>
           <table class="code-explain"><thead><tr><th>Command</th><th>Plain-language meaning</th><th>Move on when</th></tr></thead><tbody>
             <tr><td><code>install.packages("remotes")</code></td><td>Installs the small helper that can install an R package from GitHub.</td><td>No installation error appears.</td></tr>
-            <tr><td><code>install_github(...)</code></td><td>Downloads, builds, and installs this exact development branch without upgrading unrelated packages.</td><td>The install ends with <code>* DONE (rlearnxr)</code>.</td></tr>
-            <tr><td><code>library(rlearnxr)</code></td><td>Attaches the package functions to the current R session.</td><td>No “there is no package” error appears.</td></tr>
+            <tr><td><code>install_github(...)</code></td><td>Downloads, builds, and installs this exact development branch without upgrading unrelated packages.</td><td>The install ends with <code>* DONE (rclaimlab)</code>.</td></tr>
+            <tr><td><code>library(rclaimlab)</code></td><td>Attaches the package functions to the current R session.</td><td>No “there is no package” error appears.</td></tr>
             <tr><td><code>packageVersion(...)</code></td><td>Confirms which package version R is actually using.</td><td>You see <code>2.0.0.900</code> or the current v2 development version.</td></tr>
             <tr><td><code>Sys.which("quarto")</code></td><td>Checks whether the Quarto command-line tool is available to R.</td><td>A path is shown, or you note that strict release checking must wait until Quarto is installed.</td></tr>
           </tbody></table>
@@ -203,7 +203,7 @@ profile <- profile_learning_data(
   intent = "reduce"
 )
 profile</code></pre>
-          <dl><div class="instruction"><dt>What it creates</dt><dd><p>An <code>rlearnxr_data_profile</code> summarizing row count, variable types, missingness, possible identifiers, and available analysis adapters.</p></dd></div><div class="instruction"><dt>What “reduce” means</dt><dd><p>Your learning goal is to represent several numeric variables with fewer dimensions while preserving as much variation as possible.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Confirm that the four measurement columns are numeric, then compile the lesson.</p></dd></div></dl>
+          <dl><div class="instruction"><dt>What it creates</dt><dd><p>An <code>rclaimlab_data_profile</code> summarizing row count, variable types, missingness, possible identifiers, and available analysis adapters.</p></dd></div><div class="instruction"><dt>What “reduce” means</dt><dd><p>Your learning goal is to represent several numeric variables with fewer dimensions while preserving as much variation as possible.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Confirm that the four measurement columns are numeric, then compile the lesson.</p></dd></div></dl>
         </article>
 
         <article class="step">
@@ -221,7 +221,7 @@ profile</code></pre>
   title = "Iris measurement structure"
 )
 lesson</code></pre>
-          <dl><div class="instruction"><dt>What it creates</dt><dd><p>An <code>rlearnxr_lesson</code> containing PCA evidence, provenance, representations, and all eight learning tasks.</p></dd></div><div class="instruction"><dt>Why <code>prcomp</code></dt><dd><p>It calls R’s established PCA implementation. R-LearnXR adapts its scores, loadings, explained variance, scaling provenance, and stable IDs; it does not reimplement PCA.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Compile the specification into portable lesson files.</p></dd></div></dl>
+          <dl><div class="instruction"><dt>What it creates</dt><dd><p>An <code>rclaimlab_lesson</code> containing PCA evidence, provenance, representations, and all eight learning tasks.</p></dd></div><div class="instruction"><dt>Why <code>prcomp</code></dt><dd><p>It calls R’s established PCA implementation. R-ClaimLab adapts its scores, loadings, explained variance, scaling provenance, and stable IDs; it does not reimplement PCA.</p></dd></div><div class="instruction"><dt>Next</dt><dd><p class="next">Compile the specification into portable lesson files.</p></dd></div></dl>
         </article>
 
         <article class="step">
@@ -291,7 +291,7 @@ browseURL(file.path(
       </section>
     </main>
   </div>
-  <footer class="footer">R-LearnXR practical onboarding guide · Screenshots are from the repository’s automated learner-persona validation. Browser checks are technical proxies, not a substitute for human learner or physical screen-reader studies.</footer>
+  <footer class="footer">R-ClaimLab practical onboarding guide · Screenshots are from the repository’s automated learner-persona validation. Browser checks are technical proxies, not a substitute for human learner or physical screen-reader studies.</footer>
 </div>
 <script>
 document.querySelectorAll('.copy').forEach(button => button.addEventListener('click', async () => {

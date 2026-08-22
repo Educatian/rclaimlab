@@ -2,7 +2,7 @@
 % Please edit documentation in R/evidence_spec.R
 \name{lesson_spec}
 \alias{lesson_spec}
-\title{Define a compilable R-LearnXR lesson}
+\title{Define a compilable R-ClaimLab lesson}
 \usage{
 lesson_spec(
   id,
@@ -24,7 +24,7 @@ lesson_spec(
 
 \item{outcomes}{Character vector of measurable learning outcomes.}
 
-\item{evidence}{An `rlearnxr_evidence` object.}
+\item{evidence}{An `rclaimlab_evidence` object.}
 
 \item{tasks}{List of `task_spec()` objects.}
 
@@ -35,8 +35,8 @@ lesson_spec(
 \item{content_license}{Reuse license for original lesson content.}
 }
 \value{
-An object of class `rlearnxr_lesson`.
+An object of class `rclaimlab_lesson`.
 }
 \description{
-Define a compilable R-LearnXR lesson
+Define a compilable R-ClaimLab lesson
 }

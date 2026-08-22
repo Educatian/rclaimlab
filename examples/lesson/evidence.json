@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "data.frame",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"x\", \"y\", \"z\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) evidence <- as_rlearnxr_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"x\", \"y\", \"z\", \"label\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- as.character(analysis_data[[\"label\"]]) evidence <- as_rclaimlab_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "c64474c79fac8a45d585421b61b2bdbd"
+    "artifact_hash": "3fb7a52274d4f54acedcc9700e052d2a"
   },
   "observations": [
     {
@@ -323,7 +323,7 @@
         "decision_context": "learning and interpretation",
         "dependence_warning": false
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"x\", \"y\", \"z\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "evidence <- as_rlearnxr_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"x\", \"y\", \"z\", \"label\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- as.character(analysis_data[[\"label\"]])", "evidence <- as_rclaimlab_evidence(analysis_data[c(\"x\", \"y\", \"z\")], dimensions = c(\"x\", \"y\", \"z\"), labels = labels)"]
     },
     "pedagogy": {
       "analysis": "data_view",

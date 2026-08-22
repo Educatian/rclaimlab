@@ -71,7 +71,7 @@ Before any analysis, learners answer:
 
 ## Capstone
 
-Design an R-LearnXR activity that connects one statistical concept to one educational decision. Submit:
+Design an R-ClaimLab activity that connects one statistical concept to one educational decision. Submit:
 
 - learning question and objectives,
 - data dictionary and provenance,

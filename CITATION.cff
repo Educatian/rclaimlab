@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "If you use R-LearnXR, please cite the software and the archived release used."
-title: "R-LearnXR: From R Code to Evidence"
+message: "If you use R-ClaimLab, please cite the software and the archived release used."
+title: "R-ClaimLab: From R Code to Evidence"
 type: software
 version: 2.0.0.900
 license: MIT
-repository-code: "https://github.com/Educatian/rlearnxr"
-url: "https://educatian.github.io/rlearnxr/"
+repository-code: "https://github.com/Educatian/rclaimlab"
+url: "https://educatian.github.io/rclaimlab/"
 authors:
   - family-names: Moon
     given-names: Jewoong

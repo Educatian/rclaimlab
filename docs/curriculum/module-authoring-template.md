@@ -1,4 +1,4 @@
-# R-LearnXR Module Authoring Template
+# R-ClaimLab Module Authoring Template
 
 Copy this structure into a lesson `README.md` or educator pack before adding a new scene.
 

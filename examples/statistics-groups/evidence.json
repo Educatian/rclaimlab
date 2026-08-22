@@ -1,14 +1,14 @@
 {
-  "schema_version": "rlearnxr-evidence-2",
+  "schema_version": "rclaimlab-evidence-2",
   "analysis": {
     "engine": "aov",
-    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"mpg\", \"cylinder_group\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- sprintf(\"observation-%04d\", source_rows) analysis_data[[\"cylinder_group\"]] <- factor(analysis_data[[\"cylinder_group\"]]) fit <- aov(reformulate(\"cylinder_group\", response = \"mpg\"), data = analysis_data) evidence <- as_rlearnxr_evidence(fit, labels = labels)",
+    "call": "set.seed(2026) # learner_data is the local CSV data frame analysis_columns <- c(\"mpg\", \"cylinder_group\") source_rows <- which(complete.cases(learner_data[analysis_columns])) analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE] labels <- sprintf(\"observation-%04d\", source_rows) analysis_data[[\"cylinder_group\"]] <- factor(analysis_data[[\"cylinder_group\"]]) fit <- aov(reformulate(\"cylinder_group\", response = \"mpg\"), data = analysis_data) evidence <- as_rclaimlab_evidence(fit, labels = labels)",
     "seed": 2026,
     "r_version": "4.6.1",
     "packages": {
-      "rlearnxr": "2.0.0.900"
+      "rclaimlab": "2.0.0.900"
     },
-    "artifact_hash": "9dbf1f8e1361fd08a2ebf0347b9837fd"
+    "artifact_hash": "d2db195923307c5adb5317a3648e4aba"
   },
   "observations": [
     {
@@ -1907,7 +1907,7 @@
         "decision_context": "statistical reasoning practice, not a causal or population claim",
         "dependence_warning": true
       },
-      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"mpg\", \"cylinder_group\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- sprintf(\"observation-%04d\", source_rows)", "analysis_data[[\"cylinder_group\"]] <- factor(analysis_data[[\"cylinder_group\"]])", "fit <- aov(reformulate(\"cylinder_group\", response = \"mpg\"), data = analysis_data)", "evidence <- as_rlearnxr_evidence(fit, labels = labels)"]
+      "generated_r_code": ["set.seed(2026)", "# learner_data is the local CSV data frame", "analysis_columns <- c(\"mpg\", \"cylinder_group\")", "source_rows <- which(complete.cases(learner_data[analysis_columns]))", "analysis_data <- learner_data[source_rows, analysis_columns, drop = FALSE]", "labels <- sprintf(\"observation-%04d\", source_rows)", "analysis_data[[\"cylinder_group\"]] <- factor(analysis_data[[\"cylinder_group\"]])", "fit <- aov(reformulate(\"cylinder_group\", response = \"mpg\"), data = analysis_data)", "evidence <- as_rclaimlab_evidence(fit, labels = labels)"]
     },
     "pedagogy": {
       "analysis": "aov",

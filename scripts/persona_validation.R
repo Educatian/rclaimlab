@@ -1,20 +1,20 @@
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
-clean_lib <- file.path(tempdir(), "rlearnxr-persona-clean-library")
+clean_lib <- file.path(tempdir(), "rclaimlab-persona-clean-library")
 dir.create(clean_lib, recursive = TRUE, showWarnings = FALSE)
 
 install.packages(root, repos = NULL, type = "source", lib = clean_lib, quiet = TRUE)
-if (!dir.exists(file.path(clean_lib, "rlearnxr"))) {
+if (!dir.exists(file.path(clean_lib, "rclaimlab"))) {
   stop("Posit Cloud proxy installation did not create the package in the clean library.")
 }
 .libPaths(c(clean_lib, .libPaths()))
-library(rlearnxr, lib.loc = clean_lib)
+library(rclaimlab, lib.loc = clean_lib)
 
 api_ok <- all(c("check_lesson", "render_scene", "scaffold_lesson") %in%
-  getNamespaceExports("rlearnxr"))
+  getNamespaceExports("rclaimlab"))
 
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
 lesson_results <- vapply(lessons, function(path) {
-  result <- rlearnxr::check_lesson(path, strict = TRUE, write_report = FALSE, write_json = FALSE)
+  result <- rclaimlab::check_lesson(path, strict = TRUE, write_report = FALSE, write_json = FALSE)
   all(as.character(result$status) == "PASS")
 }, logical(1))
 

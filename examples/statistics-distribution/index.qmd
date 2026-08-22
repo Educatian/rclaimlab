@@ -100,7 +100,7 @@ set.seed(2026)
 
 # Evidence compiler artifact
 
-This lesson was compiled from `numeric_summary` evidence with hash `470bb09c22419493d8f4ad5cdf9ef335`.
+This lesson was compiled from `numeric_summary` evidence with hash `cc50bfc8d593e8385932b33d56e04189`.
 
 [Open the synchronized browser laboratory](scene/index.html)
 

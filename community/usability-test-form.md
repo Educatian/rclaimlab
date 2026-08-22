@@ -1,4 +1,4 @@
-# R-LearnXR Pilot Observation Form
+# R-ClaimLab Pilot Observation Form
 
 - Participant code:
 - Persona: learner / instructor / accessibility reviewer

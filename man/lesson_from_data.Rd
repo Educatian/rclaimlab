@@ -19,7 +19,7 @@ lesson_from_data(
   title = "My data evidence lesson",
   id = NULL,
   outcomes = NULL,
-  stages = rlearnxr_learning_stages(),
+  stages = rclaimlab_learning_stages(),
   seed = 2026L,
   clusters = 3L,
   bootstrap_times = 1000L,
@@ -68,7 +68,7 @@ lesson_from_data(
 \item{na_action}{Either `fail` or `complete` for explicit complete-case use.}
 }
 \value{
-An object of class `rlearnxr_lesson` ready for `compile_lesson()`.
+An object of class `rclaimlab_lesson` ready for `compile_lesson()`.
 }
 \description{
 `lesson_from_data()` is the programmatic counterpart of the guided Lesson
