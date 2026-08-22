@@ -1,0 +1,33 @@
+{
+  "schema_version": "rclaimlab-media-provenance-1",
+  "generated_on": "2026-08-22",
+  "provider": "Higgsfield",
+  "model": "text2speech_v2",
+  "variant": "seed_speech",
+  "voice": {
+    "name": "Ainsley",
+    "voice_id": "731b4ffe-e95e-59f4-8c00-81608936091f",
+    "voice_type": "preset",
+    "delivery_target": "professional American English"
+  },
+  "generation_job_id": "3bb6e63b-065c-486c-9d92-3e499c94da82",
+  "credits_exact": 3.2,
+  "composition": {
+    "narration_delay_ms": 1500,
+    "narration_duration_seconds": 93.096,
+    "final_video_duration_seconds": 103.296,
+    "video": "1920x1080 H.264 at 30 fps",
+    "audio": "AAC mono"
+  },
+  "artifacts": {
+    "video": {
+      "path": "output/demo/rclaimlab-demo-higgsfield-en.mp4",
+      "sha256": "1105ec336c6c373c954f2c214382604f712b9a8975bcfb825fdda858eea6edeb"
+    },
+    "narration": {
+      "path": "output/demo/rclaimlab-narration-higgsfield-en.mp3",
+      "sha256": "4e2f3008a0e19335b79c4194f01e81611cdcfe1a4771b19ade4754406abf17bb"
+    },
+    "captions": "output/demo/rclaimlab-demo-en.srt"
+  }
+}

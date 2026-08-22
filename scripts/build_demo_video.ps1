@@ -9,9 +9,9 @@ $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $demoOutput = Join-Path $projectRoot "output\demo"
 $captionSource = Join-Path $projectRoot "demo\subtitles-en.srt"
 $captionOutput = Join-Path $demoOutput "rclaimlab-demo-en.srt"
-$narration = Join-Path $demoOutput "rclaimlab-narration-en.mp3"
+$narration = Join-Path $demoOutput "rclaimlab-narration-higgsfield-en.mp3"
 $referenceRecording = Join-Path $demoOutput "rclaimlab-interaction-raw.webm"
-$finalName = if ($CaptionedPreview) { "rclaimlab-demo-captioned-preview.mp4" } else { "rclaimlab-demo-en.mp4" }
+$finalName = if ($CaptionedPreview) { "rclaimlab-demo-captioned-preview.mp4" } else { "rclaimlab-demo-higgsfield-en.mp4" }
 $finalVideo = Join-Path $demoOutput $finalName
 $temporaryVideo = Join-Path $demoOutput ($finalName -replace '\.mp4$', '.tmp.mp4')
 
@@ -46,16 +46,16 @@ try {
       -filter_complex $filter -map "[vout]" -r 30 -t $targetDuration `
       -c:v libx264 -preset medium -crf 20 -movflags +faststart `
       -metadata title="R-ClaimLab Captioned Direct Interaction Preview" `
-      -metadata comment="English captions included; narration pending a fresh ElevenLabs render." `
+      -metadata comment="English captions included; narration omitted for the review fallback." `
       $temporaryVideo
   } else {
     & $Ffmpeg -hide_banner -loglevel error -y -i $referenceRecording -i $narration `
       -filter_complex $filter -map "[vout]" -map "1:a:0" `
-      -af "loudnorm=I=-16:TP=-1.5:LRA=11,apad" -r 30 -t $targetDuration `
+      -af "adelay=1500:all=1,loudnorm=I=-16:TP=-1.5:LRA=11,apad" -r 30 -t $targetDuration `
       -c:v libx264 -preset medium -crf 20 `
       -c:a aac -b:a 192k -movflags +faststart `
       -metadata title="R-ClaimLab Direct Interaction Grant Demo" `
-      -metadata comment="AI-generated narration by ElevenLabs; English captions included." `
+      -metadata comment="AI-generated narration through Higgsfield Seed Speech; English captions included." `
       $temporaryVideo
   }
   if ($LASTEXITCODE -ne 0) { throw "FFmpeg failed while composing the interaction demo." }

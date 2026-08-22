@@ -11,9 +11,9 @@ R analysis object -> Evidence Adapter -> Evidence IR -> Lesson Compiler
 
 ## Grant demo
 
-[![R-ClaimLab direct-interaction demo verification frames](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4)
+[![R-ClaimLab direct-interaction demo verification frames](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-higgsfield-en.mp4)
 
-[Watch the 103-second direct-interaction, English-captioned review video](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4) or download the [English captions](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-en.srt). The reproducible build script is configured for ElevenLabs' American voice `Matilda — Knowledgeable, Professional`; the narrated release is published only after a fresh current-brand synthesis succeeds.
+[Watch the 103-second narrated direct-interaction demo](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-higgsfield-en.mp4), open the [caption-only review version](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4), or download the [English captions](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-en.srt). The English narration was generated through Higgsfield with the `Ainsley` voice and Seed Speech engine; [generation provenance](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-higgsfield-generation.json) records the model, timing, and artifact hashes.
 
 Grant preparation materials:
 

@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 $source = Join-Path $root "demo\narration-en.txt"
-$output = Join-Path $root "output\demo\rclaimlab-narration-en.mp3"
+$output = Join-Path $root "output\demo\rclaimlab-narration-elevenlabs-en.mp3"
 $apiKey = $env:ELEVENLABS_API_KEY
 
 if (-not $apiKey -and $EnvFile) {

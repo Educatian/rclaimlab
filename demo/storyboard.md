@@ -17,6 +17,6 @@ Production requirements:
 - 1920 x 1080, 30 fps, H.264 video, AAC audio
 - Real browser interactions; no screenshot-only montage
 - Burned-in English captions plus a separate `.srt` file
-- ElevenLabs voice: Matilda, Knowledgeable, Professional, American accent
+- Higgsfield voice: Ainsley preset with Seed Speech, professional American-English delivery
 - Repository and video description disclose AI-generated narration
 - Final verification includes duration, codec, contact sheet, R execution state, PCA example, and completion state
