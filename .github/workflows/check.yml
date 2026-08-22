@@ -86,17 +86,17 @@ jobs:
         with:
           extra-packages: any::remotes
           needs: check
-      - name: Install from public main into a clean library
+      - name: Install legacy v1.1.0 tag into a clean library
         shell: Rscript {0}
         run: |
-          clean_lib <- file.path(tempdir(), "rclaimlab-clean-library")
+          clean_lib <- file.path(tempdir(), "rlearnxr-v1-clean-library")
           dir.create(clean_lib, recursive = TRUE)
           .libPaths(c(clean_lib, .libPaths()))
-          remotes::install_git("https://github.com/Educatian/rclaimlab.git", ref = "main", upgrade = "never")
-          library(rclaimlab, lib.loc = clean_lib)
-          stopifnot(as.character(packageVersion("rclaimlab")) == "1.1.0")
-          stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rclaimlab")))
-          message("Public main clean-install rehearsal passed")
+          remotes::install_git("https://github.com/Educatian/rclaimlab.git", ref = "v1.1.0", upgrade = "never")
+          library(rlearnxr, lib.loc = clean_lib)
+          stopifnot(as.character(packageVersion("rlearnxr")) == "1.1.0")
+          stopifnot(all(c("check_lesson", "render_scene", "scaffold_lesson") %in% getNamespaceExports("rlearnxr")))
+          message("Legacy v1.1.0 clean-install rehearsal passed")
 
   pkgdown:
     name: Build pkgdown and check links
