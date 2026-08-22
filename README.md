@@ -72,13 +72,14 @@ Grant preparation materials:
 
 ## Choose your path
 
+- **New to the app:** follow the screenshot-led [Beginner guide](docs/beginner-guide.html). It explains what to type, what each command creates, what the output means, and where to go next.
 - **Explore the course:** open [`examples/index.html`](examples/index.html) and choose a module; RStudio is not required for learners.
 - **Explore a lesson directly:** open the browser scene when you already know the lesson path.
 - **Use the package:** install the public release candidate with `remotes::install_github()`.
 - **Author a lesson:** clone the repository as an RStudio Project, restore `renv`, and install the local package.
 - **Contribute:** use the repository project, run diagnosis and strict checks, then open a focused pull request.
 
-The complete copy-paste setup is in [End-user quick start](docs/end-user-quick-start.md). Start with `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The no-local-GUI validation plan is in [External validation](docs/external-validation.md), and the latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
+Start with the screenshot-led [Beginner guide](docs/beginner-guide.html), then keep the compact [End-user quick start](docs/end-user-quick-start.md) as a command reference. Run `Rscript scripts/diagnose_environment.R` when a tool or dependency is unclear. The no-local-GUI validation plan is in [External validation](docs/external-validation.md), and the latest clean-install and browser evidence is recorded in the [end-user rehearsal audit](output/audit/end-user-rehearsal/end-user-rehearsal.md).
 
 The optional Shiny educator console is documented in [Optional Shiny educator shell](docs/shiny-educator-shell.md). It is a local authoring and release-review surface over the same R package contracts, not a replacement for the portable Quarto/WebR learner experience.
 

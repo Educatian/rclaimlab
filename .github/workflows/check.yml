@@ -190,12 +190,17 @@ jobs:
       - name: Run course-home navigation and responsive test
         shell: pwsh
         run: ./scripts/browser_course_smoke_test.ps1 -StartServer
-      - name: Upload course-home screenshots
+      - name: Run beginner-guide content and responsive test
+        shell: pwsh
+        run: ./scripts/browser_beginner_guide_smoke_test.ps1 -StartServer
+      - name: Upload course-home and beginner-guide screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: rlearnxr-course-home
-          path: output/playwright/rlearnxr-course-home-*.png
+          path: |
+            output/playwright/rlearnxr-course-home-*.png
+            output/playwright/rlearnxr-beginner-guide-*.png
 
   lesson-wizard-smoke:
     name: Local CSV Lesson Wizard smoke test

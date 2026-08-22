@@ -1,5 +1,7 @@
 # R-LearnXR end-user quick start
 
+First time here? Use the screenshot-led [Beginner guide](beginner-guide.html) once. It connects each command to the screen that appears, explains what the result means, and tells you exactly when to move to the next step. Return to this page afterward as the compact command reference.
+
 R-LearnXR has three different entry paths. Choose the shortest path for the job.
 
 ## Path A: explore a lesson

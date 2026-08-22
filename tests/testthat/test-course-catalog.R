@@ -11,6 +11,8 @@ test_that("default course catalog validates and renders a complete static home",
   expect_match(html, "educator-tools")
   expect_match(html, "receipt-files")
   expect_match(html, "resume-link")
+  expect_match(html, "beginner-guide-link")
+  expect_match(html, "docs/beginner-guide.html", fixed = TRUE)
   expect_match(html, "completed with evidence")
   expect_match(html, "module-status")
   expect_match(html, "pageshow")
