@@ -6,14 +6,14 @@
 
 R-ClaimLab will provide a small, reusable R Evidence Compiler and Quarto authoring framework for reproducible data-science lessons. Many lessons ask learners to interpret analytical results, yet code, tables, graphics, prompts, assessment, and provenance often maintain separate copies of the evidence. R-ClaimLab addresses this infrastructure gap by converting existing R analysis objects into an Evidence Intermediate Representation whose stable IDs connect semantic tables, 2D and optional 3D views, learner explanations, repairs, transfer tasks, and reproducibility receipts.
 
-An implemented v2 release candidate already demonstrates the complete R-object-to-receipt workflow. Authors state a question, analytical intent, unit of analysis, outcome, grouping/time structure, and decision context before approving an adapter. Learners then complete Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce against method-specific prompts and criteria. Ten reference lessons cover contributor training, foundational description and inference, PCA, linear regression, repeated-session Learning Analytics, and k-means Educational Data Mining. The grant will fund external review, API and release hardening, CRAN-ready checks, contributor onboarding, and a small educator/learner feasibility pilot. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month funded release phase beginning in January 2027, within the longer 24-month research-software roadmap.
+An implemented v2 release candidate already demonstrates the complete R-object-to-receipt workflow. Authors state a question, analytical intent, unit of analysis, outcome, grouping/time structure, and decision context before approving an adapter. Learners then complete Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce against method-specific prompts and criteria. Ten reference lessons cover contributor training, foundational description and inference, PCA, linear regression, repeated-session Learning Analytics, and k-means Educational Data Mining. Before submission, the project will seek two short R/Quarto reviews and one structured usability pilot, then connect each finding to a proposal revision or public issue. The grant will fund API and release hardening, reusable authoring, accessibility checks, contributor onboarding, and a larger educator/learner feasibility pilot. The optional AI Visual Brief is unfunded and not required. We request $10,000 for a six-month funded release phase beginning in January 2027, within the longer 24-month research-software roadmap.
 
 ## Signatories
 
 ### Project team
 
 - **Jewoong Moon — Project Lead / primary contractor.** Product direction, learning-experience design, R and Quarto integration, reproducibility workflow, documentation, and project reporting. Public project artifacts will be linked from the repository.
-- **Additional core team members: optional and to be added if confirmed.** The Project Lead can deliver the scoped six-month MVP as the primary contractor; any confirmed collaborator will receive a named responsibility and be added with consent.
+- **Yeonji Jung, proposed Co-Lead for Community Validation and Adoption, Assistant Professor at Texas A&M University; final confirmation pending.** She is designated to own Milestone 4: the feasibility pilot, contributor onboarding, findings-to-issue disposition, and co-review of the tagged release and final report. Final public attribution is contingent on her written consent, confirmation of January-June 2027 availability, and acceptance of this milestone. Jewoong Moon remains the proposed primary contractor; any co-lead compensation or subcontracting will be documented only after contract and institutional requirements are confirmed. The Project Lead remains able to deliver the technical scope if the role is not finalized.
 
 ### Contributors
 
@@ -81,7 +81,11 @@ Core dependencies are R, Quarto, WebR, standard browser APIs, and openly license
 
 Funding is allocated to direct labor tied to milestone deliverables. Existing v2 compiler code, UI refinement, narration, screenshots, and the ten current lessons are in-kind feasibility evidence and are not charged retroactively. The project will not charge indirect costs, travel, lodging, food, publication fees, or personal hardware. Code will use an OSI-approved license and educational content will use a Creative Commons license. Work will be public on GitHub, with issues and contribution templates available from project startup.
 
+The Project Lead owns Milestones 1-3. Yeonji Jung, the proposed Co-Lead, will own Milestone 4 after written consent, January-June 2027 availability, and milestone acceptance are confirmed. Submission-period co-lead recruitment, two R/Quarto reviews, and at least one short usability pilot are in-kind validation and are not charged to the grant.
+
 ## Success
+
+Before submission, any publicly named co-lead must provide written consent, January-June 2027 availability, and acceptance of Milestone 4. Two R/Quarto educators or maintainers will complete a short structured review, and at least one learner or instructor will complete a short task-based pilot. Names will be used only with permission, and pilot evidence will report completion, barriers, and facilitator help without claiming effectiveness.
 
 ### Definition of done
 

@@ -86,12 +86,12 @@
     {
       "check": "artifact_hash",
       "status": "PASS",
-      "message": "b00599fdc1c217a70306e2e333bf54ff, 4fffa2b5f3e64ed992f4b72b4ee043ac, 33ba78658e2b35f60209ee67bf0d1f34"
+      "message": "7e6956d037c187ef3a072ffbaa19d45c, 4fffa2b5f3e64ed992f4b72b4ee043ac, 33ba78658e2b35f60209ee67bf0d1f34"
     },
     {
       "check": "quarto_available",
-      "status": "FAIL",
-      "message": "Quarto CLI was not found; CI must render the lesson before release"
+      "status": "PASS",
+      "message": "Quarto CLI found"
     }
   ]
 }

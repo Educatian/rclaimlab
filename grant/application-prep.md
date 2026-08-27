@@ -1,6 +1,6 @@
 # R Consortium ISC 2026-2 application preparation
 
-Status checked: 2026-08-14.
+Status checked: 2026-08-27.
 
 Project title: **R-ClaimLab: From R Code to Evidence**
 
@@ -33,7 +33,7 @@ The official process requires one self-contained PDF, 2–5 pages. The template 
 - [x] Final 2–5 page PDF
 - [x] Public proposal or project repository URL
 - [x] Project lead contact information
-- [x] Project lead contact and any confirmed core team roles; a co-lead is optional
+- [ ] Project lead contact is ready; Yeonji Jung is designated as proposed co-lead, with written public-attribution consent, January-June 2027 availability, and deliverable-package-4 acceptance still pending
 - [x] Public evidence of prior work and delivery capacity
 - [x] Total request in USD, justified by milestone-level labor; the current proposal requests $10,000
 - [x] Milestone-level budget and delivery dates
@@ -41,6 +41,8 @@ The official process requires one self-contained PDF, 2–5 pages. The template 
 - [ ] Community feedback, consulted people, and letters or comments of support
 - [x] Risk, assumption, dependency, and recovery plan
 - [x] Measurable definition of done and adoption indicators
+
+The public call does not state a per-project award ceiling. Treat $10,000 as the proposed, milestone-justified request—not as a published maximum—and verify any amount field or cap in the live 2026-2 form on September 1.
 
 ## Official proposal sections
 
@@ -100,10 +102,11 @@ Separate deliverable completion from adoption evidence:
 
 ## Submission gates still open
 
-- Confirmation of the project lead and any additional core team member, if applicable
-- Two or more R educators/maintainers who have reviewed the proposal
-- At least one short pilot or structured usability session
-- Public repository URL, `v0.1.0-rc.4` tag, and public clean-clone install check are complete; recheck the live form before submission
+- Written consent, January-June 2027 availability, and deliverable-package-4 ownership for any publicly named co-lead
+- Two or more R/Quarto educators or maintainers who complete the structured review; name only with permission
+- At least one short learner or instructor pilot with task, barrier, and facilitator-help evidence
+- Canonical budget is fixed at $2,800 / $2,400 / $2,200 / $2,600; copy this map to the live form
+- Public repository URL and clean-clone install check are complete; create a current GitHub Release and recheck the live form before submission
 - English narrated and captioned demo is available, including a direct-interaction browser recording
 - Concise budget justification tied to future, not already completed, work
 - Final application-form field check on or after September 1
@@ -121,7 +124,7 @@ Public tracking:
 |---|---|
 | Aug 11–16 | Publish repository, replace the screenshot montage with a direct-interaction demo, and finish technical QA |
 | Aug 17–23 | Invite two community reviewers and run a small pilot |
-| Aug 24–31 | Incorporate feedback; compress proposal to 2–5 pages |
+| Aug 24–31 | Confirm co-lead role; obtain two R/Quarto reviews and one short pilot; incorporate findings |
 | Sep 1 | Inspect the live 2026-2 form and map every field to the prepared material |
 | Sep 2–15 | Obtain named support and finalize milestone budget |
 | Sep 16–24 | Independent review for clarity, scope, and delivery risk |

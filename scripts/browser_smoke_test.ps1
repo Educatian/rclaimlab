@@ -43,6 +43,7 @@ try {
   Invoke-PwCli open $BaseUrl | Out-Null
   Invoke-PwCli snapshot | Out-Null
   Invoke-PwCli resize 390 844 | Out-Null
+  Invoke-PwCli eval "() => { const guidance = document.querySelector('#step-guidance-text')?.textContent || ''; const heading = document.querySelector('#observation-heading')?.textContent || ''; const tip = document.querySelector('#method-tip')?.textContent.trim() || ''; if (!guidance.includes('Describe what one row')) throw new Error('current-step guidance missing'); if (heading !== 'Preview observation') throw new Error('default observation is incorrectly presented as learner-selected evidence'); if (tip.length < 20) throw new Error('method misconception collapsed to a single character'); return 'first-step-clarity-ok'; }" | Out-Null
   Invoke-PwCli eval "() => { document.querySelector('#ai-tab').click(); return 'ai-tab-open'; }" | Out-Null
   Invoke-PwCli eval "(() => { const root = document.documentElement; if (root.scrollWidth > root.clientWidth + 1) throw new Error('mobile horizontal overflow: ' + root.scrollWidth + ' > ' + root.clientWidth); return 'mobile-width-ok'; })()" | Out-Null
   Invoke-PwCli fill "#ai-prompt" "Show the three-dimensional relationship between x, y, and z." | Out-Null

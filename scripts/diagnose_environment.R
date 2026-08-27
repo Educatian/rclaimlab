@@ -29,7 +29,13 @@ add_check(
 )
 
 check_command <- function(name, label, required = FALSE, action = "", fallback = character()) {
-  value <- Sys.which(name)[[1]]
+  value <- if (identical(name, "quarto")) Sys.getenv("QUARTO_PATH", unset = "") else ""
+  if (identical(name, "quarto") && nzchar(value) && dir.exists(value)) {
+    candidates <- file.path(value, c("quarto", "quarto.exe"))
+    existing <- candidates[file.exists(candidates)]
+    value <- if (length(existing)) existing[[1]] else ""
+  }
+  if (!nzchar(value) || !file.exists(value)) value <- Sys.which(name)[[1]]
   if (!nzchar(value) && length(fallback)) {
     existing <- fallback[file.exists(fallback)]
     if (length(existing)) value <- normalizePath(existing[[1]], winslash = "/")

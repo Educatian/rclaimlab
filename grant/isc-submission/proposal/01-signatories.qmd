@@ -3,12 +3,12 @@
 ## Project team
 
 - **Jewoong Moon, Project Lead and primary contractor.** Responsible for learning-experience design, R and Quarto integration, reproducibility workflow, documentation, community coordination, and project reporting. Track record and current implementation are available in the [public R-ClaimLab repository](https://github.com/Educatian/rclaimlab).
-- **Additional core team members: optional and to be added if confirmed.** The proposal is intentionally scoped so the Project Lead can deliver the six-month MVP as the primary contractor. Any confirmed collaborator will receive a named responsibility and be added with their consent.
+- **Yeonji Jung, proposed Co-Lead for Community Validation and Adoption, Assistant Professor at Texas A&M University; final confirmation pending.** She is designated to own Milestone 4: recruiting and coordinating the educator/learner feasibility pilot, organizing contributor onboarding, translating findings into tracked issues, and co-reviewing the release and final community report. Final public attribution is contingent on her written consent, confirmation of availability from January through June 2027, and acceptance of this milestone. Jewoong Moon remains the proposed primary contractor; any co-lead compensation or subcontracting will be documented only after contract and institutional requirements are confirmed. The Project Lead remains able to deliver the technical scope if the role is not finalized.
 
 ## Contributors
 
-People who contribute lesson examples, accessibility review, code, or proposal feedback will be named here after confirming how they wish to be credited.
+Two R/Quarto reviewers and contributors to lesson examples, accessibility review, code, or proposal feedback will be named here only after confirming how they wish to be credited. Their comments will be recorded as short structured reviews and linked to resulting revisions or issues.
 
 ## Consulted
 
-The grant-period plan will invite at least two R or Quarto educators or maintainers to review the need, scope, API, and reuse plan. Attributable feedback or public evidence will be linked here when permission is granted. No external endorsement is claimed in this draft.
+Before submission, the project will invite at least two R or Quarto educators or maintainers to review the need, scope, API, and reuse plan and will run at least one short structured usability session. Attributable feedback or a de-identified summary will be linked when permission and applicable review requirements allow. No unconfirmed endorsement or completed human validation is claimed in this draft.

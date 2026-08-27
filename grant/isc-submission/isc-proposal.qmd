@@ -3,7 +3,8 @@ title: "R-ClaimLab: From R Code to Evidence"
 subtitle: "A Reproducible R Framework for Interactive Data Learning"
 author:
   - name: Jewoong Moon
-date: 2026-08-22
+  - name: Yeonji Jung
+date: 2026-08-27
 date-format: iso
 format:
   pdf:
@@ -18,7 +19,7 @@ format:
     embed-resources: true
 ---
 
-_Prepared for the R Consortium ISC 2026-2 submission. This document follows the required proposal template revised 2026-03-24. The project can be submitted by the Project Lead; external review and pilot recruitment are described as grant-period validation activities. No external endorsement is claimed here._
+_Prepared for the R Consortium ISC 2026-2 submission. Yeonji Jung is designated as proposed Co-Lead for Community Validation and Adoption; final public-attribution confirmation, January-June 2027 availability, and milestone acceptance remain pending. Pre-submission review and pilot evidence will be added only with permission; no unconfirmed endorsement is claimed._
 
 {{< include proposal/00-exec-summary.qmd >}}
 

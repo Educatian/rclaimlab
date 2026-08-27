@@ -1,6 +1,6 @@
 # R-ClaimLab reproducibility report
 
-Generated: 2026-08-22 01:56:22 PDT
+Generated: 2026-08-27 00:36:53 PDT
 Mode: strict (warnings fail)
 
 | Check | Status | Message |
@@ -21,7 +21,7 @@ Mode: strict (warnings fail)
 | static_fallback | PASS | table, source, and learning receipt exports remain available without the visual runtime |
 | ai_safety_markers | PASS | optional AI path omits browser credentials, records the privacy boundary, and validates returned code |
 | learning_loop | PASS | predict, run R, explore, explain, reproduce, and completion controls are present |
-| artifact_hash | PASS | 85fb815c54ae37174e424db2ab78ac78, 25c18d7c1872b6664f3be3da4e1f2362, 05693f6dc9d2843c4075a05dc40ab397 |
-| quarto_available | FAIL | Quarto CLI was not found; CI must render the lesson before release |
+| artifact_hash | PASS | 05155250cf7dbc775f83208679dca20d, 25c18d7c1872b6664f3be3da4e1f2362, 05693f6dc9d2843c4075a05dc40ab397 |
+| quarto_available | PASS | Quarto CLI found |
 
 This report checks project hygiene and structural accessibility markers. PASS does not guarantee identical results on every operating system or replace a browser assistive-technology audit.

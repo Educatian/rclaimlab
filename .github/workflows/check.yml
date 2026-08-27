@@ -27,6 +27,9 @@ jobs:
         with:
           extra-packages: any::rcmdcheck any::covr
           needs: check
+      - name: Verify source tarball boundary
+        if: matrix.r == 'release'
+        run: Rscript scripts/check_source_tarball.R
       - uses: r-lib/actions/check-r-package@v2
       - name: Evidence Compiler contract coverage
         if: matrix.r == 'release'

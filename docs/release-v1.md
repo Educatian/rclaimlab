@@ -17,7 +17,7 @@ R-ClaimLab v1 is a complete, installable open educational infrastructure package
 
 The public release is accepted only when all of the following are green:
 
-1. `R CMD check` and package tests on Ubuntu, Windows, and macOS.
+1. Build the source tarball first, then run `R CMD check --as-cran` and package tests on Ubuntu, Windows, and macOS. Checking the repository directory directly is not a CRAN-equivalent test because local `tmp/`, audit outputs, and tool caches are intentionally excluded by `.Rbuildignore` only during tarball creation.
 2. Strict checks and Quarto renders for every executable reference lesson.
 3. Clean installation from public GitHub `main` in a disposable library.
 4. Browser interaction, mobile overflow, keyboard, semantic-table, and offline-fallback smoke tests.

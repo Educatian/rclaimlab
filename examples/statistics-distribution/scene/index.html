@@ -89,7 +89,7 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .rail, .main, .companion { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
 .rail::-webkit-scrollbar, .main::-webkit-scrollbar, .companion::-webkit-scrollbar { width: 7px; }
 .rail::-webkit-scrollbar-thumb, .main::-webkit-scrollbar-thumb, .companion::-webkit-scrollbar-thumb { border-radius: 999px; background: #cbd5e1; }
-.eyebrow { color: var(--color-text-muted); font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.eyebrow { color: var(--color-text-muted); font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .rail-title { margin: 8px 0 24px; font-size: 15px; font-weight: 750; }
 .step-list { display: grid; gap: var(--space-1); }
 .step-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 48px; padding: 0 10px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--color-text-muted); text-align: left; }
@@ -99,37 +99,39 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 .step-row[data-state="done"] .step-index { background: var(--color-success); }
 .step-row[aria-current="step"] .step-index { background: var(--color-primary); }
 .step-name { font-size: 13px; font-weight: 750; }
-.step-current { margin-left: auto; font-size: 9px; font-weight: 800; }
+.step-current { margin-left: auto; font-size: 10px; font-weight: 800; }
 .goal-card { margin-top: 24px; padding: var(--space-4); border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); }
-.goal-card h2 { margin: 0 0 10px; color: var(--color-primary); font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
-.goal-card p { margin: 0; color: var(--color-text); font-size: 13px; line-height: 1.32; font-weight: 750; }
-.goal-card small { display: block; margin-top: 12px; color: var(--color-text-muted); font-size: 10px; }
+.goal-card h2 { margin: 0 0 10px; color: var(--color-primary); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+.goal-card ul { display: grid; gap: 8px; margin: 0; padding-left: 18px; color: var(--color-text); font-size: 12px; line-height: 1.38; font-weight: 700; }
+.goal-card small { display: block; margin-top: 12px; color: var(--color-text-muted); font-size: 11px; }
 .main { grid-column: 2; grid-row: 2; min-width: 0; min-height: 0; padding: 28px 28px 24px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .title-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
 .title-row h1 { min-width: 0; flex: 1; margin: 0; font-size: clamp(25px, 2.4vw, 32px); line-height: 1.12; letter-spacing: -.04em; }
 .title-row p { margin: 8px 0 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.45; }
 .step-count { padding-top: 8px; color: var(--color-primary); font-size: 10px; font-weight: 800; white-space: nowrap; }
+.step-guidance { display: flex; align-items: flex-start; gap: 9px; margin: -10px 0 18px; padding: 10px 12px; border-left: 3px solid var(--color-primary); border-radius: var(--radius-control); background: var(--color-primary-soft); color: var(--color-text); font-size: 12px; line-height: 1.45; }
+.step-guidance strong { flex: 0 0 auto; color: var(--color-primary); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
 .scene-card { overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-panel); background: var(--color-surface); box-shadow: var(--shadow-panel); }
 .scene-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 22px 24px 14px; }
 .scene-header strong { display: block; color: var(--color-primary); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
-.scene-header span { display: block; margin-top: 8px; color: var(--color-text-muted); font-size: 11px; }
-.keyboard-hint { max-width: 220px; color: var(--color-text-muted); font-size: 10px; line-height: 1.4; text-align: right; }
+.scene-header span { display: block; margin-top: 8px; color: var(--color-text-muted); font-size: 12px; }
+.keyboard-hint { max-width: 220px; color: var(--color-text-muted); font-size: 11px; line-height: 1.4; text-align: right; }
 .view-tabs { display: flex; gap: 0; padding: 0 24px; border-bottom: 1px solid var(--color-border); }
-.view-tab { min-width: 0; min-height: 42px; padding: 0 15px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--color-text-muted); font-size: 11px; font-weight: 850; letter-spacing: .02em; white-space: nowrap; }
+.view-tab { min-width: 0; min-height: 42px; padding: 0 15px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--color-text-muted); font-size: 12px; font-weight: 850; letter-spacing: .02em; white-space: nowrap; }
 .view-tab:hover { color: var(--color-text); background: var(--color-surface-subtle); }
 .view-tab[aria-selected="true"] { border-bottom-color: var(--color-primary); color: var(--color-primary); }
 .tab-state { margin-left: 7px; color: var(--color-success); font-size: 9px; }
 .view-panel[hidden] { display: none; }
 .representation-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 24px; }
-.representation-label { margin-right: 4px; color: var(--color-text-muted); font-size: 10px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
-.representation-button { min-height: 34px; padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 999px; background: #fff; color: var(--color-text-muted); font-size: 10px; font-weight: 850; }
+.representation-label { margin-right: 4px; color: var(--color-text-muted); font-size: 11px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.representation-button { min-height: 36px; padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 999px; background: #fff; color: var(--color-text-muted); font-size: 11px; font-weight: 850; }
 .representation-button:hover { border-color: var(--color-border-strong); color: var(--color-text); }
 .representation-button[aria-pressed="true"] { border-color: var(--color-primary); background: var(--color-primary-soft); color: var(--color-primary); }
 .plot-shell { position: relative; margin: 0 24px; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: #f1f5fb; }
 .plot-shell[hidden], .controls[hidden] { display: none; }
 canvas { display: block; width: 100%; height: min(43vh, 390px); cursor: grab; }
 canvas:active { cursor: grabbing; }
-.legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 10px; color: var(--color-text-muted); pointer-events: none; }
+.legend { position: absolute; left: 14px; bottom: 14px; padding: 8px 11px; border-radius: var(--radius-control); background: rgba(255, 255, 255, .94); border: 1px solid var(--color-border); font-size: 11px; color: var(--color-text-muted); pointer-events: none; }
 .scene-tools { padding: 14px 24px 20px; }
 .controls { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
 .control-item { display: flex; align-items: center; gap: 8px; min-height: 32px; font-size: 12px; font-weight: 750; }
@@ -452,11 +454,12 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
       <button class="step-row" type="button" data-step="7" data-target="transfer-input"><span class="step-index">7</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
       <button class="step-row" type="button" data-step="8" data-target="reproduce-card" data-view="r"><span class="step-index">8</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
     </div>
-    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goal</h2><p id="learning-goal-text">Run an R transformation, inspect the updated result, and explain linked evidence.</p><small id="learning-goal-time">Estimated time: 20 minutes</small></section>
+    <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goals</h2><ul id="learning-goal-text"><li>Run an R transformation, inspect the updated result, and explain linked evidence.</li></ul><small id="learning-goal-time">Estimated time: 20 minutes</small></section>
   </nav>
 
   <section class="main" id="lesson-main">
     <div class="title-row"><div><h1 id="lesson-title">Learn R through a data space</h1><p id="lesson-question">Predict a pattern, run a real R transformation, then inspect and explain the updated result.</p></div><div class="step-count" id="step-count">STEP 1 OF 8</div></div>
+    <div class="step-guidance" id="step-guidance" role="status" aria-live="polite"><strong>Next</strong><span id="step-guidance-text">Describe what one row and each variable represent.</span></div>
     <div class="scene-card">
       <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then compare the same evidence as a table, 2D plot, and 3D scene.</span></div><div class="keyboard-hint">WebR runs locally in this tab. Every representation keeps the same observation and evidence identifiers.</div></div>
       <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">EVIDENCE VIEWS</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
@@ -538,7 +541,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <section class="companion-card orient-card" id="orient-card" data-state="editing"><div class="card-label">00 ORIENT</div><h3 id="orient-title">Connect the question to the data structure</h3><p class="task-prompt" id="orient-prompt"></p><div class="orient-edit" id="orient-edit"><label class="field-label" id="orient-label" for="orient-input">Describe the unit and variable roles</label><textarea class="field" id="orient-input" placeholder="One row represents… the variables represent… and the question asks…"></textarea><div class="button-row"><button class="secondary-button" id="save-orient" type="button">Confirm orientation</button></div></div><div class="orient-summary" id="orient-summary" hidden><p id="orient-summary-text"></p><button class="link-button" id="edit-orient" type="button">Edit</button></div><div class="field-status" id="orient-status" aria-live="polite">Name what one row represents and connect the variables to the question.</div></section>
     <section class="companion-card prediction-card" id="prediction-card"><div class="card-label">01 PREDICT</div><h3 id="prediction-title">Make a method-specific prediction</h3><p class="task-prompt" id="prediction-prompt"></p><div class="prediction-edit" id="prediction-edit"><label class="field-label" for="prediction-input">Your prediction</label><textarea class="field" id="prediction-input" placeholder="Write one falsifiable expectation before inspecting the evidence."></textarea><div class="button-row"><button class="secondary-button" id="save-prediction" type="button">Save prediction</button></div></div><div class="prediction-summary" id="prediction-summary" hidden><p id="prediction-summary-text"></p><button class="link-button" id="edit-prediction" type="button">Edit</button></div><div class="field-status" id="prediction-status" aria-live="polite">Complete Orient before saving a prediction.</div></section>
     <section class="companion-card method-card" id="method-card"><div class="card-label">METHOD CHECK</div><div class="selected-row"><h3 id="method-title">Evidence diagnostics</h3><span class="selected-tag" id="method-name">data</span></div><div id="method-diagnostics"></div><details><summary>Interpretation cautions</summary><ul id="method-cautions"></ul></details></section>
-    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3>Selected observation</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
+    <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3 id="observation-heading">Preview observation</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
     <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN + REPAIR</div><h3 id="explanation-title">Explain the selected analytical evidence</h3><p class="task-prompt" id="explanation-prompt"></p><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Name the observation, cite the method-specific evidence, and state a limitation."></textarea><div class="criteria-grid" id="criteria-grid" aria-label="Explanation criteria"></div><p class="task-prompt repair-prompt" id="repair-prompt" hidden></p><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" tabindex="-1" aria-live="polite">Use the visible criteria to keep the claim connected to evidence.</div></section>
     <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3 id="transfer-title">Apply the reasoning to a different observation</h3><p id="transfer-prompt">Select a different observation, then compare its analytical evidence with your original evidence.</p><div class="transfer-evidence" id="transfer-evidence">No second observation selected yet.</div><label class="field-label" for="transfer-input">Transfer response</label><textarea class="field" id="transfer-input" placeholder="Compared with the first observation… This evidence suggests… The limitation is…"></textarea><div class="button-row"><button class="check-button" id="check-transfer" type="button">Check transfer</button></div><div class="feedback" id="transfer-feedback" aria-live="polite">Completion requires a changed observation and a written comparison.</div></section>
     <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p id="reproduce-prompt">Download the editable R evidence transformation, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button" id="download-r-companion" type="button">Download .R</button><button class="link-button" id="download-qmd-companion" type="button">Download .qmd</button><button class="link-button" id="download-receipt-companion" type="button">Download receipt</button></div><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
@@ -571,6 +574,7 @@ const ctx = canvas.getContext("2d");
 const pointName = document.getElementById("point-name");
 const pointCoords = document.getElementById("point-coords");
 const pointObservation = document.getElementById("point-observation");
+const observationHeading = document.getElementById("observation-heading");
 const orientInput = document.getElementById("orient-input");
 const orientStatus = document.getElementById("orient-status");
 const orientCard = document.getElementById("orient-card");
@@ -607,6 +611,7 @@ const completionReceipt = document.getElementById("completion-receipt");
 const lessonStatus = document.getElementById("lesson-status");
 const statusText = document.getElementById("lesson-status-text");
 const stepCount = document.getElementById("step-count");
+const stepGuidanceText = document.getElementById("step-guidance-text");
 const sceneTab = document.getElementById("scene-tab");
 const rTab = document.getElementById("r-tab");
 const aiTab = document.getElementById("ai-tab");
@@ -690,7 +695,14 @@ function applyLessonContract() {
   };
   setText("lesson-title", lessonSpec.title);
   setText("lesson-question", lessonSpec.question);
-  setText("learning-goal-text", (lessonSpec.outcomes || []).join(" "));
+  const learningGoals = document.getElementById("learning-goal-text");
+  const outcomes = lessonSpec.outcomes || [];
+  learningGoals.replaceChildren();
+  outcomes.forEach(outcome => {
+    const item = document.createElement("li");
+    item.textContent = String(outcome);
+    learningGoals.appendChild(item);
+  });
   setText("orient-prompt", taskFor("orient").prompt);
   setText("prediction-prompt", taskFor("predict").prompt);
   setText("run-r-prompt", taskFor("run_r").prompt);
@@ -744,7 +756,10 @@ function applyLessonContract() {
     item.textContent = value;
     cautions.appendChild(item);
   });
-  const tip = (lessonSpec.misconceptions || [])[0] || (lessonSpec.cautions || [])[0];
+  const misconceptions = Array.isArray(lessonSpec.misconceptions)
+    ? lessonSpec.misconceptions
+    : lessonSpec.misconceptions ? [lessonSpec.misconceptions] : [];
+  const tip = misconceptions[0] || (lessonSpec.cautions || [])[0];
   if (tip) setText("method-tip", tip);
   representationButtons.forEach(button => {
     const available = availableRepresentations.has(button.dataset.representation);
@@ -1213,6 +1228,7 @@ function activePointIndex() {
 function updatePointPanel(index, announce) {
   const point = points[index];
   if (!point) return;
+  observationHeading.textContent = evidenceSelected ? "Selected observation" : "Preview observation";
   pointName.textContent = String(point.label || ("point " + (index + 1)));
   pointCoords.replaceChildren();
   const axisLabels = lessonSpec.axis_labels || {x: "x", y: "y", z: "z"};
@@ -1230,9 +1246,9 @@ function setSelectedPoint(index, options = {}) {
   if (!points[index]) return;
   selectedIndex = index;
   hoverIndex = null;
+  if (rRunPassed) evidenceSelected = true;
   updatePointPanel(index, Boolean(options.announce));
   draw();
-  if (rRunPassed) evidenceSelected = true;
   if (currentStep >= 7 && explanationPointLabel) {
     if (String(points[index].label) !== explanationPointLabel) {
       transferPointLabel = String(points[index].label);
@@ -1575,6 +1591,17 @@ function pointAt(x, y) {
 
 function setStep(step) {
   currentStep = Math.max(1, Math.min(8, step));
+  const guidance = {
+    1: "Describe what one row and each variable represent.",
+    2: "Write a falsifiable prediction before inspecting the result.",
+    3: "Open R Code Lab, review the visible commands, then run the pipeline.",
+    4: "Choose an observation in the table, 2D plot, or 3D scene.",
+    5: "Explain the selected evidence with a claim, value or direction, and limitation.",
+    6: "Revise the explanation using the criterion that did not pass.",
+    7: "Select a different observation and compare its evidence with the first.",
+    8: "Review runtime, seed, rows, and hash, then download the receipt."
+  };
+  stepGuidanceText.textContent = guidance[currentStep];
   document.querySelectorAll(".step-row").forEach(button => {
     const buttonStep = Number(button.dataset.step);
     button.removeAttribute("aria-current");

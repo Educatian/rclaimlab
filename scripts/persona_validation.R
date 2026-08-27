@@ -18,7 +18,19 @@ lesson_results <- vapply(lessons, function(path) {
   all(as.character(result$status) == "PASS")
 }, logical(1))
 
-quarto <- Sys.which("quarto")[[1]]
+resolve_quarto <- function(value = Sys.getenv("QUARTO_PATH", unset = "")) {
+  if (nzchar(value) && dir.exists(value)) {
+    candidates <- file.path(value, c("quarto", "quarto.exe"))
+    existing <- candidates[file.exists(candidates)]
+    if (length(existing)) value <- existing[[1]]
+  }
+  if (nzchar(value) && file.exists(value)) {
+    return(normalizePath(value, winslash = "/"))
+  }
+  unname(Sys.which("quarto")[[1]])
+}
+
+quarto <- resolve_quarto()
 if (!nzchar(quarto)) {
   candidates <- file.path(root, ".tools", "quarto-1.10.18", "bin", c("quarto", "quarto.exe"))
   existing <- candidates[file.exists(candidates)]
@@ -27,7 +39,7 @@ if (!nzchar(quarto)) {
 if (!nzchar(quarto)) stop("Posit Cloud proxy requires Quarto for render verification.")
 
 render_results <- vapply(lessons, function(path) {
-  status <- system2(quarto, c("render", path), stdout = FALSE, stderr = FALSE)
+  status <- system2(quarto, c("render", shQuote(path)), stdout = FALSE, stderr = FALSE)
   identical(status, 0L)
 }, logical(1))
 
