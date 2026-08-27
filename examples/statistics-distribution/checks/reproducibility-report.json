@@ -86,7 +86,7 @@
     {
       "check": "artifact_hash",
       "status": "PASS",
-      "message": "22057d36cde14818b42fdddad7e37295, 3b07f8d0a364f323ec86c017ac899811, 97fabc95cfb1db27de7843ae0b8b898c"
+      "message": "e92157ceb97d81c87ffadd789f032e37, 3b07f8d0a364f323ec86c017ac899811, 97fabc95cfb1db27de7843ae0b8b898c"
     },
     {
       "check": "quarto_available",
