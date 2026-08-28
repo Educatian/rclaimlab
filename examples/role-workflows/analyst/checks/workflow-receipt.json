@@ -1,0 +1,72 @@
+{
+  "receipt_version": "1.0",
+  "schema_version": "rclaimlab-workflow-receipt-1",
+  "generated_at": "2026-08-28 05:03:00 UTC",
+  "workflow_id": "synthetic-workforce-evidence-analyst",
+  "role": "data_analyst",
+  "attempt_number": 1,
+  "activity_state": [],
+  "approvals": {
+    "question": true,
+    "variable_roles": true,
+    "method": true,
+    "missing_values": true,
+    "publication": false
+  },
+  "analysis": {
+    "question": "What descriptive patterns should be carried into modeling?",
+    "method": "describe",
+    "outcome": null,
+    "predictors": ["age", "hours"],
+    "missing_values": []
+  },
+  "evidence_selections": [],
+  "claims": {
+    "status": "Demo claim pending human review."
+  },
+  "decisions": [],
+  "limitations": "Synthetic records demonstrate workflow behavior, not a population claim.",
+  "unresolved_issues": [],
+  "source": {
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "fingerprint": "c19f20d61ba8f6001989f1ba33f56646"
+  },
+  "evidence": {
+    "bundle_hash": "471bf5b8665527d61b67789a864b789b",
+    "artifacts": [
+      {
+        "artifact_id": "dataset-profile",
+        "artifact_hash": "e475e6067c252ceff82ef95b97d8ba92",
+        "engine": "data.frame",
+        "role": "data_analyst",
+        "activity_id": "02-inspect"
+      },
+      {
+        "artifact_id": "analyst-evidence",
+        "artifact_hash": "180a1e88c32636faf0002ec7f4333926",
+        "engine": "data.frame",
+        "role": "data_analyst",
+        "activity_id": "04-describe,05-compare,06-explain"
+      }
+    ]
+  },
+  "handoff": {
+    "next_role": "data_scientist"
+  },
+  "approval": "handoff_ready",
+  "reproducibility": {
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "packages": {
+      "rclaimlab": "2.1.0"
+    },
+    "source_code_hash": "0ae9bcd0c0b0aa5aab99d84beca26ce8"
+  },
+  "privacy": {
+    "storage": "local",
+    "telemetry": false,
+    "raw_data_embedded": false
+  }
+}

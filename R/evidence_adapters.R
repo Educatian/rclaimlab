@@ -27,6 +27,7 @@ as_rclaimlab_evidence.default <- function(x, ...) {
 #' @param analysis_call Optional source call recorded in provenance.
 #' @export
 as_rclaimlab_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL,
+                                            observation_ids = NULL,
                                             seed = 2026L, units = NULL,
                                             analysis_call = NULL, ...) {
   if (is.null(dimensions)) dimensions <- names(x)[vapply(x, is.numeric, logical(1))]
@@ -53,12 +54,14 @@ as_rclaimlab_evidence.data.frame <- function(x, dimensions = NULL, labels = NULL
     seed = seed,
     roles = rep("variable", length(dimensions)),
     units = units,
+    observation_ids = observation_ids,
     metadata = list(source_columns = dimensions)
   )
 }
 
 #' @export
 as_rclaimlab_evidence.prcomp <- function(x, labels = NULL, components = NULL,
+                                        observation_ids = NULL,
                                         seed = 2026L, ...) {
   scores <- as.data.frame(x$x, stringsAsFactors = FALSE)
   if (is.null(components)) components <- names(scores)[seq_len(min(3L, ncol(scores)))]
@@ -77,26 +80,34 @@ as_rclaimlab_evidence.prcomp <- function(x, labels = NULL, components = NULL,
   )
   build_rclaimlab_evidence(
     scores[components], labels, "prcomp", deparse_analysis_call(x$call, "stats::prcomp"),
-    seed, roles = rep("component_score", length(components)), metadata = metadata
+    seed, roles = rep("component_score", length(components)),
+    observation_ids = observation_ids, metadata = metadata
   )
 }
 
 #' @export
-as_rclaimlab_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
+as_rclaimlab_evidence.lm <- function(x, labels = NULL, seed = 2026L,
+                                    newdata = NULL, truth = NULL,
+                                    observation_ids = NULL, ...) {
   frame <- stats::model.frame(x)
-  observed <- stats::model.response(frame)
+  evaluation <- if (is.null(newdata)) frame else as.data.frame(newdata, stringsAsFactors = FALSE)
+  observed <- if (is.null(newdata)) stats::model.response(frame) else truth
+  if (is.character(observed) && length(observed) == 1L && observed %in% names(evaluation)) observed <- evaluation[[observed]]
+  if (is.null(observed) || length(observed) != nrow(evaluation)) {
+    stop("lm newdata evidence requires a truth vector matching its rows", call. = FALSE)
+  }
   if (!is.numeric(observed)) stop("lm evidence requires a numeric response", call. = FALSE)
-  prediction <- stats::predict(x, se.fit = TRUE)
+  prediction <- stats::predict(x, newdata = if (is.null(newdata)) NULL else evaluation, se.fit = TRUE)
   values <- data.frame(
     observed = as.numeric(observed),
-    fitted = as.numeric(stats::fitted(x)),
-    residual = as.numeric(stats::residuals(x)),
+    fitted = as.numeric(prediction$fit),
+    residual = as.numeric(observed - prediction$fit),
     interval_low = as.numeric(prediction$fit - 1.96 * prediction$se.fit),
     interval_high = as.numeric(prediction$fit + 1.96 * prediction$se.fit)
   )
-  if (is.null(labels)) labels <- rownames(frame)
-  fitted_values <- as.numeric(stats::fitted(x))
-  residual_values <- as.numeric(stats::residuals(x))
+  if (is.null(labels)) labels <- rownames(evaluation)
+  fitted_values <- as.numeric(prediction$fit)
+  residual_values <- as.numeric(observed - prediction$fit)
   diagnostics <- list(
     residual_fitted_correlation = suppressWarnings(stats::cor(residual_values, fitted_values)),
     absolute_residual_fitted_correlation = suppressWarnings(stats::cor(abs(residual_values), fitted_values)),
@@ -108,23 +119,38 @@ as_rclaimlab_evidence.lm <- function(x, labels = NULL, seed = 2026L, ...) {
     roles = c("outcome", "fitted", "residual", "uncertainty", "uncertainty"),
     metadata = list(
       coefficients = stats::setNames(unname(stats::coef(x)), names(stats::coef(x))),
-      sigma = summary(x)$sigma, diagnostics = diagnostics
-    )
+      sigma = summary(x)$sigma,
+      evaluation = list(
+        mode = if (is.null(newdata)) "in_sample" else "holdout",
+        rmse = sqrt(mean(residual_values^2)),
+        mae = mean(abs(residual_values)),
+        r_squared = 1 - sum(residual_values^2) / sum((observed - mean(observed))^2)
+      ),
+      diagnostics = diagnostics
+    ),
+    observation_ids = observation_ids
   )
 }
 
 #' @param threshold Classification threshold recorded by the `glm` adapter.
 #' @export
 as_rclaimlab_evidence.glm <- function(x, labels = NULL, seed = 2026L,
-                                     threshold = 0.5, ...) {
+                                     threshold = 0.5, newdata = NULL,
+                                     truth = NULL, observation_ids = NULL, ...) {
   if (!is.numeric(threshold) || length(threshold) != 1L || is.na(threshold) || threshold <= 0 || threshold >= 1) {
     stop("threshold must be one number between zero and one", call. = FALSE)
   }
   frame <- stats::model.frame(x)
-  observed <- stats::model.response(frame)
+  evaluation <- if (is.null(newdata)) frame else as.data.frame(newdata, stringsAsFactors = FALSE)
+  observed <- if (is.null(newdata)) stats::model.response(frame) else truth
+  if (is.character(observed) && length(observed) == 1L && observed %in% names(evaluation)) observed <- evaluation[[observed]]
+  if (is.null(observed) || length(observed) != nrow(evaluation)) {
+    stop("glm newdata evidence requires a truth vector matching its rows", call. = FALSE)
+  }
   if (is.factor(observed)) observed <- as.numeric(observed) - 1
-  link <- stats::predict(x, type = "link", se.fit = TRUE)
-  probability <- stats::fitted(x)
+  if (is.character(observed) || is.logical(observed)) observed <- as.numeric(factor(observed)) - 1
+  link <- stats::predict(x, newdata = if (is.null(newdata)) NULL else evaluation, type = "link", se.fit = TRUE)
+  probability <- x$family$linkinv(link$fit)
   lower <- x$family$linkinv(link$fit - 1.96 * link$se.fit)
   upper <- x$family$linkinv(link$fit + 1.96 * link$se.fit)
   predicted_class <- as.numeric(probability >= threshold)
@@ -137,12 +163,12 @@ as_rclaimlab_evidence.glm <- function(x, labels = NULL, seed = 2026L,
   values <- data.frame(
     observed = as.numeric(observed),
     predicted_probability = as.numeric(probability),
-    residual = as.numeric(stats::residuals(x, type = "deviance")),
+    residual = as.numeric(truth - probability),
     probability_low = as.numeric(lower),
     probability_high = as.numeric(upper),
     predicted_class = predicted_class
   )
-  if (is.null(labels)) labels <- rownames(frame)
+  if (is.null(labels)) labels <- rownames(evaluation)
   build_rclaimlab_evidence(
     values, labels, "glm", deparse_analysis_call(x$call, "stats::glm"), seed,
     roles = c("outcome", "probability", "residual", "uncertainty", "uncertainty", "classification"),
@@ -151,6 +177,7 @@ as_rclaimlab_evidence.glm <- function(x, labels = NULL, seed = 2026L,
       family = x$family$family,
       link = x$family$link,
       threshold = threshold,
+      evaluation = list(mode = if (is.null(newdata)) "in_sample" else "holdout"),
       classification = list(
         true_positive = true_positive, true_negative = true_negative,
         false_positive = false_positive, false_negative = false_negative,
@@ -159,13 +186,15 @@ as_rclaimlab_evidence.glm <- function(x, labels = NULL, seed = 2026L,
         specificity = safe_ratio(true_negative, true_negative + false_positive),
         brier_score = mean((probability - truth)^2)
       )
-    )
+    ),
+    observation_ids = observation_ids
   )
 }
 
 #' @param data Numeric data used to estimate the `kmeans` object.
 #' @export
 as_rclaimlab_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NULL,
+                                        observation_ids = NULL,
                                         seed = 2026L, ...) {
   data <- as.data.frame(data, stringsAsFactors = FALSE)
   if (nrow(data) != length(x$cluster)) stop("data rows must match the kmeans cluster assignments", call. = FALSE)
@@ -198,6 +227,7 @@ as_rclaimlab_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NU
   build_rclaimlab_evidence(
     values, labels, "kmeans", "stats::kmeans", seed,
     roles = c(rep("feature", length(dimensions)), "cluster", "distance"),
+    observation_ids = observation_ids,
     metadata = list(
       centers = unclass(x$centers), size = unname(x$size), tot_withinss = unname(x$tot.withinss),
       stability = list(
@@ -209,7 +239,8 @@ as_rclaimlab_evidence.kmeans <- function(x, data, dimensions = NULL, labels = NU
 }
 
 build_rclaimlab_evidence <- function(values, labels, engine, analysis_call, seed,
-                                    roles = NULL, units = NULL, metadata = list()) {
+                                    roles = NULL, units = NULL,
+                                    observation_ids = NULL, metadata = list()) {
   values <- as.data.frame(values, stringsAsFactors = FALSE, check.names = FALSE)
   if (!nrow(values) || ncol(values) < 1L) stop("evidence must contain rows and at least one dimension", call. = FALSE)
   if (any(!vapply(values, is.numeric, logical(1))) || any(!is.finite(as.matrix(values)))) {
@@ -225,7 +256,12 @@ build_rclaimlab_evidence <- function(values, labels, engine, analysis_call, seed
   if (is.null(units)) units <- rep(NA_character_, ncol(values))
   if (!is.null(names(units))) units <- units[dimension_names]
   units <- rep_len(as.character(units), ncol(values))
-  observation_ids <- sprintf("obs-%04d", seq_len(nrow(values)))
+  if (is.null(observation_ids)) observation_ids <- sprintf("obs-%04d", seq_len(nrow(values)))
+  observation_ids <- as.character(observation_ids)
+  if (length(observation_ids) != nrow(values) || anyNA(observation_ids) ||
+      any(!nzchar(observation_ids)) || anyDuplicated(observation_ids)) {
+    stop("observation_ids must be non-empty, unique, and match the observations", call. = FALSE)
+  }
   dimension_ids <- sprintf("dim-%03d", seq_len(ncol(values)))
   observations <- data.frame(observation_id = observation_ids, label = labels, source_row = seq_len(nrow(values)), stringsAsFactors = FALSE)
   dimensions <- data.frame(dimension_id = dimension_ids, label = dimension_names, role = roles, unit = units, stringsAsFactors = FALSE)

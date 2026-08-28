@@ -15,6 +15,8 @@ articles:
     contents:
       - author-first-lesson
       - evidence-compiler
+      - external-dataset-sources
+      - role-adaptive-workflows
   - title: Extend and evaluate
     contents:
       - adapter-development
@@ -26,6 +28,10 @@ reference:
     contents: [lesson_spec, task_spec, representation_spec, compile_lesson, validate_lesson_spec]
   - title: Guided data-to-lesson workflow
     contents: [profile_learning_data, recommend_lesson_analysis, lesson_from_data, prepare_learning_events, rclaimlab_concept_registry, run_lesson_wizard]
+  - title: External data and role workflows
+    contents: [dataset_source, inspect_dataset, preview_dataset, import_dataset, profile_dataset, activity_spec, workflow_spec, validate_workflow_spec, as_rclaimlab_workflow, workflow_from_dataset, approve_workflow, run_workflow, continue_workflow, validate_evidence_bundle, compile_workflow, check_workflow, run_workflow_wizard]
+  - title: Workflow receipts and optional drafting
+    contents: [write_workflow_receipt, read_workflow_receipt, validate_workflow_receipt, as_workflow_receipt, draft_workflow_text]
   - title: Manifests and receipts
     contents: [write_lesson_manifest, read_lesson_manifest, validate_lesson_manifest, write_learning_receipt, read_learning_receipt, validate_learning_receipt]
   - title: Rendering and checks

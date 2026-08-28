@@ -1,6 +1,6 @@
 # R Consortium ISC grant readiness
 
-Status: **Evidence Compiler implemented; external validation and release review in progress**
+Status: **Evidence Compiler and v2.1 role-adaptive workflow implemented; external validation and release review in progress**
 
 | Criterion | Score | Evidence |
 |---|---:|---|
@@ -20,13 +20,17 @@ Status: **Evidence Compiler implemented; external validation and release review 
 - Ten reusable examples with version 2 manifests, Evidence IR, reproducible builds, and strict checks
 - Five foundational statistics lessons plus contributor training, authentic PCA, vehicle efficiency, learning analytics, and educational data mining
 - Ten registered evidence adapters, including the five funded core methods and foundational-statistics adapters, with stable evidence identity
+- Pinned Hugging Face and local tabular imports, plus Kaggle CLI integration, with explicit license/revision gates, bounded caching, stable source-record IDs, and safe archive handling
+- Data Analyst, Data Scientist, Model Reviewer, and legacy Guided Learning profiles over one evidence-bundle and receipt contract
+- Three clean cross-role workflow demos with portable R, Quarto, JSON, table, 2D, and 3D artifacts
 - Linked semantic table, true 2D, and 3D views with headless browser verification
-- 90.85% overall test coverage and 96.77% Evidence Compiler contract coverage, remeasured on 2026-08-27
+- 90.27% overall test coverage, 97.59% role-workflow core coverage, and 100% coverage of the public dataset source contract, remeasured after v2.1 implementation
 - Source tarball `R CMD check --as-cran` passes on Windows with one expected new-submission NOTE after excluding local build and audit workspaces
 - Adversarial browser walkthrough completed through WebR execution, linked evidence, explanation, transfer, and reproducibility receipt at desktop, 390 px, and 320 px widths
 - Defined future milestones and $10,000 budget
 - Contributor, accessibility, pilot, runtime-dependency, and community documentation
 - Browser smoke test with saved mobile and desktop screenshots
+- Role-workflow browser smoke test at desktop, 760 px, 390 px, and 200% text, including keyboard row selection and linked claim persistence
 - English narrated and captioned interaction screencast
 
 ## What prevents an honest 5/5 across all criteria

@@ -13,6 +13,7 @@ api_ok <- all(c("check_lesson", "render_scene", "scaffold_lesson") %in%
   getNamespaceExports("rclaimlab"))
 
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
+lessons <- lessons[file.exists(file.path(lessons, "lesson-spec.json"))]
 lesson_results <- vapply(lessons, function(path) {
   result <- rclaimlab::check_lesson(path, strict = TRUE, write_report = FALSE, write_json = FALSE)
   all(as.character(result$status) == "PASS")

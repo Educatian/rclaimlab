@@ -1,0 +1,72 @@
+{
+  "schema_version": "rclaimlab-dataset-profile-1",
+  "rows": 300,
+  "columns": [
+    {
+      "column": "age",
+      "type": "integer",
+      "missing": 0,
+      "missing_percent": 0,
+      "distinct": 53,
+      "constant": false,
+      "possible_identifier": false,
+      "role": "candidate variable",
+      "_row": "age"
+    },
+    {
+      "column": "hours",
+      "type": "numeric",
+      "missing": 0,
+      "missing_percent": 0,
+      "distinct": 183,
+      "constant": false,
+      "possible_identifier": false,
+      "role": "candidate variable",
+      "_row": "hours"
+    },
+    {
+      "column": "education",
+      "type": "categorical",
+      "missing": 0,
+      "missing_percent": 0,
+      "distinct": 3,
+      "constant": false,
+      "possible_identifier": false,
+      "role": "candidate variable",
+      "_row": "education"
+    },
+    {
+      "column": "group",
+      "type": "categorical",
+      "missing": 0,
+      "missing_percent": 0,
+      "distinct": 3,
+      "constant": false,
+      "possible_identifier": false,
+      "role": "candidate variable",
+      "_row": "group"
+    },
+    {
+      "column": "outcome",
+      "type": "categorical",
+      "missing": 0,
+      "missing_percent": 0,
+      "distinct": 2,
+      "constant": false,
+      "possible_identifier": false,
+      "role": "candidate variable",
+      "_row": "outcome"
+    }
+  ],
+  "outcome": null,
+  "intent": "describe",
+  "warnings": [],
+  "source": {
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "license": null,
+    "fingerprint": "c19f20d61ba8f6001989f1ba33f56646",
+    "citation": null
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": "rclaimlab-workflow-1",
+  "id": "synthetic-workforce-evidence-model-reviewer",
+  "title": "Synthetic workforce evidence: model reviewer",
+  "role": "model_reviewer",
+  "goal": "audit",
+  "dataset": {
+    "schema_version": "rclaimlab-dataset-1",
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "source_fingerprint": "c19f20d61ba8f6001989f1ba33f56646",
+    "rows": 300,
+    "columns": ["age", "hours", "education", "group", "outcome"]
+  },
+  "activities": [
+    {
+      "id": "01-inspect",
+      "type": "inspect",
+      "prompt": "Inspect source, license, row meaning, variable roles, missingness, and possible identifiers.",
+      "criteria": ["Source and license reviewed", "Unit of observation identified"],
+      "depends_on": [],
+      "evidence_required": true,
+      "input_artifacts": "dataset-profile",
+      "output_type": "decision"
+    },
+    {
+      "id": "02-reproduce",
+      "type": "reproduce",
+      "prompt": "Re-run the recorded source, split, and analysis contract before review.",
+      "criteria": "Completes reproduce with traceable evidence",
+      "depends_on": "01-inspect",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "03-diagnose",
+      "type": "diagnose",
+      "prompt": "Inspect method-specific diagnostics and identify failure signals.",
+      "criteria": "Completes diagnose with traceable evidence",
+      "depends_on": "02-reproduce",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "04-challenge",
+      "type": "challenge",
+      "prompt": "Challenge the strongest claim using provenance, diagnostics, and alternative explanations.",
+      "criteria": ["Names counterevidence or uncertainty", "States a decision limitation"],
+      "depends_on": "03-diagnose",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "claim"
+    },
+    {
+      "id": "05-slice",
+      "type": "slice",
+      "prompt": "Inspect explicitly selected subgroup slices and suppress underpowered groups.",
+      "criteria": "Completes slice with traceable evidence",
+      "depends_on": "04-challenge",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "06-revise",
+      "type": "revise",
+      "prompt": "Revise claims or request changes where evidence is insufficient.",
+      "criteria": "Completes revise with traceable evidence",
+      "depends_on": "05-slice",
+      "evidence_required": true,
+      "input_artifacts": "review-evidence",
+      "output_type": "claim"
+    },
+    {
+      "id": "07-approve",
+      "type": "approve",
+      "prompt": "Record human approval or request revision; do not infer approval from metrics.",
+      "criteria": "Approval is explicitly human-recorded",
+      "depends_on": "06-revise",
+      "evidence_required": true,
+      "input_artifacts": "review-evidence",
+      "output_type": "approval"
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "deliverables": {
+    "review_report": "Evidence review report",
+    "limitations": "Risk and limitation log",
+    "approval": "Human approval state"
+  },
+  "artifact_plan": ["dataset-profile", "model-evidence", "review-evidence"],
+  "approvals": {
+    "question": true,
+    "variable_roles": true,
+    "method": true,
+    "missing_values": true,
+    "publication": false
+  },
+  "analysis": {
+    "method": "glm",
+    "question": "How well does the approved GLM classify held-out synthetic records?",
+    "outcome": "outcome",
+    "predictors": ["age", "hours", "education"],
+    "slice_by": "group",
+    "missing_values": [],
+    "seed": 2026,
+    "split": {
+      "train": 0.8,
+      "test": 0.2,
+      "stratified": true
+    },
+    "threshold": 0.5,
+    "minimum_slice_n": 20
+  },
+  "upstream": {
+    "bundle_hash": "f75f440309a490e9305a79d094de1758"
+  },
+  "handoff_from": {
+    "workflow_id": "synthetic-workforce-evidence-data-scientist",
+    "role": "data_scientist",
+    "bundle_hash": "f75f440309a490e9305a79d094de1758"
+  }
+}

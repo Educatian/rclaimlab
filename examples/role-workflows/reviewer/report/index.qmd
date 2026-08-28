@@ -1,0 +1,22 @@
+---
+title: "Synthetic workforce evidence: model reviewer"
+format: html
+---
+
+# Workflow purpose
+
+**Role:** Model Reviewer
+
+**Question:** How well does the approved GLM classify held-out synthetic records?
+
+# Evidence handoff
+
+The primary artifact is `model-evidence` in evidence bundle `12de68e126ef968638b85dd92ff5db1f`.
+
+The browser app, evidence table, source manifest, analysis script, and workflow receipt remain linked through stable source-record and artifact identifiers.
+
+# Interpretation boundary
+
+This workflow supports evidence review and reproducibility. It does not establish causality, certify fairness, or authorize individual decisions.
+
+[Open the role-adaptive evidence workspace](../app/index.html)

@@ -1,0 +1,19 @@
+{
+  "schema_version": "rclaimlab-dataset-manifest-1",
+  "provider": "local",
+  "id": "synthetic-workflow-data.csv",
+  "revision": "7e41bce2bf04540acfed8021aa85e05d",
+  "files": [
+    {
+      "file": "synthetic-workflow-data.csv",
+      "size": 10315
+    }
+  ],
+  "license": null,
+  "citation": null,
+  "source_url": null,
+  "publishable": false,
+  "selected_file": "synthetic-workflow-data.csv",
+  "content_md5": "7e41bce2bf04540acfed8021aa85e05d",
+  "source_fingerprint": "c19f20d61ba8f6001989f1ba33f56646"
+}

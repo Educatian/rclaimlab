@@ -1,0 +1,37 @@
+---
+title: "External dataset sources"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{External dataset sources}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+R-ClaimLab separates source inspection from import. Inspection exposes the
+provider, files, revision, license, citation, and publication status. Import is
+local, bounded, deterministic, and assigns a stable `source_record_id` to each
+retained row.
+
+```{r}
+library(rclaimlab)
+path <- tempfile(fileext = ".csv")
+write.csv(iris, path, row.names = FALSE)
+
+source <- dataset_source("local", path)
+manifest <- inspect_dataset(source)
+preview <- preview_dataset(source, rows = 5)
+dataset <- import_dataset(source, max_rows = 100, seed = 2026)
+
+manifest
+head(dataset$source_record_id)
+profile_dataset(dataset)
+```
+
+Public Hugging Face builds must identify both an immutable repository revision
+and a concrete CSV, TSV, or Parquet file. The selected file is read from that
+revision, while the Dataset Viewer is used for current service metadata. Kaggle
+downloads use the official `kaggle` command-line client and its existing login;
+R-ClaimLab never accepts or stores the token.
+
+Remote datasets remain subject to their own licenses and citations. A
+distributable build is blocked when revision or license evidence is missing.

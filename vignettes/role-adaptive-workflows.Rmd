@@ -1,0 +1,47 @@
+---
+title: "Role-adaptive evidence workflows"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Role-adaptive evidence workflows}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+A workflow is an approved activity graph. The same imported dataset can move
+from analysis to modeling to review without copying evidence or losing source
+row lineage.
+
+```{r}
+library(rclaimlab)
+set.seed(2026)
+frame <- data.frame(
+  age = sample(18:70, 120, TRUE),
+  hours = round(rnorm(120, 40, 8), 1),
+  group = rep(c("A", "B"), 60),
+  outcome = factor(ifelse(seq_len(120) %% 3 == 0, "event", "reference"))
+)
+path <- tempfile(fileext = ".csv")
+write.csv(frame, path, row.names = FALSE)
+dataset <- import_dataset(dataset_source("local", path))
+
+analyst <- workflow_from_dataset(
+  dataset, "data_analyst", predictors = c("age", "hours")
+)
+analyst_run <- run_workflow(approve_workflow(analyst))
+
+scientist <- continue_workflow(
+  analyst_run, "data_scientist", outcome = "outcome",
+  predictors = c("age", "hours"), slice_by = "group", analysis = "glm"
+)
+scientist_run <- run_workflow(approve_workflow(scientist))
+
+reviewer <- continue_workflow(scientist_run, "model_reviewer")
+reviewer_run <- run_workflow(approve_workflow(reviewer))
+
+as.data.frame(reviewer_run)
+```
+
+Approvals are required before execution. Subgroup results are suppressed below
+the configured minimum and are labeled as review signals. They are not a
+fairness certification. The reviewer must explicitly approve or request
+revision in the workflow receipt.

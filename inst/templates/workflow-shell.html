@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{TITLE}}</title>
+  <style>{{WORKFLOW_CSS}}</style>
+</head>
+<body data-workflow-ready="true">
+  <a class="skip" href="#workspace-main">Skip to evidence workspace</a>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">R</span><span><strong>R-ClaimLab</strong><small>Role-adaptive evidence workflow</small></span></div>
+    <div class="top-meta"><span class="role-badge" id="role-badge"></span><span class="status">Local · no telemetry</span></div>
+  </header>
+  <div class="shell">
+    <aside class="rail" aria-label="Workflow activities">
+      <div class="rail-head"><span class="eyebrow">Workflow</span><h2 id="rail-title">Evidence path</h2><p id="rail-progress">0 activities complete</p></div>
+      <nav id="activity-list" class="activity-list"></nav>
+    </aside>
+    <main id="workspace-main" class="main">
+      <section class="hero">
+        <div><span class="eyebrow" id="source-provider"></span><h1 id="workflow-title"></h1><p id="workflow-question"></p></div>
+        <div class="hash-card"><span>Evidence bundle</span><code id="bundle-hash"></code></div>
+      </section>
+      <section class="source-strip" aria-label="Source provenance">
+        <div><span>Dataset</span><strong id="source-id"></strong></div><div><span>Revision</span><strong id="source-revision"></strong></div>
+        <div><span>License</span><strong id="source-license"></strong></div><div><span>Analysis</span><strong id="analysis-engine"></strong></div>
+      </section>
+      <section class="activity-card" aria-labelledby="active-title">
+        <div class="activity-heading"><span class="step-pill" id="active-type"></span><button id="complete-activity" type="button">Mark complete</button></div>
+        <h2 id="active-title"></h2><p id="active-prompt"></p><ul id="active-criteria"></ul>
+      </section>
+      <section class="evidence-card">
+        <div class="section-heading"><div><span class="eyebrow">Linked evidence</span><h2>Inspect records across representations</h2></div>
+          <div class="view-tabs" role="group" aria-label="Evidence representation"><button class="view-tab active" data-view="table" type="button">Table</button><button class="view-tab" data-view="plot2d" type="button">2D</button><button class="view-tab" data-view="scene3d" type="button">3D</button></div></div>
+        <div id="canvas-panel" class="canvas-panel" hidden><canvas id="evidence-canvas" width="900" height="480" aria-label="Interactive evidence plot"></canvas><p id="canvas-help">Select a point to cite it.</p></div>
+        <div id="table-panel"><div class="table-scroll"><table><caption>Compiled evidence; select a row to cite it</caption><thead id="evidence-table-head"></thead><tbody id="evidence-table-body"></tbody></table></div>
+          <div class="pager"><button id="previous-page" type="button">Previous</button><span id="page-status"></span><button id="next-page" type="button">Next</button></div></div>
+        <div class="selection" aria-live="polite"><span>Selected evidence</span><strong id="selected-label">None selected</strong><code id="selected-id">Choose a row or point</code></div>
+      </section>
+      <section class="claim-card"><label for="claim-input"><span class="eyebrow">Evidence-linked claim</span><strong>What does the evidence support—and not support?</strong></label>
+        <textarea id="claim-input" placeholder="Cite the selected record and metric, then state a limitation."></textarea>
+        <div class="claim-actions"><button id="save-claim" type="button">Save claim</button><span id="claim-status" aria-live="polite">Stored only in this browser.</span></div></section>
+    </main>
+    <aside class="companion" aria-label="Deliverables and handoff">
+      <section><span class="eyebrow">Role output</span><h2>Deliverables</h2><div id="deliverable-list" class="deliverables"></div></section>
+      <section class="handoff"><span class="eyebrow">Evidence handoff</span><h2>Pass traceable work forward</h2><p>The receipt links decisions and claims to source records and hashes. It excludes the raw dataset.</p><button id="download-workflow-receipt" type="button">Download workflow receipt</button></section>
+      <section class="boundary"><strong>Interpretation boundary</strong><p>Metrics are review signals. They do not prove causality, certify fairness, or authorize individual decisions.</p></section>
+    </aside>
+  </div>
+  <script>const RCLAIMLAB_WORKFLOW={{WORKFLOW_JSON}};</script>
+  <script>{{WORKFLOW_JS}}</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+{
+  "schema_version": "rclaimlab-workflow-1",
+  "id": "synthetic-workforce-evidence-analyst",
+  "title": "Synthetic workforce evidence: analyst",
+  "role": "data_analyst",
+  "goal": "describe",
+  "dataset": {
+    "schema_version": "rclaimlab-dataset-1",
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "source_fingerprint": "c19f20d61ba8f6001989f1ba33f56646",
+    "rows": 300,
+    "columns": ["age", "hours", "education", "group", "outcome"]
+  },
+  "activities": [
+    {
+      "id": "01-frame",
+      "type": "frame",
+      "prompt": "State the decision boundary and question: What descriptive patterns should be carried into modeling?",
+      "criteria": "Question and decision boundary are explicit",
+      "depends_on": [],
+      "evidence_required": false,
+      "input_artifacts": [],
+      "output_type": "decision"
+    },
+    {
+      "id": "02-inspect",
+      "type": "inspect",
+      "prompt": "Inspect source, license, row meaning, variable roles, missingness, and possible identifiers.",
+      "criteria": ["Source and license reviewed", "Unit of observation identified"],
+      "depends_on": "01-frame",
+      "evidence_required": true,
+      "input_artifacts": "dataset-profile",
+      "output_type": "decision"
+    },
+    {
+      "id": "03-clean",
+      "type": "clean",
+      "prompt": "Approve explicit missing-value and retained-row decisions without silently changing source data.",
+      "criteria": "Completes clean with traceable evidence",
+      "depends_on": "02-inspect",
+      "evidence_required": true,
+      "input_artifacts": "dataset-profile",
+      "output_type": "decision"
+    },
+    {
+      "id": "04-describe",
+      "type": "describe",
+      "prompt": "Describe center, spread, shape, counts, and unusual observations using linked evidence.",
+      "criteria": "Completes describe with traceable evidence",
+      "depends_on": "03-clean",
+      "evidence_required": true,
+      "input_artifacts": "analyst-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "05-compare",
+      "type": "compare",
+      "prompt": "Compare relevant groups or variables without making a causal claim.",
+      "criteria": "Completes compare with traceable evidence",
+      "depends_on": "04-describe",
+      "evidence_required": true,
+      "input_artifacts": "analyst-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "06-explain",
+      "type": "explain",
+      "prompt": "Write a claim that cites evidence and states a limitation.",
+      "criteria": "Completes explain with traceable evidence",
+      "depends_on": "05-compare",
+      "evidence_required": true,
+      "input_artifacts": "analyst-evidence",
+      "output_type": "claim"
+    },
+    {
+      "id": "07-communicate",
+      "type": "communicate",
+      "prompt": "Prepare a concise evidence-linked brief for the next role.",
+      "criteria": "Completes communicate with traceable evidence",
+      "depends_on": "06-explain",
+      "evidence_required": false,
+      "input_artifacts": [],
+      "output_type": "claim"
+    },
+    {
+      "id": "08-handoff",
+      "type": "handoff",
+      "prompt": "Package evidence, decisions, limitations, unresolved issues, and reproducibility metadata.",
+      "criteria": ["Includes artifact hashes", "Includes unresolved limitations"],
+      "depends_on": "07-communicate",
+      "evidence_required": false,
+      "input_artifacts": [],
+      "output_type": "handoff"
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "deliverables": {
+    "analysis_brief": "Evidence-linked analysis brief",
+    "evidence_table": "Portable evidence table",
+    "decision_log": "Decision and limitation log"
+  },
+  "artifact_plan": ["dataset-profile", "analyst-evidence"],
+  "approvals": {
+    "question": true,
+    "variable_roles": true,
+    "method": true,
+    "missing_values": true,
+    "publication": false
+  },
+  "analysis": {
+    "method": "describe",
+    "question": "What descriptive patterns should be carried into modeling?",
+    "outcome": null,
+    "predictors": ["age", "hours"],
+    "slice_by": [],
+    "missing_values": [],
+    "seed": 2026,
+    "split": {
+      "train": 0.8,
+      "test": 0.2,
+      "stratified": false
+    },
+    "threshold": 0.5,
+    "minimum_slice_n": 20
+  }
+}

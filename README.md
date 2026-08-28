@@ -7,6 +7,14 @@ R-ClaimLab is an R Evidence Compiler for reproducible data-science education. It
 ```text
 R analysis object -> Evidence Adapter -> Evidence IR -> Lesson Compiler
                   -> table / 2D / 3D / Quarto -> learning receipt
+
+Public tabular data now follows an additional role-adaptive route:
+
+```text
+Local / Hugging Face / Kaggle source -> inspect and approve
+-> Data Analyst -> Data Scientist -> Model Reviewer
+-> evidence bundle + role report + workflow receipt
+```
 ```
 
 ## Grant demo
@@ -42,6 +50,16 @@ Grant preparation materials:
   table, true 2D plot and 3D scene, a v2 manifest, and reproducibility checks.
 - `profile_learning_data()` and `lesson_from_data()` turn a learner- or educator-supplied data frame into a question-first lesson plan without hiding the unit of analysis, outcome, grouping/time structure, method, variables, missing-value rule, diagnostics, cautions, or provenance.
 - `run_lesson_wizard()` provides a local CSV workflow for approving an analysis and compiling the full Orient, Predict, Run R, Explore, Explain, Repair, Transfer, and Reproduce sequence.
+- `dataset_source()`, `inspect_dataset()`, `preview_dataset()`, and
+  `import_dataset()` provide bounded local, Hugging Face, and Kaggle tabular
+  ingestion without storing credentials in package objects or artifacts.
+- `workflow_from_dataset()`, `approve_workflow()`, `run_workflow()`, and
+  `continue_workflow()` preserve the guided lesson as one profile while adding
+  Data Analyst, Data Scientist, and Model Reviewer handoffs over one traceable
+  evidence bundle.
+- `compile_workflow()` creates a portable role workspace with source manifest,
+  profile, workflow specification, evidence registry, R script, Quarto report,
+  table/2D/3D browser interface, and strict checks.
 
 - `scaffold_lesson()` creates a small Quarto lesson project.
 - `write_lesson_manifest()` and `write_learning_receipt()` preserve course/session provenance, attempt number, consent, and reproducibility metadata.
@@ -148,6 +166,44 @@ lesson <- lesson_from_data(
 )
 compile_lesson(lesson, "my-data-lesson")
 ```
+
+To turn a pinned public dataset into a cross-role workflow, run:
+
+```r
+source <- dataset_source(
+  "huggingface",
+  "scikit-learn/adult-census-income",
+  revision = "fbeef6ec0e6fd88a5028b94683144000a6b380d5",
+  split = "train",
+  file = "adult.csv"
+)
+
+manifest <- inspect_dataset(source)
+preview_dataset(source, rows = 10)
+dataset <- import_dataset(source, max_rows = 10000, seed = 2026)
+
+workflow <- workflow_from_dataset(
+  dataset,
+  role = "data_scientist",
+  goal = "predict",
+  outcome = "income",
+  predictors = c("age", "education.num", "hours.per.week"),
+  slice_by = "sex",
+  analysis = "glm",
+  missing_values = c("?", " ?"),
+  seed = 2026
+)
+
+workflow <- approve_workflow(workflow, publication = TRUE)
+run <- run_workflow(workflow)
+build <- compile_workflow(run, "adult-income-workflow", publish = TRUE)
+check_workflow(build$output_dir, strict = TRUE, publish = TRUE)
+```
+
+The example is an educational audit case, not a fairness certification or a
+system for individual decisions. See the [external data and role workflow
+guide](docs/external-data-workflows.md) for the analyst-to-reviewer handoff,
+Kaggle prerequisites, cache behavior, exact limits, and error recovery.
 
 The wizard makes deterministic recommendations, not autonomous statistical claims. It starts with the analytical question and intended learning goal. The author still approves the unit of analysis, outcome, grouping/time structure, dimensions, missing-value rule, learning stages, and adapter before compilation. Declared grouping or repeated time prevents the simple `lm` and `glm` adapters from being automatically recommended.
 

@@ -1,0 +1,22 @@
+---
+title: "Synthetic workforce evidence: analyst"
+format: html
+---
+
+# Workflow purpose
+
+**Role:** Data Analyst
+
+**Question:** What descriptive patterns should be carried into modeling?
+
+# Evidence handoff
+
+The primary artifact is `analyst-evidence` in evidence bundle `471bf5b8665527d61b67789a864b789b`.
+
+The browser app, evidence table, source manifest, analysis script, and workflow receipt remain linked through stable source-record and artifact identifiers.
+
+# Interpretation boundary
+
+This workflow supports evidence review and reproducibility. It does not establish causality, certify fairness, or authorize individual decisions.
+
+[Open the role-adaptive evidence workspace](../app/index.html)

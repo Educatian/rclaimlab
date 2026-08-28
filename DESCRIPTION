@@ -1,7 +1,7 @@
 Package: rclaimlab
 Type: Package
 Title: R-ClaimLab: From R Code to Evidence
-Version: 2.0.0.900
+Version: 2.1.0
 Authors@R: person("Jewoong", "Moon", email = "Educatian@users.noreply.github.com", role = c("aut", "cre"))
 Author: Jewoong Moon [aut, cre]
 Maintainer: Jewoong Moon <Educatian@users.noreply.github.com>
@@ -14,8 +14,10 @@ URL: https://github.com/Educatian/rclaimlab
 BugReports: https://github.com/Educatian/rclaimlab/issues
 Encoding: UTF-8
 Imports:
+    curl (>= 5.0.0),
     jsonlite (>= 1.8.0)
 Suggests:
+    arrow,
     knitr,
     palmerpenguins,
     rmarkdown,

@@ -39,12 +39,29 @@ jobs:
           details <- as.data.frame(coverage)
           core_files <- c("R/evidence_spec.R", "R/evidence_adapters.R", "R/foundational_adapters.R", "R/compile_lesson.R", "R/lesson_manifest.R")
           core <- details[details$filename %in% core_files, , drop = FALSE]
+          workflow_files <- c("R/workflow_spec.R", "R/workflow_engine.R", "R/workflow_compiler.R", "R/workflow_receipt.R", "R/workflow_ai.R")
+          workflow_core <- details[details$filename %in% workflow_files, , drop = FALSE]
+          source_contract_functions <- c(
+            "dataset_source", "inspect_dataset", "preview_dataset", "import_dataset", "profile_dataset",
+            "validate_dataset_source", "validate_dataset_manifest", "validate_rclaimlab_dataset",
+            "reject_unsupported_tabular_data", "rows_to_data_frame"
+          )
+          source_core <- details[
+            details$filename == "R/dataset_sources.R" & details$functions %in% source_contract_functions,
+            , drop = FALSE
+          ]
           overall_percent <- covr::percent_coverage(coverage)
           core_percent <- 100 * mean(core$value > 0)
+          workflow_percent <- 100 * mean(workflow_core$value > 0)
+          source_percent <- 100 * mean(source_core$value > 0)
           message("Overall coverage: ", round(overall_percent, 2), "%")
           message("Evidence Compiler coverage: ", round(core_percent, 2), "%")
+          message("Role workflow contract coverage: ", round(workflow_percent, 2), "%")
+          message("Dataset source public contract coverage: ", round(source_percent, 2), "%")
           if (overall_percent < 85) stop("Overall coverage is below 85%")
           if (core_percent < 95) stop("Evidence Compiler contract coverage is below 95%")
+          if (workflow_percent < 95) stop("Role workflow contract coverage is below 95%")
+          if (source_percent < 95) stop("Dataset source public contract coverage is below 95%")
 
   r-package-and-lessons:
     name: R package and lessons (${{ matrix.os }})
@@ -66,8 +83,16 @@ jobs:
         run: Rscript -e "install.packages('.', repos = NULL, type = 'source', quiet = TRUE)"
       - name: Build reference lessons
         run: Rscript scripts/build_all_lessons.R
+      - name: Build role-adaptive workflow demos
+        run: Rscript scripts/build_role_workflow_demo.R
       - name: Check all reference lessons
         run: Rscript scripts/check_all_lessons.R
+      - name: Check role-adaptive workflow demos
+        shell: Rscript {0}
+        run: |
+          roots <- file.path("examples", "role-workflows", c("analyst", "scientist", "reviewer"))
+          results <- lapply(roots, rclaimlab::check_workflow, strict = TRUE)
+          stopifnot(all(vapply(results, function(x) all(x$status == "PASS"), logical(1))))
       - name: Render all Quarto lessons
         run: Rscript scripts/render_all_lessons.R
       - name: Upload lesson reports
@@ -78,6 +103,21 @@ jobs:
           path: |
             examples/*/_site
             examples/*/checks
+            examples/role-workflows/*/app
+            examples/role-workflows/*/checks
+
+  huggingface-live-smoke:
+    name: Pinned Hugging Face live workflow
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: check
+      - name: Inspect, preview, import, model, and validate pinned public data
+        run: Rscript scripts/live_huggingface_workflow_smoke.R
 
   public-install:
     name: Preserve stable public v1.1.0 install
@@ -161,6 +201,30 @@ jobs:
         with:
           name: rclaimlab-browser-smoke
           path: output/playwright/rclaimlab-browser-smoke-*.png
+
+  role-workflow-browser:
+    name: Role-adaptive workflow browser
+    runs-on: ubuntu-latest
+    needs: r-package-and-lessons
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: check
+      - name: Build portable role workflow demos
+        run: Rscript scripts/build_role_workflow_demo.R
+      - name: Install Chromium for role workflow smoke test
+        run: npx --yes --package @playwright/cli playwright-cli install-browser chromium
+      - name: Run responsive and interaction test
+        shell: pwsh
+        run: ./scripts/browser_role_workflow_smoke_test.ps1 -StartServer
+      - name: Upload role workflow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rclaimlab-role-workflow-browser
+          path: output/playwright/rclaimlab-role-workflow-*.png
 
   browser-offline-smoke:
     name: Offline WebR fallback smoke test

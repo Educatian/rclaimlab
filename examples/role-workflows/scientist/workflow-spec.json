@@ -1,0 +1,185 @@
+{
+  "schema_version": "rclaimlab-workflow-1",
+  "id": "synthetic-workforce-evidence-data-scientist",
+  "title": "Synthetic workforce evidence: data scientist",
+  "role": "data_scientist",
+  "goal": "predict",
+  "dataset": {
+    "schema_version": "rclaimlab-dataset-1",
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "source_fingerprint": "c19f20d61ba8f6001989f1ba33f56646",
+    "rows": 300,
+    "columns": ["age", "hours", "education", "group", "outcome"]
+  },
+  "activities": [
+    {
+      "id": "01-frame",
+      "type": "frame",
+      "prompt": "State the decision boundary and question: How well does the approved GLM classify held-out synthetic records?",
+      "criteria": "Question and decision boundary are explicit",
+      "depends_on": [],
+      "evidence_required": false,
+      "input_artifacts": [],
+      "output_type": "decision"
+    },
+    {
+      "id": "02-inspect",
+      "type": "inspect",
+      "prompt": "Inspect source, license, row meaning, variable roles, missingness, and possible identifiers.",
+      "criteria": ["Source and license reviewed", "Unit of observation identified"],
+      "depends_on": "01-frame",
+      "evidence_required": true,
+      "input_artifacts": "dataset-profile",
+      "output_type": "decision"
+    },
+    {
+      "id": "03-clean",
+      "type": "clean",
+      "prompt": "Approve explicit missing-value and retained-row decisions without silently changing source data.",
+      "criteria": "Completes clean with traceable evidence",
+      "depends_on": "02-inspect",
+      "evidence_required": true,
+      "input_artifacts": "dataset-profile",
+      "output_type": "decision"
+    },
+    {
+      "id": "04-split",
+      "type": "split",
+      "prompt": "Inspect the deterministic train/test split and confirm the unit of prediction.",
+      "criteria": "Completes split with traceable evidence",
+      "depends_on": "03-clean",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "05-baseline",
+      "type": "baseline",
+      "prompt": "Compare the approved model with a transparent baseline.",
+      "criteria": "Completes baseline with traceable evidence",
+      "depends_on": "04-split",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "06-fit",
+      "type": "fit",
+      "prompt": "Fit the approved R model and retain formula, factor encoding, and seed.",
+      "criteria": "Completes fit with traceable evidence",
+      "depends_on": "05-baseline",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "07-diagnose",
+      "type": "diagnose",
+      "prompt": "Inspect method-specific diagnostics and identify failure signals.",
+      "criteria": "Completes diagnose with traceable evidence",
+      "depends_on": "06-fit",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "08-evaluate",
+      "type": "evaluate",
+      "prompt": "Evaluate holdout performance and connect each metric to model evidence.",
+      "criteria": ["Uses holdout evidence", "Compares a baseline"],
+      "depends_on": "07-diagnose",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "09-slice",
+      "type": "slice",
+      "prompt": "Inspect explicitly selected subgroup slices and suppress underpowered groups.",
+      "criteria": "Completes slice with traceable evidence",
+      "depends_on": "08-evaluate",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "decision"
+    },
+    {
+      "id": "10-communicate",
+      "type": "communicate",
+      "prompt": "Prepare a concise evidence-linked brief for the next role.",
+      "criteria": "Completes communicate with traceable evidence",
+      "depends_on": "09-slice",
+      "evidence_required": true,
+      "input_artifacts": "model-evidence",
+      "output_type": "claim"
+    },
+    {
+      "id": "11-handoff",
+      "type": "handoff",
+      "prompt": "Package evidence, decisions, limitations, unresolved issues, and reproducibility metadata.",
+      "criteria": ["Includes artifact hashes", "Includes unresolved limitations"],
+      "depends_on": "10-communicate",
+      "evidence_required": false,
+      "input_artifacts": [],
+      "output_type": "handoff"
+    }
+  ],
+  "representations": [
+    {
+      "type": "table",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Evidence table"
+    },
+    {
+      "type": "plot2d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Two-dimensional evidence"
+    },
+    {
+      "type": "scene3d",
+      "dimensions": null,
+      "fallback": "table",
+      "title": "Three-dimensional evidence"
+    }
+  ],
+  "deliverables": {
+    "r_script": "Reproducible R analysis",
+    "model_card": "Model evaluation card",
+    "evaluation": "Holdout evidence"
+  },
+  "artifact_plan": ["dataset-profile", "model-evidence"],
+  "approvals": {
+    "question": true,
+    "variable_roles": true,
+    "method": true,
+    "missing_values": true,
+    "publication": false
+  },
+  "analysis": {
+    "method": "glm",
+    "question": "How well does the approved GLM classify held-out synthetic records?",
+    "outcome": "outcome",
+    "predictors": ["age", "hours", "education"],
+    "slice_by": "group",
+    "missing_values": [],
+    "seed": 2026,
+    "split": {
+      "train": 0.8,
+      "test": 0.2,
+      "stratified": true
+    },
+    "threshold": 0.5,
+    "minimum_slice_n": 20
+  },
+  "upstream": {
+    "bundle_hash": "471bf5b8665527d61b67789a864b789b"
+  },
+  "handoff_from": {
+    "workflow_id": "synthetic-workforce-evidence-analyst",
+    "role": "data_analyst",
+    "bundle_hash": "471bf5b8665527d61b67789a864b789b"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "receipt_version": "1.0",
+  "schema_version": "rclaimlab-workflow-receipt-1",
+  "generated_at": "2026-08-28 05:03:00 UTC",
+  "workflow_id": "synthetic-workforce-evidence-data-scientist",
+  "role": "data_scientist",
+  "attempt_number": 1,
+  "activity_state": [],
+  "approvals": {
+    "question": true,
+    "variable_roles": true,
+    "method": true,
+    "missing_values": true,
+    "publication": false
+  },
+  "analysis": {
+    "question": "How well does the approved GLM classify held-out synthetic records?",
+    "method": "glm",
+    "outcome": "outcome",
+    "predictors": ["age", "hours", "education"],
+    "missing_values": []
+  },
+  "evidence_selections": [],
+  "claims": {
+    "status": "Demo claim pending human review."
+  },
+  "decisions": [],
+  "limitations": "Synthetic records demonstrate workflow behavior, not a population claim.",
+  "unresolved_issues": [],
+  "source": {
+    "provider": "local",
+    "id": "synthetic-workflow-data.csv",
+    "revision": "7e41bce2bf04540acfed8021aa85e05d",
+    "fingerprint": "c19f20d61ba8f6001989f1ba33f56646"
+  },
+  "evidence": {
+    "bundle_hash": "f75f440309a490e9305a79d094de1758",
+    "artifacts": [
+      {
+        "artifact_id": "dataset-profile",
+        "artifact_hash": "e475e6067c252ceff82ef95b97d8ba92",
+        "engine": "data.frame",
+        "role": "data_analyst",
+        "activity_id": "02-inspect"
+      },
+      {
+        "artifact_id": "analyst-evidence",
+        "artifact_hash": "180a1e88c32636faf0002ec7f4333926",
+        "engine": "data.frame",
+        "role": "data_analyst",
+        "activity_id": "04-describe,05-compare,06-explain"
+      },
+      {
+        "artifact_id": "model-evidence",
+        "artifact_hash": "30a40b3d3aced71d5d78fc473833db26",
+        "engine": "glm",
+        "role": "data_scientist",
+        "activity_id": "06-fit,08-evaluate,09-slice"
+      }
+    ]
+  },
+  "handoff": {
+    "next_role": "model_reviewer"
+  },
+  "approval": "handoff_ready",
+  "reproducibility": {
+    "seed": 2026,
+    "r_version": "4.6.1",
+    "packages": {
+      "rclaimlab": "2.1.0"
+    },
+    "source_code_hash": "243418d3ad4b60d16c1d476d538bfeb2"
+  },
+  "privacy": {
+    "storage": "local",
+    "telemetry": false,
+    "raw_data_embedded": false
+  }
+}

@@ -1,3 +1,26 @@
+# rclaimlab 2.1.0
+
+## External data and role-adaptive workflows
+
+- Added validated local, Hugging Face, and Kaggle dataset source contracts,
+  bounded deterministic imports, cache fingerprints, stable source-record IDs,
+  explicit license and immutable-revision publication gates, and safe archive
+  handling.
+- Added Data Analyst, Data Scientist, Model Reviewer, and legacy Guided Learning
+  workflows through an approved activity DAG instead of a fixed role-neutral
+  sequence.
+- Added evidence bundles that preserve source-record lineage across descriptive,
+  model, diagnostic, subgroup, review, and handoff artifacts.
+- Extended `lm` and `glm` evidence adapters with deterministic holdout evidence,
+  regression and classification metrics, factor provenance, and subgroup review
+  signals with small-cell suppression.
+- Added a seven-stage local Shiny workflow wizard and a portable compiler that
+  emits source, profile, workflow, evidence, R, Quarto, browser, check, and local
+  receipt artifacts.
+- Added a bounded optional AI text-drafting callback. It receives schema and
+  aggregate profile information only, cannot choose a method, alter evidence, or
+  approve a workflow, and has a deterministic no-AI fallback.
+
 # rclaimlab 2.0.0.900
 
 ## Evidence Compiler

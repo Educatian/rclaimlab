@@ -1,0 +1,37 @@
+[
+  {
+    "check": "artifact_set",
+    "status": "PASS",
+    "detail": "All portable workflow artifacts exist"
+  },
+  {
+    "check": "workflow_schema",
+    "status": "PASS",
+    "detail": "Workflow specification uses rclaimlab-workflow-1"
+  },
+  {
+    "check": "bundle_schema",
+    "status": "PASS",
+    "detail": "Evidence index uses rclaimlab-evidence-bundle-1"
+  },
+  {
+    "check": "publication_source",
+    "status": "PASS",
+    "detail": "Source revision and license satisfy the selected gate"
+  },
+  {
+    "check": "role_ui",
+    "status": "PASS",
+    "detail": "Role activity rail, evidence views, handoff, and local receipt controls are present"
+  },
+  {
+    "check": "privacy_redaction",
+    "status": "PASS",
+    "detail": "Compiled artifacts exclude credentials and local absolute paths"
+  },
+  {
+    "check": "evidence_contract",
+    "status": "PASS",
+    "detail": "Every bundled artifact satisfies rclaimlab-evidence-2"
+  }
+]

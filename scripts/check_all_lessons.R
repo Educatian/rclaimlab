@@ -7,6 +7,7 @@ source(file.path(root, "R", "lesson_manifest.R"))
 source(file.path(root, "R", "check_lesson.R"))
 
 lessons <- list.dirs(file.path(root, "examples"), full.names = TRUE, recursive = FALSE)
+lessons <- lessons[file.exists(file.path(lessons, "lesson-spec.json"))]
 reports <- lapply(lessons, function(lesson) {
   result <- check_lesson(lesson, strict = TRUE)
   result$lesson <- basename(lesson)
