@@ -170,6 +170,17 @@ compile_lesson(lesson, "my-data-lesson")
 To turn a pinned public dataset into a cross-role workflow, run:
 
 ```r
+library(rclaimlab)
+run_workflow_wizard()
+```
+
+The local wizard follows the implemented storyboard path: choose a purpose,
+inspect a source, approve the data profile and analysis plan, choose a role,
+review the grouped workflow, and then open the compiled Focus workspace. Trace,
+Claim, Receipt, and Handoff remain available without exposing every control at
+once. The equivalent scriptable route is below.
+
+```r
 source <- dataset_source(
   "huggingface",
   "scikit-learn/adult-census-income",

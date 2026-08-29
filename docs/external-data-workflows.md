@@ -5,6 +5,13 @@ Scientist, and Model Reviewer work. The original Guided Learning route remains
 available for structured instruction. All analysis and caching happen in the
 local R process. No telemetry, raw-row upload, or credential storage is added.
 
+For the progressive authoring interface, run `run_workflow_wizard()`. It reveals
+one decision at a time across Data, Question, Workflow, and Evidence phases,
+then opens the same portable artifacts produced by the scriptable API below.
+The compiled workspace starts in Focus mode; provenance, claim revision, and
+handoff are separate modes so that the full workflow never becomes one crowded
+dashboard.
+
 ## What the learner or practitioner does
 
 1. Declare a local, Hugging Face, or Kaggle source.

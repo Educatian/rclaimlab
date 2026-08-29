@@ -13,6 +13,7 @@ output/playwright/*server*.log
 output/recordings/
 output/speech/
 output/wizard-build/
+output/workflow-wizard-smoke/
 ..Rcheck/
 grant/isc-submission/_output/
 tmp/

@@ -9,8 +9,9 @@ $root = Split-Path -Parent $PSScriptRoot
 if (-not $BaseUrl) {
   $BaseUrl = "http://127.0.0.1:$ServerPort/examples/role-workflows/reviewer/app/index.html"
 }
-$npxName = if ($IsWindows) { "npx.cmd" } else { "npx" }
-$pythonName = if ($IsWindows) { "python" } else { "python3" }
+$onWindows = $env:OS -eq "Windows_NT"
+$npxName = if ($onWindows) { "npx.cmd" } else { "npx" }
+$pythonName = if ($onWindows) { "python" } else { "python3" }
 $npx = (Get-Command $npxName -ErrorAction Stop).Source
 $session = "rclaimlab-role-workflow-smoke"
 $server = $null
@@ -29,7 +30,7 @@ try {
       WorkingDirectory = $root
       PassThru = $true
     }
-    if ($IsWindows) { $options.WindowStyle = "Hidden" }
+    if ($onWindows) { $options.WindowStyle = "Hidden" }
     $server = Start-Process @options
     $ready = $false
     1..30 | ForEach-Object {
@@ -47,11 +48,23 @@ try {
   Invoke-PwCli eval "() => { const root=document.documentElement; const activities=document.querySelectorAll('#activity-list button'); if(document.body.dataset.workflowReady!=='true') throw new Error('workflow readiness marker missing'); if(document.querySelector('#role-badge')?.textContent!=='Model Reviewer') throw new Error('reviewer role missing'); if(activities.length!==7) throw new Error('reviewer activity registry mismatch'); if(root.scrollWidth>root.clientWidth+1) throw new Error('desktop horizontal overflow'); if(!document.querySelector('#source-revision')?.textContent) throw new Error('source revision missing'); if(!document.querySelector('#bundle-hash')?.textContent) throw new Error('bundle hash missing'); return 'desktop-contract-ok'; }" | Out-Null
   Invoke-PwCli eval "() => { const row=document.querySelector('#evidence-table-body tr'); if(!row) throw new Error('evidence table row missing'); row.click(); return 'row-clicked'; }" | Out-Null
   Invoke-PwCli eval "() => { if(document.querySelector('#selected-label')?.textContent==='None selected') throw new Error('table selection did not link evidence'); return 'linked-table-selection-ok'; }" | Out-Null
+  Invoke-PwCli click ".workspace-nav-button[data-screen='trace']" | Out-Null
+  Invoke-PwCli eval "() => { if(document.querySelector('#screen-trace').hidden) throw new Error('trace screen did not open'); if(document.querySelector('#detail-record')?.textContent==='None') throw new Error('trace screen lost selected evidence'); return 'trace-screen-ok'; }" | Out-Null
+  Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-storyboard-08-trace.png" | Out-Null
+  Invoke-PwCli click ".workspace-nav-button[data-screen='claim']" | Out-Null
   Invoke-PwCli fill "#claim-input" "The evidence supports a bounded model review; it does not authorize individual decisions." | Out-Null
   Invoke-PwCli click "#save-claim" | Out-Null
+  Invoke-PwCli run-code "async page => { await page.evaluate(() => window.scrollTo(0, 0)); }" | Out-Null
+  Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-storyboard-09-claim.png" | Out-Null
+  Invoke-PwCli click ".workspace-nav-button[data-screen='focus']" | Out-Null
   Invoke-PwCli click "#complete-activity" | Out-Null
   Invoke-PwCli eval "() => { if(!document.querySelector('#claim-status')?.textContent.includes('saved locally')) throw new Error('local claim state missing'); if(!document.querySelector('#rail-progress')?.textContent.startsWith('1 of 7')) throw new Error('activity completion did not persist'); return 'local-state-ok'; }" | Out-Null
   Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-role-workflow-desktop.png" | Out-Null
+
+  Invoke-PwCli click ".workspace-nav-button[data-screen='handoff']" | Out-Null
+  Invoke-PwCli eval "() => { if(document.querySelector('#screen-handoff').hidden) throw new Error('handoff screen did not open'); if(!document.querySelector('#download-workflow-receipt')) throw new Error('receipt action missing'); return 'handoff-screen-ok'; }" | Out-Null
+  Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-storyboard-10-handoff.png" | Out-Null
+  Invoke-PwCli click ".workspace-nav-button[data-screen='focus']" | Out-Null
 
   Invoke-PwCli click "button[data-view='plot2d']" | Out-Null
   Invoke-PwCli eval "() => { const canvas=document.querySelector('#evidence-canvas'); if(document.querySelector('#canvas-panel').hidden) throw new Error('2D canvas remains hidden'); if(!document.querySelector('#table-panel').hidden) throw new Error('table remains visible in 2D mode'); if(canvas.width!==900) throw new Error('canvas contract changed'); return 'plot2d-ok'; }" | Out-Null
@@ -67,7 +80,7 @@ try {
 
   foreach ($size in @(@{Width=760;Height=900;Name='tablet'}, @{Width=390;Height=844;Name='mobile'})) {
     Invoke-PwCli resize $size.Width $size.Height | Out-Null
-    Invoke-PwCli eval "() => { const root=document.documentElement; const shell=document.querySelector('.shell'); const claim=document.querySelector('#claim-input'); if(root.scrollWidth>root.clientWidth+1) throw new Error('responsive horizontal overflow: '+root.scrollWidth+' > '+root.clientWidth); if(shell.getBoundingClientRect().right>root.clientWidth+1) throw new Error('shell clipped'); if(claim.getBoundingClientRect().right>root.clientWidth+1) throw new Error('claim input clipped'); return 'responsive-ok'; }" | Out-Null
+    Invoke-PwCli eval "() => { const root=document.documentElement; const shell=document.querySelector('.app-shell'); const claim=document.querySelector('#claim-input'); if(root.scrollWidth>root.clientWidth+1) throw new Error('responsive horizontal overflow: '+root.scrollWidth+' > '+root.clientWidth); if(shell.getBoundingClientRect().right>root.clientWidth+1) throw new Error('shell clipped'); if(claim.getBoundingClientRect().right>root.clientWidth+1) throw new Error('claim input clipped'); return 'responsive-ok'; }" | Out-Null
     Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-role-workflow-$($size.Name).png" --full-page | Out-Null
   }
 
@@ -75,7 +88,12 @@ try {
   Invoke-PwCli eval "() => { document.documentElement.style.fontSize='200%'; const root=document.documentElement; if(root.scrollWidth>root.clientWidth+1) throw new Error('200-percent text horizontal overflow'); const buttons=[...document.querySelectorAll('button')]; if(buttons.some(button=>button.scrollWidth>button.clientWidth+2 && !button.closest('.activity-list'))) throw new Error('button label clipped at 200-percent text'); return 'text-zoom-ok'; }" | Out-Null
   Invoke-PwCli screenshot --filename="output/playwright/rclaimlab-role-workflow-text-zoom.png" --full-page | Out-Null
 
-  Write-Output "R-ClaimLab role workflow browser smoke passed: desktop, table, 2D, 3D, keyboard, tablet, mobile, and 200-percent text."
+  $consoleMessages = (Invoke-PwCli console error 2>&1) -join "`n"
+  if ($consoleMessages -match "console error" -and $consoleMessages -notmatch "No console messages") {
+    throw "Browser console errors detected: $consoleMessages"
+  }
+
+  Write-Output "R-ClaimLab role workflow browser smoke passed: Focus, Trace, Claim, Handoff, table, 2D, 3D, keyboard, responsive layouts, and 200-percent text."
 } finally {
   try { Invoke-PwCli close | Out-Null } catch { }
   if ($server) { Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue }

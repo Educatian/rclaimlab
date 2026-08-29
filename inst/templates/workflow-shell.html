@@ -7,46 +7,58 @@
   <style>{{WORKFLOW_CSS}}</style>
 </head>
 <body data-workflow-ready="true">
-  <a class="skip" href="#workspace-main">Skip to evidence workspace</a>
+  <a class="skip" href="#workspace-main">Skip to current activity</a>
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">R</span><span><strong>R-ClaimLab</strong><small>Role-adaptive evidence workflow</small></span></div>
+    <div class="brand"><span class="brand-mark" aria-hidden="true">R</span><span><strong>R-ClaimLab</strong><small>Role-adaptive evidence workflow</small></span></div>
     <div class="top-meta"><span class="role-badge" id="role-badge"></span><span class="status">Local · no telemetry</span></div>
   </header>
-  <div class="shell">
-    <aside class="rail" aria-label="Workflow activities">
+  <div class="app-shell">
+    <aside class="rail" aria-label="Workflow navigation">
       <div class="rail-head"><span class="eyebrow">Workflow</span><h2 id="rail-title">Evidence path</h2><p id="rail-progress">0 activities complete</p></div>
-      <nav id="activity-list" class="activity-list"></nav>
+      <nav id="activity-list" class="activity-list" aria-label="Role activities"></nav>
+      <div class="rail-divider"></div>
+      <nav class="workspace-nav" aria-label="Workspace modes">
+        <button type="button" class="workspace-nav-button active" data-screen="focus"><span>01</span>Focus</button>
+        <button type="button" class="workspace-nav-button" data-screen="trace"><span>02</span>Trace evidence</button>
+        <button type="button" class="workspace-nav-button" data-screen="claim"><span>03</span>Build claim</button>
+        <button type="button" class="workspace-nav-button" data-screen="handoff"><span>04</span>Handoff</button>
+      </nav>
     </aside>
-    <main id="workspace-main" class="main">
-      <section class="hero">
-        <div><span class="eyebrow" id="source-provider"></span><h1 id="workflow-title"></h1><p id="workflow-question"></p></div>
-        <div class="hash-card"><span>Evidence bundle</span><code id="bundle-hash"></code></div>
+    <main id="workspace-main" class="workspace-main">
+      <section id="screen-focus" class="workspace-screen active" data-workspace-screen="focus">
+        <div class="screen-grid">
+          <div class="screen-primary">
+            <header class="screen-header"><div><span class="eyebrow" id="source-provider"></span><h1 id="workflow-title"></h1><p id="workflow-question"></p></div><label class="focus-switch"><span>Focus mode</span><input id="focus-mode" type="checkbox" checked><span class="switch-track" aria-hidden="true"></span></label></header>
+            <section class="metric-strip" aria-label="Evaluation summary"><div><span id="metric-one-label">Primary metric</span><strong id="metric-one-value">—</strong></div><div><span id="metric-two-label">Comparison</span><strong id="metric-two-value">—</strong></div><div><span id="metric-three-label">Uncertainty</span><strong id="metric-three-value">—</strong></div></section>
+            <section class="evidence-card" aria-labelledby="evidence-heading">
+              <div class="section-heading"><div><span class="eyebrow">Linked evidence</span><h2 id="evidence-heading">Inspect one representation at a time</h2></div><div class="view-tabs" role="group" aria-label="Evidence representation"><button class="view-tab active" data-view="table" type="button">Table</button><button class="view-tab" data-view="plot2d" type="button">2D</button><button class="view-tab" data-view="scene3d" type="button">3D</button></div></div>
+              <div class="evidence-meta"><span>Evidence ID</span><code id="artifact-hash-short"></code><span class="sample-note" id="sample-note"></span></div>
+              <div id="canvas-panel" class="canvas-panel" hidden><canvas id="evidence-canvas" width="900" height="480" aria-label="Interactive evidence plot"></canvas><p id="canvas-help">Select a point to cite it.</p></div>
+              <div id="table-panel"><div class="table-scroll"><table><caption>Compiled evidence; select a row to cite it</caption><thead id="evidence-table-head"></thead><tbody id="evidence-table-body"></tbody></table></div><div class="pager"><button id="previous-page" type="button">Previous</button><span id="page-status"></span><button id="next-page" type="button">Next</button></div></div>
+              <div class="selection" aria-live="polite"><span>Selected evidence</span><strong id="selected-label">None selected</strong><code id="selected-id">Choose a row or point</code></div>
+            </section>
+            <nav class="command-bar" aria-label="Evidence tools"><button id="view-r-code" type="button">View R code</button><button class="screen-link" data-screen="trace" type="button">Provenance</button><button id="export-table" type="button">Export table</button></nav>
+          </div>
+          <aside class="context-panel" aria-labelledby="active-title"><span class="eyebrow">Activity guide</span><div class="context-status"><span id="active-type"></span><button id="complete-activity" type="button">Mark complete</button></div><h2 id="active-title"></h2><p id="active-prompt"></p><h3>What to inspect</h3><ul id="active-criteria"></ul><div class="completion-boundary"><strong>Completion criterion</strong><p>Use linked evidence and record a bounded interpretation before closing this activity.</p></div></aside>
+        </div>
       </section>
-      <section class="source-strip" aria-label="Source provenance">
-        <div><span>Dataset</span><strong id="source-id"></strong></div><div><span>Revision</span><strong id="source-revision"></strong></div>
-        <div><span>License</span><strong id="source-license"></strong></div><div><span>Analysis</span><strong id="analysis-engine"></strong></div>
+      <section id="screen-trace" class="workspace-screen" data-workspace-screen="trace" hidden>
+        <header class="screen-header compact"><div><span class="eyebrow">Trace evidence</span><h1>Trace one result from source to claim</h1><p>Why is this point here?</p></div></header>
+        <div class="trace-layout"><div><div class="trace-chain" aria-label="Evidence provenance chain"><button type="button" class="trace-node"><span>01</span><strong>Source record</strong><code class="trace-record-id">No selection</code></button><button type="button" class="trace-node"><span>02</span><strong>Prepared observation</strong><code class="trace-record-id">No selection</code></button><button type="button" class="trace-node active"><span>03</span><strong>Model evidence</strong><code id="trace-value">Select evidence</code></button><button type="button" class="trace-node"><span>04</span><strong>Visual mark</strong><code id="trace-mark">Not selected</code></button><button type="button" class="trace-node"><span>05</span><strong>Claim</strong><code id="trace-claim">Not drafted</code></button></div>
+          <section class="detail-card"><div class="section-heading"><div><span class="eyebrow">Evidence details</span><h2>Selected artifact and provenance</h2></div><button id="open-matching-code" type="button">Open matching R code</button></div><dl class="evidence-details"><div><dt>Selected record</dt><dd id="detail-record">None</dd></div><div><dt>Primary value</dt><dd id="detail-value">None</dd></div><div><dt>Artifact hash</dt><dd id="detail-artifact"></dd></div><div><dt>Bundle hash</dt><dd id="bundle-hash"></dd></div><div><dt>Dataset revision</dt><dd id="source-revision"></dd></div><div><dt>Analysis engine</dt><dd id="analysis-engine"></dd></div></dl></section></div>
+          <aside class="context-panel representation-sync"><span class="eyebrow">Representation sync</span><h2>One selection, every view</h2><div class="sync-list"><div><strong>Table</strong><span>Linked</span></div><div><strong>2D</strong><span>Linked</span></div><div><strong>3D</strong><span>Linked</span></div></div><p>Selection stays linked across views through the source record ID.</p><button class="primary-action screen-link" data-screen="claim" id="cite-evidence" type="button">Cite this evidence</button></aside></div>
       </section>
-      <section class="activity-card" aria-labelledby="active-title">
-        <div class="activity-heading"><span class="step-pill" id="active-type"></span><button id="complete-activity" type="button">Mark complete</button></div>
-        <h2 id="active-title"></h2><p id="active-prompt"></p><ul id="active-criteria"></ul>
+      <section id="screen-claim" class="workspace-screen" data-workspace-screen="claim" hidden>
+        <header class="screen-header compact"><div><span class="eyebrow">Communicate</span><h1>Turn evidence into a defensible claim</h1><p>State what the evidence supports, the comparison, and its boundary.</p></div></header>
+        <div class="claim-layout"><section class="claim-composer"><label for="claim-input"><strong>Claim</strong><span>Write one conclusion linked to the selected evidence.</span></label><textarea id="claim-input" placeholder="The approved analysis supports…"></textarea><div class="claim-evidence"><span class="field-label">Evidence</span><div id="claim-evidence-chips"></div></div><label for="boundary-input"><strong>Boundary</strong><span>Name what this analysis cannot establish.</span></label><textarea id="boundary-input">This is predictive evidence, not a causal conclusion.</textarea><div class="claim-rubric" aria-label="Claim quality checks"><span id="rubric-evidence">Evidence cited</span><span id="rubric-comparison">Comparison stated</span><span id="rubric-boundary">Limitation stated</span></div></section>
+          <aside class="context-panel challenge-panel"><span class="eyebrow">Challenge the claim</span><h2>Stress-test the interpretation</h2><div class="challenge-list"><button type="button" data-challenge="Alternative explanations may also fit this pattern.">Alternative explanation</button><button type="button" data-challenge="Check whether the pattern is stable across approved review slices.">Subgroup stability</button><button type="button" data-challenge="Do not assume performance transfers beyond this dataset.">Generalizability</button></div><p id="challenge-feedback">Choose a challenge to review the claim boundary.</p><button id="save-claim" class="primary-action" type="button">Revise and accept claim</button><button id="ask-review" class="secondary-action" type="button">Prepare for review</button><span id="claim-status" aria-live="polite">Stored only in this browser.</span></aside></div>
       </section>
-      <section class="evidence-card">
-        <div class="section-heading"><div><span class="eyebrow">Linked evidence</span><h2>Inspect records across representations</h2></div>
-          <div class="view-tabs" role="group" aria-label="Evidence representation"><button class="view-tab active" data-view="table" type="button">Table</button><button class="view-tab" data-view="plot2d" type="button">2D</button><button class="view-tab" data-view="scene3d" type="button">3D</button></div></div>
-        <div id="canvas-panel" class="canvas-panel" hidden><canvas id="evidence-canvas" width="900" height="480" aria-label="Interactive evidence plot"></canvas><p id="canvas-help">Select a point to cite it.</p></div>
-        <div id="table-panel"><div class="table-scroll"><table><caption>Compiled evidence; select a row to cite it</caption><thead id="evidence-table-head"></thead><tbody id="evidence-table-body"></tbody></table></div>
-          <div class="pager"><button id="previous-page" type="button">Previous</button><span id="page-status"></span><button id="next-page" type="button">Next</button></div></div>
-        <div class="selection" aria-live="polite"><span>Selected evidence</span><strong id="selected-label">None selected</strong><code id="selected-id">Choose a row or point</code></div>
+      <section id="screen-handoff" class="workspace-screen" data-workspace-screen="handoff" hidden>
+        <header class="completion-header"><span class="verified-label">Verified locally</span><h1>Your workflow is ready to hand off</h1><p>Keep the evidence, decisions, limitations, and environment connected.</p></header>
+        <div class="completion-grid"><div><div class="completion-summary"><div><strong>Data approved</strong><span>Source and roles recorded</span></div><div><strong>Analysis reproduced</strong><span>Seed and environment recorded</span></div><div><strong>Claim reviewed</strong><span>Evidence and boundary linked</span></div><div><strong>Limitations recorded</strong><span>Interpretation remains bounded</span></div></div><div class="handoff-actions"><button id="download-workflow-receipt" class="handoff-card" type="button"><strong>Download workflow receipt</strong><span>Decisions, evidence IDs, hashes, seed, and environment</span></button><button id="continue-reviewer" class="handoff-card green" type="button"><strong>Continue with a Model Reviewer</strong><span>Pass linked artifacts without copying raw data</span></button></div><details class="deliverable-details"><summary>Deliverables <span>R script, role report, evidence, Quarto</span></summary><div id="deliverable-list" class="deliverables"></div></details><div class="completion-actions"><a href="../report/index.html" class="primary-action">Open report</a><button class="secondary-action screen-link" data-screen="focus" type="button">Return to workspace</button></div></div>
+          <aside class="context-panel reproducibility"><span class="eyebrow">Reproducibility status</span><h2>Receipt-ready</h2><dl><div><dt>Source</dt><dd id="source-id"></dd></div><div><dt>License</dt><dd id="source-license"></dd></div><div><dt>Seed</dt><dd id="repro-seed">2026</dd></div><div><dt>Environment</dt><dd id="repro-environment">Recorded</dd></div><div><dt>Artifact hashes</dt><dd>Verified</dd></div><div><dt>Privacy</dt><dd>Local-only</dd></div></dl></aside></div>
       </section>
-      <section class="claim-card"><label for="claim-input"><span class="eyebrow">Evidence-linked claim</span><strong>What does the evidence support—and not support?</strong></label>
-        <textarea id="claim-input" placeholder="Cite the selected record and metric, then state a limitation."></textarea>
-        <div class="claim-actions"><button id="save-claim" type="button">Save claim</button><span id="claim-status" aria-live="polite">Stored only in this browser.</span></div></section>
     </main>
-    <aside class="companion" aria-label="Deliverables and handoff">
-      <section><span class="eyebrow">Role output</span><h2>Deliverables</h2><div id="deliverable-list" class="deliverables"></div></section>
-      <section class="handoff"><span class="eyebrow">Evidence handoff</span><h2>Pass traceable work forward</h2><p>The receipt links decisions and claims to source records and hashes. It excludes the raw dataset.</p><button id="download-workflow-receipt" type="button">Download workflow receipt</button></section>
-      <section class="boundary"><strong>Interpretation boundary</strong><p>Metrics are review signals. They do not prove causality, certify fairness, or authorize individual decisions.</p></section>
-    </aside>
   </div>
   <script>const RCLAIMLAB_WORKFLOW={{WORKFLOW_JSON}};</script>
   <script>{{WORKFLOW_JS}}</script>

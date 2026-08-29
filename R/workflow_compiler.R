@@ -210,10 +210,33 @@ workflow_browser_contract <- function(run, primary_id, evidence, table) list(
   evidence = list(primary_artifact = primary_id, artifact_hash = evidence$analysis$artifact_hash,
     bundle_hash = run$bundle$bundle_hash, engine = evidence$analysis$engine,
     dimensions = evidence$dimensions, rows = table, total_rows = nrow(as.data.frame(evidence)),
-    sampled_rows = nrow(table), metadata = evidence$metadata),
+    sampled_rows = nrow(table), metrics = workflow_browser_metrics(evidence),
+    metadata = evidence$metadata),
   execution = run$execution,
   privacy = list(storage = "browser-local", telemetry = FALSE, raw_data_exported = FALSE)
 )
+
+workflow_browser_metrics <- function(evidence) {
+  metadata <- evidence$metadata %||% list()
+  classification <- metadata$classification %||% list()
+  baseline <- metadata$workflow$baseline %||% list()
+  evaluation <- metadata$evaluation %||% list()
+  if (!is.null(classification$accuracy)) return(list(
+    list(label = "Baseline accuracy", value = baseline$value %||% NA_real_),
+    list(label = "Model accuracy", value = classification$accuracy),
+    list(label = "Brier score", value = classification$brier_score %||% NA_real_)
+  ))
+  if (!is.null(evaluation$rmse)) return(list(
+    list(label = "RMSE", value = evaluation$rmse),
+    list(label = "MAE", value = evaluation$mae %||% NA_real_),
+    list(label = "R squared", value = evaluation$r_squared %||% NA_real_)
+  ))
+  list(
+    list(label = "Evidence rows", value = nrow(as.data.frame(evidence))),
+    list(label = "Analysis engine", value = evidence$analysis$engine),
+    list(label = "Artifact status", value = "Verified")
+  )
+}
 
 workflow_report_qmd <- function(run, primary_id) c(
   "---", paste0('title: "', gsub('"', '\\"', run$workflow$title), '"'), "format: html", "---", "",

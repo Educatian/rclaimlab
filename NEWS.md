@@ -17,6 +17,11 @@
 - Added a seven-stage local Shiny workflow wizard and a portable compiler that
   emits source, profile, workflow, evidence, R, Quarto, browser, check, and local
   receipt artifacts.
+- Rebuilt the workflow authoring and evidence workspace around the ten-scene
+  progressive-disclosure storyboard: purpose, source, profile, plan, role,
+  approval, Focus, Trace, Claim, and Handoff. Added contextual Font Awesome
+  icons, responsive role cards, one-view-at-a-time evidence modes, and visual
+  regression captures for every scene.
 - Added a bounded optional AI text-drafting callback. It receives schema and
   aggregate profile information only, cannot choose a method, alter evidence, or
   approve a workflow, and has a deterministic no-AI fallback.

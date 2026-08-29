@@ -224,7 +224,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rclaimlab-role-workflow-browser
-          path: output/playwright/rclaimlab-role-workflow-*.png
+          path: |
+            output/playwright/rclaimlab-role-workflow-*.png
+            output/playwright/rclaimlab-storyboard-*.png
 
   browser-offline-smoke:
     name: Offline WebR fallback smoke test
@@ -291,6 +293,30 @@ jobs:
         with:
           name: rclaimlab-lesson-wizard
           path: output/playwright/rclaimlab-lesson-wizard-*.png
+
+  workflow-wizard-smoke:
+    name: Progressive role Workflow Wizard smoke test
+    runs-on: windows-latest
+    needs: r-package-and-lessons
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: check
+      - name: Install Chromium for Workflow Wizard smoke test
+        shell: pwsh
+        run: npx --yes --package @playwright/cli playwright-cli install-browser chromium
+      - name: Run purpose-to-handoff workflow authoring flow
+        shell: pwsh
+        run: ./scripts/browser_workflow_wizard_smoke_test.ps1
+      - name: Upload storyboard-aligned Workflow Wizard screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rclaimlab-workflow-wizard
+          path: |
+            output/playwright/rclaimlab-storyboard-*.png
 
   persona-browser:
     name: Learner and screen-reader proxy
