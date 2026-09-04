@@ -37,6 +37,7 @@ test_that("launcher and preset definitions are shared and install ref is immutab
   expect_match(public, "<head><meta charset=", fixed = TRUE)
   expect_match(public, "<style>", fixed = TRUE)
   expect_match(public, "@font-face", fixed = TRUE)
+  expect_match(public, ".fas,.fa-solid{font-family:launcher-icons", fixed = TRUE)
   json <- sub(".*const RCLAIMLAB_LAUNCHER=", "", public)
   json <- strsplit(json, ";\n", fixed = TRUE)[[1]][[1]]
   view <- jsonlite::fromJSON(json)$guided$html
