@@ -40,10 +40,21 @@ scene_template_path <- function() {
 }
 
 scene_html <- function(title, points_json, learning_contract = NULL) {
+  template_path <- scene_template_path()
   template <- paste(
-    readLines(scene_template_path(), warn = FALSE, encoding = "UTF-8"),
+    readLines(template_path, warn = FALSE, encoding = "UTF-8"),
     collapse = "\n"
   )
+  icon_path <- file.path(dirname(template_path), "icons", "fa-solid-900.woff2")
+  if (!file.exists(icon_path)) stop("shared icon font was not found", call. = FALSE)
+  icon_font <- readBin(icon_path, what = "raw", n = 2000000L)
+  icon_font_base64 <- gsub("[\r\n]", "", jsonlite::base64_enc(icon_font))
+  template <- sub("{{ICON_FONT_WOFF2}}", icon_font_base64, template, fixed = TRUE)
+  brand_path <- file.path(dirname(template_path), "icons", "rclaimlab-mark.svg")
+  if (!file.exists(brand_path)) stop("R-ClaimLab brand mark was not found", call. = FALSE)
+  brand_mark <- readBin(brand_path, what = "raw", n = 5000000L)
+  brand_mark_base64 <- gsub("[\r\n]", "", jsonlite::base64_enc(brand_mark))
+  template <- sub("{{BRAND_MARK_DATA_URI}}", paste0("data:image/svg+xml;base64,", brand_mark_base64), template, fixed = TRUE)
   template <- sub("{{TITLE}}", html_escape(title), template, fixed = TRUE)
   template <- sub("{{POINTS_JSON}}", points_json, template, fixed = TRUE)
   if (is.null(learning_contract)) learning_contract <- default_scene_contract(title)

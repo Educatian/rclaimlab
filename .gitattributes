@@ -1,0 +1,2 @@
+# Preserve exact source bytes for deterministic public demo fingerprints.
+inst/extdata/*.csv -text

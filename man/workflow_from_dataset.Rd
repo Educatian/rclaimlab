@@ -6,7 +6,7 @@
 \usage{
 workflow_from_dataset(
   dataset,
-  role = c("data_analyst", "data_scientist", "model_reviewer"),
+  role = c("data_analyst", "data_scientist", "model_reviewer", "guided_learning"),
   goal = NULL,
   outcome = NULL,
   predictors = NULL,
@@ -22,7 +22,7 @@ workflow_from_dataset(
 \arguments{
 \item{dataset}{Imported `rclaimlab_dataset`.}
 
-\item{role}{Data analyst, data scientist, or model reviewer.}
+\item{role}{Data analyst, data scientist, model reviewer, or guided learning.}
 
 \item{goal}{Analytical goal.}
 

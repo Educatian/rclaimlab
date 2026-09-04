@@ -5,6 +5,7 @@
 ^examples$
 ^scripts$
 ^\.playwright-cli$
+^\.wrangler$
 ^test-results$
 ^output$
 ^\.tools$
@@ -37,4 +38,5 @@
 ^SECURITY\.md$
 ^SUPPORT\.md$
 ^site$
+^deploy$
 ^.*\.tar\.gz$

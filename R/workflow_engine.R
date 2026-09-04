@@ -1,7 +1,7 @@
 #' Create a role-adaptive workflow from imported data
 #'
 #' @param dataset Imported `rclaimlab_dataset`.
-#' @param role Data analyst, data scientist, or model reviewer.
+#' @param role Data analyst, data scientist, model reviewer, or guided learning.
 #' @param goal Analytical goal.
 #' @param outcome Optional outcome column.
 #' @param predictors Optional predictor or analysis columns.
@@ -14,7 +14,7 @@
 #' @return An unapproved `rclaimlab_workflow`.
 #' @export
 workflow_from_dataset <- function(dataset,
-                                  role = c("data_analyst", "data_scientist", "model_reviewer"),
+                                  role = c("data_analyst", "data_scientist", "model_reviewer", "guided_learning"),
                                   goal = NULL, outcome = NULL, predictors = NULL,
                                   slice_by = character(), analysis = "auto",
                                   question = NULL, missing_values = character(),
@@ -32,10 +32,10 @@ workflow_from_dataset <- function(dataset,
   predictors <- unique(as.character(predictors))
   if (!length(predictors) || any(!predictors %in% names(data))) stop("predictors must name dataset columns", call. = FALSE)
   if (any(predictors %in% outcome)) stop("predictors cannot duplicate outcome", call. = FALSE)
-  if (is.null(goal)) goal <- if (role == "data_analyst") "describe" else if (role == "data_scientist") "predict" else "audit"
+  if (is.null(goal)) goal <- if (role %in% c("data_analyst", "guided_learning")) "describe" else if (role == "data_scientist") "predict" else "audit"
   goal <- match.arg(goal, c("describe", "compare", "predict", "audit"))
   if (analysis == "auto") {
-    analysis <- if (role == "data_analyst") "describe" else {
+    analysis <- if (role %in% c("data_analyst", "guided_learning")) "describe" else {
       if (is.null(outcome)) stop("data scientist and reviewer workflows require an outcome", call. = FALSE)
       if (is.numeric(data[[outcome]]) && length(unique(data[[outcome]][!is.na(data[[outcome]])])) > 2L) "lm" else "glm"
     }
@@ -50,8 +50,8 @@ workflow_from_dataset <- function(dataset,
   missing_values <- unique(as.character(missing_values))
   if (is.null(title)) title <- paste(workflow_role_label(role), "workflow for", dataset$manifest$id)
   if (is.null(id)) id <- lesson_id_from_title(title)
-  profile <- workflow_role_profile(role)
-  activities <- workflow_profile_activities(profile, question)
+  profile <- workflow_role_profile(role, analysis)
+  activities <- workflow_profile_activities(profile, question, role)
   value <- workflow_spec(
     id = id, title = title, role = role, goal = goal, dataset = dataset,
     activities = activities,
@@ -96,7 +96,7 @@ run_workflow <- function(workflow) {
   required <- c("question", "variable_roles", "method", "missing_values")
   missing <- required[!vapply(workflow$approvals[required], isTRUE, logical(1))]
   if (length(missing)) stop("workflow execution requires approvals: ", paste(missing, collapse = ", "), call. = FALSE)
-  if (workflow$role == "guided_learning") {
+  if (workflow$role == "guided_learning" && is.null(workflow$dataset)) {
     evidence <- workflow$analysis$evidence
     bundle <- new_evidence_bundle(workflow$id, NULL)
     bundle <- add_evidence_artifact(bundle, "lesson-evidence", evidence, "guided_learning", character(), character())
@@ -117,7 +117,8 @@ run_workflow <- function(workflow) {
     workflow$role,
     data_analyst = run_analyst_workflow(workflow, prepared, bundle),
     data_scientist = run_model_workflow(workflow, prepared, bundle),
-    model_reviewer = run_reviewer_workflow(workflow, prepared, bundle)
+    model_reviewer = run_reviewer_workflow(workflow, prepared, bundle),
+    guided_learning = if (workflow$analysis$method == "describe") run_analyst_workflow(workflow, prepared, bundle) else run_model_workflow(workflow, prepared, bundle)
   )
   new_workflow_run(workflow, dataset, result$bundle, result$execution)
 }
@@ -419,7 +420,7 @@ workflow_slice_metrics <- function(evidence, slices, method, minimum_n) {
        interpretation = "Review signal only; not a fairness certification.")
 }
 
-workflow_role_profile <- function(role) {
+workflow_role_profile <- function(role, analysis = NULL) {
   switch(
     role,
     data_analyst = list(
@@ -436,12 +437,19 @@ workflow_role_profile <- function(role) {
       steps = c("inspect", "reproduce", "diagnose", "challenge", "slice", "revise", "approve"),
       artifact_plan = c("dataset-profile", "model-evidence", "review-evidence"),
       deliverables = list(review_report = "Evidence review report", limitations = "Risk and limitation log", approval = "Human approval state")
+    ),
+    guided_learning = list(
+      steps = c("frame", "inspect", "transform", "explain", "revise", "challenge", "reproduce", "handoff"),
+      artifact_plan = c("dataset-profile", if (identical(analysis, "describe")) "analyst-evidence" else "model-evidence"),
+      primary_artifact = if (identical(analysis, "describe")) "analyst-evidence" else "model-evidence",
+      deliverables = list(lesson = "Data-grounded guided lesson", practice = "Prediction, explanation, repair, and transfer activities", learning_receipt = "Evidence-linked learning receipt")
     )
   )
 }
 
-workflow_profile_activities <- function(profile, question) {
+workflow_profile_activities <- function(profile, question, role = NULL) {
   artifact_for <- function(type) {
+    if (!is.null(profile$primary_artifact) && type %in% c("transform", "explain", "revise", "challenge", "reproduce", "handoff")) return(profile$primary_artifact)
     if (type %in% c("inspect", "clean")) "dataset-profile"
     else if (type %in% c("describe", "compare", "explain")) "analyst-evidence"
     else if (type %in% c("split", "baseline", "fit", "diagnose", "evaluate", "slice", "communicate", "challenge", "reproduce")) "model-evidence"
@@ -453,8 +461,8 @@ workflow_profile_activities <- function(profile, question) {
     artifact <- intersect(artifact_for(type), profile$artifact_plan)
     activity_spec(
       id = sprintf("%02d-%s", index, type), type = type,
-      prompt = workflow_activity_prompt(type, question),
-      criteria = workflow_activity_criteria(type),
+      prompt = if (identical(role, "guided_learning")) guided_workflow_task(type, question)$prompt else workflow_activity_prompt(type, question),
+      criteria = if (identical(role, "guided_learning")) guided_workflow_task(type, question)$criteria else workflow_activity_criteria(type),
       depends_on = if (index > 1L) sprintf("%02d-%s", index - 1L, profile$steps[[index - 1L]]) else character(),
       evidence_required = length(artifact) > 0L,
       input_artifacts = artifact,
@@ -508,7 +516,7 @@ workflow_activity_output <- function(type) {
 }
 
 workflow_default_question <- function(role, goal, outcome, predictors) {
-  if (role == "data_analyst") paste0("What evidence patterns are visible across ", paste(utils::head(predictors, 3L), collapse = ", "), "?")
+  if (role %in% c("data_analyst", "guided_learning")) paste0("What evidence patterns are visible across ", paste(utils::head(predictors, 3L), collapse = ", "), "?")
   else if (role == "data_scientist") paste0("How well can the approved predictors estimate ", outcome, " on held-out observations?")
   else paste0("Are the evidence, diagnostics, and limitations sufficient to support the claim about ", outcome, "?")
 }
@@ -527,12 +535,13 @@ workflow_model_source <- function(analysis, formula) c(
   "# Deterministic 80/20 split recorded in workflow-spec.json",
   paste0("model <- stats::", analysis$method, "(", paste(deparse(formula), collapse = " "),
          if (analysis$method == "glm") ", data = train, family = stats::binomial())" else ", data = train)"),
-  "predictions <- stats::predict(model, newdata = test)",
+  if (analysis$method == "glm") "predictions <- stats::predict(model, newdata = test, type = 'response')" else "predictions <- stats::predict(model, newdata = test)",
   "# Inspect evidence/artifacts/model-evidence.json for linked holdout evidence."
 )
 
 new_workflow_run <- function(workflow, dataset, bundle, execution) {
   validate_evidence_bundle(bundle)
+  if (!is.null(dataset)) execution$source_code <- workflow_reproduction_source(workflow, dataset)
   structure(
     list(
       schema_version = "rclaimlab-workflow-run-1", workflow = workflow,

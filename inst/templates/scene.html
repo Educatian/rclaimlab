@@ -9,17 +9,17 @@
 :root {
   color-scheme: light;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --color-canvas: #f1f4f8;
+  --color-canvas: #f6f8fc;
   --color-surface: #ffffff;
   --color-surface-subtle: #f7f9fc;
-  --color-surface-active: #eaf2ff;
-  --color-text: #172033;
-  --color-text-muted: #526078;
-  --color-border: #d8e0eb;
-  --color-border-strong: #b6c2d2;
-  --color-primary: #1f5fd1;
-  --color-primary-hover: #194fad;
-  --color-primary-soft: #e7f0ff;
+  --color-surface-active: #eef4ff;
+  --color-text: #121b31;
+  --color-text-muted: #5c6880;
+  --color-border: #dbe2ed;
+  --color-border-strong: #c8d2e1;
+  --color-primary: #1757d7;
+  --color-primary-hover: #0f43aa;
+  --color-primary-soft: #eef4ff;
   --color-focus: #f59e0b;
   --color-teal: #087f8c;
   --color-success: #137a4a;
@@ -34,11 +34,12 @@
   --space-7: 28px;
   --space-8: 32px;
   --radius-control: 8px;
-  --radius-panel: 12px;
-  --radius-shell: 16px;
-  --shadow-shell: 0 16px 40px rgba(23, 32, 51, .10);
-  --shadow-panel: 0 6px 18px rgba(23, 32, 51, .06);
+  --radius-panel: 14px;
+  --radius-shell: 14px;
+  --shadow-shell: 0 12px 30px rgba(31, 49, 84, .07);
+  --shadow-panel: 0 12px 30px rgba(31, 49, 84, .07);
 }
+@font-face{font-family:"RClaimLab Icons";font-style:normal;font-weight:900;font-display:block;src:url("data:font/woff2;base64,{{ICON_FONT_WOFF2}}") format("woff2")}.rci{display:inline-grid;place-items:center;width:1.2em;height:1.2em;flex:0 0 auto;font-family:"RClaimLab Icons";font-style:normal;font-weight:900;line-height:1;text-rendering:auto;-webkit-font-smoothing:antialiased}.rci-bullseye::before{content:"\f140"}.rci-eye::before{content:"\f06e"}.rci-code::before{content:"\f121"}.rci-chart-line::before{content:"\f201"}.rci-comments::before{content:"\f086"}.rci-rotate::before{content:"\f2f1"}.rci-share-nodes::before{content:"\f1e0"}.rci-file-circle-check::before{content:"\e5a0"}.rci-file-lines::before{content:"\f15c"}.rci-table::before{content:"\f0ce"}.rci-cube::before{content:"\f1b2"}.rci-play::before{content:"\f04b"}.rci-download::before{content:"\f019"}.rci-circle-check::before{content:"\f058"}.rci-wand-magic-sparkles::before{content:"\e2ca"}.rci-arrow-left::before{content:"\f060"}.rci-terminal::before{content:"\f120"}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-height: 100vh; overflow: hidden; background: var(--color-canvas); color: var(--color-text); }
@@ -69,7 +70,7 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible, summary:focu
 }
 .topbar { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-7); background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
 .topbar > *, .title-row > *, .scene-header > *, .lab-heading > *, .authoring-header > *, .selected-row > *, .prediction-summary > *, .ai-code-head > *, .button-row > *, .check-list li > * { min-width: 0; }
-.brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 12px; font-weight: 900; }
+.brand-mark { display: block; width: 34px; height: 34px; border-radius: 9px; }
 .brand-copy { display: grid; min-width: 0; gap: 2px; }
 .brand-title { font-size: 18px; line-height: 22px; font-weight: 800; letter-spacing: -.02em; }
 .brand-subtitle { font-size: 11px; color: var(--color-text-muted); }
@@ -440,32 +441,33 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
   .coords span { min-width: 0; font-size: 12px; overflow-wrap: anywhere; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.icon-button{display:inline-flex;align-items:center;justify-content:center;gap:7px}.view-tab .rci,.representation-button .rci,.educator-link .rci{color:var(--color-primary)}.step-index.rci{font-size:11px}.control-number.rci{font-size:9px}.companion-card,.scene-card,.lab-results,.code-workspace,.ai-prompt-card,.ai-result-card{border-radius:var(--radius-panel)}
 </style>
 </head>
 <body>
 <a class="skip-link" href="#lesson-main">Skip to interactive lesson</a>
 <main class="app" aria-label="R-ClaimLab interactive lesson: From R Code to Evidence">
   <header class="topbar">
-    <div class="brand-mark" aria-hidden="true">R</div>
+    <img class="brand-mark" src="{{BRAND_MARK_DATA_URI}}" alt="">
     <div class="brand-copy"><div class="brand-title">R-ClaimLab</div><div class="brand-subtitle">From R code to evidence</div></div>
     <div class="topbar-spacer"></div>
     <div class="lesson-label">Lesson 01</div>
-    <button class="educator-link" id="educator-mode-link" type="button">For educators: author a lesson</button>
-    <button class="restart-button" id="restart-lesson" type="button">Restart lesson</button>
+    <button class="educator-link icon-button" id="educator-mode-link" type="button"><span class="rci rci-wand-magic-sparkles" aria-hidden="true"></span>For educators: author a lesson</button>
+    <button class="restart-button icon-button" id="restart-lesson" type="button"><span class="rci rci-rotate" aria-hidden="true"></span>Restart lesson</button>
     <div class="status-chip" id="lesson-status" data-state="ready"><span class="status-dot" aria-hidden="true"></span><span id="lesson-status-text">Browser preview ready</span></div>
   </header>
 
   <nav class="rail" aria-label="Learning path">
     <div><div class="eyebrow">Learning path</div><div class="rail-title">Data exploration workflow</div></div>
     <div class="step-list">
-      <button class="step-row" type="button" data-step="1" data-target="orient-input" aria-current="step"><span class="step-index">1</span><span class="step-name">Orient</span><span class="step-current">CURRENT</span></button>
-      <button class="step-row" type="button" data-step="2" data-target="prediction-input"><span class="step-index">2</span><span class="step-name">Predict</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="3" data-target="r-code-editor" data-view="r"><span class="step-index">3</span><span class="step-name">Run R</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="4" data-target="scene" data-view="scene"><span class="step-index">4</span><span class="step-name">Explore</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="5" data-target="explanation-input"><span class="step-index">5</span><span class="step-name">Explain</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="6" data-target="explanation-feedback"><span class="step-index">6</span><span class="step-name">Repair</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="7" data-target="transfer-input"><span class="step-index">7</span><span class="step-name">Transfer</span><span class="step-current"></span></button>
-      <button class="step-row" type="button" data-step="8" data-target="reproduce-card" data-view="r"><span class="step-index">8</span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="1" data-target="orient-input" aria-current="step"><span class="step-index rci rci-bullseye" aria-hidden="true"></span><span class="step-name">Orient</span><span class="step-current">CURRENT</span></button>
+      <button class="step-row" type="button" data-step="2" data-target="prediction-input"><span class="step-index rci rci-eye" aria-hidden="true"></span><span class="step-name">Predict</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="3" data-target="r-code-editor" data-view="r"><span class="step-index rci rci-code" aria-hidden="true"></span><span class="step-name">Run R</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="4" data-target="scene" data-view="scene"><span class="step-index rci rci-chart-line" aria-hidden="true"></span><span class="step-name">Explore</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="5" data-target="explanation-input"><span class="step-index rci rci-comments" aria-hidden="true"></span><span class="step-name">Explain</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="6" data-target="explanation-feedback"><span class="step-index rci rci-rotate" aria-hidden="true"></span><span class="step-name">Repair</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="7" data-target="transfer-input"><span class="step-index rci rci-share-nodes" aria-hidden="true"></span><span class="step-name">Transfer</span><span class="step-current"></span></button>
+      <button class="step-row" type="button" data-step="8" data-target="reproduce-card" data-view="r"><span class="step-index rci rci-file-circle-check" aria-hidden="true"></span><span class="step-name">Reproduce</span><span class="step-current"></span></button>
     </div>
     <section class="goal-card" id="learning-goal" tabindex="-1"><h2>Learning goals</h2><ul id="learning-goal-text"><li>Run an R transformation, inspect the updated result, and explain linked evidence.</li></ul><small id="learning-goal-time">Estimated time: 20 minutes</small></section>
   </nav>
@@ -475,12 +477,12 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <div class="step-guidance" id="step-guidance" role="status" aria-live="polite"><strong>Next</strong><span id="step-guidance-text">Describe what one row and each variable represent.</span></div>
     <div class="scene-card">
       <div class="scene-header"><div><strong>R-powered laboratory</strong><span id="explore-prompt">Edit and run R in the browser, then compare the same evidence as a table, 2D plot, and 3D scene.</span></div><div class="keyboard-hint">WebR runs locally in this tab. Every representation keeps the same observation and evidence identifiers.</div></div>
-      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel">EVIDENCE VIEWS</button><button class="view-tab" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel">R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel">AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
+      <div class="view-tabs" role="tablist" aria-label="Laboratory views"><button class="view-tab icon-button" id="scene-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-panel"><span class="rci rci-chart-line" aria-hidden="true"></span>EVIDENCE VIEWS</button><button class="view-tab icon-button" id="r-tab" type="button" role="tab" aria-selected="false" aria-controls="r-panel"><span class="rci rci-code" aria-hidden="true"></span>R CODE LAB <span class="tab-state">REAL R</span></button><button class="view-tab icon-button" id="ai-tab" type="button" role="tab" aria-selected="false" aria-controls="ai-panel"><span class="rci rci-wand-magic-sparkles" aria-hidden="true"></span>AI VISUAL BRIEF <span class="tab-state">OPTIONAL</span></button></div>
       <section class="view-panel" id="scene-panel" role="tabpanel" aria-labelledby="scene-tab" aria-hidden="false">
-        <div class="representation-bar" id="representation-bar" role="group" aria-label="Evidence representation"><span class="representation-label">Representation</span><button class="representation-button" type="button" data-representation="table" aria-pressed="false">TABLE</button><button class="representation-button" type="button" data-representation="plot2d" aria-pressed="false">2D PLOT</button><button class="representation-button" type="button" data-representation="scene3d" aria-pressed="true">3D SCENE</button></div>
-        <div class="plot-shell" id="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">x / y / z axes · generated from R</div></div>
+        <div class="representation-bar" id="representation-bar" role="group" aria-label="Evidence representation"><span class="representation-label">Representation</span><button class="representation-button icon-button" type="button" data-representation="table" aria-pressed="false"><span class="rci rci-table" aria-hidden="true"></span>TABLE</button><button class="representation-button icon-button" type="button" data-representation="plot2d" aria-pressed="false"><span class="rci rci-chart-line" aria-hidden="true"></span>2D PLOT</button><button class="representation-button icon-button" type="button" data-representation="scene3d" aria-pressed="true"><span class="rci rci-cube" aria-hidden="true"></span>3D SCENE</button></div>
+        <div class="plot-shell" id="plot-shell"><canvas id="scene" tabindex="0" role="img" aria-describedby="scene-help" aria-label="Interactive three-dimensional data scene"></canvas><div class="legend" id="scene-legend">Linked analytical variables · generated from R</div></div>
         <p class="sr-only" id="scene-help">Use arrow keys to rotate the data space, plus and minus to zoom, and Home to reset. Use the accessible data table below to select an exact point without the canvas.</p>
-        <div class="scene-tools"><div class="controls" id="scene-controls"><div class="control-item" id="spatial-control"><span class="control-number">1</span>Rotate</div><div class="control-item"><span class="control-number">2</span>Select evidence</div><div class="control-item"><span class="control-number">3</span>Explain</div><button class="reset-button" id="reset-view" type="button">Reset view</button></div>
+        <div class="scene-tools"><div class="controls" id="scene-controls"><div class="control-item" id="spatial-control"><span class="control-number rci rci-rotate" aria-hidden="true"></span>Rotate</div><div class="control-item"><span class="control-number rci rci-bullseye" aria-hidden="true"></span>Select evidence</div><div class="control-item"><span class="control-number rci rci-comments" aria-hidden="true"></span>Explain</div><button class="reset-button icon-button" id="reset-view" type="button"><span class="rci rci-rotate" aria-hidden="true"></span>Reset view</button></div>
         <details class="data-alternative" id="data-alternative" aria-hidden="false"><summary>Accessible linked-axis table and observation selector</summary><div class="table-scroll"><table><caption class="sr-only">All observations and their displayed evidence dimensions</caption><thead><tr><th scope="col">Observation</th><th scope="col" id="axis-x-label">x</th><th scope="col" id="axis-y-label">y</th><th scope="col" id="axis-z-label">z</th><th scope="col">Action</th></tr></thead><tbody id="points-table"></tbody></table></div></details>
         <details class="data-alternative" id="compiled-evidence-alternative"><summary>Full compiled evidence table</summary><div class="table-scroll"><table class="compiled-evidence-table"><caption>All Evidence IR dimensions, including method evidence not mapped to the three axes</caption><thead><tr id="compiled-evidence-head"></tr></thead><tbody id="compiled-evidence-body"></tbody></table></div></details></div>
       </section>
@@ -518,7 +520,7 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
         </section>
         <div class="r-error-guidance" id="r-error-guidance" role="alert" hidden><strong>Try this fix</strong><span id="r-error-message"></span><code class="r-error-fix" id="r-error-fix-example">scene &lt;- data.frame(label = c("a", "b", "c"), x = c(0, 1, 2), y = c(0, 1, 0), z = c(0, 0, 1))</code></div>
         <div class="lab-grid">
-          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" aria-describedby="scene-contract-title" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button" id="run-r-code" type="button">Run R &amp; update 3D</button><button class="code-action" id="reset-r-code" type="button">Start over</button><button class="code-action" id="download-r" type="button">Download analysis .R</button><button class="code-action" id="download-qmd" type="button">Download learner .qmd</button><button class="code-action" id="download-receipt" type="button">Download learning receipt</button><div class="download-help">Analysis .R contains the editable pipeline. Learner .qmd contains the R code plus prediction and coordinate-based interpretation prompts. The receipt contains only learner-entered evidence and reproducibility metadata.</div></div></div>
+          <div class="code-workspace"><div class="code-toolbar"><span>lesson-analysis.R</span><span>Base R · WebAssembly</span></div><label class="sr-only" for="r-code-editor">Editable R code</label><textarea class="code-editor" id="r-code-editor" aria-describedby="scene-contract-title" spellcheck="false" wrap="soft"></textarea><div class="lab-actions"><button class="run-button icon-button" id="run-r-code" type="button"><span class="rci rci-play" aria-hidden="true"></span>Run R &amp; update 3D</button><button class="code-action icon-button" id="reset-r-code" type="button"><span class="rci rci-rotate" aria-hidden="true"></span>Start over</button><button class="code-action icon-button" id="download-r" type="button"><span class="rci rci-download" aria-hidden="true"></span>Analysis .R</button><button class="code-action icon-button" id="download-qmd" type="button"><span class="rci rci-download" aria-hidden="true"></span>Learner .qmd</button><button class="code-action icon-button" id="download-receipt" type="button"><span class="rci rci-file-circle-check" aria-hidden="true"></span>Learning receipt</button><div class="download-help">Analysis .R contains the editable pipeline. Learner .qmd contains the R code plus prediction and coordinate-based interpretation prompts. The receipt contains only learner-entered evidence and reproducibility metadata.</div></div></div>
           <aside class="lab-results" aria-label="R execution and reproducibility results"><div class="provenance-ribbon" id="provenance-ribbon" aria-live="polite" hidden><strong>Reproducible run</strong><span class="provenance-item"><span>Runtime</span><b id="provenance-runtime">WebR</b></span><span class="provenance-item"><span>Seed</span><b id="provenance-seed">2026</b></span><span class="provenance-item"><span>Rows</span><b id="provenance-rows">5 returned</b></span><span class="provenance-item"><span>Hash</span><b id="provenance-hash">pending</b></span></div><div class="result-label">R console</div><pre class="r-console" id="r-console" aria-live="polite">Ready. Run the starter code to initialize WebR.</pre><div class="result-label">Browser run checks</div><ul class="check-list"><li>Deterministic seed <span class="check-state" id="check-seed">PENDING</span></li><li>Valid scene data frame <span class="check-state" id="check-frame">PENDING</span></li><li>Finite numeric axes <span class="check-state" id="check-axes">PENDING</span></li><li>3D scene synchronized <span class="check-state" id="check-sync">PENDING</span></li></ul><div class="result-label">Last successful browser run</div><div class="repro-grid"><div class="repro-item"><span>R runtime</span><strong id="r-version">Not loaded</strong></div><div class="repro-item"><span>Seed</span><strong id="r-seed">Not checked</strong></div><div class="repro-item"><span>Last successful hash</span><strong id="artifact-hash">None yet</strong></div><div class="repro-item"><span>Last successful rows</span><strong id="scene-rows">Baseline preview</strong></div></div><p class="release-note">Browser evidence is not the project release gate. Run <code>check_lesson(..., strict = TRUE)</code> and <code>quarto render</code> locally before publishing.</p><button class="view-result" id="view-r-result" type="button" hidden>View updated 3D space</button></aside>
         </div>
       </section>
@@ -529,9 +531,9 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
           <section class="ai-prompt-card" aria-labelledby="ai-prompt-title">
             <div class="guide-kicker" id="ai-prompt-title">Natural-language request</div>
             <label class="field-label" for="ai-prompt">What should the 3D view show?</label>
-            <textarea class="field ai-prompt" id="ai-prompt" placeholder="Example: Standardize the three axes, keep points with positive x, and explain the result."></textarea>
-            <div class="ai-examples" aria-label="Example requests"><button class="ai-example" type="button" data-prompt="Standardize the three axes, keep points with positive x, and explain the result.">Positive x filter</button><button class="ai-example" type="button" data-prompt="Show a balanced 3D view by scaling x, y, and z without filtering points.">Compare all points</button></div>
-            <button class="run-button ai-generate" id="generate-ai-brief" type="button">Generate R visualization brief</button>
+            <textarea class="field ai-prompt" id="ai-prompt" placeholder="Example: Standardize the displayed variables, filter one named variable, and explain the result."></textarea>
+            <div class="ai-examples" aria-label="Example requests"><button class="ai-example" id="ai-example-filter" type="button" data-prompt="Standardize the three axes, keep points with positive x, and explain the result.">Filter the first variable</button><button class="ai-example" id="ai-example-compare" type="button" data-prompt="Show a balanced 3D view by scaling x, y, and z without filtering points.">Compare all displayed variables</button></div>
+            <button class="run-button ai-generate icon-button" id="generate-ai-brief" type="button"><span class="rci rci-wand-magic-sparkles" aria-hidden="true"></span>Generate R visualization brief</button>
             <div class="field-status" id="ai-status" aria-live="polite">The demo assistant is deterministic and keeps the R code visible.</div>
           </section>
           <section class="ai-result-card" id="ai-result-card" aria-labelledby="ai-result-title" hidden>
@@ -557,13 +559,17 @@ th { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase;
     <section class="companion-card observation-card" id="observation-card"><div class="card-label">02 LINKED EVIDENCE</div><div class="selected-row"><h3 id="observation-heading">Preview observation</h3><span class="selected-tag" id="point-name">point</span></div><p id="point-observation" aria-live="polite"></p><div class="coords" id="point-coords"></div></section>
     <section class="companion-card explanation-card" id="explanation-card"><div class="card-label">03 EXPLAIN + REPAIR</div><h3 id="explanation-title">Explain the selected analytical evidence</h3><p class="task-prompt" id="explanation-prompt"></p><label class="field-label" for="explanation-input">Evidence-based explanation</label><textarea class="field" id="explanation-input" placeholder="Name the observation, cite the method-specific evidence, and state a limitation."></textarea><div class="criteria-grid" id="criteria-grid" aria-label="Explanation criteria"></div><p class="task-prompt repair-prompt" id="repair-prompt" hidden></p><div class="button-row"><button class="check-button" id="check-explanation" type="button">Check explanation</button></div><div class="feedback" id="explanation-feedback" tabindex="-1" aria-live="polite">Use the visible criteria to keep the claim connected to evidence.</div></section>
     <section class="companion-card transfer-card" id="transfer-card" hidden tabindex="-1"><div class="card-label">04 TRANSFER</div><h3 id="transfer-title">Apply the reasoning to a different observation</h3><p id="transfer-prompt">Select a different observation, then compare its analytical evidence with your original evidence.</p><div class="transfer-evidence" id="transfer-evidence">No second observation selected yet.</div><label class="field-label" for="transfer-input">Transfer response</label><textarea class="field" id="transfer-input" placeholder="Compared with the first observation… This evidence suggests… The limitation is…"></textarea><div class="button-row"><button class="check-button" id="check-transfer" type="button">Check transfer</button></div><div class="feedback" id="transfer-feedback" aria-live="polite">Completion requires a changed observation and a written comparison.</div></section>
-    <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p id="reproduce-prompt">Download the editable R evidence transformation, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button" id="download-r-companion" type="button">Download .R</button><button class="link-button" id="download-qmd-companion" type="button">Download .qmd</button><button class="link-button" id="download-receipt-companion" type="button">Download receipt</button></div><div class="button-row"><button class="complete-button" id="complete-lesson" type="button" disabled>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
+    <section class="companion-card reproduce-card" id="reproduce-card" hidden tabindex="-1"><div class="card-label">05 REPRODUCE</div><h3>Keep the source and evidence together.</h3><p id="reproduce-prompt">Download the editable R evidence transformation, learner Quarto file, and learning receipt.</p><div class="repro-summary"><div><span>Runtime</span><strong id="receipt-runtime">Pending</strong></div><div><span>Seed</span><strong id="receipt-seed">Pending</strong></div><div><span>Rows</span><strong id="receipt-rows">Pending</strong></div><div><span>Hash</span><strong id="receipt-hash">Pending</strong></div></div><div class="button-row"><button class="link-button icon-button" id="download-r-companion" type="button"><span class="rci rci-code" aria-hidden="true"></span>Download R script</button><button class="link-button icon-button" id="download-qmd-companion" type="button"><span class="rci rci-file-lines" aria-hidden="true"></span>Download learner .qmd</button><button class="link-button icon-button" id="download-receipt-companion" type="button"><span class="rci rci-download" aria-hidden="true"></span>Download receipt</button></div><div class="button-row"><button class="complete-button icon-button" id="complete-lesson" type="button" disabled><span class="rci rci-circle-check" aria-hidden="true"></span>Complete lesson</button></div><div class="feedback" id="completion-feedback" aria-live="polite">Review the reproducibility metadata before completing.</div><section class="completion-receipt" id="completion-receipt" hidden tabindex="-1"><h3>Lesson completed</h3><p>Your prediction, R output, selected evidence, limitation, and transfer response are now connected in a local learning receipt.</p><strong id="next-module-text">Continue from the course home.</strong><br><a class="course-return" id="course-return" href="../../index.html">Return to course home</a></section></section>
     <div class="tip" id="method-tip">A strong explanation uses the method-specific criteria and states what the evidence cannot establish.</div>
   </aside>
 </main>
 <script>
 const initialPoints = {{POINTS_JSON}};
 const lessonSpec = {{LESSON_JSON}};
+const learnerAxisLabels = lessonSpec.axis_labels || {x: "Horizontal variable", y: "Vertical variable", z: "Depth variable"};
+document.getElementById("ai-prompt").placeholder = "Example: Standardize " + Object.values(learnerAxisLabels).filter(Boolean).join(", ") + ", filter one named variable, and explain the result.";
+document.getElementById("ai-example-filter").textContent = "Filter " + (learnerAxisLabels.x || "the first variable");
+document.getElementById("ai-example-compare").textContent = "Compare " + Object.values(learnerAxisLabels).filter(Boolean).join(" / ");
 function taskFor(type) {
   return lessonSpec && lessonSpec.tasks && lessonSpec.tasks[type]
     ? lessonSpec.tasks[type]
@@ -1385,10 +1391,13 @@ function draw3d() {
   axes.forEach(axis => line(project(axis[0], width, height, metrics), project(axis[1], width, height, metrics), axis[2], 1.35));
   ctx.font = "12px system-ui";
   ctx.fillStyle = "#526078";
+  const axisLabels = lessonSpec.axis_labels || {x: "Horizontal variable", y: "Vertical variable", z: "Depth variable"};
   ["x", "y", "z"].forEach((axis, index) => {
     const endpoints = [{x: metrics.axisExtent, y: 0, z: 0}, {x: 0, y: metrics.axisExtent, z: 0}, {x: 0, y: 0, z: metrics.axisExtent}];
     const labelPoint = project(endpoints[index], width, height, metrics);
-    ctx.fillText(axis, Math.max(8, Math.min(width - 16, labelPoint.x)), Math.max(16, Math.min(height - 10, labelPoint.y)));
+    const label = String(axisLabels[axis] || `${axis.toUpperCase()} variable`);
+    const conciseLabel = label.length > 20 ? `${label.slice(0, 18)}…` : label;
+    ctx.fillText(conciseLabel, Math.max(8, Math.min(width - 80, labelPoint.x)), Math.max(16, Math.min(height - 10, labelPoint.y)));
   });
   const active = activePointIndex();
   renderedPointPositions = points.map(point => project(point, width, height, metrics));
@@ -1643,7 +1652,7 @@ function buildTable() {
   points.forEach((point, index) => {
     const row = document.createElement("tr");
     row.dataset.observationId = point.observation_id;
-    const labels = ["Point", "X", "Y", "Z"];
+    const labels = ["Observation", learnerAxisLabels.x || "Horizontal variable", learnerAxisLabels.y || "Vertical variable", learnerAxisLabels.z || "Depth variable"];
     const values = [String(point.label || ("point " + (index + 1))), point.x.toFixed(2), point.y.toFixed(2), point.z.toFixed(2)];
     values.forEach((value, valueIndex) => {
       const cell = document.createElement(valueIndex === 0 ? "th" : "td");

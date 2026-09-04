@@ -441,7 +441,7 @@ default_scene_contract <- function(title) {
     schema_version = "rclaimlab-browser-contract-1", lesson_id = "scene", title = title,
     outcomes = c("Describe linked evidence", "State a limitation"),
     question = "What pattern is visible in these data?", analysis = "data.frame",
-    axis_labels = list(x = "x", y = "y", z = "z"), seed = 2026L,
+    axis_labels = list(x = "Horizontal variable", y = "Vertical variable", z = "Depth variable"), seed = 2026L,
     evidence_hash = NULL, tasks = tasks, diagnostics = list(),
     cautions = "Visible association is not evidence of causation.",
     misconceptions = character(), context = list(unit_of_analysis = "one plotted observation"),

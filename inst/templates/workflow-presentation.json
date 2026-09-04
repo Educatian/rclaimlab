@@ -1,0 +1,358 @@
+{
+  "profiles": {
+    "guided_learning": {
+      "path": "Learning path",
+      "goal": "Predict, inspect R evidence, then explain what changed.",
+      "output": "Learning explanation and local receipt"
+    },
+    "data_analyst": {
+      "path": "Analysis path",
+      "goal": "Turn a data question into a bounded, evidence-backed brief.",
+      "output": "Analysis brief, evidence table and decision record"
+    },
+    "data_scientist": {
+      "path": "Modeling path",
+      "goal": "Inspect the approved R model and compare held-out performance with a baseline.",
+      "output": "Model evaluation, R source and limitations"
+    },
+    "model_reviewer": {
+      "path": "Review path",
+      "goal": "Verify provenance, challenge claims and record an independent review.",
+      "output": "Review decision, unresolved risks and local receipt"
+    }
+  },
+  "common": {
+    "frame": [
+      "Define the question",
+      "Scope",
+      "Record the question",
+      "note",
+      "Question and decision boundary"
+    ],
+    "inspect": [
+      "Inspect the source",
+      "Scope",
+      "Trace the source",
+      "trace",
+      "Source and variable checks"
+    ],
+    "clean": [
+      "Review data cleaning",
+      "Prepare data",
+      "Inspect cleaning R",
+      "code",
+      "Missing-value and cleaning decisions"
+    ],
+    "transform": [
+      "Inspect R transformations",
+      "Prepare data",
+      "Inspect R code",
+      "code",
+      "Transformation and assumption notes"
+    ],
+    "describe": [
+      "Describe patterns",
+      "Explore",
+      "Inspect the evidence table",
+      "table",
+      "Patterns supported by the data"
+    ],
+    "compare": [
+      "Compare groups",
+      "Explore",
+      "Compare linked evidence",
+      "table",
+      "Comparison and uncertainty"
+    ],
+    "split": [
+      "Inspect train / test split",
+      "Model",
+      "Inspect split R",
+      "code",
+      "Split and leakage checks"
+    ],
+    "baseline": [
+      "Check the baseline",
+      "Model",
+      "Compare model metrics",
+      "metrics",
+      "Baseline comparison"
+    ],
+    "fit": [
+      "Inspect model fit",
+      "Model",
+      "Inspect model R",
+      "code",
+      "Model specification and assumptions"
+    ],
+    "diagnose": [
+      "Diagnose errors",
+      "Evaluate",
+      "Inspect diagnostic evidence",
+      "table",
+      "Error patterns and limitations"
+    ],
+    "evaluate": [
+      "Evaluate predictions",
+      "Evaluate",
+      "Compare held-out metrics",
+      "metrics",
+      "Evaluation interpretation"
+    ],
+    "slice": [
+      "Review subgroups",
+      "Evaluate",
+      "Open subgroup Code Quest",
+      "quest",
+      "Subgroup risks and sample limits"
+    ],
+    "explain": [
+      "Explain the evidence",
+      "Communicate",
+      "Write an evidence claim",
+      "claim",
+      "Explanation notes"
+    ],
+    "challenge": [
+      "Challenge the claim",
+      "Review",
+      "Challenge the interpretation",
+      "claim",
+      "Alternative explanation or unresolved risk"
+    ],
+    "revise": [
+      "Revise the claim",
+      "Review",
+      "Revise the interpretation",
+      "claim",
+      "What changed and why"
+    ],
+    "communicate": [
+      "Prepare the brief",
+      "Communicate",
+      "Write the analysis brief",
+      "claim",
+      "Audience and decision implications"
+    ],
+    "reproduce": [
+      "Check reproducibility",
+      "Verify",
+      "Trace code and provenance",
+      "trace",
+      "Reproduction checks and environment differences"
+    ],
+    "handoff": [
+      "Prepare handoff",
+      "Deliver",
+      "Review outputs and handoff",
+      "handoff",
+      "What the next person should know"
+    ],
+    "approve": [
+      "Record review decision",
+      "Decide",
+      "Review decision status",
+      "handoff",
+      "Approval rationale or required revisions"
+    ],
+    "verify_source": [
+      "Verify source",
+      "Verify",
+      "Trace source provenance",
+      "trace",
+      "Source verification notes"
+    ]
+  },
+  "overrides": {
+    "guided_learning": {
+      "frame": [
+        "Orient & predict",
+        "Discover",
+        "Write a prediction",
+        "note",
+        "My prediction and reasoning"
+      ],
+      "inspect": [
+        "Explore",
+        "Discover",
+        "Explore linked evidence",
+        "table",
+        "What I notice in the evidence"
+      ],
+      "transform": [
+        "Understand R",
+        "Discover",
+        "Read the R analysis",
+        "code",
+        "What the R commands mean"
+      ],
+      "explain": [
+        "Explain",
+        "Make sense",
+        "Build my explanation",
+        "claim",
+        "How the evidence compares with my prediction"
+      ],
+      "revise": [
+        "Repair",
+        "Make sense",
+        "Repair my explanation",
+        "claim",
+        "The unsupported inference I revised"
+      ],
+      "challenge": [
+        "Transfer",
+        "Apply & reflect",
+        "Plan a new application",
+        "note",
+        "New dataset, variable mapping and assumption to recheck"
+      ],
+      "reproduce": [
+        "Reproduce",
+        "Apply & reflect",
+        "Trace the reproducible analysis",
+        "trace",
+        "R rerun checks and remaining differences"
+      ],
+      "handoff": [
+        "Reflect & share",
+        "Apply & reflect",
+        "Review my learning receipt",
+        "handoff",
+        "What changed in my understanding"
+      ]
+    },
+    "data_analyst": {
+      "frame": [
+        "Frame the analysis",
+        "Scope & prepare",
+        "Define my analysis question",
+        "note",
+        "Question, audience and decision boundary"
+      ],
+      "inspect": [
+        "Inspect variables",
+        "Scope & prepare",
+        "Check source and variables",
+        "trace",
+        "Row meaning and variable roles"
+      ],
+      "clean": [
+        "Review cleaning",
+        "Scope & prepare",
+        "Inspect cleaning R",
+        "code",
+        "Missingness and cleaning decisions"
+      ],
+      "explain": [
+        "Explain patterns",
+        "Brief & handoff",
+        "Draft an evidence-backed claim",
+        "claim",
+        "What the observed pattern supports"
+      ],
+      "communicate": [
+        "Write the brief",
+        "Brief & handoff",
+        "Write the analysis brief",
+        "claim",
+        "Audience and recommendations"
+      ],
+      "handoff": [
+        "Hand off analysis",
+        "Brief & handoff",
+        "Review analysis deliverables",
+        "handoff",
+        "Questions to carry into modeling"
+      ]
+    },
+    "data_scientist": {
+      "frame": [
+        "Frame the prediction task",
+        "Define & prepare",
+        "Record the modeling objective",
+        "note",
+        "Outcome, predictors and success criterion"
+      ],
+      "inspect": [
+        "Inspect model inputs",
+        "Define & prepare",
+        "Trace input provenance",
+        "trace",
+        "Input roles and potential leakage"
+      ],
+      "clean": [
+        "Review preprocessing",
+        "Define & prepare",
+        "Inspect preprocessing R",
+        "code",
+        "Encoding and missing-value decisions"
+      ],
+      "communicate": [
+        "Document the model",
+        "Document & handoff",
+        "Document a bounded model claim",
+        "claim",
+        "Intended use and model limitations"
+      ],
+      "handoff": [
+        "Hand off for review",
+        "Document & handoff",
+        "Review model deliverables",
+        "handoff",
+        "What an independent reviewer should check"
+      ]
+    },
+    "model_reviewer": {
+      "inspect": [
+        "Verify source",
+        "Verify evidence",
+        "Verify source and license",
+        "trace",
+        "Provenance and license concerns"
+      ],
+      "reproduce": [
+        "Check reproduction",
+        "Verify evidence",
+        "Trace reproduction artifacts",
+        "trace",
+        "Reproduction checks and discrepancies"
+      ],
+      "diagnose": [
+        "Inspect model diagnostics",
+        "Verify evidence",
+        "Inspect diagnostic evidence",
+        "table",
+        "Diagnostics that need explanation"
+      ],
+      "challenge": [
+        "Challenge claims",
+        "Challenge & audit",
+        "Challenge the model claim",
+        "claim",
+        "Unsupported claims and counter-evidence"
+      ],
+      "slice": [
+        "Audit subgroup errors",
+        "Challenge & audit",
+        "Audit subgroup Code Quest",
+        "quest",
+        "Subgroup risks; not a fairness certification"
+      ],
+      "revise": [
+        "Request revisions",
+        "Decide",
+        "Write required revisions",
+        "claim",
+        "Required changes and unresolved issues"
+      ],
+      "approve": [
+        "Record review decision",
+        "Decide",
+        "Review approval and limitations",
+        "handoff",
+        "Human review rationale; no automatic certification"
+      ]
+    }
+  }
+}

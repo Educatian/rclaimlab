@@ -19,6 +19,12 @@ Local / Hugging Face / Kaggle source -> inspect and approve
 
 ## Grant demo
 
+Current four-mode browser demo: **[Open R-ClaimLab](https://rclaimlab-review.pages.dev/)**.
+Choose **Use my data** there for the exact tested Git-commit installation command.
+The [demo/package parity guide](docs/demo-package-parity.md) explains the same
+300-row example in Shiny, all four runnable R exports, and the hosted/local boundary.
+The videos below document an earlier lesson interface, not the current role launcher.
+
 [![R-ClaimLab direct-interaction demo verification frames](https://raw.githubusercontent.com/Educatian/rclaimlab/main/output/demo/video-verification-contact-sheet.png)](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-higgsfield-en.mp4)
 
 [Watch the 103-second narrated direct-interaction demo](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-higgsfield-en.mp4), open the [caption-only review version](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-captioned-preview.mp4), or download the [English captions](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-demo-en.srt). The English narration was generated through Higgsfield with the `Ainsley` voice and Seed Speech engine; [generation provenance](https://github.com/Educatian/rclaimlab/blob/main/output/demo/rclaimlab-higgsfield-generation.json) records the model, timing, and artifact hashes.
@@ -174,11 +180,19 @@ library(rclaimlab)
 run_workflow_wizard()
 ```
 
-The local wizard follows the implemented storyboard path: choose a purpose,
-inspect a source, approve the data profile and analysis plan, choose a role,
-review the grouped workflow, and then open the compiled Focus workspace. Trace,
-Claim, Receipt, and Handoff remain available without exposing every control at
-once. The equivalent scriptable route is below.
+The local Shiny wizard starts with four modes: Guided Learning, Data Analyst,
+Data Scientist, and Model Reviewer. Import and profile your data, define the
+question and variables, review the method and role-specific activity path,
+then approve all four decisions before running R. The plan and compiled
+workspace share the same display registry; their step labels and order match.
+Changing plan inputs clears the previous plan and approvals.
+
+Each build is saved to a new folder. Its workspace opens through a local Shiny
+link while the session runs; afterwards open that folder's `app/index.html`.
+The hosted Pages demo is precompiled, not a remote Shiny analysis server.
+`run_rclaimlab_shiny()` is the separate educator console; use
+`run_workflow_wizard()` for this four-mode own-data builder.
+The equivalent scriptable route is below.
 
 ```r
 source <- dataset_source(
@@ -214,7 +228,17 @@ check_workflow(build$output_dir, strict = TRUE, publish = TRUE)
 The example is an educational audit case, not a fairness certification or a
 system for individual decisions. See the [external data and role workflow
 guide](docs/external-data-workflows.md) for the analyst-to-reviewer handoff,
-Kaggle prerequisites, cache behavior, exact limits, and error recovery.
+Kaggle prerequisites, cache behavior, exact limits, and error recovery. The
+[LXD and transferability audit](docs/lxd-transferability-audit.md) maps each
+learning construct to its mechanic, evidence gate, browser-local signal, and
+transfer artifact.
+
+A browser-only reviewer workspace is deployed at
+<https://rclaimlab-review.pages.dev>. It demonstrates the portable compiled
+artifact after R execution; remote dataset import and workflow compilation still
+run in the local Shiny/R authoring environment. See the
+[Cloudflare deployment audit](docs/cloudflare-deployment-audit.md) for the exact
+runtime boundary and the path to a hosted authoring service.
 
 The wizard makes deterministic recommendations, not autonomous statistical claims. It starts with the analytical question and intended learning goal. The author still approves the unit of analysis, outcome, grouping/time structure, dimensions, missing-value rule, learning stages, and adapter before compilation. Declared grouping or repeated time prevents the simple `lm` and `glm` adapters from being automatically recommended.
 

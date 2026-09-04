@@ -1,5 +1,17 @@
 # rclaimlab 2.1.0
 
+## Demo / local package parity
+
+- Unified the four-mode launcher, role labels and activity paths across local
+  Shiny authoring and the hosted examples using package-owned components.
+- Bundled one 300-row synthetic practice dataset and four shared reference plans.
+- All dataset-based workflow exports now define a complete local rerun function,
+  verify original input bytes and retain the approved sampling and analysis plan.
+  Scripts do not embed raw rows or automatically execute when sourced.
+- Public builds regenerate all four roles from the same package and publish an
+  immutable Git install reference and artifact checksum manifest. Legacy URLs
+  remain available; hosted uploads and remote R execution are not implied.
+
 ## External data and role-adaptive workflows
 
 - Added validated local, Hugging Face, and Kaggle dataset source contracts,
