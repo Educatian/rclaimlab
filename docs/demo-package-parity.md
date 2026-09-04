@@ -1,5 +1,8 @@
 # Public demo and local R package: one source of truth
 
+See the [September 3 release verification](parity-release-20260903.md) for the
+deployed commit, completed tests and remaining external-validation boundaries.
+
 The current reference experience starts with Guided Learning, Data Analyst,
 Data Scientist, or Model Reviewer. Mode determines the activity path, evidence,
 actions and deliverable; the common tool menu is not a learning sequence.
