@@ -41,10 +41,12 @@ workflow_launcher_page <- function(release_ref) {
   script <- paste(readLines(workflow_template_path("workflow-launcher.js"), warn = FALSE), collapse = "\n")
   font <- workflow_template_asset_uri(file.path("icons", "fa-solid-900.woff2"), "font/woff2")
   font_css <- paste0("@font-face{font-family:launcher-icons;src:url('", font, "')} .fa-solid{font-family:launcher-icons;font-style:normal}.fa-graduation-cap:before{content:'\\f19d'}.fa-chart-column:before{content:'\\e0e3'}.fa-chart-line:before{content:'\\f201'}.fa-shield-halved:before{content:'\\f3ed'}.fa-flask:before{content:'\\f0c3'}.fa-database:before{content:'\\f1c0'}")
-  page <- shiny::tags$html(lang = "en", shiny::tags$head(
-    shiny::tags$meta(charset = "utf-8"), shiny::tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
-    shiny::tags$title("Choose your mode | R-ClaimLab"),
-    shiny::tags$style(shiny::HTML(paste(workflow_wizard_css(), workflow_launcher_css(), font_css)))),
+  # tags$head is extracted into htmltools dependencies and lost by as.character.
+  # This portable document therefore owns its literal head, with no runtime deps.
+  page <- shiny::tags$html(lang = "en", shiny::HTML(paste0(
+    '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">',
+    '<title>Choose your mode | R-ClaimLab</title><style>',
+    paste(workflow_wizard_css(), workflow_launcher_css(), font_css), '</style></head>')),
     shiny::tags$body(class = "rw-public-launcher",
       shiny::tags$a(class = "rw-skip", href = "#rw-main", "Skip to mode chooser"),
       shiny::tags$header(class = "rw-topbar", shiny::tags$div(class = "rw-brand",
@@ -65,6 +67,6 @@ workflow_launcher_page <- function(release_ref) {
         shiny::tags$footer(class = "rw-launcher-note", "Synthetic practice data, not real people. ",
           shiny::tags$a(href = "synthetic-workflow-data.csv", "Download the example CSV"), " \u00b7 ",
           shiny::tags$a(href = "release-manifest.json", "Build and source version"))),
-      shiny::tags$script(shiny::HTML(paste0("const RCLAIMLAB_LAUNCHER=", gsub("<", "\\\\u003c", jsonlite::toJSON(views, auto_unbox = TRUE), fixed = TRUE), ";\n", script)))))
+      shiny::tags$script(shiny::HTML(paste0("const RCLAIMLAB_LAUNCHER=", gsub("<", "\\u003c", jsonlite::toJSON(views, auto_unbox = TRUE), fixed = TRUE), ";\n", script)))))
   paste0("<!doctype html>\n", as.character(page))
 }

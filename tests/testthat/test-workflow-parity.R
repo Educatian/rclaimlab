@@ -34,6 +34,14 @@ test_that("launcher and preset definitions are shared and install ref is immutab
   expect_match(public, paste0("Educatian/rclaimlab@", strrep("a", 40)), fixed = TRUE)
   expect_error(rclaimlab:::workflow_launcher_page("main"), "full tested Git commit")
   expect_match(public, "precomputed R evidence", fixed = TRUE)
+  expect_match(public, "<head><meta charset=", fixed = TRUE)
+  expect_match(public, "<style>", fixed = TRUE)
+  expect_match(public, "@font-face", fixed = TRUE)
+  json <- sub(".*const RCLAIMLAB_LAUNCHER=", "", public)
+  json <- strsplit(json, ";\n", fixed = TRUE)[[1]][[1]]
+  view <- jsonlite::fromJSON(json)$guided$html
+  expect_match(view, '<div class="rw-purpose-detail">', fixed = TRUE)
+  expect_false(grepl("\\u003c", view, fixed = TRUE))
 })
 
 test_that("Shiny example plans match all four compiled demo plans", {
